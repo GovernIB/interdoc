@@ -1,0 +1,68 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <!--
+    Pàgina amb el llistat d'unitats orgàniques.
+    -->
+    <ui:composition template="/WEB-INF/templates/layout.xhtml">
+
+        <ui:define name="metadata">
+            <f:metadata>
+                <f:viewParam id="referenciaId" name="referenciaId" value="#{refenciaModel.value.id}" />
+                <f:viewAction action="#{referenciaModel.load}" />
+                <f:viewAction action="#{listMetadada.load}" />
+            </f:metadata>
+        </ui:define>
+
+        <ui:define name="pageTitle">#{labels.listMetadada_title}</ui:define>
+
+        <ui:define name="breadcrumb">
+            <p:menuitem value="#{labels.listMetadada_link}" outcome="/listMetadada"/>
+        </ui:define>
+
+        <ui:define name="content">
+            <p>
+            <h:form>
+                <p:dataTable id="dataTable" value="#{listMetadada.lazyModel}" var="metadada" sortMode="multiple"
+                             paginator="true" lazy="true" filterDelay="300" widgetVar="unitatsTable"
+                             rows="10" rowsPerPageTemplate="10,20,50,100"
+                             paginatorPosition="bottom" paginatorAlwaysVisible="false"
+                             paginatorTemplate="{RowsPerPageLabel} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport}
+                             {NextPageLink} {LastPageLink}"
+                             currentPageReportTemplate="#{labels.dataTable_currentPageReport}"
+                             emptyMessage="#{labels.dataTable_emptyMessage}">
+                    <f:facet name="{RowsPerPageLabel}">
+                        #{labels.dataTable_rowsPerPage}
+                    </f:facet>
+                    <p:column sortBy="#{metadada.id}">
+                        <f:facet name="header">#{labels.metadada_id}</f:facet>
+                        <h:outputText value="#{metadada.id}"/>
+                    </p:column>
+
+                    <p:column filterBy="#{metadada.nom}" sortBy="#{metadada.nom}">
+                        <f:facet name="header">#{labels.metadada_nom}</f:facet>
+                        <h:outputText value="#{metadada.nom}"/>
+                    </p:column>
+                    <p:column filterBy="#{metadada.valor}" sortBy="#{metadada.valor}">
+                        <f:facet name="header">#{labels.metadada_valor}</f:facet>
+                        <h:outputText value="#{metadada.valor}"/>
+                    </p:column>
+                    <p:column filterBy="#{metadada.referenciaId}" sortBy="#{metadada.referenciaId}">
+                        <f:facet name="header">#{labels.metadada_referenciaId}</f:facet>
+                        <h:outputText value="#{metadada.referenciaId}"/>
+                    </p:column>
+                    <p:column sortBy="#{metadada.dataCreacio}">
+                        <f:facet name="header">#{labels.metadada_dataCreacio}</f:facet>
+                        <h:outputText value="#{metadada.dataCreacio}">
+                            <f:convertDateTime type="localDate" pattern="dd-MM-yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+            </p>
+        </ui:define>
+    </ui:composition>
+</html>

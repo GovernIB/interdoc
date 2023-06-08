@@ -1,0 +1,77 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+<ui:composition>
+
+	<!-- PluginId -->
+	<ui:decorate template="/WEB-INF/decorations/field.xhtml">
+		<p:inputText id="id" value="#{pluginModel.value.id}" type="hidden" />
+	</ui:decorate>
+
+	<!-- Nom -->
+	<ui:decorate template="/WEB-INF/decorations/field.xhtml">
+		<ui:define name="label">
+			<p:outputLabel for="nom" value="#{labels.plugin_nom}" />
+		</ui:define>
+		<ui:define name="input">
+			<p:inputText id="nom" value="#{pluginModel.value.nom}" />
+			<p:message for="nom" />
+		</ui:define>
+	</ui:decorate>
+
+	<!-- Classe -->
+	<ui:decorate template="/WEB-INF/decorations/field.xhtml">
+		<ui:define name="label">
+			<p:outputLabel for="classe" value="#{labels.plugin_classe}" />
+		</ui:define>
+		<ui:define name="input">
+			<p:inputText id="classe" value="#{pluginModel.value.classe}" />
+			<p:message for="classe" />
+		</ui:define>
+	</ui:decorate>
+
+	<!-- Propietats -->
+	<ui:decorate template="/WEB-INF/decorations/field.xhtml">
+		<ui:define name="label">
+			<p:outputLabel for="propietats" value="#{labels.plugin_propietats}" />
+		</ui:define>
+		<ui:define name="input">
+			<p:inputTextarea cols="30" rows="10" id="propietats"
+				value="#{pluginModel.value.propietats}" />
+			<p:message for="propietats" />
+		</ui:define>
+	</ui:decorate>
+
+
+	<!-- Actiu -->
+	<ui:decorate template="/WEB-INF/decorations/field.xhtml">
+		<ui:define name="label">
+			<p:outputLabel for="actiu" value="#{labels.plugin_actiu}" />
+		</ui:define>
+		<ui:define name="input">
+			<p:selectOneMenu id="actiu" value="#{pluginModel.value.actiu}">
+				<f:selectItems value="#{estats.values()}" var="estat" />
+			</p:selectOneMenu>
+			<p:message for="actiu" />
+		</ui:define>
+	</ui:decorate>
+
+
+	<!-- DataCreacio -->
+	<ui:decorate template="/WEB-INF/decorations/field.xhtml">
+		<ui:define name="label">
+			<p:outputLabel for="dataCreacio" value="#{labels.plugin_dataCreacio}" />
+		</ui:define>
+		<ui:define name="input">
+			<p:datePicker id="dataCreacio"
+				value="#{pluginModel.value.dataCreacio}" pattern="dd-MM-yyyy"
+				readonly="#{edit}" disabled="#{edit}" />
+			<p:message for="dataCreacio" />
+		</ui:define>
+	</ui:decorate>
+
+</ui:composition>
+</html>

@@ -21,3 +21,48 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+# Excloure del repositori
+# Directoris de resultat del Maven
+target/
+# Fitxers d'Eclipse
+.classpath
+.project
+.settings/
+.factorypath
+.apt_generated/
+.apt_generated_tests/
+# Fitxers d'IntelliJ IDEA
+*.iml
+.idea/
+# Fitxers de Netbeans
+nb-configuration.xml
+faces-config.NavData
+/interdoc-api-externa-client/.swagger-codegen-ignore
+/interdoc-api-externa-client/.travis.yml
+/interdoc-api-externa-client/build.gradle
+/interdoc-api-externa-client/build.sbt
+/interdoc-api-externa-client/git_push.sh
+/interdoc-api-externa-client/gradle.properties
+/interdoc-api-externa-client/gradlew
+/interdoc-api-externa-client/gradlew.bat
+/interdoc-api-externa-client/settings.gradle
+/interdoc-api-externa-client/gradle
+/interdoc-api-externa-client/target
+/interdoc-api-externa-client/.swagger-codegen
+
+/interdoc-api-interna-client/.swagger-codegen-ignore
+/interdoc-api-interna-client/.travis.yml
+/interdoc-api-interna-client/build.gradle
+/interdoc-api-interna-client/build.sbt
+/interdoc-api-interna-client/git_push.sh
+/interdoc-api-interna-client/gradle.properties
+/interdoc-api-interna-client/gradlew
+/interdoc-api-interna-client/gradlew.bat
+/interdoc-api-interna-client/settings.gradle
+/interdoc-api-interna-client/gradle
+/interdoc-api-interna-client/target
+/interdoc-api-interna-client/.swagger-codegen
+/interdoc-ws/interdoc-ws-api/src/main/resources/exemples_xml/user_input_xmltobean.txt
+/interdoc.bat
+/interdocfront.bat

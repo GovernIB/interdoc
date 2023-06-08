@@ -1,0 +1,81 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <!--
+    Pàgina amb el llistat de plugins.
+    -->
+    <ui:composition template="/WEB-INF/templates/layout.xhtml">
+
+        <ui:define name="pageTitle">#{labels.listAplicacio_title}</ui:define>
+
+        <ui:define name="breadcrumb">
+            <p:menuitem value="#{labels.listPlugin_link}" outcome="/listPlugin"/>
+        </ui:define>
+
+        <ui:define name="content">
+            <p>
+            <h:form>
+                <p:dataTable id="dataTable" value="#{listPlugin.lazyModel}" var="plugin" sortMode="multiple"
+                             paginator="true" lazy="true" filterDelay="300" widgetVar="unitatsTable"
+                             rows="10" rowsPerPageTemplate="10,20,50,100"
+                             paginatorPosition="bottom" paginatorAlwaysVisible="false"
+                             paginatorTemplate="{RowsPerPageLabel} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport}
+                             {NextPageLink} {LastPageLink}"
+                             currentPageReportTemplate="#{labels.dataTable_currentPageReport}"
+                             emptyMessage="#{labels.dataTable_emptyMessage}">
+                    <f:facet name="{RowsPerPageLabel}">
+                        #{labels.dataTable_rowsPerPage}
+                    </f:facet>
+                    <p:column sortBy="#{plugin.id}">
+                        <f:facet name="header">#{labels.plugin_id}</f:facet>
+                        <h:outputText value="#{plugin.id}"/>
+                    </p:column>
+
+                    <p:column filterBy="#{plugin.nom}" sortBy="#{plugin.nom}">
+                        <f:facet name="header">#{labels.plugin_nom}</f:facet>
+                        <h:outputText value="#{plugin.nom}"/>
+                    </p:column>
+                    <p:column filterBy="#{plugin.classe}" sortBy="#{plugin.classe}">
+                        <f:facet name="header">#{labels.plugin_classe}</f:facet>
+                        <h:outputText value="#{plugin.classe}"/>
+                    </p:column>
+                    
+                    <p:column sortBy="#{plugin.dataCreacio}">
+                        <f:facet name="header">#{labels.plugin_dataCreacio}</f:facet>
+                        <h:outputText value="#{plugin.dataCreacio}">
+                            <f:convertDateTime type="localDate" pattern="dd-MM-yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column filterBy="#{plugin.actiu}">
+                        <f:facet name="header">#{labels.plugin_actiu}</f:facet>
+                        <h:outputText value="#{plugin.actiu}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header"></f:facet>
+                        <p:menuButton value="#{labels.button_opcions}">
+                            <c:if test="#{security.admin}">
+                                <p:menuitem value="#{labels.button_editar}" outcome="/admin/editPlugin">
+                                    <f:param name="pluginId" value="#{plugin.id}"/>
+                                </p:menuitem> 
+                                <p:menuitem value="#{labels.button_eliminar}"
+                                            action="#{listPlugin.delete(plugin.id)}"
+                                            update="messages @form">
+                                    <p:confirm message="#{labels.confirm_eliminar}"/>
+                                </p:menuitem>
+                            </c:if>
+                        </p:menuButton>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+            </p>
+            <c:if test="#{security.admin}">
+                <p>
+                    <p:button value="#{labels.newPlugin_link}" outcome="/admin/newPlugin" />
+                </p>
+            </c:if>
+        </ui:define>
+    </ui:composition>
+</html>

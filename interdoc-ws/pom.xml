@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>es.caib.interdoc</groupId>
+        <artifactId>interdoc</artifactId>
+        <version>1.0.0</version>
+    </parent>
+    <artifactId>interdoc-ws</artifactId>
+    <packaging>pom</packaging>
+    <name>Interdoc - WS</name>
+    <description>Mòdul pare de Serveis Web SOAP de Interdoc</description>
+    <modules>
+        <module>interdoc-ws-server</module>
+        <module>interdoc-ws-api</module>
+		<!-- module>interdoc_ws_client</module -->
+    </modules>
+</project>

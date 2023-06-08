@@ -1,0 +1,117 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+<ui:composition>
+
+    <!-- PeticioId -->
+    <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+        <ui:define name="label">
+            <p:outputLabel for="id" value="#{labels.peticio_id}"/>
+        </ui:define>
+        <ui:define name="input">
+            <p:inputText id="id" value="#{peticioModel.value.id}"/>
+            <p:message for="id"/>
+        </ui:define>
+    </ui:decorate>
+
+    <!-- CSVIdentificador -->
+    <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+        <ui:define name="label">
+            <p:outputLabel for="csvid" value="#{labels.peticio_csvId}"/>
+        </ui:define>
+        <ui:define name="input">
+            <p:inputText id="csvid" value="#{peticioModel.value.csvId}"/>
+            <p:message for="csvid"/>
+        </ui:define>
+    </ui:decorate>
+
+    <!-- ENIIdentificador -->
+    <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+        <ui:define name="label">
+            <p:outputLabel for="eniid" value="#{labels.peticio_eniId}"/>
+        </ui:define>
+        <ui:define name="input">
+            <p:inputText id="eniid" value="#{peticioModel.value.eniId}"/>
+            <p:message for="eniid"/>
+        </ui:define>
+    </ui:decorate>
+
+    <!-- CodiDir3 -->
+    <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+        <ui:define name="label">
+            <p:outputLabel for="codiDir3" value="#{labels.peticio_codiDir3}"/>
+        </ui:define>
+        <ui:define name="input">
+            <p:inputText id="codiDir3" value="#{peticioModel.value.codiDir3}" readonly="#{edit}"/>
+            <p:message for="codiDir3"/>
+        </ui:define>
+    </ui:decorate>
+
+    <!-- Recuperacio Original -->
+    <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+        <ui:define name="label">
+            <p:outputLabel for="recuperacioOriginal" value="#{labels.peticio_recuperacio}"/>
+        </ui:define>
+        <ui:define name="input">
+            <p:inputText id="recuperacioOriginal" value="#{peticioModel.value.esRecuperacioOriginal}"/>
+            <p:message for="recuperacioOriginal"/>
+        </ui:define>
+    </ui:decorate>
+
+    <!-- DocumentENI -->
+
+
+    <!-- NIF -->
+    <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+        <ui:define name="label">
+            <p:outputLabel for="nif" value="#{labels.peticio_nif}"/>
+        </ui:define>
+        <ui:define name="input">
+            <p:inputText id="nif" value="#{peticioModel.value.nif}"/>
+            <p:message for="nif"/>
+        </ui:define>
+    </ui:decorate>
+
+    <!-- TipusIdentificacio -->
+    <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+        <ui:define name="label">
+            <p:outputLabel for="tipusidentificacio" value="#{labels.peticio_tipusIdentificacio}"/>
+        </ui:define>
+        <ui:define name="input">
+            <p:inputText id="tipusidentificacio" value="#{peticioModel.value.tipusIdentificacio}"/>
+            <p:message for="tipusidentificacio"/>
+        </ui:define>
+    </ui:decorate>
+
+    <!-- IP -->
+    <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+        <ui:define name="label">
+            <p:outputLabel for="ip" value="#{labels.peticio_ip}"/>
+        </ui:define>
+        <ui:define name="input">
+            <p:inputText id="ip" value="#{peticioModel.value.ip}"/>
+            <p:message for="ip"/>
+        </ui:define>
+    </ui:decorate>
+
+    <!-- dataCreacio -->
+    <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+        <ui:define name="label">
+            <p:outputLabel for="dataCreacio" value="#{labels.aplicacio_dataCreacio}"/>
+        </ui:define>
+        <ui:define name="input">
+            <p:datePicker id="dataCreacio" value="#{aplicacioModel.value.dataCreacio}"
+                          pattern="dd-MM-yyyy"/>
+            <p:message for="dataCreacio"/>
+        </ui:define>
+    </ui:decorate>
+
+    <!-- Estat -->
+
+
+    
+</ui:composition>
+</html>

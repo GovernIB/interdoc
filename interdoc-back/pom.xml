@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>es.caib.interdoc</groupId>
+        <artifactId>interdoc</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>interdoc-back</artifactId>
+    <packaging>war</packaging>
+    <name>Interdoc - BACK</name>
+    <description>Backoffice de Interdoc, amb JSF+Primefaces</description>
+
+    <dependencies>
+        <!-- Especificacions i llibreries proporcionades per JBoss -->
+        <dependency>
+            <groupId>org.jboss.spec</groupId>
+            <artifactId>jboss-javaee-8.0</artifactId>
+            <type>pom</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.microprofile.config</groupId>
+            <artifactId>microprofile-config-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Altres mòduls -->
+        <dependency>
+            <groupId>es.caib.interdoc</groupId>
+            <artifactId>interdoc-commons</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>es.caib.interdoc</groupId>
+            <artifactId>interdoc-service</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Llibreries de keycloak -->
+        <dependency>
+            <groupId>org.keycloak</groupId>
+            <artifactId>keycloak-core</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Les llibreries de primefaces les necessitam incloure dins el WAR -->
+        <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.primefaces.themes</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>1.0.10</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
+                </configuration>
+            </plugin>
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>2.4.1</version>
+				<executions>
+				  <execution>
+					<id>auto-clean</id>
+					<phase>initialize</phase>
+					<goals>
+					  <goal>clean</goal>
+					</goals>
+				  </execution>
+				</executions>
+				<configuration>
+				  <filesets>
+					<fileset>
+					  <directory>target/${project.artifactId}/WEB-INF</directory>
+					  <includes>
+						<include>**/*</include>
+					  </includes>
+					  <followSymlinks>false</followSymlinks>
+					</fileset>
+				  </filesets>
+				</configuration>
+		    </plugin>
+        </plugins>
+    </build>
+	
+	<profiles>
+	  <profile>
+		<!-- Profile per emprar authenticació BASIC sense keycloak -->
+		<id>authBasic</id>
+		<build>
+			<plugins>
+				<plugin>
+					<groupId>com.coderplus.maven.plugins</groupId>
+					<artifactId>copy-rename-maven-plugin</artifactId>
+					<version>1.0</version>
+					<executions>
+						<execution>
+							<id>copy-file</id>
+							<phase>generate-sources</phase>
+							<goals>
+								<goal>copy</goal>
+							</goals>
+							<configuration>
+								<sourceFile>jboss-web_template.xml</sourceFile>
+								<destinationFile>target/${project.artifactId}/WEB-INF/jboss-web.xml</destinationFile>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</build>
+      </profile>
+	</profiles>
+</project>

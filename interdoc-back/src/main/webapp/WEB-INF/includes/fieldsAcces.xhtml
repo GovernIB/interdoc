@@ -1,0 +1,71 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+<ui:composition>
+
+    <!-- AccesId -->
+    <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+            <p:inputText id="id" value="#{accesModel.value.id}" type="hidden"/>
+    </ui:decorate>
+
+    <!-- Identificacio -->
+    <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+        <ui:define name="label">
+            <p:outputLabel for="identificacio" value="#{labels.acces_identificacio}"/>
+        </ui:define>
+        <ui:define name="input">
+            <p:inputText id="identificacio" value="#{accesModel.value.identificacio}"/>
+            <p:message for="identificacio"/>
+        </ui:define>
+    </ui:decorate>
+
+    <!-- Tipus Identificacio -->
+    <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+        <ui:define name="label">
+            <p:outputLabel for="tipusIdentificacio" value="#{labels.aplicacio_tipusidentificacio}"/>
+        </ui:define>
+        <ui:define name="input">
+            <p:inputText id="tipusIdentificacio" value="#{accesModel.value.tipusIdentificacio}"/>
+            <p:message for="tipusIdentificacio"/>
+        </ui:define>
+    </ui:decorate>
+
+    <!-- IP -->
+    <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+        <ui:define name="label">
+            <p:outputLabel for="ip" value="#{labels.acces_ip}"/>
+        </ui:define>
+        <ui:define name="input">
+            <p:inputText id="ip" value="#{accesModel.value.ip}" />
+            <p:message for="ip"/>
+        </ui:define>
+    </ui:decorate>
+
+    <!-- ReferenciaId -->
+    <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+        <ui:define name="label">
+            <p:outputLabel for="referenciaId" value="#{labels.acces_referencia}"/>
+        </ui:define>
+        <ui:define name="input">
+            <p:inputText id="referenciaId" value="#{accesModel.value.referenciaId}"/>
+            <p:message for="referenciaId"/>
+        </ui:define>
+    </ui:decorate>
+
+    <!-- DataCreacio -->
+    <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+        <ui:define name="label">
+            <p:outputLabel for="dataCreacio" value="#{labels.aplicacio_dataCreacio}"/>
+        </ui:define>
+        <ui:define name="input">
+            <p:datePicker id="dataCreacio" value="#{aplicacioModel.value.dataCreacio}"
+                          pattern="dd-MM-yyyy" readonly="#{edit}" disabled="#{edit}"/>
+            <p:message for="dataCreacio"/>
+        </ui:define>
+    </ui:decorate>
+    
+</ui:composition>
+</html>

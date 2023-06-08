@@ -1,0 +1,83 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <!--
+    Pàgina amb el llistat d'unitats orgàniques.
+    -->
+    <ui:composition template="/WEB-INF/templates/layout.xhtml">
+
+        <ui:define name="metadata">
+            <f:metadata>
+                <f:importConstants type="es.caib.interdoc.service.model.EstatPublicacio" />
+            </f:metadata>
+        </ui:define>
+
+        <ui:define name="pageTitle">#{labels.listPeticio_title}</ui:define>
+
+        <ui:define name="breadcrumb">
+            <p:menuitem value="#{labels.listPeticio_link}" outcome="/listPeticio"/>
+        </ui:define>
+
+        <ui:define name="content">
+            <p>
+            <h:form>
+                <p:dataTable id="dataTable" value="#{listPeticio.lazyModel}" var="peticio" sortMode="multiple"
+                             paginator="true" lazy="true" filterDelay="300" widgetVar="unitatsTable"
+                             rows="10" rowsPerPageTemplate="10,20,50,100"
+                             paginatorPosition="bottom" paginatorAlwaysVisible="false"
+                             paginatorTemplate="{RowsPerPageLabel} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport}
+                             {NextPageLink} {LastPageLink}"
+                             currentPageReportTemplate="#{labels.dataTable_currentPageReport}"
+                             emptyMessage="#{labels.dataTable_emptyMessage}">
+                    <f:facet name="{RowsPerPageLabel}">
+                        #{labels.dataTable_rowsPerPage}
+                    </f:facet>
+                    <p:column sortBy="#{peticio.id}">
+                        <f:facet name="header">#{labels.peticio_id}</f:facet>
+                        <h:outputText value="#{peticio.id}"/>
+                    </p:column>
+                    <p:column filterBy="#{peticio.codiDir3}" sortBy="#{peticio.codiDir3}">
+                        <f:facet name="header">#{labels.peticio_codiDir3}</f:facet>
+                        <h:outputText value="#{peticio.codiDir3}"/>
+                    </p:column>
+                    <p:column sortBy="#{peticio.dataCreacio}">
+                        <f:facet name="header">#{labels.peticio_dataCreacio}</f:facet>
+                        <h:outputText value="#{peticio.dataCreacio}">
+                            <f:convertDateTime type="localDate" pattern="dd-MM-yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column filterBy="#{peticio.estat}">
+                        <f:facet name="header">#{labels.peticio_estat}</f:facet>
+                        <f:facet name="filter">
+                            <p:selectOneMenu onchange="PF('unitatsTable').filter()">
+                                <f:selectItem itemLabel="---" itemValue="#{null}"/>
+                                <f:selectItems value="#{EstatPublicacio.values()}" />
+                                <f:converter converterId="estatPublicacioConverter"/>
+                            </p:selectOneMenu>
+                        </f:facet>
+                        <h:outputText value="#{peticio.estat}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header"></f:facet>
+                        <p:menuButton value="#{labels.button_opcions}">
+                            <c:if test="#{security.admin}">
+                                <p:menuitem value="#{labels.button_editar}" outcome="/admin/editPeticio">
+                                    <f:param name="peticioId" value="#{peticio.id}"/>
+                                </p:menuitem> 
+                                <p:menuitem value="#{labels.button_eliminar}"
+                                            action="#{listPeticio.delete(peticio.id)}"
+                                            update="messages @form">
+                                    <p:confirm message="#{labels.confirm_eliminar}"/>
+                                </p:menuitem>
+                            </c:if>
+                        </p:menuButton>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+            </p>
+        </ui:define>
+    </ui:composition>
+</html>

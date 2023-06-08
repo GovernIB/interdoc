@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.2">
+    <!--
+    Permet introduïr configuracions relacionades amb el desplegament.
+    Com ara ignorar mòduls del servidor si el nostre EAR conté versions més recents.
+    -->
+    <deployment>
+        <dependencies>
+            <!--   module name="org.hibernate" slot="5.3" export="true"/ -->
+            <module name="org.apache.cxf" export="true"/>
+            <module name="org.apache.cxf.impl" export="true"/>
+            <module name="org.apache.ws.security"/>
+            <module name="org.apache.xerces" />
+            <module name="org.apache.santuario.xmlsec" export="true"/>
+            <module name="org.bouncycastle" export="true"/>
+        </dependencies>
+    </deployment>
+</jboss-deployment-structure>

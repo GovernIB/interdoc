@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      lang="#{userLocale.current.toLanguageTag()}">
+<!--
+Plantilla.
+-->
+<f:view locale="#{userLocale.current}">
+    <!-- Espai perquè les pàgines que emprin el template defineixin els seus viewParam i viewAction -->
+    <ui:insert name="metadata"/>
+    <h:head>
+        <!-- Necessari perquè PrimeFaces posi aquest tags al principi del HEAD -->
+        <f:facet name="first">
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+            <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+            <title><ui:insert name="pageTitle"/></title>
+             <link rel="shortcut icon" href="#{resource['img/GOIB_fav.png']}"/>
+        </f:facet>
+        <h:outputScript name="js/bootstrap.min.js" />
+        <!-- Traduccions personalitzades de PrimeFaces en català i castellà -->
+        <script src="#{resource['js/primefaceslocale_' += userLocale.current.toLanguageTag() += '.js']}"
+                type="text/javascript"></script>
+    </h:head>
+    <h:body>
+        <!--
+        Les declaram aquí enlloc de a HEAD per assegurar que es carreguen després dels de Primefaces
+        Veure: https://stackoverflow.com/a/8774997/11751648
+        -->
+        <h:outputStylesheet name="css/bootstrap.min.css" />
+        <h:outputStylesheet name="css/open-iconic-bootstrap.css" />
+        <h:outputStylesheet name="css/styles.css" />
+
+        <h:form prependId="false">
+            <header>
+                <!-- Header -->
+                <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark bg-aplicacio">
+                    <button class="navbar-toggler botoMobil" type="button" data-toggle="collapse"
+                            data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
+                            aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <ui:include src="/WEB-INF/includes/logo_nom.xhtml" />
+
+                    <!-- Botons -->
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <ul class="navbar-nav mobil">
+
+                            <!-- Aplicacions -->
+                            <li class="nav-item colorVerd">
+                                <p:link styleClass="nav-link mobil" outcome="/listAplicacio"
+                                        title="#{labels.aplicacio_menu_link}">
+                                    <span class="oi oi-briefcase" title="#{labels.aplicacio_menu_title}"
+                                          aria-hidden="true"></span>
+                                    <span class="mb-0 float-right botoCurt">#{labels.listAplicacions_link}</span>
+                                </p:link>
+                            </li>
+
+                            <!-- Referències -->
+                            <li class="nav-item colorVerd">
+                                <p:link styleClass="nav-link mobil" outcome="/listReferencia"
+                                        title="#{labels.referencia_menu_link}">
+                                    <span class="oi oi-briefcase" title="#{labels.referencia_menu_title}"
+                                          aria-hidden="true"></span>
+                                    <span class="mb-0 float-right botoCurt">#{labels.listReferencies_link}</span>
+                                </p:link>
+                            </li>
+
+                            <!-- Referències XML -->
+                            <li class="nav-item colorVerd">
+                                <p:link styleClass="nav-link mobil" outcome="/listReferenciaXML"
+                                        title="#{labels.referenciaXML_menu_link}">
+                                    <span class="oi oi-briefcase" title="#{labels.referenciaXML_menu_title}"
+                                          aria-hidden="true"></span>
+                                    <span class="mb-0 float-right botoCurt">#{labels.listReferenciesXML_link}</span>
+                                </p:link>
+                            </li>
+
+                            <!-- Acces -->
+                            <li class="nav-item colorVerd">
+                                <p:link styleClass="nav-link mobil" outcome="/listAcces"
+                                        title="#{labels.acces_menu_link}">
+                                    <span class="oi oi-briefcase" title="#{labels.acces_menu_title}"
+                                          aria-hidden="true"></span>
+                                    <span class="mb-0 float-right botoCurt">#{labels.listAcces_link}</span>
+                                </p:link>
+                            </li>
+
+                            <!-- Traza -->
+                            <li class="nav-item colorVerd">
+                                <p:link styleClass="nav-link mobil" outcome="/listTraza"
+                                        title="#{labels.traza_menu_link}">
+                                    <span class="oi oi-briefcase" title="#{labels.traza_menu_title}"
+                                          aria-hidden="true"></span>
+                                    <span class="mb-0 float-right botoCurt">#{labels.listTraza_link}</span>
+                                </p:link>
+                            </li>
+
+                            <!-- Metadada -->
+                            <li class="nav-item colorVerd">
+                                <p:link styleClass="nav-link mobil" outcome="/listMetadada"
+                                        title="#{labels.metadada_menu_link}">
+                                    <span class="oi oi-briefcase" title="#{labels.metadada_menu_title}"
+                                          aria-hidden="true"></span>
+                                    <span class="mb-0 float-right botoCurt">#{labels.listMetadada_link}</span>
+                                </p:link>
+                            </li>
+
+                            <!-- Peticions a tercers -->
+                            <li class="nav-item colorVerd">
+                                <p:link styleClass="nav-link mobil" outcome="/listPeticio"
+                                        title="#{labels.peticio_menu_link}">
+                                    <span class="oi oi-briefcase" title="#{labels.peticio_menu_title}"
+                                          aria-hidden="true"></span>
+                                    <span class="mb-0 float-right botoCurt">#{labels.listPeticions_link}</span>
+                                </p:link>
+                            </li>
+                            
+                             <!-- Plugins -->
+                            <li class="nav-item colorVerd">
+                                <p:link styleClass="nav-link mobil" outcome="/listPlugin"
+                                        title="#{labels.plugin_menu_link}">
+                                    <span class="oi oi-briefcase" title="#{labels.plugin_menu_title}"
+                                          aria-hidden="true"></span>
+                                    <span class="mb-0 float-right botoCurt">#{labels.listPlugin_link}</span>
+                                </p:link>
+                            </li>
+
+                            <!-- Configuració -->
+                            <li class="nav-item colorVerd">
+                                <p:link styleClass="nav-link mobil" outcome="/configuracio"
+                                        title="#{labels.configuracio_link}">
+                                    <span class="oi oi-cog" title="#{labels.configuracio_link}"
+                                          aria-hidden="true"></span>
+                                    <span class="mb-0 float-right botoCurt">#{labels.configuracio_link}</span>
+                                </p:link>
+                            </li>
+
+                            <!-- Idioma -->
+                            <li class="nav-item dropdown colorVerd">
+                                <a class="nav-link dropdown mobil" title="#{labels['idioma_link']}" href="#" id="idiomas"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="oi oi-caret-bottom float-right flechaSubmenu" title=""
+                                          aria-hidden="true"></span>
+                                    <span class="mb-0 float-right botoCurt">#{labels['idioma_link']}</span>
+                                    <span class="oi oi-globe" title="#{labels['idioma_link']}" aria-hidden="true"></span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right marg0 minW0" aria-labelledby="idiomas">
+                                    <p:repeat value="#{applicationLocales.available}" var="locale">
+                                        <p:commandLink styleClass="dropdown-item mobil" hreflang="#{locale.toLanguageTag()}"
+                                                       action="#{userLocale.reload()}"
+                                                       value="#{labels['idioma_link_' += locale.toLanguageTag()]}">
+                                            <p:ajax listener="#{userLocale.setCurrent(locale)}" />
+                                        </p:commandLink>
+                                    </p:repeat>
+                                </div>
+                            </li>
+
+                            <!-- Sortir -->
+                            <li class="nav-item colorVerd">
+                                <p:commandLink action="#{logout.logout}"
+                                               ajax="false" immediate="true" styleClass="nav-link mobil"
+                                               title="#{labels.sortir_link}">
+                                    <span class="oi oi-power-standby" title="#{labels.sortir_link}"
+                                          aria-hidden="true"></span>
+                                    <span class="mb-0 float-right botoCurt">#{labels.sortir_link}</span>
+                                </p:commandLink>
+                            </li>
+
+                            <!-- li class="nav-item colorVerd">
+                                <p:link styleClass="nav-link mobil" outcome="/listUnitatOrganica"
+                                            title="#{labels.listUnitatOrganica_link}">
+                                    <span class="oi oi-briefcase" title="#{labels.listUnitatOrganica_link}"
+                                          aria-hidden="true"></span>
+                                    <span class="mb-0 float-right botoCurt">#{labels.listUnitatOrganica_link}</span>
+                                </p:link>
+                            </li -->
+                        </ul>
+
+                    </div>
+                    <!-- FI Botons -->
+                </nav>
+                <!-- FI Header -->
+            </header>
+        </h:form>
+
+        <p:growl id="messages"
+                 globalOnly="false"
+                 showDetail="true"
+                 life="5000"
+                 escape="false"/>
+
+        <h:form>
+            <p:confirmDialog global="true">
+                <p:commandButton value="#{labels.button_si}" type="button" styleClass="ui-confirmdialog-yes"
+                                 icon="ui-icon-check"/>
+                <p:commandButton value="#{labels.button_no}" type="button" styleClass="ui-confirmdialog-no"
+                                 icon="ui-icon-close"/>
+            </p:confirmDialog>
+
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb" class="miga">
+                <p:breadCrumb styleClass="breadcrumb" homeDisplay="text">
+                    <p:menuitem value="#{labels.inici_link}" outcome="/index"/>
+                    <ui:insert name="breadcrumb"/>
+                </p:breadCrumb>
+            </nav>
+            <!-- FI Breadcrumb -->
+        </h:form>
+
+        <!-- Content -->
+        <div class="container p-3aplicacio">
+            <div class="my-3 p-3 bg-white rounded box-shadow">
+                <!-- Contingut -->
+                <div class="card mb-12 border-0">
+                    <span class="h5 card-title border-bottom verde">
+                        <ui:insert name="pageTitle">Interdoc</ui:insert>
+                    </span>
+                    <ui:insert name="content"/>
+                </div>
+                <!-- FI Contingut -->
+            </div>
+        </div>
+        <!-- FI Content -->
+
+        <ui:include src="/WEB-INF/includes/footer.xhtml"/>
+    </h:body>
+</f:view>
+</html>
