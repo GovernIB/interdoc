@@ -59,7 +59,8 @@ public class InfoSignaturaRepositoryBean extends AbstractCrudRepository<InfoSign
                 root.get(InfoSignatura_.eniSignerAdministrationId),
                 root.get(InfoSignatura_.checkAdministrationIdOfSigner),
                 root.get(InfoSignatura_.checkDocumentModifications),
-                root.get(InfoSignatura_.checkValidationSignature)
+                root.get(InfoSignatura_.checkValidationSignature),
+                root.get(InfoSignatura_.signDate)
                 ));
 
         InfoSignaturaCriteriaHelper infoSignaturaCriteriaHelper = new InfoSignaturaCriteriaHelper(builder, root);

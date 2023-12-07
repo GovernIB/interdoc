@@ -16,6 +16,8 @@ import java.util.Optional;
  * @author jagarcia
  */
 public interface InfoSignaturaServiceFacade {
+	
+	public static final String JNDI_NAME = "java:app/interdoc-ejb/InfoSignaturaServiceFacadeBean!es.caib.interdoc.service.facade.InfoSignaturaServiceFacade";
 
     /**
      * Crea una nova aplicació a la base de dades.
@@ -47,7 +49,7 @@ public interface InfoSignaturaServiceFacade {
      * @return un opcional amb les dades de la aplicació indicada o buid si no existeix.
      */
     Optional<InfoSignaturaDTO> findById(Long id);
-
+    
     /**
      * Retorna tots els registres d'aplicacions
      */

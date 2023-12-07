@@ -44,6 +44,16 @@ public class AplicacioRepositoryBean extends AbstractCrudRepository<Aplicacio, L
         List<Aplicacio> result = query.getResultList();
         return Optional.ofNullable(result.isEmpty() ? null : result.get(0));
     }
+    
+    @Override
+    public Optional<Aplicacio> findByUserName(String username) {
+        TypedQuery<Aplicacio> query = entityManager.createNamedQuery(
+                Aplicacio.FIND_BY_USERNAME,
+                Aplicacio.class);
+        query.setParameter("username", username);
+        List<Aplicacio> result = query.getResultList();
+        return Optional.ofNullable(result.isEmpty() ? null : result.get(0));
+    }
 
     @Override
     public List<AplicacioDTO> findPagedByFilterAndOrder(int firstResult, int maxResult,

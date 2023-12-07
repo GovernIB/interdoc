@@ -32,6 +32,28 @@ public class TrazaRepositoryBean extends AbstractCrudRepository<Traza, Long>
         super(Traza.class);
     }
 
+    
+    @Override
+    public List<TrazaDTO> findByReferenciaId(Long referenciaId) {
+    	
+    	CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<TrazaDTO> criteriaQuery = builder.createQuery(TrazaDTO.class);
+        Root<Traza> root = criteriaQuery.from(Traza.class);
+        
+        criteriaQuery.select(builder.construct(TrazaDTO.class,
+                root.get(Traza_.id),
+                root.get(Traza_.nom),
+                root.get(Traza_.valor),
+                root.get(Traza_.referenciaId),
+                root.get(Traza_.dataCreacio)));
+
+        TrazaCriteriaHelper trazaCriteriaHelper = new TrazaCriteriaHelper(builder, root);
+        criteriaQuery.where(trazaCriteriaHelper.getPredicate(TrazaAtribut.referenciaId, referenciaId));
+
+        TypedQuery<TrazaDTO> query = entityManager.createQuery(criteriaQuery);
+        return query.getResultList();
+    	
+    }
 
     @Override
     public List<TrazaDTO> findPagedByFilterAndOrder(int firstResult, int maxResult,

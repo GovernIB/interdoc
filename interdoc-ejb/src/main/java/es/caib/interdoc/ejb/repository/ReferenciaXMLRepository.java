@@ -21,5 +21,7 @@ public interface ReferenciaXMLRepository extends CrudRepository<ReferenciaXML, L
                                                  List<Ordre<ReferenciaXMLAtribut>> ordenacio);
 
     long countByFilter(Map<ReferenciaXMLAtribut, Object> filter);
+    
+    ReferenciaXMLDTO findByReferenciaId(Long referenciaId);
 
 }

@@ -16,6 +16,9 @@ import java.util.Optional;
  * @author jagarcia
  */
 public interface InfoArxiuServiceFacade {
+	
+	public static final String JNDI_NAME = "java:app/interdoc-ejb/InfoArxiuServiceFacadeBean!es.caib.interdoc.service.facade.InfoArxiuServiceFacade";
+
 
     /**
      * Crea una nova aplicació a la base de dades.
@@ -52,6 +55,12 @@ public interface InfoArxiuServiceFacade {
      * Retorna tots els registres d'aplicacions
      */
     List<InfoArxiuDTO> getAll();
+    
+    /**
+     * Retorna tots els expedients amb estat OBERT
+     * 
+     */
+    List<InfoArxiuDTO> getExpedientsOberts(String estat);
 
     /**
      * Retorna una pàgina d'aplicacions que compleixen els filtres i les ordenacions indicades

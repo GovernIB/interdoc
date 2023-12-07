@@ -4,34 +4,41 @@
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
              version="2.2">
     <persistence-unit name="interdocPU" transaction-type="JTA">
+        <provider>es.caib.interdoc.persistence.hibernate.CustomHibernatePersistenceProvider</provider>
         <jta-data-source>java:jboss/datasources/interdocDS</jta-data-source>
 
         <!-- Llista de classes persistents -->
-        <!--  class>es.caib.interdoc.persistence.model.UnitatOrganica</class -->
 
-        <class>es.caib.interdoc.persistence.model.Aplicacio</class>
-        <class>es.caib.interdoc.persistence.model.PeticioATercer</class>
         <class>es.caib.interdoc.persistence.model.Acces</class>
+        <class>es.caib.interdoc.persistence.model.Aplicacio</class>
+        <class>es.caib.interdoc.persistence.model.BaseEntity</class>
+        <class>es.caib.interdoc.persistence.model.Entitat</class>
+        <class>es.caib.interdoc.persistence.model.Fitxer</class>
+        <class>es.caib.interdoc.persistence.model.InfoArxiu</class>
+        <class>es.caib.interdoc.persistence.model.InfoSignatura</class>
+        <class>es.caib.interdoc.persistence.model.Log</class>
+        <class>es.caib.interdoc.persistence.model.Metadada</class>
+        <class>es.caib.interdoc.persistence.model.PeticioATercer</class>
+        <class>es.caib.interdoc.persistence.model.Plugin</class>
         <class>es.caib.interdoc.persistence.model.Referencia</class>
         <class>es.caib.interdoc.persistence.model.ReferenciaXML</class>
-        <class>es.caib.interdoc.persistence.model.Metadada</class>
         <class>es.caib.interdoc.persistence.model.Traza</class>
-        <class>es.caib.interdoc.persistence.model.Log</class>
-
+     
         <!-- Activar cache només per aquelles entitats on volguem expressament -->
         <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
         <!-- Sempre activar la validació de les propietats -->
         <validation-mode>CALLBACK</validation-mode>
 
-        <properties>
+        <!--  properties -->
             <!--
             Per un bug a Hibernate, el JBoss EAP 7.2 que no tenen el patch 9 no detecten correctament
             les versions d'Oracle superiors a la 12. Per això cal definir explicitament el dialect.
+            postgres: org.hibernate.dialect.PostgreSQL95Dialect
+            oracle: org.hibernate.dialect.Oracle12cDialect
             -->
-            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL95Dialect"/>
-
+            <!--   property name="hibernate.dialect" value="org.hibernate.dialect.Oracle12cDialect"/ -->
             <!-- Afecta molt al rendiment. A entorn de producció, sempre a false -->
-            <property name="hibernate.show_sql" value="${persistenceXml.hibernate.showSql}"/>
-        </properties>
+            <!--  property name="hibernate.show_sql" value="${persistenceXml.hibernate.showSql}"/ -->
+        <!--   /properties -->
     </persistence-unit>
 </persistence>

@@ -1,9 +1,7 @@
 package es.caib.interdoc.back.controller;
 
 import es.caib.interdoc.back.model.PeticioModel;
-import es.caib.interdoc.back.model.UnitatModel;
 import es.caib.interdoc.service.facade.PeticioATercerServiceFacade;
-import es.caib.interdoc.service.facade.UnitatOrganicaServiceFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

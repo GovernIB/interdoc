@@ -6,8 +6,8 @@ package es.caib.interdoc.service.model;
  * @author areus
  */
 public enum Estat {
-    ACTIU(true),
-    INACTIU(false);
+    INACTIU(false),
+    ACTIU(true);
 
     private final Boolean clau;
 

@@ -12,11 +12,13 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Servei per els casos d'ús de mateniment d'una Aplicació.
+ * Servei per els casos d'ús de mateniment d'usuaris Aplicació
  *
  * @author jagarcia
  */
 public interface AplicacioServiceFacade {
+	
+	public static final String JNDI_NAME = "java:app/interdoc-ejb/AplicacioServiceFacadeBean!es.caib.interdoc.service.facade.AplicacioServiceFacade";
 
     /**
      * Crea una nova aplicació a la base de dades.
@@ -50,6 +52,8 @@ public interface AplicacioServiceFacade {
      * @return un opcional amb les dades de la aplicació indicada o buid si no existeix.
      */
     Optional<AplicacioDTO> findById(Long id);
+    
+    Optional<AplicacioDTO> findByUserName(String username);
 
     /**
      * Retorna tots els registres d'aplicacions

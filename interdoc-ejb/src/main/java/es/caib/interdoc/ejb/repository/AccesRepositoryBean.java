@@ -38,7 +38,6 @@ public class AccesRepositoryBean extends AbstractCrudRepository<Acces, Long>
     public List<AccesDTO> findPagedByFilterAndOrder(int firstResult, int maxResult,
                                                         Map<AccesAtribut, Object> filter,
                                                         List<Ordre<AccesAtribut>> ordenacio) {
-        System.out.println("> > > > > > > > > > > ");
 
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<AccesDTO> criteriaQuery = builder.createQuery(AccesDTO.class);
@@ -76,4 +75,29 @@ public class AccesRepositoryBean extends AbstractCrudRepository<Acces, Long>
         TypedQuery<Long> query = entityManager.createQuery(criteriaQuery);
         return query.getSingleResult();
     }
+
+
+	@Override
+	public List<AccesDTO> findByRefenciaId(Long referenciaId) {
+		
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<AccesDTO> criteriaQuery = builder.createQuery(AccesDTO.class);
+        Root<Acces> root = criteriaQuery.from(Acces.class);
+		
+        criteriaQuery.select(builder.construct(AccesDTO.class,
+        		root.get(Acces_.id),
+                root.get(Acces_.identificacio),
+                root.get(Acces_.tipusIdentificacio),
+                root.get(Acces_.ip),
+                root.get(Acces_.referenciaId),
+                root.get(Acces_.dataCreacio)
+        		));
+        
+        AccesCriteriaHelper accesCriteriaHelper = new AccesCriteriaHelper(builder, root);
+        criteriaQuery.where(accesCriteriaHelper.getPredicate(AccesAtribut.referenciaId, referenciaId));
+        
+        TypedQuery<AccesDTO> query = entityManager.createQuery(criteriaQuery);
+        return query.getResultList();
+		
+	}
 }

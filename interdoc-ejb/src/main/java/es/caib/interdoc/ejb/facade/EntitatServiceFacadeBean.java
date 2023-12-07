@@ -27,10 +27,11 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Implementació dels casos d'ús de manteniment de aplicacions.
- * És responsabilitat d'aquesta capa definir el limit de les transaccions i la seguretat.
- * Les excepcions específiques es llancen mitjançant l'{@link ExceptionTranslate} que transforma
- * els errors JPA amb les excepcions de servei com la {@link RecursNoTrobatException}
+ * Implementació dels casos d'ús de manteniment de aplicacions. És
+ * responsabilitat d'aquesta capa definir el limit de les transaccions i la
+ * seguretat. Les excepcions específiques es llancen mitjançant
+ * l'{@link ExceptionTranslate} que transforma els errors JPA amb les excepcions
+ * de servei com la {@link RecursNoTrobatException}
  *
  * @author jagarcia
  */
@@ -41,62 +42,68 @@ import java.util.Optional;
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 public class EntitatServiceFacadeBean implements EntitatServiceFacade {
 
-    @Inject
-    private EntitatRepository repository;
+	@Inject
+	private EntitatRepository repository;
 
-    @Inject
-    private EntitatConverter converter;
+	@Inject
+	private EntitatConverter converter;
 
-    @Override
-    @RolesAllowed(Constants.ITD_ADMIN)
-    public Long create(EntitatDTO dto) {
-        Entitat entitat = converter.toEntity(dto);
-        repository.create(entitat);
-        return entitat.getId();
-    }
+	@Override
+	@RolesAllowed(Constants.ITD_ADMIN)
+	public Long create(EntitatDTO dto) {
+		Entitat entitat = converter.toEntity(dto);
+		repository.create(entitat);
+		return entitat.getId();
+	}
 
-    @Override
-    @RolesAllowed(Constants.ITD_ADMIN)
-    public void update(EntitatDTO dto) throws RecursNoTrobatException {
-    	Entitat entitat = repository.getReference(dto.getId());
-        converter.updateFromDTO(entitat, dto);
-    }
+	@Override
+	@RolesAllowed(Constants.ITD_ADMIN)
+	public void update(EntitatDTO dto) throws RecursNoTrobatException {
+		Entitat entitat = repository.getReference(dto.getId());
+		converter.updateFromDTO(entitat, dto);
+	}
 
-    @Override
-    @RolesAllowed(Constants.ITD_ADMIN)
-    public void delete(Long id) throws RecursNoTrobatException {
-    	Entitat entitat = repository.getReference(id);
-        repository.delete(entitat);
-    }
+	@Override
+	@RolesAllowed(Constants.ITD_ADMIN)
+	public void delete(Long id) throws RecursNoTrobatException {
+		Entitat entitat = repository.getReference(id);
+		repository.delete(entitat);
+	}
 
-    @Override
-    @RolesAllowed({Constants.ITD_USER, Constants.ITD_ADMIN})
-    public Optional<EntitatDTO> findById(Long id) {
-    	Entitat entitat = repository.findById(id);
-        EntitatDTO entitatDTO = converter.toDTO(entitat);
-        return Optional.ofNullable(entitatDTO);
-    }
+	@Override
+	@RolesAllowed({ Constants.ITD_USER, Constants.ITD_ADMIN })
+	public Optional<EntitatDTO> findById(Long id) {
+		Entitat entitat = repository.findById(id);
+		EntitatDTO entitatDTO = converter.toDTO(entitat);
+		return Optional.ofNullable(entitatDTO);
+	}
 
-    @Override
-    @PermitAll
-    public List<EntitatDTO> getAll() {
-        List<EntitatDTO> items = new ArrayList<EntitatDTO>();
-        List<Entitat> llista = repository.getAll();
-        for (Entitat a : llista ) {
-            items.add(converter.toDTO(a));
-        }
-        return items;
-    }
+	@Override
+	@PermitAll
+	public Optional<EntitatDTO> findByCodiDir3(String codi) {
+		return Optional.ofNullable(repository.findByCodiDir3(codi));
+	}
 
-    @Override
-    @PermitAll
-    public Pagina<EntitatDTO> findFiltered(int firstResult, int maxResult, Map<EntitatAtribut, Object> filter,
-                                             List<Ordre<EntitatAtribut>> ordenacio) {
+	@Override
+	@PermitAll
+	public List<EntitatDTO> getAll() {
+		List<EntitatDTO> items = new ArrayList<EntitatDTO>();
+		List<Entitat> llista = repository.getAll();
+		for (Entitat a : llista) {
+			items.add(converter.toDTO(a));
+		}
+		return items;
+	}
 
-        List<EntitatDTO> items = repository.findPagedByFilterAndOrder(firstResult, maxResult, filter, ordenacio);
-        long total = repository.countByFilter(filter);
+	@Override
+	@PermitAll
+	public Pagina<EntitatDTO> findFiltered(int firstResult, int maxResult, Map<EntitatAtribut, Object> filter,
+			List<Ordre<EntitatAtribut>> ordenacio) {
 
-        return new Pagina<>(items, total);
-    }
-    
+		List<EntitatDTO> items = repository.findPagedByFilterAndOrder(firstResult, maxResult, filter, ordenacio);
+		long total = repository.countByFilter(filter);
+
+		return new Pagina<>(items, total);
+	}
+
 }

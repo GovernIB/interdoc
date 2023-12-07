@@ -18,6 +18,10 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -64,6 +68,7 @@ public class ReferenciaServiceFacadeBean implements ReferenciaServiceFacade {
     }
 
     @Override
+    @PermitAll
     public Optional<ReferenciaDTO> findById(Long id) throws RecursNoTrobatException {
         Referencia referencia = repository.findById(id);
         ReferenciaDTO referenciaDTO = converter.toDTO(referencia);
@@ -101,4 +106,21 @@ public class ReferenciaServiceFacadeBean implements ReferenciaServiceFacade {
 
         return new Pagina<>(items, total);
     }
+
+	@Override
+	@PermitAll
+	public Optional<List<ReferenciaDTO>> findBetweenDates(LocalDate inici, LocalDate fi) {
+		
+		List<Referencia> llistaReferencies = repository.findBetweenDates(inici, fi);
+		List<ReferenciaDTO> llista = null;
+		if (llistaReferencies.size() > 0) {
+			llista = new ArrayList<ReferenciaDTO>(llistaReferencies.size());
+			for (Referencia item : llistaReferencies) {
+				llista.add(converter.toDTO(item));
+			}
+		}
+		
+		return Optional.ofNullable(llista);
+	}
+	
 }

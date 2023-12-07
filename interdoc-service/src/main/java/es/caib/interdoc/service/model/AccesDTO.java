@@ -6,10 +6,11 @@ import javax.validation.constraints.*;
 import java.time.LocalDate;
 
 /**
- * Dades referents a un accés.
- *
+ * Dades que es guarden quan es realitza a un accés a una referencia.
+ * 
  * @author jagarcia
  */
+
 @Schema(name = "Acces")
 public class AccesDTO {
 
@@ -27,7 +28,6 @@ public class AccesDTO {
     @Size(max = 20)
     private String ip;
 
-    @NotEmpty
     private long referenciaId;
 
     @NotNull

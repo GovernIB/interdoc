@@ -38,6 +38,8 @@ public class FitxerCriteriaHelper extends AbstractCriteriaHelper<Fitxer, FitxerA
             	return root.get(Fitxer_.descripcio);
             case mime:
                 return root.get(Fitxer_.mime);
+            case ruta:
+            	return root.get(Fitxer_.ruta);
             case tamany:
             	return root.get(Fitxer_.tamany);
             default:

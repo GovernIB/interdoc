@@ -20,5 +20,7 @@ public interface MetadadaRepository extends CrudRepository<Metadada, Long> {
                                                  List<Ordre<MetadadaAtribut>> ordenacio);
 
     long countByFilter(Map<MetadadaAtribut, Object> filter);
+    
+    List<MetadadaDTO> findByReferenciaId(Long referenciaId);
 
 }

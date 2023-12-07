@@ -48,7 +48,7 @@ public class InfoSignaturaServiceFacadeBean implements InfoSignaturaServiceFacad
     private InfoSignaturaConverter converter;
 
     @Override
-    @RolesAllowed(Constants.ITD_ADMIN)
+    @PermitAll
     public Long create(InfoSignaturaDTO dto) {
     	InfoSignatura infoSignatura = converter.toEntity(dto);
         repository.create(infoSignatura);
@@ -70,7 +70,7 @@ public class InfoSignaturaServiceFacadeBean implements InfoSignaturaServiceFacad
     }
 
     @Override
-    @RolesAllowed({Constants.ITD_USER, Constants.ITD_ADMIN})
+    @PermitAll
     public Optional<InfoSignaturaDTO> findById(Long id) {
     	InfoSignatura infoSignatura = repository.findById(id);
     	InfoSignaturaDTO infoSignaturaDTO = converter.toDTO(infoSignatura);

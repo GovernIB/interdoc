@@ -20,6 +20,8 @@ public interface EntitatRepository extends CrudRepository<Entitat, Long> {
                                                  Map<EntitatAtribut, Object> filter,
                                                  List<Ordre<EntitatAtribut>> ordenacio);
 
+    EntitatDTO findByCodiDir3(String codi);
+    
     List<Entitat> getAll();
 
     long countByFilter(Map<EntitatAtribut, Object> filter);

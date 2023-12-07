@@ -6,6 +6,8 @@ import es.caib.interdoc.service.model.ReferenciaDTO;
 import es.caib.interdoc.service.model.Ordre;
 import es.caib.interdoc.service.model.Pagina;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -16,6 +18,9 @@ import java.util.Optional;
  * @author jagarcia
  */
 public interface ReferenciaServiceFacade {
+	
+	public static final String JNDI_NAME = "java:app/interdoc-ejb/ReferenciaServiceFacadeBean!es.caib.interdoc.service.facade.ReferenciaServiceFacade";
+
 
     /**
      * Crea una nova aplicació a la base de dades.
@@ -55,6 +60,8 @@ public interface ReferenciaServiceFacade {
     Optional<ReferenciaDTO> findByUUID(String uuid) throws RecursNoTrobatException;
     
     Optional<ReferenciaDTO> findByCSV(String csv) throws RecursNoTrobatException;
+    
+    Optional<List<ReferenciaDTO>> findBetweenDates(LocalDate inici, LocalDate fi);
 
     /**
      * Retorna una pàgina d'aplicacions que compleixen els filtres i les ordenacions indicades

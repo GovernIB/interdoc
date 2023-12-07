@@ -1,0 +1,303 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+<ui:composition template="/WEB-INF/templates/layout.xhtml">
+
+    <ui:define name="metadata">
+        <f:metadata>
+            <f:viewParam id="id" name="id" value="#{detallReferenciaModel.referencia.id}" />
+            <f:viewAction action="#{detallReferenciaModel.load}" />
+        </f:metadata>
+    </ui:define>
+
+	<ui:define name="pageTitle">#{labels.detallReferencies_title}</ui:define>
+
+	<ui:define name="breadcrumb">
+		<p:menuitem value="#{labels.listReferencia_link}"
+			outcome="/listReferencia" />
+	</ui:define>
+
+	<ui:define name="content">
+
+		<p:panelGrid columns="2">
+			<f:facet name="header">
+				Detall Referencia
+			</f:facet>
+			
+			<!--  id -->
+			<h:outputText value="#{labels.referencia_id}:" />
+            <h:outputText value="#{detallReferenciaModel.referencia.id}" />
+			
+			<!-- uuId -->
+			<h:outputText value="#{labels.referencia_uuid}:" />
+			<h:outputText value="#{detallReferenciaModel.referencia.uuId}" />
+			
+			<!-- csvId -->
+			<h:outputText value="#{labels.referencia_csvid}:" />
+			<h:outputText value="#{detallReferenciaModel.referencia.csvId}" />
+			
+			<!-- referencia -->
+			<h:outputText value="#{labels.referencia_referencia}:" />
+            <h:outputText value="#{detallReferenciaModel.referencia.referencia}" />
+			
+			<!-- direccio -->
+			<h:outputText value="#{labels.referencia_direccio}:" />
+            <h:outputText value="#{detallReferenciaModel.referencia.direccio}" />
+			
+			<!-- urlVisible -->
+			<h:outputText value="#{labels.referencia_urlvisible}:" />
+            <h:outputText value="#{detallReferenciaModel.referencia.urlVisible}" />
+			
+			<!-- hash -->
+			<h:outputText value="#{labels.referencia_hash}:" />
+            <h:outputText value="#{detallReferenciaModel.referencia.hash}" />
+			
+            <!-- entitatId -->
+			<h:outputText value="#{labels.referencia_entitatid}:" />
+			<h:outputText value="#{detallReferenciaModel.entitat.nom} - #{detallReferenciaModel.entitat.codiDir3}" />
+
+            <!-- emisor -->
+			<h:outputText value="#{labels.referencia_emisor}:" />
+			<h:outputText value="#{detallReferenciaModel.referencia.emisor}" />
+			
+			<!-- receptor -->
+			<h:outputText value="#{labels.referencia_receptor}:" />
+            <h:outputText value="#{detallReferenciaModel.referencia.receptor}" />
+            
+			
+			<!-- dataCreacio -->
+			<h:outputText value="#{labels.referencia_dataCreacio}:" />
+            <h:outputText value="#{detallReferenciaModel.referencia.dataCreacio}" />
+			
+		</p:panelGrid>
+
+		<p:panelGrid columns="2">
+            <f:facet name="header">
+                Informació del fitxer
+            </f:facet>
+            
+            <!-- id -->
+            <h:outputText value="#{labels.fitxer_id}:" />
+            <h:outputText value="#{detallReferenciaModel.fitxer.id}" />
+            
+            <!-- nom -->
+            <h:outputText value="#{labels.fitxer_nom}:" />
+            <h:outputText value="#{detallReferenciaModel.fitxer.nom}" />
+
+            <!-- descripcio -->
+            <h:outputText value="#{labels.fitxer_descripcio}:" />
+            <h:outputText value="#{detallReferenciaModel.fitxer.descripcio}" />
+            
+            <!-- ruta -->
+            <h:outputText value="#{labels.fitxer_ruta}:" />
+            <h:outputText value="#{detallReferenciaModel.fitxer.ruta}" />
+            
+            <!-- mime -->
+            <h:outputText value="#{labels.fitxer_mime}:" />
+            <h:outputText value="#{detallReferenciaModel.fitxer.mime}" />
+            
+            <!-- tamany -->
+            <h:outputText value="#{labels.fitxer_tamany}:" />
+            <h:outputText value="#{detallReferenciaModel.fitxer.tamany}" />
+            
+            <!-- dataCreacio -->
+            <h:outputText value="#{labels.referencia_dataCreacio}:" />
+            <h:outputText value="#{detallReferenciaModel.fitxer.dataCreacio}" />
+            
+        </p:panelGrid>
+
+		<p:panelGrid columns="2">
+            <f:facet name="header">
+                Informació de la signatura
+            </f:facet>
+            
+            <!-- id -->
+            <h:outputText value="#{labels.infosignatura_id}:" />
+            <h:outputText value="#{detallReferenciaModel.infoSignatura.id}" />
+            
+            <!-- signOperation -->
+            <h:outputText value="#{labels.infosignatura_eniSignerAdministrationId}:" />
+            <h:outputText value="#{detallReferenciaModel.infoSignatura.eniSignerAdministrationId}" />
+            
+            <!-- signType -->
+            <h:outputText value="#{labels.infosignatura_signOperation}:" />
+            <h:outputText value="#{detallReferenciaModel.infoSignatura.signOperation}" />
+            
+            <!-- signAlgoritm -->
+            <h:outputText value="#{labels.infosignatura_signAlgoritm}:" />
+            <h:outputText value="#{detallReferenciaModel.infoSignatura.signAlgorithm}" />
+            
+            <!-- signMode -->
+            <h:outputText value="#{labels.infosignatura_signMode}:" />
+            <h:outputText value="#{detallReferenciaModel.infoSignatura.signMode}" />
+            
+            <!-- signaturesTableLocation -->
+            <h:outputText value="#{labels.infosignatura_signaturesTableLocation}:" />
+            <h:outputText value="#{detallReferenciaModel.infoSignatura.signaturesTableLocation}" />
+            
+            <!-- timestampIncluded boolean -->
+            <h:outputText value="#{labels.infosignatura_timestampIncluded}:" />
+            <h:outputText value="#{detallReferenciaModel.infoSignatura.timestampIncluded}" />
+            
+            <!-- policyIncluded boolean -->
+            <h:outputText value="#{labels.infosignatura_policyIncluded}:" />
+            <h:outputText value="#{detallReferenciaModel.infoSignatura.policyIncluded}" />
+            
+            <!-- eniTipoFirma -->
+            <h:outputText value="#{labels.infosignatura_eniTipoFirma}:" />
+            <h:outputText value="#{detallReferenciaModel.infoSignatura.eniTipoFirma}" />
+            
+            <!-- eniPerfilFirma -->
+            <h:outputText value="#{labels.infosignatura_eniPerfilFirma}:" />
+            <h:outputText value="#{detallReferenciaModel.infoSignatura.eniPerfilFirma}" />
+            
+            <!-- eniRolFirma -->
+            <h:outputText value="#{labels.infosignatura_eniRolFirma}:" />
+            <h:outputText value="#{detallReferenciaModel.infoSignatura.eniRolFirma}" />
+            
+            <!-- eniSignerName -->
+            <h:outputText value="#{labels.infosignatura_eniSignerName}:" />
+            <h:outputText value="#{detallReferenciaModel.infoSignatura.eniSignerName}" />
+            
+            <!-- eniSignerAdministrationId -->
+            <h:outputText value="#{labels.infosignatura_eniSignerAdministrationId}:" />
+            <h:outputText value="#{detallReferenciaModel.infoSignatura.eniSignerAdministrationId}" />
+            
+            <!--  formatFirma -->
+            <h:outputText value="#{labels.referencia_formatfirma}:" />
+            <h:outputText value="#{detallReferenciaModel.referencia.formatFirma}" />
+            
+            <!-- 
+            String signId;
+		    String fileName;
+		    String fileMime;
+		    String signLevel;
+		    Boolean checkAdministrationIdOfSigner;
+		    Boolean checkDocumentModifications;
+		    Boolean checkValidationSignature;		    
+		    Date signDate;
+            -->
+            
+        </p:panelGrid>
+		
+		
+		<p:panelGrid columns="2">
+            <f:facet name="header">
+                Informació plugin arxiu
+            </f:facet>
+            
+			<!-- id -->
+			<h:outputText value="#{labels.infoarxiu_id}:" />
+            <h:outputText value="#{detallReferenciaModel.infoArxiu.id}" />
+            
+			<!-- csv -->
+			<h:outputText value="#{labels.infoarxiu_csv}:" />
+            <h:outputText value="#{detallReferenciaModel.infoArxiu.csv}" />
+            
+			<!-- arxiuExpedientID -->
+			<h:outputText value="#{labels.infoarxiu_expedientid}:" />
+            <h:outputText value="#{detallReferenciaModel.infoArxiu.arxiuExpedientID}" />
+            
+			<!-- arxiuDocumentID -->
+			<h:outputText value="#{labels.infoarxiu_documentid}:" />
+            <h:outputText value="#{detallReferenciaModel.infoArxiu.arxiuDocumentID}" />
+            
+			<!-- estatExpedient -->
+			<h:outputText value="#{labels.infoarxiu_estatexpedient}:" />
+            <h:outputText value="#{detallReferenciaModel.infoArxiu.estatExpedient}" />
+
+        </p:panelGrid>
+
+
+		<p:panelGrid columns="2">
+            <f:facet name="header">
+                Metadades
+            </f:facet>
+            
+            <p:dataTable var="metadada" value="#{detallReferenciaModel.metadades}">
+                <p:column headerText="#{labels.metadada_nom}">
+                    <h:outputText value="#{metadada.nom}" />
+                </p:column>
+                 <p:column headerText="#{labels.metadada_valor}">
+                    <h:outputText value="#{metadada.valor}" />
+                </p:column>
+            </p:dataTable>
+            
+        </p:panelGrid>
+
+
+		<p:panelGrid columns="2">
+            <f:facet name="header">
+                Traçabilitat
+            </f:facet>
+            
+            <p:dataTable var="traza" value="#{detallReferenciaModel.trazabilitat}">
+                <p:column headerText="#{labels.traza_nom}">
+                    <h:outputText value="#{traza.nom}" />
+                </p:column>
+                 <p:column headerText="#{labels.traza_valor}">
+                    <h:outputText value="#{traza.valor}" />
+                </p:column>
+            </p:dataTable>
+
+        </p:panelGrid>
+
+
+		<p:panelGrid columns="3">
+            <f:facet name="header">
+                Accessos
+            </f:facet>
+            
+            <p:dataTable var="acces" value="#{detallReferenciaModel.accesos}">
+                <p:column headerText="#{labels.acces_id}">
+                    <h:outputText value="#{acces.identificacio}" />
+                </p:column>
+                 <p:column headerText="#{labels.acces_tipusIdentificacio}">
+                    <h:outputText value="#{acces.tipusIdentificacio}" />
+                </p:column>
+                 <p:column headerText="#{labels.acces_dataCreacio}">
+                    <h:outputText value="#{acces.dataCreacio}" />
+                </p:column>
+            </p:dataTable>
+            
+        </p:panelGrid>
+
+
+		<p:panelGrid columns="2">
+            <f:facet name="header">
+                XML Generat
+            </f:facet>
+            
+            <!-- id -->
+            <h:outputText value="#{labels.referenciaXML_id}:" />
+            <h:outputText value="#{detallReferenciaModel.referenciaXML.id}" />
+            
+            <!-- resultat -->
+            <h:outputText value="#{labels.referenciaXML_resultat}:" />
+            <h:outputText value="#{detallReferenciaModel.referenciaXML.resultat}" />
+            
+            <!-- dataCreacio -->
+            <h:outputText value="#{labels.referenciaXML_dataCreacio}:" />
+            <h:outputText value="#{detallReferenciaModel.referenciaXML.dataCreacio}" />
+            
+
+        </p:panelGrid>
+
+        <ui:decorate template="/WEB-INF/decorations/buttons.xhtml">
+                <ui:define name="buttons">
+                    <p:button value="#{labels.button_tornar}" outcome="/listReferencia"
+                              styleClass="float-right"/>
+                </ui:define>
+            </ui:decorate>
+
+	</ui:define>
+	
+	
+	        
+	
+</ui:composition>
+</html>

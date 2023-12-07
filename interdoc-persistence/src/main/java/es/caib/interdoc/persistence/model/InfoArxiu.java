@@ -65,6 +65,9 @@ public class InfoArxiu extends BaseEntity {
     @Column(name = "VALIDATIONFILEURL", nullable = true, length = 255)
     @Size(max = 255)
     private String validationFileUrl;
+    
+    @Column(name = "ESTATEXPEDIENT", nullable = true, length = 5)
+    private String estatExpedient;
 
     
     public Long getId() {
@@ -146,6 +149,14 @@ public class InfoArxiu extends BaseEntity {
 	public void setValidationFileUrl(String validationFileUrl) {
 		this.validationFileUrl = validationFileUrl;
 	}
+	
+	public String getEstatExpedient() {
+		return estatExpedient;
+	}
+
+	public void setEstatExpedient(String estatExpedient) {
+		this.estatExpedient = estatExpedient;
+	}
 
 	/*
    La implementació de equals i hashCode s'hauria de fer sempre que es pugui amb una clau natural, o en cas que
@@ -172,7 +183,8 @@ public class InfoArxiu extends BaseEntity {
 		return "InfoArxiu [id=" + id + ", originalFileUrl=" + originalFileUrl + ", csv=" + csv
 				+ ", csvGenerationDefinition=" + csvGenerationDefinition + ", csvValidationWeb=" + csvValidationWeb
 				+ ", arxiuExpedientId=" + arxiuExpedientId + ", arxiuDocumentId=" + arxiuDocumentId + ", printableUrl="
-				+ printableUrl + ", eniFileUrl=" + eniFileUrl + ", validationFileUrl=" + validationFileUrl + "]";
+				+ printableUrl + ", eniFileUrl=" + eniFileUrl + ", validationFileUrl=" + validationFileUrl
+				+ ", estatExpedient=" + estatExpedient + "]";
 	}
 
 }

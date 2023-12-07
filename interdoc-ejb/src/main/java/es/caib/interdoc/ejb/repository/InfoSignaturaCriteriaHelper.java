@@ -60,6 +60,8 @@ public class InfoSignaturaCriteriaHelper extends AbstractCriteriaHelper<InfoSign
             	return root.get(InfoSignatura_.checkDocumentModifications);
             case checkValidationSignature:
             	return root.get(InfoSignatura_.checkValidationSignature);
+            case signDate:
+            	return root.get(InfoSignatura_.signDate);
             default:
                 throw new IllegalArgumentException("Valor no vàlid " + atribut);
         }

@@ -16,6 +16,9 @@ import java.util.Optional;
  * @author jagarcia
  */
 public interface LogServiceFacade {
+	
+	public static final String JNDI_NAME = "java:app/interdoc-ejb/LogServiceFacadeBean!es.caib.interdoc.service.facade.LogServiceFacade";
+
 
     /**
      * Crea una nova aplicació a la base de dades.

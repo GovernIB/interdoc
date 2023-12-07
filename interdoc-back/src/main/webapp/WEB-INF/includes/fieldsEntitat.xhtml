@@ -1,0 +1,61 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+<ui:composition>
+
+    <!-- AplicacioId -->
+    <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+            <p:inputText id="id" value="#{entitatModel.value.id}" type="hidden"/>
+    </ui:decorate>
+
+    <!-- Nom -->
+    <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+        <ui:define name="label">
+            <p:outputLabel for="nom" value="#{labels.entitat_nom}"/>
+        </ui:define>
+        <ui:define name="input">
+            <p:inputText id="nom" value="#{entitatModel.value.nom}"/>
+            <p:message for="nom"/>
+        </ui:define>
+    </ui:decorate>
+
+    <!-- Codi Dir3 -->
+    <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+        <ui:define name="label">
+            <p:outputLabel for="codiDir3" value="#{labels.entitat_codiDir3}"/>
+        </ui:define>
+        <ui:define name="input">
+            <p:inputText id="codiDir3" value="#{entitatModel.value.codiDir3}" readonly=""/>
+            <p:message for="codiDir3"/>
+        </ui:define>
+    </ui:decorate>
+
+    <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+        <ui:define name="label">
+            <p:outputLabel for="estat" value="#{labels.entitat_estat}"/>
+        </ui:define>
+        <ui:define name="input">
+            <p:selectOneMenu id="estat" value="#{entitatModel.value.actiu}">
+                <f:selectItems value="#{estats.values()}" var="estat"/>
+            </p:selectOneMenu>
+            <p:message for="estat"/>
+        </ui:define>
+    </ui:decorate>
+
+    <!-- DataCreacio -->
+    <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+        <ui:define name="label">
+            <p:outputLabel for="dataCreacio" value="#{labels.entitat_dataCreacio}"/>
+        </ui:define>
+        <ui:define name="input">
+            <p:datePicker id="dataCreacio" value="#{entitatModel.value.dataCreacio}"
+                          pattern="dd-MM-yyyy" readonly="#{edit}" disabled="#{edit}"/>
+            <p:message for="dataCreacio"/>
+        </ui:define>
+    </ui:decorate>
+    
+</ui:composition>
+</html>

@@ -17,7 +17,7 @@
             <p:outputLabel for="identificacio" value="#{labels.acces_identificacio}"/>
         </ui:define>
         <ui:define name="input">
-            <p:inputText id="identificacio" value="#{accesModel.value.identificacio}"/>
+            <p:inputText id="identificacio" class="form-control-plaintext" value="#{accesModel.value.identificacio}"/>
             <p:message for="identificacio"/>
         </ui:define>
     </ui:decorate>
@@ -28,7 +28,7 @@
             <p:outputLabel for="tipusIdentificacio" value="#{labels.aplicacio_tipusidentificacio}"/>
         </ui:define>
         <ui:define name="input">
-            <p:inputText id="tipusIdentificacio" value="#{accesModel.value.tipusIdentificacio}"/>
+            <p:inputText id="tipusIdentificacio" class="form-control-plaintext" value="#{accesModel.value.tipusIdentificacio}"/>
             <p:message for="tipusIdentificacio"/>
         </ui:define>
     </ui:decorate>
@@ -39,7 +39,7 @@
             <p:outputLabel for="ip" value="#{labels.acces_ip}"/>
         </ui:define>
         <ui:define name="input">
-            <p:inputText id="ip" value="#{accesModel.value.ip}" />
+            <p:inputText id="ip" class="form-control-plaintext" value="#{accesModel.value.ip}" />
             <p:message for="ip"/>
         </ui:define>
     </ui:decorate>
@@ -50,7 +50,7 @@
             <p:outputLabel for="referenciaId" value="#{labels.acces_referencia}"/>
         </ui:define>
         <ui:define name="input">
-            <p:inputText id="referenciaId" value="#{accesModel.value.referenciaId}"/>
+            <p:inputText id="referenciaId" class="form-control-plaintext" value="#{accesModel.value.referenciaId}"/>
             <p:message for="referenciaId"/>
         </ui:define>
     </ui:decorate>
@@ -62,7 +62,7 @@
         </ui:define>
         <ui:define name="input">
             <p:datePicker id="dataCreacio" value="#{aplicacioModel.value.dataCreacio}"
-                          pattern="dd-MM-yyyy" readonly="#{edit}" disabled="#{edit}"/>
+                          pattern="dd-MM-yyyy" class="form-control-plaintext"  readonly="#{edit}" disabled="#{edit}"/>
             <p:message for="dataCreacio"/>
         </ui:define>
     </ui:decorate>

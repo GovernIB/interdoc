@@ -1,46 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
-             version="2.2">
-    <!--
-    Unitat de persistència de test que es pot utilitzar per realitzar proves o per generar els scripts de base de dades
-    -->
-    <persistence-unit name="testPU" transaction-type="RESOURCE_LOCAL">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
+	version="2.2">
+	<!-- Unitat de persistència de test que es pot utilitzar per realitzar proves 
+		o per generar els scripts de base de dades -->
 
-        <!-- Llista de classes persistents -->
-        <class>es.caib.interdoc.persistence.model.UnitatOrganica</class>
-        <class>es.caib.interdoc.persistence.model.Procediment</class>
+	<persistence-unit name="interdocLocalPU"
+		transaction-type="RESOURCE_LOCAL">
 
-        <!-- Desactivar cache -->
-        <shared-cache-mode>NONE</shared-cache-mode>
-        <!-- Desactivar validació -->
-        <validation-mode>NONE</validation-mode>
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-        <properties>
-            <!-- Per les propietats estandard veure punt 8.2.1.9 de l'especificació JPA -->
+		<!-- Llista de classes persistents -->
+		<class>es.caib.interdoc.persistence.model.Acces</class>
+		<class>es.caib.interdoc.persistence.model.Aplicacio</class>
+		<class>es.caib.interdoc.persistence.model.BaseEntity</class>
+		<class>es.caib.interdoc.persistence.model.Entitat</class>
+		<class>es.caib.interdoc.persistence.model.Fitxer</class>
+		<class>es.caib.interdoc.persistence.model.InfoArxiu</class>
+		<class>es.caib.interdoc.persistence.model.InfoSignatura</class>
+		<class>es.caib.interdoc.persistence.model.Log</class>
+		<class>es.caib.interdoc.persistence.model.Metadada</class>
+		<class>es.caib.interdoc.persistence.model.PeticioATercer</class>
+		<class>es.caib.interdoc.persistence.model.Plugin</class>
+		<class>es.caib.interdoc.persistence.model.Referencia</class>
+		<class>es.caib.interdoc.persistence.model.ReferenciaXML</class>
+		<class>es.caib.interdoc.persistence.model.Traza</class>
 
-            <!-- Configuració per generar els scripts de creació de la base de dades -->
-            <property name="javax.persistence.schema-generation.scripts.action" value="drop-and-create"/>
-            <property name="javax.persistence.schema-generation.scripts.create-target" value="target/create.sql"/>
-            <property name="javax.persistence.schema-generation.scripts.drop-target" value="target/drop.sql"/>
+		<!-- Desactivar cache -->
+		<shared-cache-mode>NONE</shared-cache-mode>
+		<!-- Desactivar validació -->
+		<validation-mode>NONE</validation-mode>
 
-            <!--
-            Propietats específiques de Hibernate
-            https://docs.jboss.org/hibernate/orm/5.3/userguide/html_single/Hibernate_User_Guide.html#configurations
-            -->
-            <property name="hibernate.show_sql" value="true"/>
-            <property name="hibernate.format_sql" value="true"/>
-            <property name="hibernate.hbm2ddl.delimiter" value=";"/>
+		<properties>
+			<!-- Per les propietats estandard veure punt 8.2.1.9 de l'especificació 
+				JPA -->
+			<property
+				name="javax.persistence.schema-generation.scripts.action"
+				value="drop-and-create" />
+			<property
+				name="javax.persistence.schema-generation.scripts.create-target"
+				value="target/create.sql" />
+			<property
+				name="javax.persistence.schema-generation.scripts.drop-target"
+				value="target/drop.sql" />
 
-            <!--
-            Si no indicam una connexió de bdd (per la generació no cal), Hibernate necessita que indiquem
-            el dialecte que emprarà per la generació.
-            Postgresql:    org.hibernate.dialect.PostgreSQL95Dialect
-            Oracle:        org.hibernate.dialect.Oracle12cDialect
-            -->
-            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL95Dialect"/>
+			<!-- Propietats específiques de Hibernate https://docs.jboss.org/hibernate/orm/5.3/userguide/html_single/Hibernate_User_Guide.html#configurations -->
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.hbm2ddl.delimiter" value=";" />
 
-        </properties>
-    </persistence-unit>
+			<!-- Si no indicam una connexió de bdd (per la generació no cal), Hibernate 
+				necessita que indiquem el dialecte que emprarà per la generació. Postgresql: 
+				org.hibernate.dialect.PostgreSQL95Dialect Oracle: org.hibernate.dialect.Oracle12cDialect -->
+			<property name="hibernate.dialect"
+				value="org.hibernate.dialect.Oracle12cDialect" />
+
+		</properties>
+	</persistence-unit>
 </persistence>

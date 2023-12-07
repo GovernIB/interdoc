@@ -16,21 +16,21 @@ import java.time.LocalDate;
 @Schema(name = "Entitat")
 public class EntitatDTO {
 
-    private Long id;
+	private Long id;
 
-    @NotEmpty
-    @Size(max = 50)
-    private String nom;
-    
-    @NotNull
-    private String codiDir3;
+	@NotEmpty
+	@Size(max = 50)
+	private String nom;
 
-    @NotNull
-    @PastOrPresent
-    private LocalDate dataCreacio;
+	@NotNull
+	private String codiDir3;
 
-    @NotNull
-    private Estat actiu;
+	@NotNull
+	@PastOrPresent
+	private LocalDate dataCreacio;
+
+	@NotNull
+	private Estat actiu;
 
 	public Long getId() {
 		return id;
@@ -77,9 +77,27 @@ public class EntitatDTO {
 		return "EntitatDTO [id=" + id + ", nom=" + nom + ", codiDir3=" + codiDir3 + ", dataCreacio=" + dataCreacio
 				+ ", actiu=" + actiu + "]";
 	}
+
+	public EntitatDTO() {
+	}
 	
-    public EntitatDTO() {
-    }
+	public EntitatDTO(Long id, @NotEmpty @Size(max = 50) String nom, @NotNull String codiDir3) {
+		super();
+		this.id = id;
+		this.nom = nom;
+		this.codiDir3 = codiDir3;
+	}
+	
+
+	public EntitatDTO(Long id, @NotEmpty @Size(max = 50) String nom, @NotNull String codiDir3, LocalDate dataCreacio,
+			@NotNull Estat actiu) {
+		super();
+		this.id = id;
+		this.nom = nom;
+		this.codiDir3 = codiDir3;
+		this.dataCreacio = dataCreacio;
+		this.actiu = actiu;
+	}
 
 	public EntitatDTO(Long id, @NotEmpty @Size(max = 50) String nom, @NotNull String codiDir3, @NotNull Estat actiu) {
 		super();

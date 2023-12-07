@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 /**
- * Dades referents a una aplicació.
+ * Dades referents a la informació que conté una traza d'una referència.
  *
  * @author jagarcia
  */

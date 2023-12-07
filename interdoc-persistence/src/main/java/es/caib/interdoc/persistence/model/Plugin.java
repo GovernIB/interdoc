@@ -71,6 +71,15 @@ public class Plugin extends BaseEntity {
     @NotNull
     @PastOrPresent
     private LocalDate dataCreacio;
+    
+    
+    @Column(name = "ENTITATID", nullable = false)
+    @NotNull
+    private Long entitatId;
+    
+    @Column(name = "TIPUS", nullable = false)
+    @NotNull
+    private Long tipus;
 
   
     @Column(name = "ACTIU", nullable = false)
@@ -116,13 +125,29 @@ public class Plugin extends BaseEntity {
 	public void setDataCreacio(LocalDate dataCreacio) {
 		this.dataCreacio = dataCreacio;
 	}
-
+	
+	public Long getEntitatId() {
+		return entitatId;
+	}
+	
+	public void setEntitatId( Long entitatId ) {
+		this.entitatId = entitatId;
+	}
+	
 	public Estat getActiu() {
 		return actiu;
 	}
 
 	public void setActiu(Estat actiu) {
 		this.actiu = actiu;
+	}
+
+	public Long getTipus() {
+		return tipus;
+	}
+
+	public void setTipus(Long tipus) {
+		this.tipus = tipus;
 	}
 
 	/*
@@ -149,7 +174,7 @@ public class Plugin extends BaseEntity {
 	@Override
 	public String toString() {
 		return "Plugin [id=" + id + ", nom=" + nom + ", classe=" + classe + ", propietats=" + propietats
-				+ ", dataCreacio=" + dataCreacio + ", actiu=" + actiu + "]";
+				+ ", dataCreacio=" + dataCreacio + ", actiu=" + actiu + ", entitatId=" + String.valueOf(entitatId) + "]";
 	}
 
     

@@ -6,7 +6,7 @@ import javax.validation.constraints.*;
 import java.time.LocalDate;
 
 /**
- * Dades referents a una aplicació.
+ * Dades referents a una metadada que forma part d'una referència.
  *
  * @author jagarcia
  */

@@ -16,6 +16,9 @@ import java.util.Optional;
  * @author jagarcia
  */
 public interface TrazaServiceFacade {
+	
+	public static final String JNDI_NAME = "java:app/interdoc-ejb/TrazaServiceFacadeBean!es.caib.interdoc.service.facade.TrazaServiceFacade";
+
 
     /**
      * Crea una nova aplicació a la base de dades.
@@ -48,6 +51,14 @@ public interface TrazaServiceFacade {
      * @return un opcional amb les dades de la aplicació indicada o buid si no existeix.
      */
     Optional<TrazaDTO> findById(Long id);
+    
+    /**
+     * Retorna un opcional amb la llista de traces relacionades amb una referenciaId
+     * 
+     * @param referenciaId
+     * @return
+     */
+    Optional<List<TrazaDTO>> findByReferenciaId(Long referenciaId);
 
     /**
      * Retorna una pàgina d'aplicacions que compleixen els filtres i les ordenacions indicades

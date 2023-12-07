@@ -6,11 +6,12 @@ import javax.validation.constraints.*;
 import java.time.LocalDate;
 
 /**
- * Dades referents a una aplicació.
+ * Dades referents a un resultat obtingut despres de cridar al servei de ObtenerReferencia. 
+ * Es guarda un string amb el XML resultant
  *
  * @author jagarcia
  */
-@Schema(name = "Aplicacio")
+@Schema(name = "ReferenciaXML")
 public class ReferenciaXMLDTO {
 
     private Long id;

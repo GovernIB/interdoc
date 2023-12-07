@@ -12,6 +12,7 @@ import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -55,6 +56,7 @@ public class PluginRepositoryBean extends AbstractCrudRepository<Plugin, Long>
                 root.get(Plugin_.classe),
                 root.get(Plugin_.propietats),
                 root.get(Plugin_.dataCreacio),
+                root.get(Plugin_.entitatId),
                 root.get(Plugin_.actiu)));
 
         PluginCriteriaHelper pluginCriteriaHelper = new PluginCriteriaHelper(builder, root);
@@ -193,6 +195,28 @@ public class PluginRepositoryBean extends AbstractCrudRepository<Plugin, Long>
         }
 
         return prop;
+    }
+    
+    public List<Plugin> findByEntitatTipus(Long entitatId, Long tipusId) throws I18NException {
+    	
+    	String entitatQuery;
+
+        if (entitatId != null) {
+        	entitatQuery = "p.entitatId = :idEntidad";
+        } else {
+        	entitatQuery = "p.entitatId is null";
+        }
+
+        Query q = entityManager.createQuery("Select p from Plugin as p where " + entitatQuery + " and p.tipus = :tipo order by p.id");
+
+        if (entitatId != null) {
+            q.setParameter("idEntidad", entitatId);
+        }
+        q.setParameter("tipo", tipusId);
+        q.setHint("org.hibernate.readOnly", true);
+
+        return q.getResultList();
+    	
     }
     
 }

@@ -48,7 +48,7 @@ public class InfoArxiuServiceFacadeBean implements InfoArxiuServiceFacade {
     private InfoArxiuConverter converter;
 
     @Override
-    @RolesAllowed(Constants.ITD_ADMIN)
+    @PermitAll
     public Long create(InfoArxiuDTO dto) {
     	InfoArxiu infoArxiu = converter.toEntity(dto);
         repository.create(infoArxiu);
@@ -86,6 +86,12 @@ public class InfoArxiuServiceFacadeBean implements InfoArxiuServiceFacade {
             items.add(converter.toDTO(a));
         }
         return items;
+    }
+    
+    @Override
+    @PermitAll
+    public List<InfoArxiuDTO> getExpedientsOberts(String estat) {
+         return repository.getExpedientsOberts(estat);
     }
 
     @Override

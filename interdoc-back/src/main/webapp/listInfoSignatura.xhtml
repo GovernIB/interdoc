@@ -1,0 +1,97 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <!--
+    Pàgina amb el llistat d'unitats orgàniques.
+    -->
+    <ui:composition template="/WEB-INF/templates/layout.xhtml">
+
+        <ui:define name="metadata">
+            <f:metadata>
+                <f:importConstants type="es.caib.interdoc.service.model.EstatPublicacio" />
+            </f:metadata>
+        </ui:define>
+
+        <ui:define name="pageTitle">#{labels.listAplicacio_title}</ui:define>
+
+        <ui:define name="breadcrumb">
+            <p:menuitem value="#{labels.listAplicacio_link}" outcome="/listAplicacio"/>
+        </ui:define>
+
+        <ui:define name="content">
+            <p>
+            <h:form>
+                <p:dataTable id="dataTable" value="#{listAplicacio.lazyModel}" var="aplicacio" sortMode="multiple"
+                             paginator="true" lazy="true" filterDelay="300" widgetVar="unitatsTable"
+                             rows="10" rowsPerPageTemplate="10,20,50,100"
+                             paginatorPosition="bottom" paginatorAlwaysVisible="false"
+                             paginatorTemplate="{RowsPerPageLabel} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport}
+                             {NextPageLink} {LastPageLink}"
+                             currentPageReportTemplate="#{labels.dataTable_currentPageReport}"
+                             emptyMessage="#{labels.dataTable_emptyMessage}">
+                    <f:facet name="{RowsPerPageLabel}">
+                        #{labels.dataTable_rowsPerPage}
+                    </f:facet>
+                    <p:column sortBy="#{aplicacio.id}">
+                        <f:facet name="header">#{labels.aplicacio_id}</f:facet>
+                        <h:outputText value="#{aplicacio.id}"/>
+                    </p:column>
+
+                    <p:column filterBy="#{aplicacio.nom}" sortBy="#{aplicacio.nom}">
+                        <f:facet name="header">#{labels.aplicacio_nom}</f:facet>
+                        <h:outputText value="#{aplicacio.nom}"/>
+                    </p:column>
+                    <p:column filterBy="#{aplicacio.usuari}" sortBy="#{aplicacio.usuari}">
+                        <f:facet name="header">#{labels.aplicacio_usuari}</f:facet>
+                        <h:outputText value="#{aplicacio.usuari}"/>
+                    </p:column>
+                    <p:column filterBy="#{aplicacio.codiDir3}" sortBy="#{aplicacio.codiDir3}">
+                        <f:facet name="header">#{labels.aplicacio_codiDir3}</f:facet>
+                        <h:outputText value="#{aplicacio.codiDir3}"/>
+                    </p:column>
+                    <p:column sortBy="#{aplicacio.dataCreacio}">
+                        <f:facet name="header">#{labels.aplicacio_dataCreacio}</f:facet>
+                        <h:outputText value="#{aplicacio.dataCreacio}">
+                            <f:convertDateTime type="localDate" pattern="dd-MM-yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column filterBy="#{aplicacio.estat}">
+                        <f:facet name="header">#{labels.aplicacio_estat}</f:facet>
+                        <f:facet name="filter">
+                            <p:selectOneMenu onchange="PF('unitatsTable').filter()">
+                                <f:selectItem itemLabel="---" itemValue="#{null}"/>
+                                <f:selectItems value="#{EstatPublicacio.values()}" />
+                                <f:converter converterId="estatPublicacioConverter"/>
+                            </p:selectOneMenu>
+                        </f:facet>
+                        <h:outputText value="#{aplicacio.estat}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header"></f:facet>
+                        <p:menuButton value="#{labels.button_opcions}">
+                            <c:if test="#{security.admin}">
+                                <p:menuitem value="#{labels.button_editar}" outcome="/admin/editAplicacio">
+                                    <f:param name="aplicacioId" value="#{aplicacio.id}"/>
+                                </p:menuitem> 
+                                <p:menuitem value="#{labels.button_eliminar}"
+                                            action="#{listAplicacio.delete(aplicacio.id)}"
+                                            update="messages @form">
+                                    <p:confirm message="#{labels.confirm_eliminar}"/>
+                                </p:menuitem>
+                            </c:if>
+                        </p:menuButton>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+            </p>
+            <c:if test="#{security.admin}">
+                <p>
+                    <p:button value="#{labels.newAplicacio_link}" outcome="/admin/newAplicacio" />
+                </p>
+            </c:if>
+        </ui:define>
+    </ui:composition>
+</html>

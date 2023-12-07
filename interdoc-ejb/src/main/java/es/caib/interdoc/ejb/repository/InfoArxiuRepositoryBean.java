@@ -53,7 +53,8 @@ public class InfoArxiuRepositoryBean extends AbstractCrudRepository<InfoArxiu, L
                 root.get(InfoArxiu_.arxiuDocumentId),
                 root.get(InfoArxiu_.printableUrl),
                 root.get(InfoArxiu_.eniFileUrl),
-                root.get(InfoArxiu_.validationFileUrl)));
+                root.get(InfoArxiu_.validationFileUrl),
+                root.get(InfoArxiu_.estatExpedient)));
 
         InfoArxiuCriteriaHelper infoArxiuCriteriaHelper = new InfoArxiuCriteriaHelper(builder, root);
         criteriaQuery.where(infoArxiuCriteriaHelper.getPredicates(filter));
@@ -68,6 +69,32 @@ public class InfoArxiuRepositoryBean extends AbstractCrudRepository<InfoArxiu, L
     @Override
     public List<InfoArxiu> getAll() {
         TypedQuery<InfoArxiu> query = entityManager.createNamedQuery(InfoArxiu.GET_ALL, InfoArxiu.class);
+        return query.getResultList();
+    }
+    
+    @Override
+    public List<InfoArxiuDTO> getExpedientsOberts(String estat) {
+    	CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<InfoArxiuDTO> criteriaQuery = builder.createQuery(InfoArxiuDTO.class);
+        Root<InfoArxiu> root = criteriaQuery.from(InfoArxiu.class);
+
+        criteriaQuery.select(builder.construct(InfoArxiuDTO.class,
+                root.get(InfoArxiu_.id),
+                root.get(InfoArxiu_.originalFileUrl),
+                root.get(InfoArxiu_.csv),
+                root.get(InfoArxiu_.csvGenerationDefinition),
+                root.get(InfoArxiu_.csvValidationWeb),
+                root.get(InfoArxiu_.arxiuExpedientId),
+                root.get(InfoArxiu_.arxiuDocumentId),
+                root.get(InfoArxiu_.printableUrl),
+                root.get(InfoArxiu_.eniFileUrl),
+                root.get(InfoArxiu_.validationFileUrl),
+                root.get(InfoArxiu_.estatExpedient)));
+
+        InfoArxiuCriteriaHelper infoArxiuCriteriaHelper = new InfoArxiuCriteriaHelper(builder, root);
+        criteriaQuery.where(infoArxiuCriteriaHelper.getPredicate(InfoArxiuAtribut.estatExpedient, estat));
+        
+        TypedQuery<InfoArxiuDTO> query = entityManager.createQuery(criteriaQuery);
         return query.getResultList();
     }
 

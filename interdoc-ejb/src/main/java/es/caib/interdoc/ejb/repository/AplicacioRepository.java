@@ -17,6 +17,8 @@ import java.util.Optional;
 public interface AplicacioRepository extends CrudRepository<Aplicacio, Long> {
 
     Optional<Aplicacio> findByCodiDir3(String codiDir3);
+    
+    Optional<Aplicacio> findByUserName(String username);
 
     List<AplicacioDTO> findPagedByFilterAndOrder(int firstResult, int maxResult,
                                                  Map<AplicacioAtribut, Object> filter,

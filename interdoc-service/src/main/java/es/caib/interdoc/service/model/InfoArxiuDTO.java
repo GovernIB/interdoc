@@ -4,10 +4,11 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import javax.validation.constraints.Size;
 
 /**
- * Dades referents a una aplicació.
+ * Dades referents a les dades d'un document que es puja a l'Arxiu.
  *
  * @author jagarcia
  */
+
 @Schema(name = "InfoArxiu")
 public class InfoArxiuDTO {
 
@@ -39,6 +40,9 @@ public class InfoArxiuDTO {
     
     @Size(max = 255)
     private String validationFileUrl;
+    
+    @Size(max = 5)
+    private String estatExpedient;
 
     
 	public InfoArxiuDTO() {
@@ -50,7 +54,7 @@ public class InfoArxiuDTO {
 			@Size(max = 255) String csvGenerationDefinition, @Size(max = 255) String csvValidationWeb,
 			@Size(max = 255) String arxiuExpedientID, @Size(max = 255) String arxiuDocumentID,
 			@Size(max = 255) String printableUrl, @Size(max = 255) String eniFileUrl,
-			@Size(max = 255) String validationFileUrl) {
+			@Size(max = 255) String validationFileUrl, @Size(max = 5) String estatExpedient) {
 		super();
 		this.id = id;
 		this.originalFileUrl = originalFileUrl;
@@ -62,6 +66,7 @@ public class InfoArxiuDTO {
 		this.printableUrl = printableUrl;
 		this.eniFileUrl = eniFileUrl;
 		this.validationFileUrl = validationFileUrl;
+		this.estatExpedient = estatExpedient;
 	}
 
 	public Long getId() {
@@ -144,12 +149,22 @@ public class InfoArxiuDTO {
 		this.validationFileUrl = validationFileUrl;
 	}
 
+	public String getEstatExpedient() {
+		return estatExpedient;
+	}
+
+	public void setEstatExpedient(String estatExpedient) {
+		this.estatExpedient = estatExpedient;
+	}
+
 	@Override
 	public String toString() {
 		return "InfoArxiuDTO [id=" + id + ", originalFileUrl=" + originalFileUrl + ", csv=" + csv
 				+ ", csvGenerationDefinition=" + csvGenerationDefinition + ", csvValidationWeb=" + csvValidationWeb
 				+ ", arxiuExpedientID=" + arxiuExpedientID + ", arxiuDocumentID=" + arxiuDocumentID + ", printableUrl="
-				+ printableUrl + ", eniFileUrl=" + eniFileUrl + ", validationFileUrl=" + validationFileUrl + "]";
+				+ printableUrl + ", eniFileUrl=" + eniFileUrl + ", validationFileUrl=" + validationFileUrl
+				+ ", estatExpedient=" + estatExpedient + "]";
 	}
+	
    
 }

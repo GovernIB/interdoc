@@ -35,5 +35,7 @@ public interface PluginRepository extends CrudRepository<Plugin, Long> {
     boolean existPlugin(Long id) throws I18NException;
     
     List<Object> getPlugins(Long tipoPlugin) throws I18NException;
+    
+    List<Plugin> findByEntitatTipus(Long entitatId, Long tipusId) throws I18NException;
 
 }

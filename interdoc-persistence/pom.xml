@@ -1,108 +1,118 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <artifactId>interdoc</artifactId>
-        <groupId>es.caib.interdoc</groupId>
-        <version>1.0.0</version>
-    </parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>interdoc</artifactId>
+		<groupId>es.caib.interdoc</groupId>
+		<version>1.0.0</version>
+	</parent>
 
-    <artifactId>interdoc-persistence</artifactId>
-    <packaging>jar</packaging>
-    <name>Interdoc - PERSISTENCE</name>
-    <description>Capa de persistència de Interdoc</description>
+	<artifactId>interdoc-persistence</artifactId>
+	<packaging>jar</packaging>
+	<name>Interdoc - PERSISTENCE</name>
+	<description>Capa de persistència de Interdoc</description>
 
-    <dependencies>
-        <!-- Especificacions i llibreries proporcionades per JBoss -->
-        <dependency>
-            <groupId>org.jboss.spec</groupId>
-            <artifactId>jboss-javaee-8.0</artifactId>
-            <type>pom</type>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <!-- Altres mòduls  -->
-        <dependency>
-            <artifactId>interdoc-commons</artifactId>
-            <groupId>es.caib.interdoc</groupId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <artifactId>interdoc-service</artifactId>
-            <groupId>es.caib.interdoc</groupId>
-            <scope>provided</scope>
-        </dependency>
-        <!--
-        Per generar el metamodel de JPA
-        Veure: https://docs.jboss.org/hibernate/orm/5.3/topical/html_single/metamodelgen/MetamodelGenerator.html
-        -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-jpamodelgen</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <!-- Dependències de test -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <!-- Dependència per tests JPA. Quan no estam dins el servidor d'aplicacions necessitam incorporar
-        la implementació de JPA, en aquest cas Hibernate -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <!-- Per tests amb Arquillian -->
-        <dependency>
-            <groupId>org.jboss.arquillian.junit</groupId>
-            <artifactId>arquillian-junit-container</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+	<dependencies>
+		<!-- Especificacions i llibreries proporcionades per JBoss -->
+		<dependency>
+			<groupId>org.jboss.spec</groupId>
+			<artifactId>jboss-javaee-8.0</artifactId>
+			<type>pom</type>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- Altres mòduls -->
+		<dependency>
+			<artifactId>interdoc-commons</artifactId>
+			<groupId>es.caib.interdoc</groupId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<artifactId>interdoc-service</artifactId>
+			<groupId>es.caib.interdoc</groupId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.oracle.database.jdbc</groupId>
+			<artifactId>ojdbc8</artifactId>
+			<version>21.9.0.0</version>
+			<scope>provided</scope>
+		</dependency>
+		
 
-    <build>
-        <finalName>${project.artifactId}</finalName>
-        <resources>
-            <!-- Activam filtre per fer substitucions al fitxer persistence.xml -->
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
-    </build>
+		<!-- Per generar el metamodel de JPA Veure: https://docs.jboss.org/hibernate/orm/5.3/topical/html_single/metamodelgen/MetamodelGenerator.html -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-jpamodelgen</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- Dependències de test -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- Dependència per tests JPA. Quan no estam dins el servidor d'aplicacions 
+			necessitam incorporar la implementació de JPA, en aquest cas Hibernate -->
+		<!-- dependency> <groupId>org.hibernate</groupId> <artifactId>hibernate-core</artifactId> 
+			<scope>test</scope> </dependency -->
+		<!-- Per tests amb Arquillian -->
+		<dependency>
+			<groupId>org.jboss.arquillian.junit</groupId>
+			<artifactId>arquillian-junit-container</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 
-    <profiles>
-        <!-- Realitza els tests arrancant automàticament un JBoss ubicat a la variable d'entorn JBOSS_HOME -->
-        <profile>
-            <id>arq-jboss-managed</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>org.wildfly.arquillian</groupId>
-                    <artifactId>wildfly-arquillian-container-managed</artifactId>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-        <!-- Realitza els tests connectant a una instància de JBoss en marxa a localhost -->
-        <profile>
-            <id>arq-jboss-remote</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.wildfly.arquillian</groupId>
-                    <artifactId>wildfly-arquillian-container-remote</artifactId>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<resources>
+			<!-- Activam filtre per fer substitucions al fitxer persistence.xml -->
+			<resource>
+				<directory>${project.basedir}/src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+	</build>
+
+	<profiles>
+		<!-- Realitza els tests arrancant automàticament un JBoss ubicat a la variable 
+			d'entorn JBOSS_HOME -->
+		<profile>
+			<id>arq-jboss-managed</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>org.wildfly.arquillian</groupId>
+					<artifactId>wildfly-arquillian-container-managed</artifactId>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+		<!-- Realitza els tests connectant a una instància de JBoss en marxa a 
+			localhost -->
+		<profile>
+			<id>arq-jboss-remote</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.wildfly.arquillian</groupId>
+					<artifactId>wildfly-arquillian-container-remote</artifactId>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
 </project>

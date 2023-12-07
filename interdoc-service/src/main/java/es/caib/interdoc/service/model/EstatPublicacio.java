@@ -1,14 +1,14 @@
 package es.caib.interdoc.service.model;
 
 /**
- * Representa l'estat d'una entitat. Si està activa o inactiva, o si està a l'històric.
+ * Representa l'estat d'un registre. Si està actiu o inactiu, o si està a l'històric.
  *
  * @author areus
  */
 public enum EstatPublicacio {
-    ACTIU(1),
-    INACTIU(2),
-    HISTORIC(3);
+	INACTIU(0),
+	ACTIU(1),
+    HISTORIC(2);
 
     private final Integer clau;
 

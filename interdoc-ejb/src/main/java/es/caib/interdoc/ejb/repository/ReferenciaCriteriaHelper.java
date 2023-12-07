@@ -49,10 +49,14 @@ public class ReferenciaCriteriaHelper extends AbstractCriteriaHelper<Referencia,
                 return root.get(Referencia_.formatFirma);
             case dataCreacio:
                 return root.get(Referencia_.dataCreacio);
-            case expedientId:
-                return root.get(Referencia_.expedientId);
-            case estatExpedientId:
-                return root.get(Referencia_.estatExpedientId);
+            case infoSignaturaId:
+                return root.get(Referencia_.infoSignaturaId);
+            case infoArxiuId:
+                return root.get(Referencia_.infoArxiuId);
+            case fitxerId:
+            	return root.get(Referencia_.fitxerId);
+            case entitatId:
+            	return root.get(Referencia_.entitatId);
             default:
                 throw new IllegalArgumentException("Valor no vàlid " + atribut);
         }

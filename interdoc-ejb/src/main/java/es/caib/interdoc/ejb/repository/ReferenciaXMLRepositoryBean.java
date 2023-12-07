@@ -57,6 +57,28 @@ public class ReferenciaXMLRepositoryBean extends AbstractCrudRepository<Referenc
         query.setMaxResults(maxResult);
         return query.getResultList();
     }
+    
+    @Override
+    public ReferenciaXMLDTO findByReferenciaId(Long referenciaId){
+    	
+    	CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<ReferenciaXMLDTO> criteriaQuery = builder.createQuery(ReferenciaXMLDTO.class);
+        Root<ReferenciaXML> root = criteriaQuery.from(ReferenciaXML.class);
+
+        criteriaQuery.select(builder.construct(ReferenciaXMLDTO.class,
+                root.get(ReferenciaXML_.id),
+                root.get(ReferenciaXML_.resultat),
+                root.get(ReferenciaXML_.referenciaId),
+                root.get(ReferenciaXML_.dataCreacio)
+        ));
+
+        ReferenciaXMLCriteriaHelper referenciaXMLCriteriaHelper = new ReferenciaXMLCriteriaHelper(builder, root);
+        criteriaQuery.where(referenciaXMLCriteriaHelper.getPredicate(ReferenciaXMLAtribut.referenciaId, referenciaId));
+
+        TypedQuery<ReferenciaXMLDTO> query = entityManager.createQuery(criteriaQuery);
+        return query.getResultList().get(0);
+    	
+    }
 
     @Override
     public long countByFilter(Map<ReferenciaXMLAtribut, Object> filter) {

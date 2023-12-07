@@ -12,6 +12,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -98,6 +100,9 @@ public class InfoSignatura extends BaseEntity {
     @Column(name="checkvalidationsignature",length = 1)
     private Boolean checkValidationSignature;
     
+    @Column(name = "signdate", nullable = false)
+    private Date signDate;
+    
     public InfoSignatura() {    	
     }
 
@@ -107,7 +112,7 @@ public class InfoSignatura extends BaseEntity {
 			@Size(max = 255) String eniPerfilFirma, @Size(max = 255) String eniRolFirma,
 			@Size(max = 255) String eniSignerName, @Size(max = 255) String eniSignerAdministrationId,
 			@Size(max = 255) String eniSignLevel, Boolean checkAdministrationIdOfSigner,
-			Boolean checkDocumentModifications, Boolean checkValidationSignature) {
+			Boolean checkDocumentModifications, Boolean checkValidationSignature, Date signDate) {
 		super();
 		this.id = id;
 		this.signOperation = signOperation;
@@ -126,6 +131,7 @@ public class InfoSignatura extends BaseEntity {
 		this.checkAdministrationIdOfSigner = checkAdministrationIdOfSigner;
 		this.checkDocumentModifications = checkDocumentModifications;
 		this.checkValidationSignature = checkValidationSignature;
+		this.signDate = signDate;
 	}
 
 	public InfoSignatura(@NotNull int signOperation, @NotNull @Size(max = 255) String signType,
@@ -134,7 +140,7 @@ public class InfoSignatura extends BaseEntity {
 			@Size(max = 255) String eniPerfilFirma, @Size(max = 255) String eniRolFirma,
 			@Size(max = 255) String eniSignerName, @Size(max = 255) String eniSignerAdministrationId,
 			@Size(max = 255) String eniSignLevel, Boolean checkAdministrationIdOfSigner,
-			Boolean checkDocumentModifications, Boolean checkValidationSignature) {
+			Boolean checkDocumentModifications, Boolean checkValidationSignature, Date signDate) {
 		super();
 		this.signOperation = signOperation;
 		this.signType = signType;
@@ -152,6 +158,7 @@ public class InfoSignatura extends BaseEntity {
 		this.checkAdministrationIdOfSigner = checkAdministrationIdOfSigner;
 		this.checkDocumentModifications = checkDocumentModifications;
 		this.checkValidationSignature = checkValidationSignature;
+		this.signDate = signDate;
 	}
 
 	public Long getId() {
@@ -290,12 +297,12 @@ public class InfoSignatura extends BaseEntity {
 		this.checkValidationSignature = checkValidationSignature;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public Date getSignDate() {
+		return signDate;
 	}
 
-	public static String getGetAll() {
-		return GET_ALL;
+	public void setSignDate(Date signDate) {
+		this.signDate = signDate;
 	}
 
 	@Override
@@ -324,7 +331,7 @@ public class InfoSignatura extends BaseEntity {
 				+ ", eniRolFirma=" + eniRolFirma + ", eniSignerName=" + eniSignerName + ", eniSignerAdministrationId="
 				+ eniSignerAdministrationId + ", eniSignLevel=" + eniSignLevel + ", checkAdministrationIdOfSigner="
 				+ checkAdministrationIdOfSigner + ", checkDocumentModifications=" + checkDocumentModifications
-				+ ", checkValidationSignature=" + checkValidationSignature + "]";
+				+ ", checkValidationSignature=" + checkValidationSignature + ", signDate=" + signDate + "]";
 	}
     
    

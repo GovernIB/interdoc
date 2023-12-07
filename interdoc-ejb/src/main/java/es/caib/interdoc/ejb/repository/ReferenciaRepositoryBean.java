@@ -14,6 +14,11 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -26,144 +31,121 @@ import java.util.Optional;
 @Stateless
 @Local(ReferenciaRepository.class)
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
-public class ReferenciaRepositoryBean extends AbstractCrudRepository<Referencia, Long>
-        implements ReferenciaRepository {
+public class ReferenciaRepositoryBean extends AbstractCrudRepository<Referencia, Long> implements ReferenciaRepository {
 
-    protected ReferenciaRepositoryBean() {
-        super(Referencia.class);
-    }
+	protected ReferenciaRepositoryBean() {
+		super(Referencia.class);
+	}
 
+	@Override
+	public List<ReferenciaDTO> findPagedByFilterAndOrder(int firstResult, int maxResult,
+			Map<ReferenciaAtribut, Object> filter, List<Ordre<ReferenciaAtribut>> ordenacio) {
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<ReferenciaDTO> criteriaQuery = builder.createQuery(ReferenciaDTO.class);
+		Root<Referencia> root = criteriaQuery.from(Referencia.class);
 
-    @Override
-    public List<ReferenciaDTO> findPagedByFilterAndOrder(int firstResult, int maxResult,
-                                                        Map<ReferenciaAtribut, Object> filter,
-                                                        List<Ordre<ReferenciaAtribut>> ordenacio) {
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<ReferenciaDTO> criteriaQuery = builder.createQuery(ReferenciaDTO.class);
-        Root<Referencia> root = criteriaQuery.from(Referencia.class);
+		criteriaQuery.select(builder.construct(ReferenciaDTO.class, root.get(Referencia_.id),
+				root.get(Referencia_.csvId), root.get(Referencia_.uuId), root.get(Referencia_.direccio),
+				root.get(Referencia_.emisor), root.get(Referencia_.receptor), root.get(Referencia_.formatFirma),
+				root.get(Referencia_.dataCreacio), root.get(Referencia_.infoSignaturaId),
+				root.get(Referencia_.infoArxiuId), root.get(Referencia_.fitxerId), root.get(Referencia_.referencia),
+				root.get(Referencia_.entitatId)));
 
-        criteriaQuery.select(builder.construct(ReferenciaDTO.class,
-                root.get(Referencia_.id),
-                root.get(Referencia_.csvId),
-                root.get(Referencia_.uuId),
-                root.get(Referencia_.direccio),
-                root.get(Referencia_.emisor),
-                root.get(Referencia_.receptor),
-                root.get(Referencia_.formatFirma),
-                root.get(Referencia_.dataCreacio),
-                root.get(Referencia_.expedientId),
-                root.get(Referencia_.estatExpedientId),
-                root.get(Referencia_.referencia)
-        ));
+		ReferenciaCriteriaHelper referenciaCriteriaHelper = new ReferenciaCriteriaHelper(builder, root);
+		criteriaQuery.where(referenciaCriteriaHelper.getPredicates(filter));
+		criteriaQuery.orderBy(referenciaCriteriaHelper.getOrderList(ordenacio));
 
-        ReferenciaCriteriaHelper referenciaCriteriaHelper = new ReferenciaCriteriaHelper(builder, root);
-        criteriaQuery.where(referenciaCriteriaHelper.getPredicates(filter));
-        criteriaQuery.orderBy(referenciaCriteriaHelper.getOrderList(ordenacio));
+		TypedQuery<ReferenciaDTO> query = entityManager.createQuery(criteriaQuery);
+		query.setFirstResult(firstResult);
+		query.setMaxResults(maxResult);
+		return query.getResultList();
+	}
 
-        TypedQuery<ReferenciaDTO> query = entityManager.createQuery(criteriaQuery);
-        query.setFirstResult(firstResult);
-        query.setMaxResults(maxResult);
-        return query.getResultList();
-    }
-    
-    @Override
-    public List<ReferenciaDTO> findByReferencia(String referencia) {
-    	
-    	CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<ReferenciaDTO> criteriaQuery = builder.createQuery(ReferenciaDTO.class);
-        Root<Referencia> root = criteriaQuery.from(Referencia.class);
+	@Override
+	public List<ReferenciaDTO> findByReferencia(String referencia) {
 
-        criteriaQuery.select(builder.construct(ReferenciaDTO.class,
-                root.get(Referencia_.id),
-                root.get(Referencia_.csvId),
-                root.get(Referencia_.uuId),
-                root.get(Referencia_.direccio),
-                root.get(Referencia_.emisor),
-                root.get(Referencia_.receptor),
-                root.get(Referencia_.formatFirma),
-                root.get(Referencia_.dataCreacio),
-                root.get(Referencia_.expedientId),
-                root.get(Referencia_.estatExpedientId),
-                root.get(Referencia_.referencia)
-        ));
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<ReferenciaDTO> criteriaQuery = builder.createQuery(ReferenciaDTO.class);
+		Root<Referencia> root = criteriaQuery.from(Referencia.class);
 
-        ReferenciaCriteriaHelper referenciaCriteriaHelper = new ReferenciaCriteriaHelper(builder, root);
-        criteriaQuery.where(referenciaCriteriaHelper.getPredicate(ReferenciaAtribut.referencia, referencia));
-        
-        TypedQuery<ReferenciaDTO> query = entityManager.createQuery(criteriaQuery);
-    	return query.getResultList();
-    }
-    
-    @Override
-    public List<ReferenciaDTO> findByUUID(String uuid) {
-    	
-    	CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<ReferenciaDTO> criteriaQuery = builder.createQuery(ReferenciaDTO.class);
-        Root<Referencia> root = criteriaQuery.from(Referencia.class);
+		criteriaQuery.select(builder.construct(ReferenciaDTO.class, root.get(Referencia_.id),
+				root.get(Referencia_.csvId), root.get(Referencia_.uuId), root.get(Referencia_.direccio),
+				root.get(Referencia_.emisor), root.get(Referencia_.receptor), root.get(Referencia_.formatFirma),
+				root.get(Referencia_.dataCreacio), root.get(Referencia_.infoSignaturaId),
+				root.get(Referencia_.infoArxiuId), root.get(Referencia_.fitxerId), root.get(Referencia_.referencia),
+				root.get(Referencia_.entitatId)));
 
-        criteriaQuery.select(builder.construct(ReferenciaDTO.class,
-                root.get(Referencia_.id),
-                root.get(Referencia_.csvId),
-                root.get(Referencia_.uuId),
-                root.get(Referencia_.direccio),
-                root.get(Referencia_.emisor),
-                root.get(Referencia_.receptor),
-                root.get(Referencia_.formatFirma),
-                root.get(Referencia_.dataCreacio),
-                root.get(Referencia_.expedientId),
-                root.get(Referencia_.estatExpedientId),
-                root.get(Referencia_.referencia)
-        ));
+		ReferenciaCriteriaHelper referenciaCriteriaHelper = new ReferenciaCriteriaHelper(builder, root);
+		criteriaQuery.where(referenciaCriteriaHelper.getPredicate(ReferenciaAtribut.referencia, referencia));
 
-        ReferenciaCriteriaHelper referenciaCriteriaHelper = new ReferenciaCriteriaHelper(builder, root);
-        criteriaQuery.where(referenciaCriteriaHelper.getPredicate(ReferenciaAtribut.uuId, uuid));
-        
-        TypedQuery<ReferenciaDTO> query = entityManager.createQuery(criteriaQuery);
-    	return query.getResultList();
-    }
-    
-    @Override
-    public List<ReferenciaDTO> findByCSV(String csvId) {
-    	
-    	CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<ReferenciaDTO> criteriaQuery = builder.createQuery(ReferenciaDTO.class);
-        Root<Referencia> root = criteriaQuery.from(Referencia.class);
+		TypedQuery<ReferenciaDTO> query = entityManager.createQuery(criteriaQuery);
+		return query.getResultList();
+	}
 
-        criteriaQuery.select(builder.construct(ReferenciaDTO.class,
-                root.get(Referencia_.id),
-                root.get(Referencia_.csvId),
-                root.get(Referencia_.uuId),
-                root.get(Referencia_.direccio),
-                root.get(Referencia_.hash),
-                root.get(Referencia_.emisor),
-                root.get(Referencia_.receptor),
-                root.get(Referencia_.urlVisible),
-                root.get(Referencia_.formatFirma),
-                root.get(Referencia_.dataCreacio),
-                root.get(Referencia_.expedientId),
-                root.get(Referencia_.estatExpedientId),
-                root.get(Referencia_.referencia)
-        ));
+	@Override
+	public List<ReferenciaDTO> findByUUID(String uuid) {
 
-        ReferenciaCriteriaHelper referenciaCriteriaHelper = new ReferenciaCriteriaHelper(builder, root);
-        criteriaQuery.where(referenciaCriteriaHelper.getPredicate(ReferenciaAtribut.csvId, csvId));
-        
-        TypedQuery<ReferenciaDTO> query = entityManager.createQuery(criteriaQuery);
-    	return query.getResultList();
-    }
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<ReferenciaDTO> criteriaQuery = builder.createQuery(ReferenciaDTO.class);
+		Root<Referencia> root = criteriaQuery.from(Referencia.class);
 
-    @Override
-    public long countByFilter(Map<ReferenciaAtribut, Object> filter) {
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Long> criteriaQuery = builder.createQuery(Long.class);
-        Root<Referencia> root = criteriaQuery.from(Referencia.class);
+		criteriaQuery.select(builder.construct(ReferenciaDTO.class, root.get(Referencia_.id),
+				root.get(Referencia_.csvId), root.get(Referencia_.uuId), root.get(Referencia_.direccio),
+				root.get(Referencia_.emisor), root.get(Referencia_.receptor), root.get(Referencia_.formatFirma),
+				root.get(Referencia_.dataCreacio), root.get(Referencia_.infoSignaturaId),
+				root.get(Referencia_.infoArxiuId), root.get(Referencia_.fitxerId), root.get(Referencia_.referencia),
+				root.get(Referencia_.entitatId)));
 
-        criteriaQuery.select(builder.count(root));
+		ReferenciaCriteriaHelper referenciaCriteriaHelper = new ReferenciaCriteriaHelper(builder, root);
+		criteriaQuery.where(referenciaCriteriaHelper.getPredicate(ReferenciaAtribut.uuId, uuid));
 
-        ReferenciaCriteriaHelper referenciaCriteriaHelper = new ReferenciaCriteriaHelper(builder, root);
-        criteriaQuery.where(referenciaCriteriaHelper.getPredicates(filter));
+		TypedQuery<ReferenciaDTO> query = entityManager.createQuery(criteriaQuery);
+		return query.getResultList();
+	}
 
-        TypedQuery<Long> query = entityManager.createQuery(criteriaQuery);
-        return query.getSingleResult();
-    }
+	@Override
+	public List<ReferenciaDTO> findByCSV(String csvId) {
+
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<ReferenciaDTO> criteriaQuery = builder.createQuery(ReferenciaDTO.class);
+		Root<Referencia> root = criteriaQuery.from(Referencia.class);
+
+		criteriaQuery.select(builder.construct(ReferenciaDTO.class, root.get(Referencia_.id),
+				root.get(Referencia_.csvId), root.get(Referencia_.uuId), root.get(Referencia_.direccio),
+				root.get(Referencia_.hash), root.get(Referencia_.emisor), root.get(Referencia_.receptor),
+				root.get(Referencia_.urlVisible), root.get(Referencia_.formatFirma), root.get(Referencia_.dataCreacio),
+				root.get(Referencia_.infoSignaturaId), root.get(Referencia_.infoArxiuId),
+				root.get(Referencia_.fitxerId), root.get(Referencia_.referencia), root.get(Referencia_.entitatId)));
+
+		ReferenciaCriteriaHelper referenciaCriteriaHelper = new ReferenciaCriteriaHelper(builder, root);
+		criteriaQuery.where(referenciaCriteriaHelper.getPredicate(ReferenciaAtribut.csvId, csvId));
+
+		TypedQuery<ReferenciaDTO> query = entityManager.createQuery(criteriaQuery);
+		return query.getResultList();
+	}
+
+	@Override
+	public long countByFilter(Map<ReferenciaAtribut, Object> filter) {
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Long> criteriaQuery = builder.createQuery(Long.class);
+		Root<Referencia> root = criteriaQuery.from(Referencia.class);
+
+		criteriaQuery.select(builder.count(root));
+
+		ReferenciaCriteriaHelper referenciaCriteriaHelper = new ReferenciaCriteriaHelper(builder, root);
+		criteriaQuery.where(referenciaCriteriaHelper.getPredicates(filter));
+
+		TypedQuery<Long> query = entityManager.createQuery(criteriaQuery);
+		return query.getSingleResult();
+	}
+
+	@Override
+	public List<Referencia> findBetweenDates(LocalDate inici, LocalDate fi) {
+		
+		TypedQuery<Referencia> query = entityManager.createNamedQuery(Referencia.FILTER_BETWEEN_DATES, Referencia.class);
+		query.setParameter("inici", inici);
+		query.setParameter("fi", fi);
+		
+		return query.getResultList();
+	}
 }

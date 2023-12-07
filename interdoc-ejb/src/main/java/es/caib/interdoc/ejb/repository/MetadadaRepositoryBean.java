@@ -73,4 +73,29 @@ public class MetadadaRepositoryBean extends AbstractCrudRepository<Metadada, Lon
         TypedQuery<Long> query = entityManager.createQuery(criteriaQuery);
         return query.getSingleResult();
     }
+
+
+	@Override
+	public List<MetadadaDTO> findByReferenciaId(Long referenciaId) {
+		
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<MetadadaDTO> criteriaQuery = builder.createQuery(MetadadaDTO.class);
+        Root<Metadada> root = criteriaQuery.from(Metadada.class);
+        
+        criteriaQuery.select(builder.construct(MetadadaDTO.class,
+                root.get(Metadada_.id),
+                root.get(Metadada_.nom),
+                root.get(Metadada_.valor),
+                root.get(Metadada_.referenciaId),
+                root.get(Metadada_.dataCreacio)));
+
+        MetadadaCriteriaHelper metadadaCriteriaHelper = new MetadadaCriteriaHelper(builder, root);
+        criteriaQuery.where(metadadaCriteriaHelper.getPredicate(MetadadaAtribut.referenciaId, referenciaId));
+        
+        TypedQuery<MetadadaDTO> query = entityManager.createQuery(criteriaQuery);
+		
+		return query.getResultList();
+	}
+    
+    
 }

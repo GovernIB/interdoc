@@ -85,4 +85,10 @@ public class TrazaServiceFacadeBean implements TrazaServiceFacade {
 
         return new Pagina<TrazaDTO>(items, total);
     }
+
+	@Override
+	@PermitAll
+	public Optional<List<TrazaDTO>> findByReferenciaId(Long referenciaId) {
+		return Optional.ofNullable(repository.findByReferenciaId(referenciaId));
+	}
 }

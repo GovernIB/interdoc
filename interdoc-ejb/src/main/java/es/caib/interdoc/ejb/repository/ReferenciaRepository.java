@@ -5,6 +5,8 @@ import es.caib.interdoc.service.model.ReferenciaAtribut;
 import es.caib.interdoc.service.model.ReferenciaDTO;
 import es.caib.interdoc.service.model.Ordre;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -25,6 +27,8 @@ public interface ReferenciaRepository extends CrudRepository<Referencia, Long> {
     List<ReferenciaDTO> findByUUID(String uuid);
     
     List<ReferenciaDTO> findByCSV(String csvId);
+    
+    List<Referencia> findBetweenDates(LocalDate inici, LocalDate fi);
 
     long countByFilter(Map<ReferenciaAtribut, Object> filter);
 

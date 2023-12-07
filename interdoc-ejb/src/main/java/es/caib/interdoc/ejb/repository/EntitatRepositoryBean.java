@@ -60,6 +60,31 @@ public class EntitatRepositoryBean extends AbstractCrudRepository<Entitat, Long>
         query.setMaxResults(maxResult);
         return query.getResultList();
     }
+    
+    @Override
+    public EntitatDTO findByCodiDir3(String codi) {
+    	
+    	CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<EntitatDTO> criteriaQuery = builder.createQuery(EntitatDTO.class);
+        Root<Entitat> root = criteriaQuery.from(Entitat.class);
+        
+        criteriaQuery.select(builder.construct(EntitatDTO.class,
+                root.get(Entitat_.id),
+                root.get(Entitat_.nom),
+                root.get(Entitat_.codiDir3)));
+        
+        // TODO afegir la columna de ACTIU
+
+        EntitatCriteriaHelper entitatCriteriaHelper = new EntitatCriteriaHelper(builder, root);
+		criteriaQuery.where(entitatCriteriaHelper.getPredicate(EntitatAtribut.codiDir3, codi) );
+
+        TypedQuery<EntitatDTO> query = entityManager.createQuery(criteriaQuery);
+        List<EntitatDTO> resultats = query.getResultList();
+        if (resultats.size() > 0)
+        	return resultats.get(0);
+        else
+        	return null;
+    }
 
     @Override
     public List<Entitat> getAll() {

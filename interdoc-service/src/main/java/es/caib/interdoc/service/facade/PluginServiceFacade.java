@@ -9,6 +9,7 @@ import es.caib.interdoc.service.model.Pagina;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Properties;
 
 /**
  * Servei per els casos d'ús de mateniment d'una Aplicació.
@@ -16,6 +17,8 @@ import java.util.Optional;
  * @author jagarcia
  */
 public interface PluginServiceFacade {
+	
+	public static final String JNDI_NAME = "java:app/interdoc-ejb/PluginServiceFacadeBean!es.caib.interdoc.service.facade.PluginServiceFacade";
 
     /**
      * Crea una nova aplicació a la base de dades.
@@ -49,6 +52,7 @@ public interface PluginServiceFacade {
      * @return un opcional amb les dades de la aplicació indicada o buid si no existeix.
      */
     Optional<PluginDTO> findById(Long id);
+    
 
     /**
      * Retorna tots els registres d'aplicacions
@@ -66,5 +70,27 @@ public interface PluginServiceFacade {
      */
     Pagina<PluginDTO> findFiltered(int firstResult, int maxResult,
                                       Map<PluginAtribut, Object> filter, List<Ordre<PluginAtribut>> ordenacio);
+    
+    /**
+     * Retorna un plugin determinat
+     *
+     * @param idEntidad
+   	 * @param tipusPlugin
+     * @return
+     * @throws Exception
+     */
+    Object getPlugin(Long idEntitat, Long tipusPlugin) throws Exception;
+    
+    
+    /**
+     * Obté les Propietats del plugin determinat
+     *
+     * @param idEntitat
+     * @param tipusPlugin
+     * @return
+     * @throws Exception
+     */
+    Properties getPropertiesPlugin(Long idEntitat, Long tipusPlugin) throws Exception;
+    
     
 }

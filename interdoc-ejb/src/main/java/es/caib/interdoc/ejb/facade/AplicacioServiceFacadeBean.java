@@ -81,6 +81,18 @@ public class AplicacioServiceFacadeBean implements AplicacioServiceFacade {
         AplicacioDTO aplicacioDTO = converter.toDTO(aplicacio);
         return Optional.ofNullable(aplicacioDTO);
     }
+    
+    @Override
+    // @RolesAllowed({Constants.ITD_USER, Constants.ITD_ADMIN})
+    @PermitAll
+    public Optional<AplicacioDTO> findByUserName(String username) {
+    	Optional<Aplicacio> aplicacio = repository.findByUserName(username);
+    	if (aplicacio.isPresent()){
+    		AplicacioDTO aplicacioDTO = converter.toDTO(aplicacio.get());
+    		return Optional.ofNullable(aplicacioDTO);
+    	}
+        return Optional.empty();
+    }
 
     @Override
     @PermitAll

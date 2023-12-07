@@ -1,68 +1,102 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-    <!--
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+<!--
     Pàgina amb el llistat d'unitats orgàniques.
     -->
-    <ui:composition template="/WEB-INF/templates/layout.xhtml">
+<ui:composition template="/WEB-INF/templates/layout.xhtml">
 
-        <ui:define name="pageTitle">#{labels.listReferencies_title}</ui:define>
+	<ui:define name="pageTitle">#{labels.listReferencies_title}</ui:define>
 
-        <ui:define name="breadcrumb">
-            <p:menuitem value="#{labels.listReferencia_link}" outcome="/listReferencia"/>
-        </ui:define>
+	<ui:define name="breadcrumb">
+		<p:menuitem value="#{labels.listReferencia_link}"
+			outcome="/listReferencia" />
+	</ui:define>
 
-        <ui:define name="content">
-            <p>
-            <h:form>
-                <p:dataTable id="dataTable" value="#{listReferencia.lazyModel}" var="referencia" sortMode="multiple"
-                             paginator="true" lazy="true" filterDelay="300" widgetVar="unitatsTable"
-                             rows="10" rowsPerPageTemplate="10,20,50,100"
-                             paginatorPosition="bottom" paginatorAlwaysVisible="false"
-                             paginatorTemplate="{RowsPerPageLabel} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport}
+	<ui:define name="content">
+		<p>
+			<h:form>
+				<p:dataTable id="dataTable" value="#{listReferencia.lazyModel}"
+					var="referencia" sortMode="multiple" paginator="true" lazy="true"
+					filterDelay="300" widgetVar="unitatsTable" rows="10"
+					rowsPerPageTemplate="10,20,50,100" paginatorPosition="bottom"
+					paginatorAlwaysVisible="false"
+					paginatorTemplate="{RowsPerPageLabel} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport}
                              {NextPageLink} {LastPageLink}"
-                             currentPageReportTemplate="#{labels.dataTable_currentPageReport}"
-                             emptyMessage="#{labels.dataTable_emptyMessage}">
-                    <f:facet name="{RowsPerPageLabel}">
+					currentPageReportTemplate="#{labels.dataTable_currentPageReport}"
+					emptyMessage="#{labels.dataTable_emptyMessage}">
+					<f:facet name="{RowsPerPageLabel}">
                         #{labels.dataTable_rowsPerPage}
                     </f:facet>
-                    <p:column sortBy="#{referencia.id}">
-                        <f:facet name="header">#{labels.referencia_id}</f:facet>
-                        <h:outputText value="#{referencia.id}"/>
-                    </p:column>
+					<p:column sortBy="#{referencia.id}">
+						<f:facet name="header">#{labels.referencia_id}</f:facet>
+						<h:outputText value="#{referencia.id}" />
+					</p:column>
 
-                    <p:column filterBy="#{referencia.csvId}" sortBy="#{referencia.csvId}">
-                        <f:facet name="header">#{labels.referencia_csvid}</f:facet>
-                        <h:outputText value="#{referencia.csvId}"/>
-                    </p:column>
-                    <p:column filterBy="#{referencia.uuId}" sortBy="#{referencia.uuId}">
-                        <f:facet name="header">#{labels.referencia_uuid}</f:facet>
-                        <h:outputText value="#{referencia.uuId}"/>
-                    </p:column>
-                    <p:column filterBy="#{referencia.emisor}" sortBy="#{referencia.emisor}">
-                        <f:facet name="header">#{labels.referencia_emisor}</f:facet>
-                        <h:outputText value="#{referencia.emisor}"/>
-                    </p:column>
-                    <p:column filterBy="#{referencia.receptor}" sortBy="#{referencia.receptor}">
-                        <f:facet name="header">#{labels.referencia_receptor}</f:facet>
-                        <h:outputText value="#{referencia.receptor}"/>
-                    </p:column>
-                    <p:column sortBy="#{referencia.dataCreacio}">
-                        <f:facet name="header">#{labels.referencia_dataCreacio}</f:facet>
-                        <h:outputText value="#{referencia.dataCreacio}">
-                            <f:convertDateTime type="localDate" pattern="dd-MM-yyyy"/>
-                        </h:outputText>
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header"></f:facet>
-                        <p:menuButton value="#{labels.button_opcions}">
+					<p:column filterBy="#{referencia.csvId}"
+						sortBy="#{referencia.csvId}">
+						<f:facet name="header">#{labels.referencia_csvid}</f:facet>
+						<h:outputText value="#{referencia.csvId}" />
+					</p:column>
+					<p:column filterBy="#{referencia.uuId}" sortBy="#{referencia.uuId}">
+						<f:facet name="header">#{labels.referencia_uuid}</f:facet>
+						<h:outputText value="#{referencia.uuId}" />
+					</p:column>
+					<p:column filterBy="#{referencia.emisor}"
+						sortBy="#{referencia.emisor}">
+						<f:facet name="header">#{labels.referencia_emisor}</f:facet>
+						<h:outputText value="#{referencia.emisor}" />
+					</p:column>
+					<p:column filterBy="#{referencia.receptor}"
+						sortBy="#{referencia.receptor}">
+						<f:facet name="header">#{labels.referencia_receptor}</f:facet>
+						<h:outputText value="#{referencia.receptor}" />
+					</p:column>
+					<p:column sortBy="#{referencia.dataCreacio}">
+						<f:facet name="header">#{labels.referencia_dataCreacio}</f:facet>
+						<h:outputText value="#{referencia.dataCreacio}">
+							<f:convertDateTime type="localDate" pattern="dd-MM-yyyy" />
+						</h:outputText>
+					</p:column>
+
+					<p:column>
+						<f:facet name="header"></f:facet>
+						<p:button outcome="/detallReferencia" value="Detall">
+							<f:param name="id" value="#{referencia.id}" />
+						</p:button>
+					</p:column>
+
+					<!--  p:column>
+						<f:facet name="header"></f:facet>
+						<p:menuButton value="#{labels.button_opcions}">
+							<p:menuitem value="#{labels.listFitxer_link}" outcome="/listFitxer">
+                                <f:param name="referenciaId" value="#{referencia.id}"/>
+                            </p:menuitem>
+                            <p:menuitem value="#{labels.listInfoArxiu_link}" outcome="/listInfoArxiu">
+                                <f:param name="referenciaId" value="#{referencia.id}"/>
+                            </p:menuitem>
+                            <p:menuitem value="#{labels.listInfoSignatura_link}" outcome="/listInfoSignatura">
+                                <f:param name="referenciaId" value="#{referencia.id}"/>
+                            </p:menuitem>
+                            <p:menuitem value="#{labels.listReferenciesXML_link}" outcome="/listReferenciaXML">
+                                <f:param name="referenciaId" value="#{referencia.id}"/>
+                            </p:menuitem>
                             <p:menuitem value="#{labels.listMetadada_link}" outcome="/listMetadada">
                                 <f:param name="referenciaId" value="#{referencia.id}"/>
                             </p:menuitem>
-                            <!-- c:if test="#{security.admin}">
+                            <p:menuitem value="#{labels.listAcces_link}" outcome="/viewAcces">
+                                <f:param name="referenciaId" value="#{referencia.id}"/>
+                            </p:menuitem>
+                            <p:menuitem value="#{labels.listTraza_link}" outcome="/listTraza">
+                                <f:param name="referenciaId" value="#{referencia.id}"/>
+                            </p:menuitem>
+							<p:menuitem value="Detall" outcome="/detallReferencia">
+								<f:param name="id" value="#{referencia.id}" />
+							</p:menuitem>
+							<c:if test="#{security.admin}">
                                 <p:menuitem value="#{labels.button_editar}" outcome="/admin/editUnitatOrganica">
                                     <f:param name="unitatId" value="#{unitatOrganica.id}"/>
                                 </p:menuitem>
@@ -71,12 +105,18 @@
                                             update="messages @form">
                                     <p:confirm message="#{labels.confirm_eliminar}"/>
                                 </p:menuitem>
-                            </c:if -->
-                        </p:menuButton>
-                    </p:column>
-                </p:dataTable>
-            </h:form>
-            </p>
-        </ui:define>
-    </ui:composition>
+                            </c:if>
+						</p:menuButton>
+					</p:column -->
+				</p:dataTable>
+			</h:form>
+		</p>
+		<c:if test="#{security.admin}">
+			<p>
+				<p:button value="#{labels.newReferencia_link}"
+					outcome="/admin/newReferencia" />
+			</p>
+		</c:if>
+	</ui:define>
+</ui:composition>
 </html>

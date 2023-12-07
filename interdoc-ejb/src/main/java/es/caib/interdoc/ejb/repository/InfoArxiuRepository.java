@@ -20,6 +20,8 @@ public interface InfoArxiuRepository extends CrudRepository<InfoArxiu, Long> {
                                                  List<Ordre<InfoArxiuAtribut>> ordenacio);
 
     List<InfoArxiu> getAll();
+    
+    List<InfoArxiuDTO> getExpedientsOberts(String estat);
 
     long countByFilter(Map<InfoArxiuAtribut, Object> filter);
 

@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 /**
- * Dades referents a una aplicació.
+ * Dades referents a un plugin
  *
  * @author jagarcia
  */
@@ -32,17 +32,44 @@ public class PluginDTO {
     @NotNull
     @PastOrPresent
     private LocalDate dataCreacio;
+    
+    @NotNull
+    private Long entitatId;
 
     @NotNull
     private Estat actiu;
 
     public PluginDTO() {
     }
-    
+        
 	public PluginDTO(Long id, @NotEmpty @Size(max = 50) String nom, @NotEmpty @Size(max = 255) String classe,
-			@NotEmpty String propietats, @NotNull @PastOrPresent LocalDate dataCreacio, @NotNull Estat actiu) {
+			@NotEmpty String propietats, @NotNull @PastOrPresent LocalDate dataCreacio, @NotNull Long entitatId, 
+			@NotNull Estat actiu) {
 		super();
 		this.id = id;
+		this.nom = nom;
+		this.classe = classe;
+		this.propietats = propietats;
+		this.dataCreacio = dataCreacio;
+		this.entitatId = entitatId;
+		this.actiu = actiu;
+	}
+    
+    public PluginDTO(@NotEmpty @Size(max = 50) String nom, @NotEmpty @Size(max = 255) String classe,
+			@NotEmpty String propietats, @NotNull @PastOrPresent LocalDate dataCreacio, @NotNull Long entitatId, 
+			@NotNull Estat actiu) {
+		super();
+		this.nom = nom;
+		this.classe = classe;
+		this.propietats = propietats;
+		this.dataCreacio = dataCreacio;
+		this.entitatId = entitatId;
+		this.actiu = actiu;
+	}
+    
+    public PluginDTO(@NotEmpty @Size(max = 50) String nom, @NotEmpty @Size(max = 255) String classe,
+			@NotEmpty String propietats, @NotNull @PastOrPresent LocalDate dataCreacio, @NotNull Estat actiu) {
+		super();
 		this.nom = nom;
 		this.classe = classe;
 		this.propietats = propietats;
@@ -88,6 +115,14 @@ public class PluginDTO {
 
 	public void setDataCreacio(LocalDate dataCreacio) {
 		this.dataCreacio = dataCreacio;
+	}
+	
+	public Long getEntitatId() {
+		return entitatId;
+	}
+	
+	public void setEntitatId(Long entitatId) {
+		this.entitatId = entitatId;
 	}
 
 	public Estat getActiu() {

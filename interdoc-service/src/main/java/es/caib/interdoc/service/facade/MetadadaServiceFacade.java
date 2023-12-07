@@ -17,6 +17,10 @@ import java.util.Optional;
  */
 public interface MetadadaServiceFacade {
 
+	
+	public static final String JNDI_NAME = "java:app/interdoc-ejb/MetadadaServiceFacadeBean!es.caib.interdoc.service.facade.MetadadaServiceFacade";
+
+	
     /**
      * Crea una nova aplicació a la base de dades.
      *
@@ -48,6 +52,14 @@ public interface MetadadaServiceFacade {
      * @return un opcional amb les dades de la aplicació indicada o buid si no existeix.
      */
     Optional<MetadadaDTO> findById(Long id);
+    
+    /**
+     * Retorna un opcional amb la llista de Metadades relacionades amb una referenciaId.
+     * 
+     * @param referenciaId
+     * @return Optional<List<MetadadaDTO>>
+     */
+    Optional<List<MetadadaDTO>> findByReferenciaId(Long referenciaId);
 
     /**
      * Retorna una pàgina d'aplicacions que compleixen els filtres i les ordenacions indicades

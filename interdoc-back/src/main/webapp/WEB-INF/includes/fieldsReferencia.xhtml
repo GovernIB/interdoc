@@ -1,0 +1,114 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+<ui:composition>
+
+	<!-- AplicacioId -->
+	<ui:decorate template="/WEB-INF/decorations/field.xhtml">
+		<p:inputText id="id" value="#{referenciaModel.value.id}" type="hidden" />
+	</ui:decorate>
+
+	<!-- uuid -->
+	<ui:decorate template="/WEB-INF/decorations/field.xhtml">
+		<ui:define name="label">
+			<p:outputLabel for="uuid" value="#{labels.referencia_uuid}" />
+		</ui:define>
+		<ui:define name="input">
+			<p:inputText id="uuid" value="#{referenciaModel.value.uuId}" />
+			<p:message for="uuid" />
+		</ui:define>
+	</ui:decorate>
+
+	<!-- csv -->
+	<ui:decorate template="/WEB-INF/decorations/field.xhtml">
+		<ui:define name="label">
+			<p:outputLabel for="csv" value="#{labels.referencia_csvid}" />
+		</ui:define>
+		<ui:define name="input">
+			<p:inputText id="csv" value="#{referenciaModel.value.csvId}" />
+			<p:message for="csv" />
+		</ui:define>
+	</ui:decorate>
+
+	<!-- afegir fitxer  -->
+
+
+	<!-- document -->
+	<!--  >ui:decorate template="/WEB-INF/decorations/field.xhtml">
+        <ui:define name="label">
+            <p:outputLabel for="document" value="#{labels.referencia_document}"/>
+        </ui:define>
+        <ui:define name="input">
+            <p:inputText id="document" value=""/>
+            <p:message for="document"/>
+        </ui:define>
+    </ui:decorate -->
+
+	<!-- entitatId -->
+	<ui:decorate template="/WEB-INF/decorations/field.xhtml">
+		<ui:define name="label">
+			<p:outputLabel for="entitatid" value="#{labels.referencia_entitatid}" />
+		</ui:define>
+		<ui:define name="input">
+			<p:inputText id="entitatid"
+				value="#{referenciaModel.entitatDir3}" />
+			<p:message for="entitatid" />
+		</ui:define>
+	</ui:decorate>
+
+	<!-- emisor -->
+	<ui:decorate template="/WEB-INF/decorations/field.xhtml">
+		<ui:define name="label">
+			<p:outputLabel for="emisor" value="#{labels.referencia_emisor}" />
+		</ui:define>
+		<ui:define name="input">
+			<p:inputText id="emisor" value="#{referenciaModel.value.emisor}" />
+			<p:message for="emisor" />
+		</ui:define>
+	</ui:decorate>
+
+	<!-- receptor -->
+	<ui:decorate template="/WEB-INF/decorations/field.xhtml">
+		<ui:define name="label">
+			<p:outputLabel for="receptor" value="#{labels.referencia_receptor}" />
+		</ui:define>
+		<ui:define name="input">
+			<p:inputText id="receptor" value="#{referenciaModel.value.receptor}" />
+			<p:message for="receptor" />
+		</ui:define>
+	</ui:decorate>
+
+	<ui:decorate template="/WEB-INF/decorations/field.xhtml">
+		<ui:define name="label"></ui:define>
+		<ui:define name="input">
+			<p:inputText id="fitxerId" value="#{referenciaModel.value.fitxerId}" />
+		</ui:define>
+	</ui:decorate>
+	<!-- interessats -->
+	<!--  >ui:decorate template="/WEB-INF/decorations/field.xhtml">
+        <ui:define name="label">
+            <p:outputLabel for="interessats" value="#{labels.referencia_interessats}"/>
+        </ui:define>
+        <ui:define name="input">
+            <p:inputText id="interessats" value="#{referenciaModel.value.interessats}"/>
+            <p:message for="interessats"/>
+        </ui:define>
+    </ui:decorate -->
+
+	<!-- metadades -->
+	<!-- ui:decorate template="/WEB-INF/decorations/field.xhtml">
+        <ui:define name="label">
+            <p:outputLabel for="metadades" value="#{labels.referencia_uuid}"/>
+        </ui:define>
+        <ui:define name="input">
+            <p:inputText id="metadades" value="#{referenciaModel.value.metadades}"/>
+            <p:message for="metadades"/>
+        </ui:define>
+    </ui:decorate -->
+
+
+</ui:composition>
+</html>

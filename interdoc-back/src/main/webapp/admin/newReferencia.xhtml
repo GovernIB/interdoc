@@ -1,0 +1,628 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<!--
+Pàgina per creació noves referencies desde backend. 
+-->
+<ui:composition template="/WEB-INF/templates/layout.xhtml">
+
+	<ui:define name="pageTitle">
+        #{labels.newReferencia_link}
+    </ui:define>
+
+	<ui:define name="breadcrumb">
+		<p:menuitem value="#{labels.listReferencia_link}"
+			outcome="/listReferencia" />
+		<p:menuitem value="#{labels.newReferencia_link}"
+			outcome="/admin/newReferencia" />
+	</ui:define>
+
+	<ui:define name="content">
+
+		<div class="row" style="margin-top:50px;">
+			<div class="container">
+				<div class="row d-flex justify-content-center">
+					<div class="col-md-8">
+						<div class="wizard">
+							<div class="wizard-inner">
+								<div class="connecting-line"></div>
+								<ul class="nav nav-tabs" role="tablist">
+									<li role="presentation" class="active"><a href="#step1"
+										data-toggle="tab" aria-controls="step1" role="tab"
+										aria-expanded="true"><span class="round-tab">1 </span></a></li>
+									<li role="presentation" class="disabled"><a href="#step2"
+										data-toggle="tab" aria-controls="step2" role="tab"
+										aria-expanded="false"><span class="round-tab">2</span></a></li>
+									<li role="presentation" class="disabled"><a href="#step3"
+										data-toggle="tab" aria-controls="step3" role="tab"><span
+											class="round-tab">3</span></a></li>
+									<li role="presentation" class="disabled"><a href="#step4"
+										data-toggle="tab" aria-controls="step4" role="tab"><span
+											class="round-tab">4</span></a></li>
+								</ul>
+							</div>
+						</div>
+
+
+						<h:form id="form">
+							<div class="tab-content" id="main_form">
+
+								<div class="tab-pane active" role="tabpanel" id="step1">
+									<h4 class="text-center">Puja el document</h4>
+									<div class="row" style="margin-top:30px;">
+
+										<div class="col-md-6 col-center form-group">
+											<input id="fileupload" class="input-group" type="file"
+												name="fileupload" style="margin-bottom: 10px;" />
+											<button id="upload-button" type="button"
+												class="btn btn-primary" onclick="uploadFile()">Upload</button>
+											<div id="uploadAlert" class="alert" role="alert"
+												style="margin-top: 10px;"></div>
+											<script type="text/javascript">
+												async function uploadFile() {
+													let formData = new FormData();
+													formData.append("file",	fileupload.files[0]);
+													const response = await fetch(
+															'/interdocback/fileuploadservlet',
+															{
+																method : "POST",
+																body : formData
+															});
+
+													if (!response.ok) {
+														let alertContainer = document
+																.getElementById("uploadAlert");
+														alertContainer.classList
+																.add("alert-danger");
+														alertContainer.innerHTML = "Ha ocorregut un error"
+													} else {
+														const respostaJson = await
+														response.json();
+
+														const fitxerValue = respostaJson.id;
+
+														let alertContainer = document
+																.getElementById("uploadAlert");
+														alertContainer.classList
+																.add("alert-success");
+														alertContainer.innerHTML = "El fitxer s'ha pujat correctament."
+
+														let inputId = document
+																.getElementById("form:fitxerId");
+														inputId.value = fitxerValue;
+														inputId.classList.add("oculto");
+														
+													}
+
+												}
+											</script>
+										</div>
+
+									</div>
+									<ul class="list-inline pull-right">
+										<li><button type="button" class="default-btn next-step">Continuar</button></li>
+									</ul>
+								</div>
+
+								<div class="tab-pane" role="tabpanel" id="step2">
+									<h4 class="text-center">Informació de la referència</h4>
+									<div class="container" style="margin-top:30px;">
+
+										<ui:include src="/WEB-INF/includes/fieldsReferencia.xhtml">
+											<ui:param name="edit" value="false" />
+										</ui:include>
+
+									</div>
+
+									<ul class="list-inline pull-right">
+										<li><button type="button" class="default-btn prev-step">Tornar</button></li>
+										<li><button type="button" class="default-btn next-step">Continuar</button></li>
+									</ul>
+								</div>
+
+								<div class="tab-pane" role="tabpanel" id="step3">
+									<h4 class="text-center">Interessats</h4>
+									<div class="container">
+											
+									    <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+									        <ui:define name="label">
+									            <p:outputLabel for="interessats1" value="#{labels.referencia_interessats} 1"/>
+									        </ui:define>
+									        <ui:define name="input">
+									            <p:inputText id="interessats1" value="#{referenciaModel.interessats1}"/>
+									        </ui:define>
+									    </ui:decorate>
+									    
+									    <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+                                            <ui:define name="label">
+                                                <p:outputLabel for="interessats2" value="#{labels.referencia_interessats} 2"/>
+                                            </ui:define>
+                                            <ui:define name="input">
+                                                <p:inputText id="interessats2" value="#{referenciaModel.interessats2}"/>
+                                            </ui:define>
+                                        </ui:decorate>
+                                        
+                                        <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+                                            <ui:define name="label">
+                                                <p:outputLabel for="interessats3" value="#{labels.referencia_interessats} 3"/>
+                                            </ui:define>
+                                            <ui:define name="input">
+                                                <p:inputText id="interessats3" value="#{referenciaModel.interessats3}"/>
+                                            </ui:define>
+                                        </ui:decorate>
+                                        
+                                        <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+                                            <ui:define name="label">
+                                                <p:outputLabel for="interessats4" value="#{labels.referencia_interessats} 4"/>
+                                            </ui:define>
+                                            <ui:define name="input">
+                                                <p:inputText id="interessats4" value="#{referenciaModel.interessats4}"/>
+                                            </ui:define>
+                                        </ui:decorate>
+                                        
+                                        <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+                                            <ui:define name="label">
+                                                <p:outputLabel for="interessats5" value="#{labels.referencia_interessats} 5"/>
+                                            </ui:define>
+                                            <ui:define name="input">
+                                                <p:inputText id="interessats5" value="#{referenciaModel.interessats5}"/>
+                                            </ui:define>
+                                        </ui:decorate>
+									    
+									</div>
+
+									<ul class="list-inline pull-right">
+										<li><button type="button" class="default-btn prev-step">Tornar</button></li>
+										<li><button type="button" class="default-btn next-step">Continuar</button></li>
+									</ul>
+								</div>
+
+
+								<div class="tab-pane" role="tabpanel" id="step4">
+									<h4 class="text-center">Metadades</h4>
+									<div class="container">
+									
+									
+									   <div class="card">
+									       <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+	                                            <ui:define name="label">
+	                                                <p:outputLabel for="metadades1_clau" value="#{labels.referencia_metadades_clau} 1"/>
+	                                            </ui:define>
+	                                            <ui:define name="input">
+	                                                <p:inputText id="metadades1_clau" value="#{referenciaModel.m1_clau}"/>
+	                                            </ui:define>
+	                                        </ui:decorate>
+	                                        <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+	                                            <ui:define name="label">
+	                                                <p:outputLabel for="metadades1_valor" value="#{labels.referencia_metadades_valor} 1"/>
+	                                            </ui:define>
+	                                            <ui:define name="input">
+	                                                <p:inputText id="metadades1_valor" value="#{referenciaModel.m1_valor}"/>
+	                                            </ui:define>
+	                                        </ui:decorate>
+									   </div>
+									   
+									    <div class="card">
+                                           <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+                                                <ui:define name="label">
+                                                    <p:outputLabel for="metadades2_clau" value="#{labels.referencia_metadades_clau} 2"/>
+                                                </ui:define>
+                                                <ui:define name="input">
+                                                    <p:inputText id="metadades2_clau" value="#{referenciaModel.m2_clau}"/>
+                                                </ui:define>
+                                            </ui:decorate>
+                                            <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+                                                <ui:define name="label">
+                                                    <p:outputLabel for="metadades2_valor" value="#{labels.referencia_metadades_valor} 2"/>
+                                                </ui:define>
+                                                <ui:define name="input">
+                                                    <p:inputText id="metadades2_valor" value="#{referenciaModel.m2_valor}"/>
+                                                </ui:define>
+                                            </ui:decorate>
+                                       </div>
+                                       
+                                       <div class="card">
+                                           <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+                                                <ui:define name="label">
+                                                    <p:outputLabel for="metadades3_clau" value="#{labels.referencia_metadades_clau} 3"/>
+                                                </ui:define>
+                                                <ui:define name="input">
+                                                    <p:inputText id="metadades3_clau" value="#{referenciaModel.m3_clau}"/>
+                                                </ui:define>
+                                            </ui:decorate>
+                                            <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+                                                <ui:define name="label">
+                                                    <p:outputLabel for="metadades3_valor" value="#{labels.referencia_metadades_valor} 3"/>
+                                                </ui:define>
+                                                <ui:define name="input">
+                                                    <p:inputText id="metadades3_valor" value="#{referenciaModel.m3_valor}"/>
+                                                </ui:define>
+                                            </ui:decorate>
+                                       </div>
+                                       
+                                       <div class="card">
+                                           <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+                                                <ui:define name="label">
+                                                    <p:outputLabel for="metadades4_clau" value="#{labels.referencia_metadades_clau} 4"/>
+                                                </ui:define>
+                                                <ui:define name="input">
+                                                    <p:inputText id="metadades4_clau" value="#{referenciaModel.m4_clau}"/>
+                                                </ui:define>
+                                            </ui:decorate>
+                                            <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+                                                <ui:define name="label">
+                                                    <p:outputLabel for="metadades4_valor" value="#{labels.referencia_metadades_valor} 4"/>
+                                                </ui:define>
+                                                <ui:define name="input">
+                                                    <p:inputText id="metadades4_valor" value="#{referenciaModel.m4_valor}"/>
+                                                </ui:define>
+                                            </ui:decorate>
+                                       </div>
+                                       
+                                       <div class="card">
+                                           <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+                                                <ui:define name="label">
+                                                    <p:outputLabel for="metadades5_clau" value="#{labels.referencia_metadades_clau} 5"/>
+                                                </ui:define>
+                                                <ui:define name="input">
+                                                    <p:inputText id="metadades5_clau" value="#{referenciaModel.m5_clau}"/>
+                                                </ui:define>
+                                            </ui:decorate>
+                                            <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+                                                <ui:define name="label">
+                                                    <p:outputLabel for="metadades5_valor" value="#{labels.referencia_metadades_valor} 5"/>
+                                                </ui:define>
+                                                <ui:define name="input">
+                                                    <p:inputText id="metadades5_valor" value="#{referenciaModel.m5_valor}"/>
+                                                </ui:define>
+                                            </ui:decorate>
+                                       </div>
+                                       
+                                       <div class="card">
+                                           <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+                                                <ui:define name="label">
+                                                    <p:outputLabel for="metadades6_clau" value="#{labels.referencia_metadades_clau} 6"/>
+                                                </ui:define>
+                                                <ui:define name="input">
+                                                    <p:inputText id="metadades6_clau" value="#{referenciaModel.m6_clau}"/>
+                                                </ui:define>
+                                            </ui:decorate>
+                                            <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+                                                <ui:define name="label">
+                                                    <p:outputLabel for="metadades6_valor" value="#{labels.referencia_metadades_valor} 6"/>
+                                                </ui:define>
+                                                <ui:define name="input">
+                                                    <p:inputText id="metadades6_valor" value="#{referenciaModel.m6_valor}"/>
+                                                </ui:define>
+                                            </ui:decorate>
+                                       </div>
+                                       
+                                       <div class="card">
+                                           <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+                                                <ui:define name="label">
+                                                    <p:outputLabel for="metadades7_clau" value="#{labels.referencia_metadades_clau} 7"/>
+                                                </ui:define>
+                                                <ui:define name="input">
+                                                    <p:inputText id="metadades7_clau" value="#{referenciaModel.m7_clau}"/>
+                                                </ui:define>
+                                            </ui:decorate>
+                                            <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+                                                <ui:define name="label">
+                                                    <p:outputLabel for="metadades7_valor" value="#{labels.referencia_metadades_valor} 7"/>
+                                                </ui:define>
+                                                <ui:define name="input">
+                                                    <p:inputText id="metadades7_valor" value="#{referenciaModel.m7_valor}"/>
+                                                </ui:define>
+                                            </ui:decorate>
+                                       </div>
+                                       
+                                       <div class="card">
+                                           <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+                                                <ui:define name="label">
+                                                    <p:outputLabel for="metadades8_clau" value="#{labels.referencia_metadades_clau} 8"/>
+                                                </ui:define>
+                                                <ui:define name="input">
+                                                    <p:inputText id="metadades8_clau" value="#{referenciaModel.m8_clau}"/>
+                                                </ui:define>
+                                            </ui:decorate>
+                                            <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+                                                <ui:define name="label">
+                                                    <p:outputLabel for="metadades8_valor" value="#{labels.referencia_metadades_valor} 8"/>
+                                                </ui:define>
+                                                <ui:define name="input">
+                                                    <p:inputText id="metadades8_valor" value="#{referenciaModel.m8_valor}"/>
+                                                </ui:define>
+                                            </ui:decorate>
+                                       </div>
+                                       
+                                       <div class="card">
+                                           <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+                                                <ui:define name="label">
+                                                    <p:outputLabel for="metadades9_clau" value="#{labels.referencia_metadades_clau} 9"/>
+                                                </ui:define>
+                                                <ui:define name="input">
+                                                    <p:inputText id="metadades9_clau" value="#{referenciaModel.m9_clau}"/>
+                                                </ui:define>
+                                            </ui:decorate>
+                                            <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+                                                <ui:define name="label">
+                                                    <p:outputLabel for="metadades9_valor" value="#{labels.referencia_metadades_valor} 2"/>
+                                                </ui:define>
+                                                <ui:define name="input">
+                                                    <p:inputText id="metadades9_valor" value="#{referenciaModel.m9_valor}"/>
+                                                </ui:define>
+                                            </ui:decorate>
+                                       </div>
+                                       
+                                       <div class="card">
+                                           <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+                                                <ui:define name="label">
+                                                    <p:outputLabel for="metadades10_clau" value="#{labels.referencia_metadades_clau} 10"/>
+                                                </ui:define>
+                                                <ui:define name="input">
+                                                    <p:inputText id="metadades10_clau" value="#{referenciaModel.m2_clau}"/>
+                                                </ui:define>
+                                            </ui:decorate>
+                                            <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+                                                <ui:define name="label">
+                                                    <p:outputLabel for="metadades10_valor" value="#{labels.referencia_metadades_valor} 10"/>
+                                                </ui:define>
+                                                <ui:define name="input">
+                                                    <p:inputText id="metadades10_valor" value="#{referenciaModel.m10_valor}"/>
+                                                </ui:define>
+                                            </ui:decorate>
+                                       </div>
+                                    
+									
+									
+									
+									</div>
+
+									<ul class="list-inline pull-right">
+										<li><button type="button" class="default-btn prev-step">Tornar</button></li>
+										<li><p:commandButton id="saveButton"
+												action="#{newReferencia.save}"
+												value="#{labels.button_guardar}" process="@form"
+												update="@form" class="" /></li>
+									</ul>
+								</div>
+								<div class="clearfix"></div>
+							</div>
+
+						</h:form>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<style type="text/css">
+
+/*----------step-wizard------------*/
+.d-flex {
+	display: flex;
+}
+
+.justify-content-center {
+	justify-content: center;
+}
+
+.align-items-center {
+	align-items: center;
+}
+
+.wizard .nav-tabs {
+	position: relative;
+	margin-bottom: 0;
+	border-bottom-color: transparent;
+}
+
+.wizard>div.wizard-inner {
+	position: relative;
+	margin-bottom: 70px;
+	text-align: center;
+}
+
+.connecting-line {
+	height: 2px;
+	background: #e0e0e0;
+	position: absolute;
+	width: 75%;
+	margin: 0 auto;
+	left: 0;
+	right: 0;
+	top: 15px;
+	z-index: 1;
+}
+
+.wizard .nav-tabs>li.active>a, .wizard .nav-tabs>li.active>a:hover,
+	.wizard .nav-tabs>li.active>a:focus {
+	color: #555555;
+	cursor: default;
+	border: 0;
+	border-bottom-color: transparent;
+}
+
+span.round-tab {
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	display: inline-block;
+	border-radius: 50%;
+	background: #fff;
+	z-index: 2;
+	position: absolute;
+	left: 0;
+	text-align: center;
+	font-size: 16px;
+	color: #0e214b;
+	font-weight: 500;
+	border: 1px solid #ddd;
+}
+
+span.round-tab i {
+	color: #555555;
+}
+
+.wizard li.active span.round-tab {
+	background: #0db02b;
+	color: #fff;
+	border-color: #0db02b;
+}
+
+.wizard li.active span.round-tab i {
+	color: #5bc0de;
+}
+
+.wizard .nav-tabs>li.active>a i {
+	color: #0db02b;
+}
+
+.wizard .nav-tabs>li {
+	width: 25%;
+}
+
+.wizard li:after {
+	content: " ";
+	position: absolute;
+	left: 46%;
+	opacity: 0;
+	margin: 0 auto;
+	bottom: 0px;
+	border: 5px solid transparent;
+	border-bottom-color: red;
+	transition: 0.1s ease-in-out;
+}
+
+.wizard .nav-tabs>li a {
+	width: 30px;
+	height: 30px;
+	margin: 20px auto;
+	border-radius: 100%;
+	padding: 0;
+	background-color: transparent;
+	position: relative;
+	top: 0;
+}
+
+.wizard .nav-tabs>li a i {
+	position: absolute;
+	top: -15px;
+	font-style: normal;
+	font-weight: 400;
+	white-space: nowrap;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 12px;
+	font-weight: 700;
+	color: #000;
+}
+
+.wizard .nav-tabs>li a:hover {
+	background: transparent;
+}
+
+.wizard .tab-pane {
+	position: relative;
+	padding-top: 20px;
+}
+
+.wizard h3 {
+	margin-top: 0;
+}
+
+.prev-step, .next-step {
+	font-size: 13px;
+	padding: 8px 24px;
+	border: none;
+	border-radius: 4px;
+	margin-top: 30px;
+	margin-left: 15px;
+}
+
+.next-step {
+	background-color: #0db02b;
+}
+
+.skip-btn {
+	background-color: #cec12d;
+}
+
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control
+	{
+	background-color: #fdfdfd;
+}
+
+.list-inline li{
+    display: inline-block;
+}
+
+.pull-right {
+	float: right;
+}
+
+.oculto {
+    display: none;
+}
+
+#step4 .card {
+    background:#ececec;
+    margin-bottom:20px;
+    padding-top:15px;
+    padding-bottom:10px;
+}
+
+#step4 .card .form-group { margin: 0; }
+
+</style>
+
+<script type="text/javascript">
+
+	jQuery(document).ready(function() {
+		jQuery('.nav-tabs > li a[title]').tooltip();
+
+		//Wizard
+		jQuery('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+
+			var target = $(e.target);
+
+			if (target.parent().hasClass('disabled')) {
+				return false;
+			}
+		});
+
+		jQuery(".next-step").click(function(e) {
+
+			var active = $('.wizard .nav-tabs li.active');
+			active.next().removeClass('disabled');
+			nextTab(active);
+
+		});
+		jQuery(".prev-step").click(function(e) {
+
+			var active = $('.wizard .nav-tabs li.active');
+			prevTab(active);
+
+		});
+	});
+
+	function nextTab(elem) {
+		jQuery(elem).next().find('a[data-toggle="tab"]').click();
+	}
+	function prevTab(elem) {
+		jQuery(elem).prev().find('a[data-toggle="tab"]').click();
+	}
+
+	jQuery('.nav-tabs').on('click', 'li', function() {
+		jQuery('.nav-tabs li.active').removeClass('active');
+		jQuery(this).addClass('active');
+	});
+</script>
+
+	</ui:define>
+</ui:composition>
+</html>

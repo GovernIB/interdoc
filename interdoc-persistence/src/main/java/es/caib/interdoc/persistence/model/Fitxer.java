@@ -47,6 +47,11 @@ public class Fitxer extends BaseEntity {
 	@Column(name = "TAMANY", nullable = false)
 	@NotNull
 	private Long tamany;
+	
+	@Column(name = "RUTA", nullable = false, length = 255)
+	@NotEmpty
+	@Size(max = 255)
+	private String ruta;
 
 	@Column(name = "DATACREACIO", nullable = false)
 	@PastOrPresent
@@ -91,6 +96,14 @@ public class Fitxer extends BaseEntity {
 	public void setMime(String mime) {
 		this.mime = mime;
 	}
+	
+	public String getRuta() {
+		return ruta;
+	}
+
+	public void setRuta(String ruta) {
+		this.ruta = ruta;
+	}
 
 	public Long getTamany() {
 		return tamany;
@@ -120,7 +133,9 @@ public class Fitxer extends BaseEntity {
 	@Override
 	public String toString() {
 		return "Fitxer [id=" + id + ", nom=" + nom + ", descripcio=" + descripcio + ", mime=" + mime + ", tamany="
-				+ tamany + ", dataCreacio=" + dataCreacio + "]";
+				+ tamany + ", ruta=" + ruta + ", dataCreacio=" + dataCreacio + "]";
 	}
+
+
 
 }

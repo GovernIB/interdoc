@@ -48,6 +48,8 @@ public class InfoArxiuCriteriaHelper extends AbstractCriteriaHelper<InfoArxiu, I
             	return root.get(InfoArxiu_.eniFileUrl);
             case validationFileUrl:
             	return root.get(InfoArxiu_.validationFileUrl);
+            case estatExpedient:
+            	return root.get(InfoArxiu_.estatExpedient);
             default:
                 throw new IllegalArgumentException("Valor no vàlid " + atribut);
         }

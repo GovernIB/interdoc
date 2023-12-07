@@ -1,9 +1,7 @@
 package es.caib.interdoc.back.model;
 
 import es.caib.interdoc.service.facade.AplicacioServiceFacade;
-import es.caib.interdoc.service.facade.UnitatOrganicaServiceFacade;
 import es.caib.interdoc.service.model.AplicacioDTO;
-import es.caib.interdoc.service.model.UnitatOrganicaDTO;
 
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;

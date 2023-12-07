@@ -27,6 +27,12 @@ public class FitxerDTO {
     
     @NotEmpty
     @Size(max = 255)
+    private String ruta;
+    
+    private byte[] data;
+    
+    @NotEmpty
+    @Size(max = 255)
     private String mime;
 
     @NotNull
@@ -66,6 +72,14 @@ public class FitxerDTO {
 	public void setMime(String mime) {
 		this.mime = mime;
 	}
+	
+	public String getRuta() {
+		return ruta;
+	}
+
+	public void setRuta(String ruta) {
+		this.ruta = ruta;
+	}
 
 	public LocalDate getDataCreacio() {
 		return dataCreacio;
@@ -83,15 +97,24 @@ public class FitxerDTO {
 		this.tamany = tamany;
 	}
 	
+	public byte[] getData() {
+		return data;
+	}
+
+	public void setData(byte[] data) {
+		this.data = data;
+	}
+
 	public FitxerDTO() {
 		
 	}
 
 	public FitxerDTO(Long id, @NotEmpty @Size(max = 255) String nom, @Size(max = 1000) String descripcio,
-			@NotEmpty @Size(max = 255) String mime, Long tamany) {
+			@NotEmpty @Size(max = 255) String mime, Long tamany, @NotEmpty @Size(max = 255) String ruta) {
 		super();
 		this.id = id;
 		this.nom = nom;
+		this.ruta = ruta;
 		this.descripcio = descripcio;
 		this.mime = mime;
 		this.tamany = tamany;
@@ -99,7 +122,7 @@ public class FitxerDTO {
 
 	@Override
 	public String toString() {
-		return "FitxerDTO [id=" + id + ", nom=" + nom + ", descripcio=" + descripcio + ", mime=" + mime
+		return "FitxerDTO [id=" + id + ", nom=" + nom + ", descripcio=" + descripcio + ", mime=" + mime + ", ruta=" + ruta
 				+ ", dataCreacio=" + dataCreacio + ", tamany=" + tamany + "]";
 	}
 

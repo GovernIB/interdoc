@@ -85,4 +85,10 @@ public class MetadadaServiceFacadeBean implements MetadadaServiceFacade {
 
         return new Pagina<MetadadaDTO>(items, total);
     }
+
+	@Override
+	@PermitAll
+	public Optional<List<MetadadaDTO>> findByReferenciaId(Long referenciaId) {
+		return Optional.ofNullable(repository.findByReferenciaId(referenciaId));
+	}
 }

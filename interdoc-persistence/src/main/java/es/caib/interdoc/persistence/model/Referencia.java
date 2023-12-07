@@ -21,13 +21,15 @@ import java.util.Objects;
         }
 )
 @NamedQueries({
-        @NamedQuery(name = Referencia.GET_ALL, query = "select r from Referencia r")
+        @NamedQuery(name = Referencia.GET_ALL, query = "select r from Referencia r"),
+        @NamedQuery(name = Referencia.FILTER_BETWEEN_DATES, query = "select r from Referencia r where r.dataCreacio >= :inici and r.dataCreacio <= :fi")
 })
 public class Referencia extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
     public static final String GET_ALL = "Referencia.GET_ALL";
+    public static final String FILTER_BETWEEN_DATES = "Referencia.FILTER_BETWEEN_DATES";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "referencia-sequence")
@@ -45,7 +47,6 @@ public class Referencia extends BaseEntity {
     @Column(name = "REFERENCIA", nullable = true, length = 255)
     @Size(max = 255)
     private String referencia;
-    
 
     @Column(name = "DIRECCIO", nullable = false, length = 255)
     @NotEmpty
@@ -57,12 +58,10 @@ public class Referencia extends BaseEntity {
     private String hash;
 
     @Column(name = "EMISOR", nullable = false, length = 50)
-    @NotEmpty
     @Size(max = 50)
     private String emisor;
 
     @Column(name = "RECEPTOR", nullable = false, length = 50)
-    @NotEmpty
     @Size(max = 50)
     private String receptor;
 
@@ -71,18 +70,25 @@ public class Referencia extends BaseEntity {
     private String urlVisible;
 
     @Column(name = "FORMATFIRMA")
-    private Long formatFirma;
+    @Size(max = 5)
+    private String formatFirma;
 
     @Column(name = "DATACREACIO", nullable = false)
     @NotNull
     @PastOrPresent
     private LocalDate dataCreacio;
     
-    @Column(name = "EXPEDIENTID", nullable = true, length = 255)
-    private String expedientId;
+    @Column(name = "INFOSIGNATURAID", nullable = true, length = 19)
+    private Long infoSignaturaId;
     
-    @Column(name = "ESTATEXPEDIENTID", nullable = true, length = 50)
-    private String estatExpedientId;
+    @Column(name = "INFOARXIUID", nullable = true, length = 19)
+    private Long infoArxiuId;
+    
+    @Column(name = "FITXERID", nullable = true, length = 19)
+    private Long fitxerId;
+    
+    @Column(name = "ENTITATID", nullable = false, length = 19)
+    private Long entitatId;
 
     public Long getId() {
         return id;
@@ -156,11 +162,11 @@ public class Referencia extends BaseEntity {
         this.urlVisible = urlVisible;
     }
 
-    public Long getFormatFirma() {
+    public String getFormatFirma() {
         return formatFirma;
     }
 
-    public void setFormatFirma(Long formatFirma) {
+    public void setFormatFirma(String formatFirma) {
         this.formatFirma = formatFirma;
     }
 
@@ -171,21 +177,37 @@ public class Referencia extends BaseEntity {
     public void setDataCreacio(LocalDate dataCreacio) {
         this.dataCreacio = dataCreacio;
     }
-    
-    public String getExpedientId() {
-		return expedientId;
+
+	public Long getInfoSignaturaId() {
+		return infoSignaturaId;
 	}
 
-	public void setExpedientId(String expedientId) {
-		this.expedientId = expedientId;
+	public void setInfoSignaturaId(Long infoSignaturaId) {
+		this.infoSignaturaId = infoSignaturaId;
 	}
 
-	public String getEstatExpedientId() {
-		return estatExpedientId;
+	public Long getInfoArxiuId() {
+		return infoArxiuId;
 	}
 
-	public void setEstatExpedientId(String estatExpedientId) {
-		this.estatExpedientId = estatExpedientId;
+	public void setInfoArxiuId(Long infoArxiuId) {
+		this.infoArxiuId = infoArxiuId;
+	}
+
+	public Long getFitxerId() {
+		return fitxerId;
+	}
+
+	public void setFitxerId(Long fitxerId) {
+		this.fitxerId = fitxerId;
+	}
+
+	public Long getEntitatId() {
+		return entitatId;
+	}
+
+	public void setEntitatId(Long entitatId) {
+		this.entitatId = entitatId;
 	}
 
 	@Override
@@ -201,21 +223,13 @@ public class Referencia extends BaseEntity {
         return Objects.hash(hash);
     }
 
-    @Override
-    public String toString() {
-        return "Referencia{" +
-                "id=" + id +
-                ", csvId='" + csvId + '\'' +
-                ", uuId='" + uuId + '\'' +
-                ", direccio='" + direccio + '\'' +
-                ", hash='" + hash + '\'' +
-                ", emisor='" + emisor + '\'' +
-                ", receptor='" + receptor + '\'' +
-                ", urlVisible='" + urlVisible + '\'' +
-                ", formatFirma=" + formatFirma +
-                ", dataCreacio=" + dataCreacio +
-                ", expedientId=" + expedientId +
-                ", estatExpedientId=" + estatExpedientId +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "Referencia [id=" + id + ", csvId=" + csvId + ", uuId=" + uuId + ", referencia=" + referencia
+				+ ", direccio=" + direccio + ", hash=" + hash + ", emisor=" + emisor + ", receptor=" + receptor
+				+ ", urlVisible=" + urlVisible + ", formatFirma=" + formatFirma + ", dataCreacio=" + dataCreacio
+				+ ", infoSignaturaId=" + infoSignaturaId + ", infoArxiuId=" + infoArxiuId + ", fitxerId=" + fitxerId
+				+ ", entitatId=" + entitatId + "]";
+	}
+
 }

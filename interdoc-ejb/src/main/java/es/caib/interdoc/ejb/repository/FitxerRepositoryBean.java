@@ -49,6 +49,7 @@ public class FitxerRepositoryBean extends AbstractCrudRepository<Fitxer, Long>
                 root.get(Fitxer_.nom),
                 root.get(Fitxer_.descripcio),
                 root.get(Fitxer_.mime),
+                root.get(Fitxer_.ruta),
                 root.get(Fitxer_.tamany),
                 root.get(Fitxer_.dataCreacio)));
 
@@ -81,5 +82,6 @@ public class FitxerRepositoryBean extends AbstractCrudRepository<Fitxer, Long>
 
         TypedQuery<Long> query = entityManager.createQuery(criteriaQuery);
         return query.getSingleResult();
-    }
+    }  
+    
 }

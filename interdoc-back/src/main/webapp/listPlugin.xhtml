@@ -9,7 +9,7 @@
     -->
     <ui:composition template="/WEB-INF/templates/layout.xhtml">
 
-        <ui:define name="pageTitle">#{labels.listAplicacio_title}</ui:define>
+        <ui:define name="pageTitle">#{labels.listPlugin_title}</ui:define>
 
         <ui:define name="breadcrumb">
             <p:menuitem value="#{labels.listPlugin_link}" outcome="/listPlugin"/>
@@ -43,12 +43,6 @@
                         <h:outputText value="#{plugin.classe}"/>
                     </p:column>
                     
-                    <p:column sortBy="#{plugin.dataCreacio}">
-                        <f:facet name="header">#{labels.plugin_dataCreacio}</f:facet>
-                        <h:outputText value="#{plugin.dataCreacio}">
-                            <f:convertDateTime type="localDate" pattern="dd-MM-yyyy"/>
-                        </h:outputText>
-                    </p:column>
                     <p:column filterBy="#{plugin.actiu}">
                         <f:facet name="header">#{labels.plugin_actiu}</f:facet>
                         <h:outputText value="#{plugin.actiu}"/>

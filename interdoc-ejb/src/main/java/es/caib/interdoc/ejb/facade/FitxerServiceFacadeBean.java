@@ -98,5 +98,8 @@ public class FitxerServiceFacadeBean implements FitxerServiceFacade {
 
         return new Pagina<>(items, total);
     }
+
+    
+    
     
 }

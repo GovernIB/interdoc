@@ -55,13 +55,6 @@ public class AccesServiceFacadeBean implements AccesServiceFacade {
 
     @Override
     @RolesAllowed(Constants.ITD_ADMIN)
-    public void update(AccesDTO dto) throws RecursNoTrobatException {
-        Acces acces = repository.getReference(dto.getId());
-        converter.updateFromDTO(acces, dto);
-    }
-
-    @Override
-    @RolesAllowed(Constants.ITD_ADMIN)
     public void delete(Long id) throws RecursNoTrobatException {
         Acces acces = repository.getReference(id);
         repository.delete(acces);
@@ -85,4 +78,10 @@ public class AccesServiceFacadeBean implements AccesServiceFacade {
 
         return new Pagina<>(items, total);
     }
+
+	@Override
+	@PermitAll
+	public Optional<List<AccesDTO>> findByRefenciaId(Long referenciaId) {
+		return Optional.ofNullable(repository.findByRefenciaId(referenciaId)); 
+	}
 }

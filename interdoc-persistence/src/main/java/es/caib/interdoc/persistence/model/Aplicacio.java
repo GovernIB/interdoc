@@ -35,6 +35,8 @@ import static javax.persistence.EnumType.ORDINAL;
 @NamedQueries({
         @NamedQuery(name = Aplicacio.FIND_BY_CODIDIR3,
                 query = "select a from Aplicacio a where a.codiDir3 = :codiDir3"),
+        @NamedQuery(name = Aplicacio.FIND_BY_USERNAME,
+        		query = "select a from Aplicacio a where a.usuari = :username and a.estat > 0"),
         @NamedQuery(name = Aplicacio.GET_ALL, query = "select a from Aplicacio a")
 })
 public class Aplicacio extends BaseEntity {
@@ -42,6 +44,7 @@ public class Aplicacio extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     public static final String FIND_BY_CODIDIR3 = "Aplicacio.FIND_BY_CODIDIR3";
+    public static final String FIND_BY_USERNAME = "Aplicacio.FIND_BY_USERNAME";
     public static final String GET_ALL = "Aplicacio.GET_ALL";
 
     @Id

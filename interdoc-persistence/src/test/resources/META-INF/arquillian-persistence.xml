@@ -6,8 +6,20 @@
     <persistence-unit name="interdocPU_" transaction-type="JTA">
         <jta-data-source>java:jboss/datasources/interdocDS</jta-data-source>
 
-        <class>es.caib.interdoc.persistence.model.UnitatOrganica</class>
-        <class>es.caib.interdoc.persistence.model.Procediment</class>
+        <class>es.caib.interdoc.persistence.model.Acces</class>
+        <class>es.caib.interdoc.persistence.model.Aplicacio</class>
+        <class>es.caib.interdoc.persistence.model.BaseEntity</class>
+        <class>es.caib.interdoc.persistence.model.Entitat</class>
+        <class>es.caib.interdoc.persistence.model.Fitxer</class>
+        <class>es.caib.interdoc.persistence.model.InfoArxiu</class>
+        <class>es.caib.interdoc.persistence.model.InfoSignatura</class>
+        <class>es.caib.interdoc.persistence.model.Log</class>
+        <class>es.caib.interdoc.persistence.model.Metadada</class>
+        <class>es.caib.interdoc.persistence.model.PeticioATercer</class>
+        <class>es.caib.interdoc.persistence.model.Plugin</class>
+        <class>es.caib.interdoc.persistence.model.Referencia</class>
+        <class>es.caib.interdoc.persistence.model.ReferenciaXML</class>
+        <class>es.caib.interdoc.persistence.model.Traza</class>
 
         <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
         <validation-mode>CALLBACK</validation-mode>

@@ -17,6 +17,9 @@
     <properties>
         <!-- Propietats que afecten els plugins -->
         <maven.compiler.release>11</maven.compiler.release>
+		<maven.compiler.target>11</maven.compiler.target>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.test.skip>true</maven.test.skip>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!-- Versions de JBoss -->
@@ -85,12 +88,12 @@
                 <version>1.0.0</version>
                 <type>war</type>
             </dependency>
-			<dependency>
+			<!-- dependency>
 				<groupId>es.caib.interdoc</groupId>
                 <artifactId>interdoc-ws</artifactId>
                 <version>1.0.0</version>
                 <type>war</type>
-			</dependency>
+			</dependency -->
             <dependency>
                 <groupId>es.caib.interdoc</groupId>
                 <artifactId>interdoc-api-interna</artifactId>
@@ -103,6 +106,19 @@
                 <version>1.0.0</version>
                 <type>war</type>
             </dependency>
+			
+			<dependency>
+				<groupId>org.fundaciobit.pluginsib.core</groupId>
+				<artifactId>pluginsib-core</artifactId>
+				<version>2.0.2</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>es.caib.interdoc</groupId>
+				<artifactId>interdoc-plugins-apifirmasimple</artifactId>
+				<version>1.0.0</version>
+				<type>jar</type>
+			</dependency>
 			
             <!-- Definició de les versions de les llibreries, especificacions i eines disponibles dins JBoss -->
             <dependency>
@@ -382,6 +398,7 @@
 					</execution>
 				</executions>
 			</plugin>
+			
         </plugins>
     </build>
     <profiles>
@@ -422,7 +439,7 @@
                 </plugins>
             </build>
         </profile>
-		<profile>
+		<!-- profile>
             <id>api-externa-client</id>
             <activation>
                 <file>
@@ -443,8 +460,17 @@
             <modules>
                 <module>interdoc-api-interna-client</module>
             </modules>
-        </profile>
+        </profile -->
     </profiles>
+	
+	<distributionManagement>
+		<repository>
+		  <id>github_governib_maven</id>
+		  <name>GitHub GovernIB Maven Repository</name>
+		  <url>file://${project.build.directory}/mvn-repo</url>
+		</repository>
+	</distributionManagement>
+	
     <repositories>
         <!-- Repositori oficial de JBoss -->
         <repository>
@@ -476,14 +502,14 @@
         <module>interdoc-commons</module>
         <module>interdoc-persistence</module>
         <module>interdoc-ejb</module>
-        <module>interdoc-service</module>
-        <module>interdoc-ws</module>
+        <module>interdoc-service</module>  
         <module>interdoc-plugins</module>
-        <module>interdoc-back</module>
 		<module>interdoc-api-interna</module>
-		<!-- module>interdoc-api-interna-client</module -->
 		<module>interdoc-api-externa</module>
+		<module>interdoc-ws</module>
+        <module>interdoc-back</module>
+		<!-- module>interdoc-api-interna-client</module -->
 		<!-- module>interdoc-api-externa-client</module -->
-        <module>interdoc-ear</module>
+		<module>interdoc-ear</module>
     </modules>
 </project>

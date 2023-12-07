@@ -13,6 +13,9 @@ import java.util.Optional;
  * @author jagarcia
  */
 public interface PeticioATercerServiceFacade {
+	
+	public static final String JNDI_NAME = "java:app/interdoc-ejb/PeticioATercerServiceFacadeBean!es.caib.interdoc.service.facade.PeticioATercerServiceFacade";
+
 
     /**
      * Enregistra una nova peticio a la base de dades.

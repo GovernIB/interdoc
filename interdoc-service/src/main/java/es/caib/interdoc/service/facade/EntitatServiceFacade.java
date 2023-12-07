@@ -16,6 +16,8 @@ import java.util.Optional;
  * @author jagarcia
  */
 public interface EntitatServiceFacade {
+	
+	public static final String JNDI_NAME = "java:app/interdoc-ejb/EntitatServiceFacadeBean!es.caib.interdoc.service.facade.EntitatServiceFacade";
 
     /**
      * Crea una nova entitat a la base de dades.
@@ -49,6 +51,14 @@ public interface EntitatServiceFacade {
      * @return un opcional amb les dades de la entitat indicada o buid si no existeix.
      */
     Optional<EntitatDTO> findById(Long id);
+    
+    /**
+     * Retorna un opcional amb la entitat indicada pel codi dir3.
+     *
+     * @param id identificador de la entitat a cercar
+     * @return un opcional amb les dades de la entitat indicada o buid si no existeix.
+     */
+    Optional<EntitatDTO> findByCodiDir3(String codi);
 
     /**
      * Retorna tots els registres d'aplicacions

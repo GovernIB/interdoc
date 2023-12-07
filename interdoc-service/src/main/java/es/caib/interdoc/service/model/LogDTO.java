@@ -6,7 +6,7 @@ import javax.validation.constraints.*;
 import java.time.LocalDate;
 
 /**
- * Dades referents a un accés.
+ * Dades referents al log d'un event o error.
  *
  * @author jagarcia
  */

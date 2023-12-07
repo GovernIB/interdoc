@@ -20,5 +20,7 @@ public interface TrazaRepository extends CrudRepository<Traza, Long> {
                                                  List<Ordre<TrazaAtribut>> ordenacio);
 
     long countByFilter(Map<TrazaAtribut, Object> filter);
+    
+    List<TrazaDTO> findByReferenciaId(Long referenciaId);
 
 }

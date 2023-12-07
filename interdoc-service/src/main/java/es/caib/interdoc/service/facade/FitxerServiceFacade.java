@@ -16,6 +16,8 @@ import java.util.Optional;
  * @author jagarcia
  */
 public interface FitxerServiceFacade {
+	
+	public static final String JNDI_NAME = "java:app/interdoc-ejb/FitxerServiceFacadeBean!es.caib.interdoc.service.facade.FitxerServiceFacade";
 
     /**
      * Crea una nou fitxer a la base de dades.
@@ -48,6 +50,7 @@ public interface FitxerServiceFacade {
      * @return un opcional amb les dades de la entitat indicada o buid si no existeix.
      */
     Optional<FitxerDTO> findById(Long id);
+    
 
     /**
      * Retorna tots els registres d'aplicacions

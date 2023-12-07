@@ -21,5 +21,7 @@ public interface AccesRepository extends CrudRepository<Acces, Long> {
                                                  List<Ordre<AccesAtribut>> ordenacio);
 
     long countByFilter(Map<AccesAtribut, Object> filter);
+    
+    List<AccesDTO> findByRefenciaId(Long referenciaId);
 
 }

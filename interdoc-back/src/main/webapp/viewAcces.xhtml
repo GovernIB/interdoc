@@ -1,0 +1,84 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+
+<ui:composition template="/WEB-INF/templates/layout.xhtml">
+
+	<ui:define name="pageTitle">#{labels.listAcces_title}</ui:define>
+
+	<ui:define name="breadcrumb">
+		<p:menuitem value="#{labels.listAcces_link}" outcome="/listAcces" />
+	</ui:define>
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:viewParam id="referenciaId" name="referenciaId"
+				value="#{accesModel.referenciaId}" required="true">
+				<f:validateLongRange minimum="1" />
+			</f:viewParam>
+			<f:viewAction action="#{accesModel.loadByReferenciaId}" />
+		</f:metadata>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<h:form>
+			<p:messages id="messages" showDetail="true" closable="true">
+				<p:autoUpdate />
+			</p:messages>
+
+			<p:dataTable id="dataTable" value="#{accesModel.lista}" var="acces"
+				sortMode="multiple" paginator="true" rows="10"
+				rowsPerPageTemplate="10,20,50,100" paginatorPosition="bottom"
+				paginatorAlwaysVisible="false"
+				paginatorTemplate="{RowsPerPageLabel} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport}
+                             {NextPageLink} {LastPageLink}"
+				currentPageReportTemplate="#{labels.dataTable_currentPageReport}"
+				emptyMessage="#{labels.dataTable_emptyMessage}">
+				<f:facet name="{RowsPerPageLabel}">
+                        #{labels.dataTable_rowsPerPage}
+                    </f:facet>
+				<p:column sortBy="#{acces.id}">
+					<f:facet name="header">#{labels.acces_id}</f:facet>
+					<h:outputText value="#{acces.id}" />
+				</p:column>
+
+				<p:column sortBy="#{acces.identificacio}">
+					<f:facet name="header">#{labels.acces_identificacio}</f:facet>
+					<h:outputText value="#{acces.identificacio}" />
+				</p:column>
+				<p:column sortBy="#{acces.tipusIdentificacio}">
+					<f:facet name="header">#{labels.acces_tipusidentificacio}</f:facet>
+					<h:outputText value="#{acces.tipusIdentificacio}" />
+				</p:column>
+				<p:column sortBy="#{acces.ip}">
+					<f:facet name="header">#{labels.acces_ip}</f:facet>
+					<h:outputText value="#{acces.ip}" />
+				</p:column>
+				<p:column sortBy="#{acces.referenciaId}">
+					<f:facet name="header">#{labels.acces_referenciaId}</f:facet>
+					<h:outputText value="#{acces.referenciaId}" />
+				</p:column>
+				<p:column sortBy="#{acces.dataCreacio}">
+					<f:facet name="header">#{labels.acces_dataCreacio}</f:facet>
+					<h:outputText value="#{acces.dataCreacio}">
+						<f:convertDateTime type="localDate" pattern="dd-MM-yyyy" />
+					</h:outputText>
+				</p:column>
+			</p:dataTable>
+
+			<ui:decorate template="/WEB-INF/decorations/buttons.xhtml">
+				<ui:define name="buttons">
+					<p:button value="#{labels.button_tornar}" outcome="/listReferencia"
+						styleClass="float-right" />
+				</ui:define>
+			</ui:decorate>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>
