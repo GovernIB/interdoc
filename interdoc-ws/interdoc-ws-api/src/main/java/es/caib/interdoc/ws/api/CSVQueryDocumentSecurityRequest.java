@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlType;
  * <pre>
  * &lt;complexType name="CSVQueryDocumentSecurityRequest"&gt;
  *   &lt;complexContent&gt;
- *     &lt;extension base="{http://impl.ws.interdoc.caib.es/}CSVQueryDocumentRequest"&gt;
+ *     &lt;extension base="{http://impl.ws.interna.api.interdoc.caib.es/}CSVQueryDocumentRequest"&gt;
  *       &lt;sequence&gt;
  *         &lt;element name="nif" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *         &lt;element name="tipoIdentificacion" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;

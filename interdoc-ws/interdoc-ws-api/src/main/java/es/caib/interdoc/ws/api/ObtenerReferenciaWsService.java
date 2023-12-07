@@ -16,13 +16,13 @@ import javax.xml.ws.Service;
  */
 @WebServiceClient(name = "ObtenerReferenciaWsService",
                   wsdlLocation = "file:/c:/Dades/Programacio/interdocProjecte/interdoc/interdoc-ws/interdoc-ws-api/src/main/resources/wsdl/ObtenerReferenciaWs.wsdl",
-                  targetNamespace = "http://impl.ws.interdoc.caib.es/")
+                  targetNamespace = "http://impl.ws.interna.api.interdoc.caib.es/")
 public class ObtenerReferenciaWsService extends Service {
 
     public final static URL WSDL_LOCATION;
 
-    public final static QName SERVICE = new QName("http://impl.ws.interdoc.caib.es/", "ObtenerReferenciaWsService");
-    public final static QName ObtenerReferenciaWs = new QName("http://impl.ws.interdoc.caib.es/", "ObtenerReferenciaWs");
+    public final static QName SERVICE = new QName("http://impl.ws.interna.api.interdoc.caib.es/", "ObtenerReferenciaWsService");
+    public final static QName ObtenerReferenciaWs = new QName("http://impl.ws.interna.api.interdoc.caib.es/", "ObtenerReferenciaWs");
     static {
         URL url = null;
         try {

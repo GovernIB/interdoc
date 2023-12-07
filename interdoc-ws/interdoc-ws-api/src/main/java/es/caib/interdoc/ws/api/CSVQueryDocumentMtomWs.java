@@ -14,13 +14,13 @@ import javax.xml.ws.ResponseWrapper;
  * Generated source version: 3.2.5.redhat-00001
  *
  */
-@WebService(targetNamespace = "http://impl.ws.interdoc.caib.es/", name = "CSVQueryDocumentMtomWs")
+@WebService(targetNamespace = "http://impl.ws.interna.api.interdoc.caib.es/", name = "CSVQueryDocumentMtomWs")
 @XmlSeeAlso({ObjectFactory.class})
 public interface CSVQueryDocumentMtomWs {
 
     @WebMethod
-    @RequestWrapper(localName = "csvQueryDocument", targetNamespace = "http://impl.ws.interdoc.caib.es/", className = "es.caib.interdoc.ws.api.CsvQueryDocument")
-    @ResponseWrapper(localName = "csvQueryDocumentResponse", targetNamespace = "http://impl.ws.interdoc.caib.es/", className = "es.caib.interdoc.ws.api.CsvQueryDocumentResponse")
+    @RequestWrapper(localName = "csvQueryDocument", targetNamespace = "http://impl.ws.interna.api.interdoc.caib.es/", className = "es.caib.interdoc.ws.api.CsvQueryDocument")
+    @ResponseWrapper(localName = "csvQueryDocumentResponse", targetNamespace = "http://impl.ws.interna.api.interdoc.caib.es/", className = "es.caib.interdoc.ws.api.CsvQueryDocumentResponse")
     @WebResult(name = "return", targetNamespace = "")
     public java.lang.String csvQueryDocument(
         @WebParam(name = "csvQueryDocumentRequest", targetNamespace = "")
@@ -28,8 +28,8 @@ public interface CSVQueryDocumentMtomWs {
     ) throws Exception_Exception;
 
     @WebMethod
-    @RequestWrapper(localName = "csvQueryDocumentSecurity", targetNamespace = "http://impl.ws.interdoc.caib.es/", className = "es.caib.interdoc.ws.api.CsvQueryDocumentSecurity")
-    @ResponseWrapper(localName = "csvQueryDocumentSecurityResponse", targetNamespace = "http://impl.ws.interdoc.caib.es/", className = "es.caib.interdoc.ws.api.CsvQueryDocumentSecurityResponse")
+    @RequestWrapper(localName = "csvQueryDocumentSecurity", targetNamespace = "http://impl.ws.interna.api.interdoc.caib.es/", className = "es.caib.interdoc.ws.api.CsvQueryDocumentSecurity")
+    @ResponseWrapper(localName = "csvQueryDocumentSecurityResponse", targetNamespace = "http://impl.ws.interna.api.interdoc.caib.es/", className = "es.caib.interdoc.ws.api.CsvQueryDocumentSecurityResponse")
     @WebResult(name = "return", targetNamespace = "")
     public java.lang.String csvQueryDocumentSecurity(
         @WebParam(name = "csvQueryDocumentSecurityRequest", targetNamespace = "")

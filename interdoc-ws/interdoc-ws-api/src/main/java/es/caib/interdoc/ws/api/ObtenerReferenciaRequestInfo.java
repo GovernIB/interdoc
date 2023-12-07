@@ -21,10 +21,11 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence&gt;
  *         &lt;element name="aplicacioId" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *         &lt;element name="csv" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
- *         &lt;element name="document" type="{http://impl.ws.interdoc.caib.es/}fitxer" minOccurs="0"/&gt;
+ *         &lt;element name="document" type="{http://impl.ws.interna.api.interdoc.caib.es/}fitxer" minOccurs="0"/&gt;
  *         &lt;element name="emisor" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="entitatId" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *         &lt;element name="interessats" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/&gt;
- *         &lt;element name="metadades" type="{http://impl.ws.interdoc.caib.es/}metadada" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *         &lt;element name="metadades" type="{http://impl.ws.interna.api.interdoc.caib.es/}metadada" maxOccurs="unbounded" minOccurs="0"/&gt;
  *         &lt;element name="receptor" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *         &lt;element name="uuid" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
@@ -41,6 +42,7 @@ import javax.xml.bind.annotation.XmlType;
     "csv",
     "document",
     "emisor",
+    "entitatId",
     "interessats",
     "metadades",
     "receptor",
@@ -52,6 +54,7 @@ public class ObtenerReferenciaRequestInfo {
     protected String csv;
     protected Fitxer document;
     protected String emisor;
+    protected String entitatId;
     @XmlElement(nillable = true)
     protected List<String> interessats;
     @XmlElement(nillable = true)
@@ -153,6 +156,30 @@ public class ObtenerReferenciaRequestInfo {
      */
     public void setEmisor(String value) {
         this.emisor = value;
+    }
+
+    /**
+     * Obtiene el valor de la propiedad entitatId.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getEntitatId() {
+        return entitatId;
+    }
+
+    /**
+     * Define el valor de la propiedad entitatId.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setEntitatId(String value) {
+        this.entitatId = value;
     }
 
     /**

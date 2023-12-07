@@ -14,13 +14,13 @@ import javax.xml.ws.ResponseWrapper;
  * Generated source version: 3.2.5.redhat-00001
  *
  */
-@WebService(targetNamespace = "http://impl.ws.interdoc.caib.es/", name = "ObtenerReferenciaWs")
+@WebService(targetNamespace = "http://impl.ws.interna.api.interdoc.caib.es/", name = "ObtenerReferenciaWs")
 @XmlSeeAlso({ObjectFactory.class})
 public interface ObtenerReferenciaWs {
 
     @WebMethod
-    @RequestWrapper(localName = "creaReferencia", targetNamespace = "http://impl.ws.interdoc.caib.es/", className = "es.caib.interdoc.ws.api.CreaReferencia")
-    @ResponseWrapper(localName = "creaReferenciaResponse", targetNamespace = "http://impl.ws.interdoc.caib.es/", className = "es.caib.interdoc.ws.api.CreaReferenciaResponse")
+    @RequestWrapper(localName = "creaReferencia", targetNamespace = "http://impl.ws.interna.api.interdoc.caib.es/", className = "es.caib.interdoc.ws.api.CreaReferencia")
+    @ResponseWrapper(localName = "creaReferenciaResponse", targetNamespace = "http://impl.ws.interna.api.interdoc.caib.es/", className = "es.caib.interdoc.ws.api.CreaReferenciaResponse")
     @WebResult(name = "return", targetNamespace = "")
     public java.lang.String creaReferencia(
         @WebParam(name = "obtenerReferenciaRequest", targetNamespace = "")
@@ -28,21 +28,8 @@ public interface ObtenerReferenciaWs {
     ) throws Exception_Exception;
 
     @WebMethod
-    @RequestWrapper(localName = "descarregarDocument", targetNamespace = "http://impl.ws.interdoc.caib.es/", className = "es.caib.interdoc.ws.api.DescarregarDocument")
-    @ResponseWrapper(localName = "descarregarDocumentResponse", targetNamespace = "http://impl.ws.interdoc.caib.es/", className = "es.caib.interdoc.ws.api.DescarregarDocumentResponse")
-    @WebResult(name = "return", targetNamespace = "")
-    public es.caib.interdoc.ws.api.Fitxer descarregarDocument(
-        @WebParam(name = "referencia", targetNamespace = "")
-        java.lang.String referencia,
-        @WebParam(name = "usuari", targetNamespace = "")
-        java.lang.String usuari,
-        @WebParam(name = "clau", targetNamespace = "")
-        java.lang.String clau
-    ) throws Exception_Exception;
-
-    @WebMethod
-    @RequestWrapper(localName = "echo", targetNamespace = "http://impl.ws.interdoc.caib.es/", className = "es.caib.interdoc.ws.api.Echo")
-    @ResponseWrapper(localName = "echoResponse", targetNamespace = "http://impl.ws.interdoc.caib.es/", className = "es.caib.interdoc.ws.api.EchoResponse")
+    @RequestWrapper(localName = "echo", targetNamespace = "http://impl.ws.interna.api.interdoc.caib.es/", className = "es.caib.interdoc.ws.api.Echo")
+    @ResponseWrapper(localName = "echoResponse", targetNamespace = "http://impl.ws.interna.api.interdoc.caib.es/", className = "es.caib.interdoc.ws.api.EchoResponse")
     @WebResult(name = "return", targetNamespace = "")
     public java.lang.String echo(
         @WebParam(name = "echo", targetNamespace = "")
@@ -50,8 +37,8 @@ public interface ObtenerReferenciaWs {
     );
 
     @WebMethod
-    @RequestWrapper(localName = "getVersionWs", targetNamespace = "http://impl.ws.interdoc.caib.es/", className = "es.caib.interdoc.ws.api.GetVersionWs")
-    @ResponseWrapper(localName = "getVersionWsResponse", targetNamespace = "http://impl.ws.interdoc.caib.es/", className = "es.caib.interdoc.ws.api.GetVersionWsResponse")
+    @RequestWrapper(localName = "getVersionWs", targetNamespace = "http://impl.ws.interna.api.interdoc.caib.es/", className = "es.caib.interdoc.ws.api.GetVersionWs")
+    @ResponseWrapper(localName = "getVersionWsResponse", targetNamespace = "http://impl.ws.interna.api.interdoc.caib.es/", className = "es.caib.interdoc.ws.api.GetVersionWsResponse")
     @WebResult(name = "return", targetNamespace = "")
     public java.lang.String getVersionWs();
 }

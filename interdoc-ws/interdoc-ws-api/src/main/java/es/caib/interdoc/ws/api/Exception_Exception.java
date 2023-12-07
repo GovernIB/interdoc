@@ -10,7 +10,7 @@ import javax.xml.ws.WebFault;
  * Generated source version: 3.2.5.redhat-00001
  */
 
-@WebFault(name = "Exception", targetNamespace = "http://impl.ws.interdoc.caib.es/")
+@WebFault(name = "Exception", targetNamespace = "http://impl.ws.interna.api.interdoc.caib.es/")
 public class Exception_Exception extends java.lang.Exception {
 
     private es.caib.interdoc.ws.api.Exception exception;

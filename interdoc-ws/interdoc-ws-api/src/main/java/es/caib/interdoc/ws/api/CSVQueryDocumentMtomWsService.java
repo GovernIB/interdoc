@@ -16,13 +16,13 @@ import javax.xml.ws.Service;
  */
 @WebServiceClient(name = "CSVQueryDocumentMtomWsService",
                   wsdlLocation = "file:/c:/Dades/Programacio/interdocProjecte/interdoc/interdoc-ws/interdoc-ws-api/src/main/resources/wsdl/CSVQueryDocumentMtomWs.wsdl",
-                  targetNamespace = "http://impl.ws.interdoc.caib.es/")
+                  targetNamespace = "http://impl.ws.interna.api.interdoc.caib.es/")
 public class CSVQueryDocumentMtomWsService extends Service {
 
     public final static URL WSDL_LOCATION;
 
-    public final static QName SERVICE = new QName("http://impl.ws.interdoc.caib.es/", "CSVQueryDocumentMtomWsService");
-    public final static QName CSVQueryDocumentMtomWs = new QName("http://impl.ws.interdoc.caib.es/", "CSVQueryDocumentMtomWs");
+    public final static QName SERVICE = new QName("http://impl.ws.interna.api.interdoc.caib.es/", "CSVQueryDocumentMtomWsService");
+    public final static QName CSVQueryDocumentMtomWs = new QName("http://impl.ws.interna.api.interdoc.caib.es/", "CSVQueryDocumentMtomWs");
     static {
         URL url = null;
         try {
