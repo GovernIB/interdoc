@@ -1,74 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>es.caib.interdoc</groupId>
-        <artifactId>interdoc-plugins</artifactId>
-        <version>1.0.0</version>
-    </parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>es.caib.interdoc</groupId>
+		<artifactId>interdoc-plugins</artifactId>
+		<version>1.0.0</version>
+	</parent>
 
-    <artifactId>interdoc-plugins-apifirmasimple</artifactId>
-    <packaging>jar</packaging>
-    <name>Interdoc - Plugin - API Firma Simple</name>
-    <description>Integració amb API Firma simple en Servidor</description>
+	<artifactId>interdoc-plugins-apifirmasimple</artifactId>
+	<packaging>jar</packaging>
+	<name>Interdoc - Plugin - API Firma Simple</name>
+	<description>Integració amb API Firma simple en Servidor</description>
 
-    <build>
-        <finalName>${project.artifactId}</finalName>
-    </build>
+	<build>
+		<finalName>${project.artifactId}</finalName>
+	</build>
 
-    <dependencies>
-        <!-- Especificacions i llibreries proporcionades per JBoss -->
-        <dependency>
-            <groupId>org.jboss.spec</groupId>
-            <artifactId>jboss-javaee-8.0</artifactId>
-            <type>pom</type>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        
-        <!-- Altres mòduls -->
-        
-        <dependency>
-            <groupId>es.caib.interdoc</groupId>
-            <artifactId>interdoc-commons</artifactId>
-        </dependency>
+	<dependencies>
+		<!-- Especificacions i llibreries proporcionades per JBoss -->
+		<dependency>
+			<groupId>org.jboss.spec</groupId>
+			<artifactId>jboss-javaee-8.0</artifactId>
+			<type>pom</type>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
 
-        <dependency>
-            <artifactId>apifirmasimple-api</artifactId>
-            <groupId>org.fundaciobit.apisib.apifirmasimple</groupId>
-            <version>1.0.3</version>
-        </dependency>
+		<!-- Altres mòduls -->
 
-        <dependency>
-            <artifactId>apifirmasimple-jersey</artifactId>
-            <groupId>org.fundaciobit.apisib.apifirmasimple</groupId>
-            <version>1.0.3</version>
-        </dependency>
+		<dependency>
+			<groupId>es.caib.interdoc</groupId>
+			<artifactId>interdoc-commons</artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>org.fundaciobit.pluginsib.core</groupId>
-            <artifactId>pluginsib-core</artifactId>
-            <version>2.0.2</version>
-        </dependency>
+		<dependency>
+			<groupId>es.caib.interdoc</groupId>
+			<artifactId>interdoc-service</artifactId>
+		</dependency>
 
-        <dependency>
-            <artifactId>apisib-jerseycore</artifactId>
-            <groupId>org.fundaciobit.apisib.jerseycore</groupId>
-            <version>1.0.2</version>
-        </dependency>
+		<dependency>
+			<artifactId>apifirmasimple-api</artifactId>
+			<groupId>org.fundaciobit.apisib.apifirmasimple</groupId>
+			<version>1.0.3</version>
+		</dependency>
 
-        <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-            <version>1.2</version>
-        </dependency>
+		<dependency>
+			<artifactId>apifirmasimple-jersey</artifactId>
+			<groupId>org.fundaciobit.apisib.apifirmasimple</groupId>
+			<version>1.0.3</version>
+		</dependency>
 
-    </dependencies>
+		<dependency>
+			<groupId>org.fundaciobit.pluginsib.core</groupId>
+			<artifactId>pluginsib-core</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<artifactId>apisib-jerseycore</artifactId>
+			<groupId>org.fundaciobit.apisib.jerseycore</groupId>
+			<version>1.0.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.microprofile.config</groupId>
+			<artifactId>microprofile-config-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.fundaciobit.pluginsib.arxiu</groupId>
+			<artifactId>pluginsib-arxiu-api</artifactId>
+			<version>2.0.26</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.fundaciobit.pluginsib.core</groupId>
+					<artifactId>pluginsib-core</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+	</dependencies>
 
 
 </project>
