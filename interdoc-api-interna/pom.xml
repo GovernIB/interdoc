@@ -1,329 +1,576 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <artifactId>interdoc</artifactId>
-        <groupId>es.caib.interdoc</groupId>
-        <version>1.0.0</version>
-    </parent>
-    <artifactId>interdoc-api-interna</artifactId>
-    <packaging>war</packaging>
-    <version>1.0.0</version>
-    <name>interdoc - API Rest - Interna</name>
-    <properties>
-        <auth.method>BASIC</auth.method>
-        <client.default.package>es.caib.interdoc.apiinterna.client</client.default.package>
-        <!-- La darrera versió disponible: https://github.com/swagger-api/swagger-ui/releases -->
-        <swagger-ui.version>3.52.5</swagger-ui.version>
-    </properties>
-    <dependencies>
-        <!-- Especificacions i llibreries proporcionades per JBoss -->
-        <dependency>
-            <groupId>org.jboss.spec</groupId>
-            <artifactId>jboss-javaee-8.0</artifactId>
-            <type>pom</type>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <!-- Altres mòduls del projecte -->
-        <dependency>
-            <groupId>es.caib.interdoc</groupId>
-            <artifactId>interdoc-commons</artifactId>
-            <version>1.0.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>es.caib.interdoc</groupId>
-            <artifactId>interdoc-persistence</artifactId>
-            <version>1.0.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>es.caib.interdoc</groupId>
-            <artifactId>interdoc-ejb</artifactId>
-            <version>1.0.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-        	<groupId>es.caib.interdoc</groupId>
-        	<artifactId>interdoc-service</artifactId>
-        	<version>1.0.0</version>
-        	<scope>provided</scope>
-        </dependency>
-        <!-- plugin arxiu -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>interdoc</artifactId>
+		<groupId>es.caib.interdoc</groupId>
+		<version>1.0.0</version>
+	</parent>
+	<artifactId>interdoc-api-interna</artifactId>
+	<packaging>war</packaging>
+	<version>1.0.0</version>
+	<name>interdoc - API Rest - Interna</name>
+	<properties>
+		<auth.method>BASIC</auth.method>
+		<client.default.package>es.caib.interdoc.apiinterna.client</client.default.package>
+		<!-- La darrera versió disponible: https://github.com/swagger-api/swagger-ui/releases -->
+		<swagger-ui.version>3.52.5</swagger-ui.version>
+	</properties>
+	<dependencies>
+		<!-- Especificacions i llibreries proporcionades per JBoss -->
+		<dependency>
+			<groupId>org.jboss.spec</groupId>
+			<artifactId>jboss-javaee-8.0</artifactId>
+			<type>pom</type>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+		<!-- Altres mòduls del projecte -->
+		<dependency>
+			<groupId>es.caib.interdoc</groupId>
+			<artifactId>interdoc-commons</artifactId>
+			<version>1.0.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>es.caib.interdoc</groupId>
+			<artifactId>interdoc-persistence</artifactId>
+			<version>1.0.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>es.caib.interdoc</groupId>
+			<artifactId>interdoc-ejb</artifactId>
+			<version>1.0.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>es.caib.interdoc</groupId>
+			<artifactId>interdoc-service</artifactId>
+			<version>1.0.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- plugin arxiu -->
 		<dependency>
 			<groupId>es.caib.interdoc</groupId>
 			<artifactId>interdoc-plugins-arxiu</artifactId>
 			<version>1.0.0</version>
+			<scope>provided</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.fundaciobit.pluginsib.core</groupId>
+					<artifactId>pluginsib-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.jersey</groupId>
+					<artifactId>jersey-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.jersey</groupId>
+					<artifactId>jersey-client</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>log4j</groupId>
+					<artifactId>log4j</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>commons-io</groupId>
+					<artifactId>commons-io</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-        </dependency>
-        <!-- Anotacions de documentació de openapi -->
-        <dependency>
-            <groupId>io.swagger.core.v3</groupId>
-            <artifactId>swagger-annotations</artifactId>
-            <version>2.1.13</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <!-- Dependències de test -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <!-- Llibreries necessàries implementació client JAX-RS Només són 
-            necessàries perquè al test el client s'executa fora del servidor d'aplicacions. -->
-        <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-client</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-json-binding-provider</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.logging</groupId>
-            <artifactId>commons-logging-jboss-logging</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <!-- Per tests amb Arquillian -->
-        <dependency>
-            <groupId>org.jboss.arquillian.junit</groupId>
-            <artifactId>arquillian-junit-container</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-    <build>
-        <finalName>${project.artifactId}</finalName>
-        <plugins>
-            <!-- Genera el descriptor openapi.json de forma estàtica, després 
-                el posarem l'arrel del WAR -->
-            <!-- https://github.com/swagger-api/swagger-core/tree/master/modules/swagger-maven-plugin -->
-            <plugin>
-                <groupId>io.swagger.core.v3</groupId>
-                <artifactId>swagger-maven-plugin</artifactId>
-                <version>2.2.0</version>
-                <configuration>
-                    <outputFileName>openapi</outputFileName>
-                    <outputPath>${project.build.directory}/openapi/</outputPath>
-                    <outputFormat>JSONANDYAML</outputFormat>
-                    <resourcePackages>
-                        <package>es.caib.interdoc.api.interna</package>
-                    </resourcePackages>
-                    <prettyPrint>TRUE</prettyPrint>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>resolve</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- Genera el Client Rest per Java a partir del fitxer openapi.json -->
-            <!-- https://github.com/swagger-api/swagger-codegen/blob/master/modules/swagger-codegen-maven-plugin/README.md#general-configuration-parameters -->
-            <plugin>
-                <groupId>io.swagger.codegen.v3</groupId>
-                <artifactId>swagger-codegen-maven-plugin</artifactId>
-                <version>3.0.27</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <phase>install</phase>
-                        <configuration>
-                            <inputSpec>${project.basedir}/target/openapi/openapi.json</inputSpec>
-                            <language>java</language>
-                            <configHelp>java</configHelp>
-                            <library>resteasy</library>
-                            <configOptions>
-                                <groupId>es.caib.interdoc</groupId>
-                                <artifactId>interdoc-api-interna-client</artifactId>
-                                <artifactVersion>1.0</artifactVersion>
-                                <dateLibrary>joda</dateLibrary>
-                                <useTags>true</useTags>
-                                <hideGenerationTimestamp>true</hideGenerationTimestamp>
-                            </configOptions>
-                            <!-- <ignoreFileOverride>${project.basedir}/.swagger-codegen-ignore</ignoreFileOverride> -->
-                            <!--    ** AMOLLA AJUDA D'AQUEST PLUGIN PER PANTALLA***  -->
-                            <!-- <configHelp>true</configHelp> -->
-                            <!--<library>jersey2</library>  -->
-                            <!--<library>resttemplate</library>  -->
-                            <!--<configOptions>  -->
-                            <!--    <dateLibrary>joda</dateLibrary>  -->
-                            <!--</configOptions>  -->
-                            <!--<supportingFilesToGenerate>mvn</supportingFilesToGenerate> -->
-                            <addCompileSourceRoot>false</addCompileSourceRoot>
-                            <output>${project.basedir}/../interdoc-api-interna-client</output>
-                            <apiPackage>${client.default.package}.api</apiPackage>
-                            <modelPackage>${client.default.package}.model</modelPackage>
-                            <invokerPackage>${client.default.package}.services</invokerPackage>
-                            <variableNamingConvention>camelCase</variableNamingConvention>
-                            <!-- <serializableModel>true</serializableModel> -->
-                            <fullJavaUtil>true</fullJavaUtil>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- Profile per incloure swagger-ui dins el mòdul -->
-            <!-- Davalla la versió de swagger-ui (Web UI que parseja openapi.json. 
-                Veure index.html) -->
-            <plugin>
-                <groupId>com.googlecode.maven-download-plugin</groupId>
-                <artifactId>download-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>swagger-ui</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>wget</goal>
-                        </goals>
-                        <configuration>
-                            <skipCache>false</skipCache>
-                            <url>https://github.com/swagger-api/swagger-ui/archive/v${swagger-ui.version}.tar.gz</url>
-                            <unpack>true</unpack>
-                            <outputDirectory>${project.build.directory}</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- Canvia l'adreça de la configuració d'exemple per la real, 
-                ./openapi.json -->
-            <plugin>
-                <groupId>com.google.code.maven-replacer-plugin</groupId>
-                <artifactId>replacer</artifactId>
-                <executions>
-                    <execution>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>replace</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <file>${project.build.directory}/swagger-ui-${swagger-ui.version}/dist/index.html</file>
-                    <replacements>
-                        <replacement>
-                            <token>https://petstore.swagger.io/v2/swagger.json</token>
-                            <value>./openapi.json</value>
-                        </replacement>
-                    </replacements>
-                </configuration>
-            </plugin>
-            <!-- Inclou el openapi.json i el swagger-ui dins el war -->
-            <plugin>
-                <artifactId>maven-war-plugin</artifactId>
-                <configuration>
-                    <filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
-                    <webResources>
-                        <!--  combine.children="append">  -->
-                        <resource>
-                            <directory>${project.build.directory}/swagger-ui-${swagger-ui.version}/dist</directory>
-                        </resource>
-                        <resource>
-                            <directory>${project.build.directory}/openapi</directory>
-                        </resource>
-                    </webResources>
-                </configuration>
-            </plugin>
-            <!--   Llevar el .gitignore del codi generat -->
-            <plugin>
-                <groupId>com.coderplus.maven.plugins</groupId>
-                <artifactId>copy-rename-maven-plugin</artifactId>
-                <version>1.0</version>
-                <executions>
-                    <execution>
-                        <id>copy-file</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>rename</goal>
-                        </goals>
-                        <configuration>
-                            <sourceFile>${basedir}/../interdoc-api-interna-client/.gitignore</sourceFile>
-                            <destinationFile>${project.build.directory}/client_gitignore_renamed.txt</destinationFile>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-        <pluginManagement>
-            <plugins>
-                <!--This plugin's configuration is used to store Eclipse 
-                    m2e settings only. It has no influence on the Maven build itself. -->
-                <plugin>
-                    <groupId>org.eclipse.m2e</groupId>
-                    <artifactId>lifecycle-mapping</artifactId>
-                    <version>1.0.0</version>
-                    <configuration>
-                        <lifecycleMappingMetadata>
-                            <pluginExecutions>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>
-                                            org.apache.geronimo
-                                        </groupId>
-                                        <artifactId>
-                                            geronimo-openapi-maven-plugin
-                                        </artifactId>
-                                        <versionRange>
-                                            [1.0.12,)
-                                        </versionRange>
-                                        <goals>
-                                            <goal>openapi.json</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore />
-                                    </action>
-                                </pluginExecution>
-                            </pluginExecutions>
-                        </lifecycleMappingMetadata>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-    </build>
-    <profiles>
-        <!-- Realitza els tests arrancant automàticament un JBoss ubicat 
-            a la variable d'entorn JBOSS_HOME -->
-        <profile>
-            <id>arq-jboss-managed</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>org.wildfly.arquillian</groupId>
-                    <artifactId>wildfly-arquillian-container-managed</artifactId>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-        <!-- Realitza els tests connectant a una instància de JBoss en marxa 
-            a localhost -->
-        <profile>
-            <id>arq-jboss-remote</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.wildfly.arquillian</groupId>
-                    <artifactId>wildfly-arquillian-container-remote</artifactId>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
+
+		<!-- plugin firma -->
+		<dependency>
+			<groupId>es.caib.interdoc</groupId>
+			<artifactId>interdoc-plugins-apifirmasimple</artifactId>
+			<version>1.0.0</version>
+			<scope>provided</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.fundaciobit.pluginsib.core</groupId>
+					<artifactId>pluginsib-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.jersey</groupId>
+					<artifactId>jersey-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.jersey</groupId>
+					<artifactId>jersey-client</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>log4j</groupId>
+					<artifactId>log4j</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- CXF -->
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-core</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-bindings-soap</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-ws-security</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- JBOSS -->
+		<dependency>
+			<groupId>org.fundaciobit.pluginsib.core</groupId>
+			<artifactId>pluginsib-core</artifactId>
+			<version>2.0.2</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.ws</groupId>
+			<artifactId>jbossws-api</artifactId>
+			<version>3.0.0.Final</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+		</dependency>
+		<!-- Anotacions de documentació de openapi -->
+		<dependency>
+			<groupId>io.swagger.core.v3</groupId>
+			<artifactId>swagger-annotations</artifactId>
+			<version>2.1.13</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- Dependències de test -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- Llibreries necessàries implementació client JAX-RS Només són necessàries 
+			perquè al test el client s'executa fora del servidor d'aplicacions. -->
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-client</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-json-binding-provider</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.logging</groupId>
+			<artifactId>commons-logging-jboss-logging</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- Per tests amb Arquillian -->
+		<dependency>
+			<groupId>org.jboss.arquillian.junit</groupId>
+			<artifactId>arquillian-junit-container</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<plugins>
+
+			<!-- Generar el JAR de l'API del WS -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>jar-ws-api</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<configuration>
+							<classesDirectory>${project.build.directory}/classes/es/caib/interdoc/api/interna/ws/api</classesDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Genera el descriptor openapi.json de forma estàtica, després el posarem 
+				l'arrel del WAR -->
+			<!-- https://github.com/swagger-api/swagger-core/tree/master/modules/swagger-maven-plugin -->
+			<plugin>
+				<groupId>io.swagger.core.v3</groupId>
+				<artifactId>swagger-maven-plugin</artifactId>
+				<version>2.2.0</version>
+				<configuration>
+					<outputFileName>openapi</outputFileName>
+					<outputPath>${project.build.directory}/openapi/</outputPath>
+					<outputFormat>JSONANDYAML</outputFormat>
+					<resourcePackages>
+						<package>es.caib.interdoc.api.interna</package>
+					</resourcePackages>
+					<prettyPrint>TRUE</prettyPrint>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>resolve</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Genera el Client Rest per Java a partir del fitxer openapi.json -->
+			<!-- https://github.com/swagger-api/swagger-codegen/blob/master/modules/swagger-codegen-maven-plugin/README.md#general-configuration-parameters -->
+			<plugin>
+				<groupId>io.swagger.codegen.v3</groupId>
+				<artifactId>swagger-codegen-maven-plugin</artifactId>
+				<version>3.0.27</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<phase>install</phase>
+						<configuration>
+							<inputSpec>${project.basedir}/target/openapi/openapi.json</inputSpec>
+							<language>java</language>
+							<configHelp>java</configHelp>
+							<library>resteasy</library>
+							<configOptions>
+								<groupId>es.caib.interdoc</groupId>
+								<artifactId>interdoc-api-interna-client</artifactId>
+								<artifactVersion>1.0</artifactVersion>
+								<dateLibrary>joda</dateLibrary>
+								<useTags>true</useTags>
+								<hideGenerationTimestamp>true</hideGenerationTimestamp>
+							</configOptions>
+							<!-- <ignoreFileOverride>${project.basedir}/.swagger-codegen-ignore</ignoreFileOverride> -->
+							<!-- ** AMOLLA AJUDA D'AQUEST PLUGIN PER PANTALLA*** -->
+							<!-- <configHelp>true</configHelp> -->
+							<!--<library>jersey2</library> -->
+							<!--<library>resttemplate</library> -->
+							<!--<configOptions> -->
+							<!-- <dateLibrary>joda</dateLibrary> -->
+							<!--</configOptions> -->
+							<!--<supportingFilesToGenerate>mvn</supportingFilesToGenerate> -->
+							<addCompileSourceRoot>false</addCompileSourceRoot>
+							<output>${project.basedir}/../interdoc-api-interna-client</output>
+							<apiPackage>${client.default.package}.api</apiPackage>
+							<modelPackage>${client.default.package}.model</modelPackage>
+							<invokerPackage>${client.default.package}.services</invokerPackage>
+							<variableNamingConvention>camelCase</variableNamingConvention>
+							<!-- <serializableModel>true</serializableModel> -->
+							<fullJavaUtil>true</fullJavaUtil>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- Profile per incloure swagger-ui dins el mòdul -->
+			<!-- Davalla la versió de swagger-ui (Web UI que parseja openapi.json. 
+				Veure index.html) -->
+			<plugin>
+				<groupId>com.googlecode.maven-download-plugin</groupId>
+				<artifactId>download-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>swagger-ui</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>wget</goal>
+						</goals>
+						<configuration>
+							<skipCache>false</skipCache>
+							<url>https://github.com/swagger-api/swagger-ui/archive/v${swagger-ui.version}.tar.gz</url>
+							<unpack>true</unpack>
+							<outputDirectory>${project.build.directory}</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- Canvia l'adreça de la configuració d'exemple per la real, ./openapi.json -->
+			<plugin>
+				<groupId>com.google.code.maven-replacer-plugin</groupId>
+				<artifactId>replacer</artifactId>
+				<executions>
+					<execution>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>replace</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<file>${project.build.directory}/swagger-ui-${swagger-ui.version}/dist/index.html</file>
+					<replacements>
+						<replacement>
+							<token>https://petstore.swagger.io/v2/swagger.json</token>
+							<value>./openapi.json</value>
+						</replacement>
+					</replacements>
+				</configuration>
+			</plugin>
+			<!-- Inclou el openapi.json i el swagger-ui dins el war -->
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
+					<webResources>
+						<!-- combine.children="append"> -->
+						<resource>
+							<directory>${project.build.directory}/swagger-ui-${swagger-ui.version}/dist</directory>
+						</resource>
+						<resource>
+							<directory>${project.build.directory}/openapi</directory>
+						</resource>
+					</webResources>
+				</configuration>
+			</plugin>
+
+			<!-- Llevar el .gitignore del codi generat -->
+			<plugin>
+				<groupId>com.coderplus.maven.plugins</groupId>
+				<artifactId>copy-rename-maven-plugin</artifactId>
+				<version>1.0</version>
+				<executions>
+					<execution>
+						<id>copy-file</id>
+						<phase>install</phase>
+						<goals>
+							<goal>rename</goal>
+						</goals>
+						<configuration>
+							<sourceFile>${basedir}/../interdoc-api-interna-client/.gitignore</sourceFile>
+							<destinationFile>${project.build.directory}/client_gitignore_renamed.txt</destinationFile>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.apache.geronimo
+										</groupId>
+										<artifactId>
+											geronimo-openapi-maven-plugin
+										</artifactId>
+										<versionRange>
+											[1.0.12,)
+										</versionRange>
+										<goals>
+											<goal>openapi.json</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+	<profiles>
+		<!-- Perfil per regenerar el WSDL i les classes client dels serveis web -->
+		<profile>
+			<id>regenerateapi-obtenerreferenciaws</id>
+			<activation>
+				<property>
+					<name>regenerateapi1</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>1.8</version>
+						<executions>
+							<execution>
+								<phase>initialize</phase>
+								<configuration>
+									<target>
+										<mkdir
+											dir="${project.build.directory}/generated-sources/" />
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<!-- Processa les classes de la implementació dels serveis web per generar 
+						els fitxers WSDL -->
+					<plugin>
+						<groupId>org.apache.cxf</groupId>
+						<artifactId>cxf-java2ws-plugin</artifactId>
+						<version>3.3.5</version>
+						<executions>
+							<execution>
+								<id>generate-wsdl-ObtenerReferenciaWs</id>
+								<phase>generate-sources</phase>
+								<configuration>
+									<className>es.caib.interdoc.api.interna.ws.impl.ObtenerReferenciaWsImpl</className>
+									<genWsdl>true</genWsdl>
+									<verbose>true</verbose>
+									<frontend>jaxws</frontend>
+									<databinding>jaxb</databinding>
+									<outputFile>${project.basedir}/src/main/resources/wsdl/ObtenerReferenciaWs.wsdl</outputFile>
+									<sourceDirectory>${basedir}/code</sourceDirectory>
+									<portname>ObtenerReferenciaWs</portname>
+									<address>
+										http://localhost:8280/interdocapi/interna/protected/ObtenerReferenciaWsService/ObtenerReferenciaWs
+									</address>
+								</configuration>
+								<goals>
+									<goal>java2ws</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>regenerateapi-descargardocumento</id>
+			<activation>
+				<property>
+					<name>regenerateapi2</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>1.8</version>
+						<executions>
+							<execution>
+								<phase>initialize</phase>
+								<configuration>
+									<target>
+										<mkdir
+											dir="${project.build.directory}/generated-sources/" />
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<!-- Processa les classes de la implementació dels serveis web per generar 
+						els fitxers WSDL -->
+					<plugin>
+						<groupId>org.apache.cxf</groupId>
+						<artifactId>cxf-java2ws-plugin</artifactId>
+						<version>3.3.5</version>
+						<executions>
+							<execution>
+								<id>generate-wsdl-CSVQueryDocumentWs</id>
+								<phase>generate-sources</phase>
+								<configuration>
+									<className>es.caib.interdoc.api.interna.ws.impl.CSVQueryDocumentServiceImpl</className>
+									<genWsdl>true</genWsdl>
+									<verbose>true</verbose>
+									<frontend>jaxws</frontend>
+									<databinding>jaxb</databinding>
+									<outputFile>${project.basedir}/src/main/resources/wsdl/CSVQueryDocumentWs.wsdl</outputFile>
+									<sourceDirectory>${basedir}/code</sourceDirectory>
+									<portname>CSVQueryDocumentWs</portname>
+									<address>
+										http://localhost:8280/interdocapi/interna/protected/CSVQueryDocumentWsService/CSVQueryDocumentWs
+									</address>
+								</configuration>
+								<goals>
+									<goal>java2ws</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<!-- Realitza els tests arrancant automàticament un JBoss ubicat a la variable 
+			d'entorn JBOSS_HOME -->
+		<profile>
+			<id>arq-jboss-managed</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>org.wildfly.arquillian</groupId>
+					<artifactId>wildfly-arquillian-container-managed</artifactId>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+		<!-- Realitza els tests connectant a una instància de JBoss en marxa a 
+			localhost -->
+		<profile>
+			<id>arq-jboss-remote</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.wildfly.arquillian</groupId>
+					<artifactId>wildfly-arquillian-container-remote</artifactId>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
 </project>

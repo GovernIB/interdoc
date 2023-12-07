@@ -12,8 +12,6 @@
     <name>Interdoc - WS</name>
     <description>Mòdul pare de Serveis Web SOAP de Interdoc</description>
     <modules>
-        <module>interdoc-ws-server</module>
         <module>interdoc-ws-api</module>
-		<!-- module>interdoc_ws_client</module -->
     </modules>
 </project>

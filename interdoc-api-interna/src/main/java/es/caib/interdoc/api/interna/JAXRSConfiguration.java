@@ -21,24 +21,17 @@ import org.slf4j.LoggerFactory;
  */
 @OpenAPIDefinition(
         info = @Info(
-                title = "API REST INTERNA de interdoc",
-                description = "Conjunt de Serveis REST de interdoc per ser accedits des de l'interior",
+                title = "API REST INTERNA de INTERDOC",
+                description = "Conjunt de Serveis REST d'Interdoc per ser accedits des de l'interior",
                 version = "1.0.0",
                 license = @License(name = "License Apache 2.0", url = "http://www.apache.org/licenses/LICENSE-2.0"),
                 contact = @Contact(
                         name = "Departament de Govern Digital a la Fundació Bit",
                         email = "otae@fundaciobit.org",
-                        url = "http://otae.fundaciobit.org")
+                        url = "http://governdigital.fundaciobit.org")
 
         ),
-        servers = { 
-        		// @Server(url = "../../interdocapi/interna"),
-                    @Server(url = "http://localhost:8080/interdocapi/interna"),
-                    @Server(url = "https://dev.caib.es/interdocapi/interna"),
-                    @Server(url = "https://proves.caib.es/interdocapi/interna"),
-                    @Server(url = "https://se.caib.es/interdocapi/interna"),
-                    @Server(url = "https://www.caib.es/interdocapi/interna")
-                },
+        servers = { @Server(url = "/interdocapi/interna") },
         externalDocs = @ExternalDocumentation(
                 description = "Java Client (GovernIB Github)",
                 url = "https://github.com/GovernIB/interdoc/tree/interdoc-1.0/interdoc-api-interna-client")
@@ -60,7 +53,7 @@ public class JAXRSConfiguration extends Application {
      */
     @PostConstruct
     private void init() {
-        log.info("Iniciant API REST INTERNA de interdoc");
+        log.info("Iniciant API REST INTERNA de INTERDOC");
     }
 
 }

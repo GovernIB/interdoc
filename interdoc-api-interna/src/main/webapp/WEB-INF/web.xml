@@ -38,11 +38,36 @@
         </web-resource-collection>
         <!-- No auth-constraint means everybody has access! -->
     </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>interdoc_api_interna_obtener_Wsdl</web-resource-name>
+            <url-pattern>/protected/ObtenerReferenciaWsService/*</url-pattern>
+            <http-method>GET</http-method>
+        </web-resource-collection>
+    </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>interdoc_api_interna_obtener_Wsdl</web-resource-name>
+            <url-pattern>/protected/CSVQueryDocumentWsService/*</url-pattern>
+            <http-method>GET</http-method>
+        </web-resource-collection>
+    </security-constraint>
+	
+	<security-constraint>
+		<display-name>Permetre accés a la versió</display-name>
+		<web-resource-collection>
+			<web-resource-name>Versió pública dels WSDLs</web-resource-name>
+			<url-pattern>/wsdl/*</url-pattern>
+		</web-resource-collection>
+	</security-constraint>
 
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>interdoc_api_interna_secured</web-resource-name>
-            <url-pattern>/secured/*</url-pattern>
+            <url-pattern>/protected/*</url-pattern>
+            <http-method>POST</http-method>
         </web-resource-collection>
         <auth-constraint>
             <role-name>ITD_WS</role-name>

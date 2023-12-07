@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions name="CSVQueryDocumentMtomWsService" targetNamespace="http://impl.ws.interdoc.caib.es/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://impl.ws.interdoc.caib.es/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+<wsdl:definitions name="CSVQueryDocumentMtomWsService" targetNamespace="http://impl.ws.interna.api.interdoc.caib.es/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://impl.ws.interna.api.interdoc.caib.es/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
-<xs:schema xmlns:tns="http://impl.ws.interdoc.caib.es/" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://impl.ws.interdoc.caib.es/" version="1.0">
+<xs:schema xmlns:tns="http://impl.ws.interna.api.interdoc.caib.es/" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://impl.ws.interna.api.interdoc.caib.es/" version="1.0">
   <xs:element name="csvQueryDocument" type="tns:csvQueryDocument"/>
   <xs:element name="csvQueryDocumentResponse" type="tns:csvQueryDocumentResponse"/>
   <xs:element name="csvQueryDocumentSecurity" type="tns:csvQueryDocumentSecurity"/>
