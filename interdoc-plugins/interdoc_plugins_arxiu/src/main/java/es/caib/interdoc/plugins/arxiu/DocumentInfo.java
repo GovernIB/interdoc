@@ -4,8 +4,12 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+import es.caib.interdoc.service.model.InfoSignaturaDTO;
+
 
 public class DocumentInfo implements Serializable {
+	
+	private static final long serialVersionUID = -4826465796539140766L;
 	
 	private String nom; 
 	private List<String> organs;
@@ -13,6 +17,7 @@ public class DocumentInfo implements Serializable {
 	private Map<String,Object> metadades; 
 	private Origen origen; 
 	private Fitxer fitxer;
+	private InfoSignaturaDTO signatura;
 
 	public DocumentInfo() {
 		super();
@@ -59,6 +64,14 @@ public class DocumentInfo implements Serializable {
 
 	public void setMetadades(Map<String,Object> metadades) {
 		this.metadades = metadades;
+	}
+
+	public InfoSignaturaDTO getSignatura() {
+		return signatura;
+	}
+
+	public void setSignatura(InfoSignaturaDTO signatura) {
+		this.signatura = signatura;
 	}
 
 	public Origen getOrigen() {
