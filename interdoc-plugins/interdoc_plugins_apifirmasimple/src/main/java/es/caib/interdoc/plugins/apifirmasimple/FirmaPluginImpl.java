@@ -81,51 +81,59 @@ public class FirmaPluginImpl extends AbstractPluginProperties implements Interdo
 		this.plugin = plugin;
 	}
 
-	private void carregarPropertiesFile() {
-
-		Config config = ConfigProvider.getConfig();
-
-		propietats.put(PROPERTY_PROFILE_CADES, config.getValue(PROPERTY_PROFILE_CADES, String.class));
-		propietats.put(PROPERTY_PROFILE_PADES, config.getValue(PROPERTY_PROFILE_PADES, String.class));
-		propietats.put(PROPERTY_PROFILE_XADES, config.getValue(PROPERTY_PROFILE_XADES, String.class));
-
-		propietats.put(PROPERTY_USERNAME, config.getValue(PROPERTY_USERNAME, String.class));
-		propietats.put(PROPERTY_ADMINISTRATIONID, config.getValue(PROPERTY_ADMINISTRATIONID, String.class));
-		propietats.put(PROPERTY_EMAIL, config.getValue(PROPERTY_EMAIL, String.class));
-		propietats.put(PROPERTY_IDIOMA, config.getValue(PROPERTY_IDIOMA, String.class));
-		propietats.put(PROPERTY_IDIOMASIGNATURA, config.getValue(PROPERTY_IDIOMASIGNATURA, String.class));
-		propietats.put(PROPERTY_LOCALITZACIO, config.getValue(PROPERTY_LOCALITZACIO, String.class));
-		propietats.put(PROPERTY_MOTIU, config.getValue(PROPERTY_MOTIU, String.class));
-		propietats.put(PROPERTY_TIPUSDOCUMENTALID, config.getValue(PROPERTY_TIPUSDOCUMENTALID, String.class));
-		propietats.put(PROPERTY_ALIAS, config.getValue(PROPERTY_ALIAS, String.class));
-		propietats.put(PROPERTY_SIGNID, config.getValue(PROPERTY_SIGNID, String.class));
-		propietats.put(PROPERTY_PROFILE, config.getValue(PROPERTY_PROFILE, String.class));
-
-		try {
-
-			if (Utils.isEmpty(propietats.getProperty(PROPERTY_PERFIL))) {
-				logErrorPerfilBuit("PROFILE_PADES");
-				propietats.put(PROPERTY_PERFIL, propietats.getProperty(PROPERTY_PROFILE_PADES));
-			}
-
-			if (Utils.isEmpty(propietats.getProperty(PROPERTY_SIGNEDPATH))) {
-				propietats.put(PROPERTY_SIGNEDPATH, config.getValue(PROPERTY_SIGNEDPATH, String.class));
-			}
-
-			setPropietats(propietats);
-
-			if (Configuracio.isDesenvolupament()) {
-				LOG.info("------------ PROPIEDADES FIRMA FILE -------------------");
-				propietats.stringPropertyNames().forEach(x -> LOG.info(x + " => " + propietats.getProperty(x)));
-				LOG.info("---------------------------------------------------");
-			}
-
-		} catch (Exception e) {
-			LOG.error("S'ha produit un error alhora de carregar les propietats. ");
-			e.printStackTrace();
-		}
-
-	}
+	/*
+	 * private void carregarPropertiesFile() {
+	 * 
+	 * Config config = ConfigProvider.getConfig();
+	 * 
+	 * propietats.put(PROPERTY_PROFILE_CADES,
+	 * config.getValue(PROPERTY_PROFILE_CADES, String.class));
+	 * propietats.put(PROPERTY_PROFILE_PADES,
+	 * config.getValue(PROPERTY_PROFILE_PADES, String.class));
+	 * propietats.put(PROPERTY_PROFILE_XADES,
+	 * config.getValue(PROPERTY_PROFILE_XADES, String.class));
+	 * 
+	 * propietats.put(PROPERTY_USERNAME, config.getValue(PROPERTY_USERNAME,
+	 * String.class)); propietats.put(PROPERTY_ADMINISTRATIONID,
+	 * config.getValue(PROPERTY_ADMINISTRATIONID, String.class));
+	 * propietats.put(PROPERTY_EMAIL, config.getValue(PROPERTY_EMAIL,
+	 * String.class)); propietats.put(PROPERTY_IDIOMA,
+	 * config.getValue(PROPERTY_IDIOMA, String.class));
+	 * propietats.put(PROPERTY_IDIOMASIGNATURA,
+	 * config.getValue(PROPERTY_IDIOMASIGNATURA, String.class));
+	 * propietats.put(PROPERTY_LOCALITZACIO, config.getValue(PROPERTY_LOCALITZACIO,
+	 * String.class)); propietats.put(PROPERTY_MOTIU,
+	 * config.getValue(PROPERTY_MOTIU, String.class));
+	 * propietats.put(PROPERTY_TIPUSDOCUMENTALID,
+	 * config.getValue(PROPERTY_TIPUSDOCUMENTALID, String.class));
+	 * propietats.put(PROPERTY_ALIAS, config.getValue(PROPERTY_ALIAS,
+	 * String.class)); propietats.put(PROPERTY_SIGNID,
+	 * config.getValue(PROPERTY_SIGNID, String.class));
+	 * propietats.put(PROPERTY_PROFILE, config.getValue(PROPERTY_PROFILE,
+	 * String.class));
+	 * 
+	 * try {
+	 * 
+	 * if (Utils.isEmpty(propietats.getProperty(PROPERTY_PERFIL))) {
+	 * logErrorPerfilBuit("PROFILE_PADES"); propietats.put(PROPERTY_PERFIL,
+	 * propietats.getProperty(PROPERTY_PROFILE_PADES)); }
+	 * 
+	 * if (Utils.isEmpty(propietats.getProperty(PROPERTY_SIGNEDPATH))) {
+	 * propietats.put(PROPERTY_SIGNEDPATH, config.getValue(PROPERTY_SIGNEDPATH,
+	 * String.class)); }
+	 * 
+	 * setPropietats(propietats);
+	 * 
+	 * if (Configuracio.isDesenvolupament()) {
+	 * LOG.info("------------ PROPIEDADES FIRMA FILE -------------------");
+	 * propietats.stringPropertyNames().forEach(x -> LOG.info(x + " => " +
+	 * propietats.getProperty(x)));
+	 * LOG.info("---------------------------------------------------"); }
+	 * 
+	 * } catch (Exception e) {
+	 * LOG.error("S'ha produit un error alhora de carregar les propietats. ");
+	 * e.printStackTrace(); } }
+	 */
 
 	public void carregarProperties(Properties props) {
 		setPropietats(props);
@@ -183,13 +191,18 @@ public class FirmaPluginImpl extends AbstractPluginProperties implements Interdo
 		fileToSign.setMime(fitxer.getMime());
 		fileToSign.setData(fitxer.getData());
 
-		LOG.info("fileToSign.nom => " + fileToSign.getNom());
-		LOG.info("fileToSign.mime => " + fileToSign.getMime());
-		LOG.info("fileToSign.data => " + fileToSign.getData().toString());
-		LOG.info("fileToSign.data string => " + Base64.encode(fileToSign.getData()));
-
+		if (Configuracio.isDesenvolupament()) {
+			LOG.info("fileToSign.nom => " + fileToSign.getNom());
+			LOG.info("fileToSign.mime => " + fileToSign.getMime());
+			LOG.info("fileToSign.data.length => " + fileToSign.getData().length);
+		}
+		
 		FirmaSimpleSignatureResult resultFirma = null;
-		resultFirma = internalSignDocument(fileToSign);
+		try {
+			resultFirma = internalSignDocument(fileToSign);
+		} catch (Exception e) {
+			LOG.error("firmarDocumentError => " + e.getMessage());
+		}
 
 		if (resultFirma != null) {
 
@@ -207,7 +220,7 @@ public class FirmaPluginImpl extends AbstractPluginProperties implements Interdo
 			infoFirma.setErrorStackTrace(fstatus.getErrorStackTrace());
 
 			FirmaSimpleSignedFileInfo fssf = resultFirma.getSignedFileInfo();
-			infoFirma.setSignOperation(fssf.getSignOperation());
+			infoFirma.setSignOperation(fssf.getSignOperation()   );
 			infoFirma.setSignType(fssf.getSignType());
 			infoFirma.setSignAlgorithm(fssf.getSignAlgorithm());
 			infoFirma.setSignMode(fssf.getSignMode());
@@ -216,7 +229,7 @@ public class FirmaPluginImpl extends AbstractPluginProperties implements Interdo
 			infoFirma.setPolicyIncluded(fssf.isPolicyIncluded());
 			infoFirma.setEniPerfilFirma(fssf.getEniPerfilFirma());
 			infoFirma.setEniTipoFirma(fssf.getEniTipoFirma());
-
+			
 			FirmaSimpleSignerInfo fssi = fssf.getSignerInfo();
 
 			if (fssi != null) {
@@ -264,7 +277,10 @@ public class FirmaPluginImpl extends AbstractPluginProperties implements Interdo
 		String username = propietats.getProperty(PROPERTY_ALIAS);
 		String administrationID = "";
 		String signerEmail = "";
-		String perfil = propietats.getProperty(PROPERTY_PERFIL);
+
+		// Si és un fitxer PDF utilitzarem ENVIAFIB_PADES, sino CADES_ATACHED
+		String perfil = (fileInfoSignature.getName().contains(".pdf")) ? propietats.getProperty(PROPERTY_PROFILE_PADES)
+				: propietats.getProperty(PROPERTY_PROFILE_CADES);
 
 		FirmaSimpleCommonInfo commonInfo;
 		commonInfo = new FirmaSimpleCommonInfo(perfil, languageUI, username, administrationID, signerEmail);
@@ -296,73 +312,62 @@ public class FirmaPluginImpl extends AbstractPluginProperties implements Interdo
 			plugin = getApiFirmaEnServidorSimple();
 		}
 
+		LOG.info("inici firma plugin.signDocument");
 		FirmaSimpleSignatureResult fullResults = plugin.signDocument(signature);
 
-		// Corregir error perfil de firma no informat
-//			if (fullResults != null)
-//				if(fullResults.getSignedFileInfo() != null)
-//					if (Utils.isEmpty(fullResults.getSignedFileInfo().getEniPerfilFirma()))
-//						fullResults.getSignedFileInfo().setEniPerfilFirma(commonInfo.getSignProfile());
-//					else
-//						logError("fullResults.getSignedFileInfo().getEniPerfilFirma()", "");
-//				else
-//					logError("getSignedFileInfo", "");
-//			else
-//				logError("fullResults", "");
-
 		FirmaSimpleStatus transactionStatus = fullResults.getStatus();
-
 		int status = transactionStatus.getStatus();
 
 		switch (status) {
 
-			case FirmaSimpleStatus.STATUS_INITIALIZING: // = 0;
-				LOG.error("Initializing ...Unknown Error (???)");
-				return null;
-	
-			case FirmaSimpleStatus.STATUS_IN_PROGRESS: // = 1;
-				LOG.error("In PROGRESS ... Unknown Error (????) ");
-				return null;
-	
-			case FirmaSimpleStatus.STATUS_FINAL_ERROR: // = -1;
+		case FirmaSimpleStatus.STATUS_INITIALIZING: // = 0;
+			LOG.error("Initializing ...Unknown Error (???)");
+			return null;
+
+		case FirmaSimpleStatus.STATUS_IN_PROGRESS: // = 1;
+			LOG.error("In PROGRESS ... Unknown Error (????) ");
+			return null;
+
+		case FirmaSimpleStatus.STATUS_FINAL_ERROR: // = -1;
+		{
+			LOG.error("Error durant la realització de les firmes: " + transactionStatus.getErrorMessage());
+			String desc = transactionStatus.getErrorStackTrace();
+			if (desc != null) {
+				LOG.error(desc);
+			}
+
+			return null;
+		}
+
+		case FirmaSimpleStatus.STATUS_CANCELLED: // = -2;
+		{
+			LOG.error("S'ha cancel·lat el procés de firmat.");
+			return null;
+		}
+
+		case FirmaSimpleStatus.STATUS_FINAL_OK: // = 2;
+		{
+			LOG.info(" ===== RESULTAT OK =========");
 			{
-				LOG.error("Error durant la realització de les firmes: " + transactionStatus.getErrorMessage());
-				String desc = transactionStatus.getErrorStackTrace();
-				if (desc != null) {
-					LOG.error(desc);
+				LOG.info(" ---- Signature [ " + fullResults.getSignID() + " ]");
+
+				FirmaSimpleFile fsf = fullResults.getSignedFile();
+
+				FileOutputStream fos = new FileOutputStream(fsf.getNom());
+				fos.write(fsf.getData());
+				fos.flush();
+				fos.close();
+
+				if (Configuracio.isDesenvolupament()) {
+					LOG.info("  RESULT: Fitxer signat guardat en '" + new File(".").getAbsolutePath() + fsf.getNom()
+							+ "'");
+					printSignatureInfo(fullResults);
 				}
-				return null;
-			}
-	
-			case FirmaSimpleStatus.STATUS_CANCELLED: // = -2;
-			{
-				LOG.error("S'ha cancel·lat el procés de firmat.");
-				return null;
-			}
-	
-			case FirmaSimpleStatus.STATUS_FINAL_OK: // = 2;
-			{
-				LOG.info(" ===== RESULTAT OK =========");
-				{
-					LOG.info(" ---- Signature [ " + fullResults.getSignID() + " ]");
-	
-					FirmaSimpleFile fsf = fullResults.getSignedFile();
-	
-					FileOutputStream fos = new FileOutputStream(fsf.getNom());
-					fos.write(fsf.getData());
-					fos.flush();
-					fos.close();
-	
-					if (Configuracio.isDesenvolupament()) {
-						LOG.info("  RESULT: Fitxer signat guardat en '" + new File(".").getAbsolutePath() + fsf.getNom()
-								+ "'");
-						printSignatureInfo(fullResults);
-					}
-	
-					return fullResults;
-	
-				} // Final for de fitxers firmats
-			} // Final Case Firma OK
+
+				return fullResults;
+
+			} // Final for de fitxers firmats
+		} // Final Case Firma OK
 		} // Final Switch Firma
 
 		return null;
@@ -376,10 +381,6 @@ public class FirmaPluginImpl extends AbstractPluginProperties implements Interdo
 	private void logErrorPerfilBuit(final String perfilProperty) {
 		LOG.error("La propietat " + perfilProperty
 				+ " està buida. Això significa que si l'usuari aplicacio té més d'un perfil assignat, llavors llançarà un error.");
-	}
-
-	private void logError(final String property, String message) {
-		LOG.error("La propietat " + property + " està buida. " + message);
 	}
 
 	private ApiFirmaEnServidorSimple getApiFirmaEnServidorSimple() throws Exception {

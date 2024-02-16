@@ -70,7 +70,7 @@ public class InfoArxiuServiceFacadeBean implements InfoArxiuServiceFacade {
     }
 
     @Override
-    @RolesAllowed({Constants.ITD_USER, Constants.ITD_ADMIN})
+    @PermitAll
     public Optional<InfoArxiuDTO> findById(Long id) {
     	InfoArxiu infoArxiu = repository.findById(id);
     	InfoArxiuDTO infoArxiuDTO = converter.toDTO(infoArxiu);

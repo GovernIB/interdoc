@@ -57,8 +57,8 @@ public class WsInInterceptor extends AbstractPhaseInterceptor<Message> {
         LOG.debug("  + Method NAME = {}", method.getName());
         LOG.debug("  + Method CLASS = {}", method.getDeclaringClass());
         
-        try {
-        	
+        /*
+        try {	
         	HttpServletRequest hsr = (HttpServletRequest) message.get("HTTP.REQUEST");
             Enumeration<String> headerNames = hsr.getHeaderNames();
             while(headerNames.hasMoreElements()) {
@@ -75,15 +75,7 @@ public class WsInInterceptor extends AbstractPhaseInterceptor<Message> {
         }catch(Exception e) {
         	LOG.error(e.getMessage());
         }
-        
-        AplicacioDTO usuariAplicacio = null;
-        try {
-        	// TODO cridar ejb AplicacioServiceFacade::autenticarUsuario()
-        	usuariAplicacio = null;
-        	
-        }catch(Exception e) {
-        	LOG.error("Error instanciant AplicacioServiceFacade " + e.getMessage());
-        }
+        */
         
     }
 

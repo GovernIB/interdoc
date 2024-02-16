@@ -105,76 +105,126 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
 		final Boolean isDescarregaPDF = (ueriRequest.getDocumentoEni() != null
 				&& "S".equals(ueriRequest.getDocumentoEni().value())) ? true : false;
 
-		if (Utils.isEmpty(csvId) && Utils.isEmpty(idEni)) {
-			return generateCSVQueryDocumentSecurityMtomErrorResponse("400", "Es necessari introduir un CSV o un UUID.");
-		}
-
 		if (Configuracio.isCsvQueryDocumentServiceTest()) {
 			return respostaEnidocMadrid();
 		}
 		
-		// Recuperam la referencia
-		Optional<ReferenciaDTO> referenciaDto = Utils.isNotEmpty(idEni) ? referenciaService.findByUUID(idEni)
-				: referenciaService.findByCSV(csvId);
+		Optional<ReferenciaDTO> referenciaDto = null;
+		String resultatArxiu = null;
+		Long entitatId = 2L; 
+		
+		if ( Utils.isNotEmpty(idEni)) {
+			// Es tracta d'un fitxer pujat previament a Arxiu
+			LOG.info("Recuperam el fitxer a partir de UUId: " + idEni);
+			
+			referenciaDto = referenciaService.findByUUID(idEni);
+			
+			ReferenciaDTO ref = referenciaDto.get();
+			
+			if (ref != null && Configuracio.isDesenvolupament()) {
+				LOG.info("ref.id =>" + ref.getId());
+				LOG.info("ref.Receptor =>" + ref.getReceptor());
+				LOG.info("ref.Emisor =>" + ref.getEmisor());
+				LOG.info("ref.CsvId =>" + ref.getCsvId());
+				LOG.info("ref.UUid =>" + ref.getUuId());
+				LOG.info("ref.fitxerId =>" + ref.getFitxerId());
+				LOG.info("ref.infoSignaturaId =>" + ref.getInfoSignaturaId());
+				LOG.info("ref.infoArxiuId => " + ref.getInfoArxiuId());
+				LOG.info("ref.entitatId => " + ref.getEntitatId());
+			}
+			
+			if (ref == null || ref.getEntitatId() < 1) {
+				return generateCSVQueryDocumentSecurityMtomErrorResponse("200",
+						"No existeix cap referencia amb el UUID indicat");
+			}
+				
+			entitatId = ref.getEntitatId();
+			
+			ArxiuController pluginArxiu = new ArxiuController(entitatId);
 
-		// Recuperam infoArxiu
-		if (referenciaDto == null || referenciaDto.isEmpty()) {
+			// Generam el ENIDOC
+			resultatArxiu = pluginArxiu.getPlugin().generarEniDoc(idEni);
+
+			if (Configuracio.isDesenvolupament())
+				LOG.info(resultatArxiu);
+
+			// Si document_eni => RETORNAM EL PDF TODO
+			if (isDescarregaPDF) {
+				LOG.info("isDescarregaPDF => true");
+				//byte[] filePDF = downloadUrl(new URL(infoArxiu.getOriginalFileUrl()));
+				//LOG.info("byteArray length => " + filePDF.length);
+			}
+			
+		} else if(Utils.isNotEmpty(csvId)) {
+			
+			// Es tracta d'un fitxer amb CSV, pujat previament per Interdoc
+			LOG.info("Recuperam el fitxer a partir del CSVID: " + csvId);
+			
+			referenciaDto = referenciaService.findByCSV(csvId);
+			
+			ReferenciaDTO ref = referenciaDto.get();
+			
+			if (ref != null && Configuracio.isDesenvolupament()) {
+				LOG.info("ref.id =>" + ref.getId());
+				LOG.info("ref.Receptor =>" + ref.getReceptor());
+				LOG.info("ref.Emisor =>" + ref.getEmisor());
+				LOG.info("ref.CsvId =>" + ref.getCsvId());
+				LOG.info("ref.UUid =>" + ref.getUuId());
+				LOG.info("ref.fitxerId =>" + ref.getFitxerId());
+				LOG.info("ref.infoSignaturaId =>" + ref.getInfoSignaturaId());
+				LOG.info("ref.infoArxiuId => " + ref.getInfoArxiuId());
+			}
+			
+			if (ref.getInfoArxiuId() != null && ref.getInfoArxiuId() > 0) {
+
+				Optional<InfoArxiuDTO> arxiu = infoArxiuService.findById(ref.getInfoArxiuId());
+
+				InfoArxiuDTO infoArxiu = null;
+
+				if (arxiu.isPresent()) {
+					infoArxiu = arxiu.get();
+
+					if (Configuracio.isDesenvolupament()) {
+						LOG.info("InforArxiu => " + infoArxiu.toString());
+						LOG.info("infoArxiu.getArxiuDocumentId => " + infoArxiu.getArxiuDocumentId());
+						LOG.info("infoArxiu.getEniFileUrl => " + infoArxiu.getEniFileUrl());
+						LOG.info("infoArxiu.getOriginalFileUrl => " + infoArxiu.getOriginalFileUrl());
+					}
+
+					
+					ArxiuController pluginArxiu = new ArxiuController(entitatId);
+
+					// Generam el ENIDOC
+					resultatArxiu = pluginArxiu.getPlugin().generarEniDoc(infoArxiu.getArxiuDocumentId());
+
+					if (Configuracio.isDesenvolupament())
+						LOG.info(resultatArxiu);
+
+					// Si document_eni => RETORNAM EL PDF
+					if (isDescarregaPDF && infoArxiu.getOriginalFileUrl() != null) {
+						LOG.info("isDescarregaPDF => true");
+						byte[] filePDF = downloadUrl(new URL(infoArxiu.getOriginalFileUrl()));
+						LOG.info("byteArray length => " + filePDF.length);
+					}
+
+				} else {
+					return generateCSVQueryDocumentSecurityMtomErrorResponse("200",
+							"No existeix cap referencia amb les dades indicades a l'arxiu");
+				}
+
+			}
+			
+		} else {
+			// Error
+			LOG.info("Error: EnidId i CSVId són nuls.");
+			return generateCSVQueryDocumentSecurityMtomErrorResponse("400", "Es necessari introduir un CSV o un UUID.");
+		}
+		
+		if  ( Utils.isEmpty(idEni) && (referenciaDto == null || referenciaDto.isEmpty())) {
 			return generateCSVQueryDocumentSecurityMtomErrorResponse("200",
 					"No existeix cap referencia amb les dades indicades");
 		}
 
-		ReferenciaDTO ref = referenciaDto.get();
-		
-		if (Configuracio.isDesenvolupament()) {
-			LOG.info("ref.id =>" + ref.getId());
-			LOG.info("ref.Receptor =>" + ref.getReceptor());
-			LOG.info("ref.Emisor =>" + ref.getEmisor());
-			LOG.info("ref.CsvId =>" + ref.getCsvId());
-			LOG.info("ref.UUid =>" + ref.getUuId());
-			LOG.info("ref.fitxerId =>" + ref.getFitxerId());
-			LOG.info("ref.infoSignaturaId =>" + ref.getInfoSignaturaId());
-			LOG.info("ref.infoArxiuId => " + ref.getInfoArxiuId());
-		}
-
-		String resultatArxiu = null;
-
-		if (ref.getInfoArxiuId() != null && ref.getInfoArxiuId() > 0) {
-
-			Optional<InfoArxiuDTO> arxiu = infoArxiuService.findById(ref.getInfoArxiuId());
-
-			InfoArxiuDTO infoArxiu = null;
-
-			if (arxiu.isPresent()) {
-				infoArxiu = arxiu.get();
-
-				if (Configuracio.isDesenvolupament()) {
-					LOG.info("infoArxiu.getArxiuDocumentID => " + infoArxiu.getArxiuDocumentID());
-					LOG.info("infoArxiu.getEniFileUrl => " + infoArxiu.getEniFileUrl());
-					LOG.info("infoArxiu.getOriginalFileUrl => " + infoArxiu.getOriginalFileUrl());
-				}
-
-				Long entitatId = 1L;
-				ArxiuController pluginArxiu = new ArxiuController(entitatId);
-
-				// Generam el ENIDOC
-				resultatArxiu = pluginArxiu.getPlugin().generarEniDoc(infoArxiu.getArxiuDocumentID());
-
-				if (Configuracio.isDesenvolupament())
-					LOG.info(resultatArxiu);
-
-				// Si document_eni => RETORNAM EL PDF
-				if (isDescarregaPDF && infoArxiu.getOriginalFileUrl() != null) {
-					LOG.info("isDescarregaPDF => true");
-					byte[] filePDF = downloadUrl(new URL(infoArxiu.getOriginalFileUrl()));
-					LOG.info("byteArray length => " + filePDF.length);
-				}
-
-			} else {
-				return generateCSVQueryDocumentSecurityMtomErrorResponse("200",
-						"No existeix cap referencia amb les dades indicades a l'arxiu");
-			}
-
-		}
 
 		// Montam la resposta
 		CSVQueryDocumentMtomSecurityResponse response = new CSVQueryDocumentMtomSecurityResponse();

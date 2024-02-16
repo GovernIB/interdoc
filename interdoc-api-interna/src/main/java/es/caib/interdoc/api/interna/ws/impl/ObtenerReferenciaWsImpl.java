@@ -10,7 +10,7 @@ import es.caib.interdoc.plugins.arxiu.ArxiuController;
 import es.caib.interdoc.plugins.arxiu.DocumentInfo;
 import es.caib.interdoc.plugins.arxiu.Extensio;
 import es.caib.interdoc.plugins.arxiu.Origen;
-import es.caib.interdoc.service.exception.PluginNoTrobatException;
+import es.caib.interdoc.plugins.arxiu.SignaturaArxiu;
 import es.caib.interdoc.service.facade.EntitatServiceFacade;
 import es.caib.interdoc.service.facade.FitxerServiceFacade;
 import es.caib.interdoc.service.facade.InfoArxiuServiceFacade;
@@ -25,6 +25,7 @@ import es.caib.interdoc.service.model.ReferenciaDTO;
 import es.caib.interdoc.service.model.ReferenciaXMLDTO;
 import es.caib.interdoc.plugins.arxiu.Fitxer;
 import es.caib.interdoc.plugins.arxiu.Format;
+import es.caib.interdoc.api.interna.ws.exception.InterdocException;
 import es.caib.interdoc.api.interna.ws.model.ObtenerReferenciaRequestInfo;
 import es.caib.interdoc.api.interna.ws.resposta.EmisorBean;
 import es.caib.interdoc.api.interna.ws.resposta.ErrorResponse;
@@ -52,6 +53,7 @@ import java.security.MessageDigest;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,12 +76,14 @@ import javax.xml.bind.JAXBException;
 @Stateless(name = ObtenerReferenciaWsImpl.NAME + "Ejb")
 @RolesAllowed({ Constants.ITD_WS })
 @SOAPBinding(style = SOAPBinding.Style.RPC)
-@org.apache.cxf.interceptor.InInterceptors(interceptors = { "es.caib.interdoc.api.interna.ws.utilitats.WsInInterceptor" })
-@org.apache.cxf.interceptor.InFaultInterceptors(interceptors = { "es.caib.interdoc.api.interna.ws.utilitats.WsOutInterceptor" })
+@org.apache.cxf.interceptor.InInterceptors(interceptors = {
+		"es.caib.interdoc.api.interna.ws.utilitats.WsInInterceptor" })
+@org.apache.cxf.interceptor.InFaultInterceptors(interceptors = {
+		"es.caib.interdoc.api.interna.ws.utilitats.WsOutInterceptor" })
 @WebService(name = ObtenerReferenciaWsImpl.NAME_WS, portName = ObtenerReferenciaWsImpl.NAME_WS, serviceName = ObtenerReferenciaWsImpl.NAME_WS
 		+ "Service")
-@WebContext(urlPattern = "/protected/" + ObtenerReferenciaWsImpl.NAME_WS, transportGuarantee = TransportGuarantee.NONE, 
-		secureWSDLAccess = false, authMethod = "KEYCLOAK") 
+@WebContext(urlPattern = "/protected/"
+		+ ObtenerReferenciaWsImpl.NAME_WS, transportGuarantee = TransportGuarantee.NONE, secureWSDLAccess = false, authMethod = "KEYCLOAK")
 public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 
 	private static final Logger log = LoggerFactory.getLogger(ObtenerReferenciaWsImpl.class);
@@ -110,6 +114,9 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 
 	@Inject
 	protected Version version;
+
+	// @Inject
+	// protected FirmaSimpleController firma;
 
 	@Inject
 	protected ArxiuController arxiu;
@@ -158,7 +165,7 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 	@Override
 	public String creaReferencia(
 			@WebParam(name = "obtenerReferenciaRequest") ObtenerReferenciaRequestInfo obtenerReferenciaRequestInfo)
-			throws Exception {
+			throws InterdocException, Exception {
 
 		try {
 
@@ -168,6 +175,7 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 			boolean isInArxiu = false;
 
 			InfoSignaturaDTO infoSignatura = null;
+			SignaturaArxiu infoFirma = null;
 			String identificadorExpedient = null;
 			String identificadorDocument = null;
 
@@ -189,6 +197,11 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 						? obtenerReferenciaRequestInfo.getDocument().getNom() + ", SIZE: "
 								+ obtenerReferenciaRequestInfo.getDocument().getData().length
 						: "null"));
+				log.info("FIRMA: " + ((obtenerReferenciaRequestInfo.getFirma() != null) ? "firmat" : "No firmat"));
+				log.info("FORMAT FIRMA: " + ((obtenerReferenciaRequestInfo.getFirma() != null
+						&& obtenerReferenciaRequestInfo.getFirma().getFormat() != null)
+								? obtenerReferenciaRequestInfo.getFirma().getFormat()
+								: "null"));
 				log.info("METADADES: " + ((obtenerReferenciaRequestInfo.getMetadades() != null)
 						? obtenerReferenciaRequestInfo.getMetadades().size()
 						: "null"));
@@ -200,6 +213,15 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 								: "null"));
 				log.info("RECEPTOR: " + ((obtenerReferenciaRequestInfo.getReceptor() != null)
 						? obtenerReferenciaRequestInfo.getReceptor()
+						: "null"));
+				log.info("ORIGEN: "
+						+ ((obtenerReferenciaRequestInfo.getOrigen() != null) ? obtenerReferenciaRequestInfo.getOrigen()
+								: "null"));
+				log.info("TIPUS DOCUMENTAL: " + ((obtenerReferenciaRequestInfo.getTipusDocumental() != null)
+						? obtenerReferenciaRequestInfo.getTipusDocumental()
+						: "null"));
+				log.info("ESTAT ELABORACIO: " + ((obtenerReferenciaRequestInfo.getEstatElaboracio() != null)
+						? obtenerReferenciaRequestInfo.getEstatElaboracio()
 						: "null"));
 				log.info("INTERESSATS: " + ((obtenerReferenciaRequestInfo.getInteressats() != null)
 						? obtenerReferenciaRequestInfo.getInteressats().size()
@@ -218,7 +240,12 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 			if (Utils.isEmpty(obtenerReferenciaRequestInfo.getUuid())
 					&& (obtenerReferenciaRequestInfo.getDocument() == null
 							|| obtenerReferenciaRequestInfo.getDocument().getData().length < 1)) {
-				return generateXMLErrorResponse("400",
+				/*
+				 * return generateXMLErrorResponse("400",
+				 * "Error: no ens arriba cap UUID ni fitxer. Al manco, ens ha d'arribar un d'ells."
+				 * );
+				 */
+				throw new InterdocException(
 						"Error: no ens arriba cap UUID ni fitxer. Al manco, ens ha d'arribar un d'ells.");
 			}
 
@@ -231,7 +258,9 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 
 				log.info("CodiDir3 => " + obtenerReferenciaRequestInfo.getEntitatId() + " - id => " + entitatId);
 			} else {
-				return generateXMLErrorResponse("400", "Error: el codi d'entitat és obligatori.");
+				// return generateXMLErrorResponse("400", "Error: el codi d'entitat és
+				// obligatori.");
+				throw new InterdocException("El codi d'entitat és obligatori");
 			}
 
 			// Si ens arriba un UUID es tracta d'un document ENI. En cas contrari, s'ha de
@@ -249,22 +278,27 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 						&& obtenerReferenciaRequestInfo.getDocument().getData().length > 0) {
 
 					// String filePath = Configuracio.getFileTempPath();
-					final String fileName = String.valueOf(System.currentTimeMillis()) + "_"
-							+ ((obtenerReferenciaRequestInfo.getDocument().getNom() != null)
+					final String extension = FilenameUtils
+							.getExtension(((obtenerReferenciaRequestInfo.getDocument().getNom() != null)
 									? obtenerReferenciaRequestInfo.getDocument().getNom()
-									: "");
-					final String extension = FilenameUtils.getExtension(fileName);
+									: ""));
+					final String fileName = String.valueOf(System.currentTimeMillis()) + "." + extension;
 
-					File file = File.createTempFile(fileName, "." + extension, null);
+					File file = File.createTempFile(fileName, null);
 					OutputStream out = new FileOutputStream(file);
 					out.write(obtenerReferenciaRequestInfo.getDocument().getData());
 					out.flush();
 					out.close();
 
 					fitxerDto = new FitxerDTO();
-					fitxerDto.setNom(obtenerReferenciaRequestInfo.getDocument().getNom());
+					fitxerDto.setNom(fileName);
 					fitxerDto.setDescripcio(obtenerReferenciaRequestInfo.getDocument().getDescripcio());
-					fitxerDto.setTamany(obtenerReferenciaRequestInfo.getDocument().getTamany());
+
+					Long tamanyFitxer = (obtenerReferenciaRequestInfo.getDocument().getTamany() < 1L)
+							? Long.valueOf(obtenerReferenciaRequestInfo.getDocument().getData().length)
+							: obtenerReferenciaRequestInfo.getDocument().getTamany();
+
+					fitxerDto.setTamany(tamanyFitxer);
 					fitxerDto.setMime(obtenerReferenciaRequestInfo.getDocument().getMime());
 					fitxerDto.setData(obtenerReferenciaRequestInfo.getDocument().getData());
 					fitxerDto.setRuta(file.getAbsolutePath());
@@ -277,14 +311,25 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 
 				} else {
 					log.error("obtenerReferenciaRequestInfo.getDocument() is null");
-					return generateXMLErrorResponse("500",
-							"Error: no ens arriba cap UUID ni fitxer. Al manco, ens ha d'arribar un d'ells.");
+					/*
+					 * return generateXMLErrorResponse("500",
+					 * "Error: no ens arriba cap UUID ni fitxer. Al manco, ens ha d'arribar un d'ells."
+					 * );
+					 */
+					throw new InterdocException(
+							"no ens arriba cap UUID ni fitxer. Al manco, ens ha d'arribar un d'ells.");
 				}
 
 				/* FI GUARDAR TEMPORAL A FILESYSTEM */
 
 				/* INICI FIRMA EN SERVIDOR */
-				if (fitxerDto != null) {
+
+				// Si el fitxer ja està signat, no el signam.
+				isSigned = (obtenerReferenciaRequestInfo.getFirma() != null
+						&& obtenerReferenciaRequestInfo.getFirma().getFormat() != null
+						&& obtenerReferenciaRequestInfo.getFirma().getFormat().length() > 0) ? true : false;
+
+				if (!isSigned && fitxerDto != null) {
 
 					try {
 
@@ -294,6 +339,7 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 							infoSignatura = firmaPlugin.getPlugin().firmarDocument(fitxerDto);
 							if (infoSignatura != null) {
 								infoSignaturaId = infoSignaturaService.create(infoSignatura);
+								infoSignatura.setId(infoSignaturaId);
 								isSigned = (Utils.isNotEmpty(infoSignatura.getSignId())) ? true : false;
 							}
 
@@ -322,18 +368,10 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 							log.debug("No s'ha pogut carregar el plugin de firma.");
 						}
 
-					} catch (PluginNoTrobatException pe) { 
-						isSigned = true;
-					
-					}	catch (IOException io) {
-						log.error("***********************************");
-						log.error("Error stream close");
-						log.error("***********************************");
-						isSigned = true;
-					
 					} catch (Exception e) {
 						e.printStackTrace();
-						// TODO return generateXMLErrorResponse("500", e.getMessage());
+						// return generateXMLErrorResponse("500", e.getMessage());
+						throw new InterdocException(e);
 					}
 
 				}
@@ -341,11 +379,12 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 
 				/* INICI PUJADA ARXIU */
 
-				if (isSigned && obtenerReferenciaRequestInfo.getDocument() != null) {
+				if (isSigned) {
 
 					if (Configuracio.isDesenvolupament())
 						log.info("Inici pujada arxiu");
 
+					// Metadades
 					Map<String, Object> metadadesInfoObj = null;
 					if (obtenerReferenciaRequestInfo.getMetadades() != null) {
 						final int numMetadades = obtenerReferenciaRequestInfo.getMetadades().size();
@@ -358,28 +397,81 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 						}
 					}
 
+					// Fitxer
 					Fitxer fitxerInfo = new Fitxer();
-					fitxerInfo.setArxiuNom(obtenerReferenciaRequestInfo.getDocument().getNom());
-					fitxerInfo.setContingut(obtenerReferenciaRequestInfo.getDocument().getData());
-					fitxerInfo.setTamany(obtenerReferenciaRequestInfo.getDocument().getTamany());
-					fitxerInfo.setTipusMime(obtenerReferenciaRequestInfo.getDocument().getMime());
-					fitxerInfo.setExtensio(Extensio.PDF);
-					fitxerInfo.setFormat(Format.PDF);
+					fitxerInfo.setArxiuNom(fitxerDto.getNom());
+					fitxerInfo.setContingut(fitxerDto.getData());
+					fitxerInfo.setTamany(fitxerDto.getTamany());
+					fitxerInfo.setTipusMime(fitxerDto.getMime());
+
+					String extensionFichero = "." + FilenameUtils.getExtension(fitxerDto.getNom()).toLowerCase();
+
+					final Extensio extensio = Extensio.toEnum(extensionFichero);
+
+					log.info((extensio != null) ? "Extensio: " + extensio.toString() : "null - " + extensionFichero);
+
+					fitxerInfo.setExtensio((extensio != null) ? extensio : Extensio.PDF);
+
+					log.info("FITXERDTO: => " + fitxerInfo.toString());
+
+					if (obtenerReferenciaRequestInfo.getFirma() != null
+							&& obtenerReferenciaRequestInfo.getFirma().getFormat() != null
+							&& obtenerReferenciaRequestInfo.getFirma().getFormat().length() > 0) {
+
+						log.info("Document firmat previament");
+
+						infoFirma = new SignaturaArxiu();
+						infoFirma.setFormatFirma(obtenerReferenciaRequestInfo.getFirma().getFormat());
+						infoFirma.setPerfilFirma(obtenerReferenciaRequestInfo.getFirma().getPerfil());
+
+						if (obtenerReferenciaRequestInfo.getFirma().getFitxer() != null
+								&& obtenerReferenciaRequestInfo.getFirma().getFitxer().getNom() != null) {
+							// DOCUMENT AMB FIRMA DETACHED
+
+							es.caib.interdoc.api.interna.ws.utils.Fitxer temp = obtenerReferenciaRequestInfo.getFirma()
+									.getFitxer();
+
+							log.info("Fitxer obtenerReferenciaRequestInfo.getFirma.getFitxer: " + temp.toString());
+
+							Fitxer fitxerFirma = new Fitxer();
+							fitxerFirma.setArxiuNom(temp.getNom());
+							fitxerFirma.setContingut(temp.getData());
+							fitxerFirma.setTamany(temp.getTamany());
+							fitxerFirma.setTipusMime(temp.getMime());
+
+							log.info("infoFirma.setFirma: " + fitxerFirma.toString());
+							infoFirma.setFirma(fitxerFirma);
+						}
+
+						log.info("Infofirma => " + infoFirma.toString());
+					}
 
 					DocumentInfo documentInfo = new DocumentInfo();
-					documentInfo.setNom(
-							obtenerReferenciaRequestInfo.getDocument().getNom() + "_" + System.currentTimeMillis());
+					documentInfo.setNom(fitxerDto.getNom());
 					documentInfo.setOrgans(Arrays.asList(obtenerReferenciaRequestInfo.getEmisor()));
 					documentInfo.setInteressats(obtenerReferenciaRequestInfo.getInteressats());
 					documentInfo.setMetadades(metadadesInfoObj);
-					documentInfo.setOrigen(Origen.ADMINISTRACIO);
-					documentInfo.setSignatura(infoSignatura);
+
+					if (obtenerReferenciaRequestInfo.getOrigen() != null)
+						documentInfo.setOrigen(obtenerReferenciaRequestInfo.getOrigen());
+
+					if (obtenerReferenciaRequestInfo.getTipusDocumental() != null)
+						documentInfo.setTipusDocumental(obtenerReferenciaRequestInfo.getTipusDocumental());
+
+					if (obtenerReferenciaRequestInfo.getEstatElaboracio() != null)
+						documentInfo.setEstatElaboracio(obtenerReferenciaRequestInfo.getEstatElaboracio());
+
 					documentInfo.setFitxer(fitxerInfo);
+					documentInfo.setSignatura(infoSignatura);
+					documentInfo.setFirma(infoFirma);
 
 					try {
 						arxiu = new ArxiuController(entitatId);
 
 						if (arxiu.getPlugin() != null) {
+
+							// Misma fecha para expediente y documento
+							Date fecha = new Date();
 
 							identificadorExpedient = arxiu.getPlugin().crearExpedient(documentInfo);
 
@@ -408,24 +500,26 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 					} catch (Exception e) {
 						log.error("Error pujada arxiu => " + e.getMessage());
 						e.printStackTrace();
-						return generateXMLErrorResponse("500", "Error pujada arxiu => " + e.getMessage());
+						// return generateXMLErrorResponse("500", "Error pujada arxiu => " +
+						// e.getMessage());
+						throw new InterdocException("Error pujada arxiu", e);
 					}
 
 					isInArxiu = true;
 					/* FI PUJADA ARXIU */
 
-					// TANCAR EXPEDIENT
-
 				} else {
-					return generateXMLErrorResponse("500", "El fitxer no es puja a arxiu perqué no està signat");
+					// return generateXMLErrorResponse("500", "El fitxer no es puja a arxiu perqué
+					// no està signat");
+					throw new InterdocException("El fitxer no es puja a arxiu perqué no està signat");
 				}
 			}
 
 			if (isEnidoc || (isSigned && isInArxiu)) {
 
 				// Generate Referencia
-				String referencia = createReferencia();
-				// log.info("Referencia generada: " + referencia);
+				String referencia = (!isEnidoc) ? createReferencia() : obtenerReferenciaRequestInfo.getUuid();
+				log.info("Referencia generada: " + referencia);
 
 				// Generate Hash
 				String hash = "";
@@ -435,15 +529,19 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 						MessageDigest shaDigest = MessageDigest.getInstance("SHA-256");
 						hash = getFileChecksum(shaDigest, fitxer.getData());
 					} else {
-						return generateXMLErrorResponse("500", "No es pot generar el hash correctament del fitxer.");
+						// return generateXMLErrorResponse("500", "No es pot generar el hash
+						// correctament del fitxer.");
+						throw new InterdocException("No es pot generar el hash correctament del fitxer.");
 					}
 				}
 
 				// Guardar els resultats a DB
 				ReferenciaDTO nuevaReferenciaDto = new ReferenciaDTO();
-				nuevaReferenciaDto.setCsvId(
-						Utils.isNotEmpty(obtenerReferenciaRequestInfo.getCsv()) ? obtenerReferenciaRequestInfo.getCsv()
-								: "");
+				if (!isEnidoc)
+					nuevaReferenciaDto.setCsvId(referencia);
+				else
+					nuevaReferenciaDto.setUuId(referencia);
+
 				nuevaReferenciaDto.setDataCreacio(LocalDate.now());
 
 				if (getBaseWsUrl() == null) {
@@ -454,7 +552,10 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 				nuevaReferenciaDto.setEmisor(Utils.isNotEmpty(obtenerReferenciaRequestInfo.getEmisor())
 						? obtenerReferenciaRequestInfo.getEmisor()
 						: "");
-				if (infoSignatura != null)
+
+				if (infoFirma != null) {
+					nuevaReferenciaDto.setFormatFirma(infoFirma.getFormatFirma());
+				} else if (infoSignatura != null)
 					nuevaReferenciaDto.setFormatFirma(infoSignatura.getEniTipoFirma());
 
 				nuevaReferenciaDto.setHash(Utils.isNotEmpty(hash) ? hash : "");
@@ -462,9 +563,6 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 						? obtenerReferenciaRequestInfo.getReceptor()
 						: "");
 				nuevaReferenciaDto.setUrlVisible(getBaseWsUrl() + getCsvQueryDocumentWebserviceURL());
-				nuevaReferenciaDto.setUuId(Utils.isNotEmpty(obtenerReferenciaRequestInfo.getUuid())
-						? obtenerReferenciaRequestInfo.getUuid()
-						: "");
 				nuevaReferenciaDto.setReferencia(referencia);
 				nuevaReferenciaDto.setEntitatId(entitatId);
 				nuevaReferenciaDto.setInfoSignaturaId(infoSignaturaId);
@@ -500,7 +598,8 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			return generateXMLErrorResponse("500", "Error: " + e.getMessage());
+			// return generateXMLErrorResponse("500", "Error: " + e.getMessage());
+			throw new InterdocException(e);
 		}
 
 	}
@@ -527,13 +626,8 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 	}
 
 	private String createReferencia() {
-		try {
-			HashCreator nouHash = new HashCreator();
-			return nouHash.createPasswordHashWithSalt(String.valueOf(System.currentTimeMillis()));
-		} catch (Exception e) {
-			log.error("No s'ha pogut crear la referencia");
-			return null;
-		}
+		HashCreator nouHash = new HashCreator();
+		return nouHash.createPasswordHashWithSalt(String.valueOf(System.currentTimeMillis()));
 	}
 
 	private String generateXMLErrorResponse(String codigo, String descripcion) throws Exception {
@@ -551,6 +645,7 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 			log.info(errorXml);
 
 		return errorXml;
+
 	}
 
 	private String generateXMLResponse(ObtenerReferenciaRequestInfo obtenerReferenciaRequestInfo, String referencia,
@@ -619,16 +714,11 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 		 * PadES TF07 - XAdES manifest
 		 * 
 		 */
-		// TODO referenciaDocumentoBean.setFormatoFirma("TF06");
+		referenciaDocumentoBean.setFormatoFirma(referenciaDocumentoBean.getFormatoFirma());
 
 		// TODO trazabilidad
 
-		String sw = MarshallUtil.generateXML(ReferenciaDocumentoBean.class, referenciaDocumentoBean);
-
-		if (Configuracio.isDesenvolupament())
-			log.info(sw);
-
-		return sw;
+		return MarshallUtil.generateXML(ReferenciaDocumentoBean.class, referenciaDocumentoBean);
 
 	}
 

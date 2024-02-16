@@ -110,6 +110,27 @@ public class ReferenciaDTO {
 		this.fitxerId = fitxerId;
 	}
 
+	public ReferenciaDTO(long id, String csvId, String uuId, String referencia, String direccio, String hash,
+			String emisor, String receptor, String urlVisible, LocalDate dataCreacio, long infoSignaturaId,
+			long infoArxiuId, long entitatId, String formatFirma, long fitxerId) {
+		super();
+		this.id = id;
+		this.csvId = csvId;
+		this.uuId = uuId;
+		this.referencia = referencia;
+		this.direccio = direccio;
+		this.hash = hash;
+		this.emisor = emisor;
+		this.receptor = receptor;
+		this.urlVisible = urlVisible;
+		this.formatFirma = formatFirma;
+		this.dataCreacio = dataCreacio;
+		this.infoSignaturaId = infoSignaturaId;
+		this.infoArxiuId = infoArxiuId;
+		this.entitatId = entitatId;
+		this.fitxerId = fitxerId;
+	}
+
 	public ReferenciaDTO(Long id, String csvId, String uuId, @NotNull @Size(max = 255) String referencia,
 			@NotNull @Size(max = 255) String direccio, @Size(max = 255) String hash,
 			@NotEmpty @Size(max = 50) String emisor, @NotEmpty @Size(max = 50) String receptor,

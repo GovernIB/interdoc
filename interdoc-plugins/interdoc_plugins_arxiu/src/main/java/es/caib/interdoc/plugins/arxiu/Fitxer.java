@@ -1,5 +1,7 @@
 package es.caib.interdoc.plugins.arxiu;
 
+import java.util.Arrays;
+
 public class Fitxer {
 
 	private byte[] contingut;
@@ -12,39 +14,51 @@ public class Fitxer {
 	public byte[] getContingut() {
 		return contingut;
 	}
+	
 	public void setContingut(byte[] contingut) {
 		this.contingut = contingut;
 	}
+	
 	public long getTamany() {
 		return tamany;
 	}
+	
 	public void setTamany(long tamany) {
 		this.tamany = tamany;
 	}
+	
 	public String getTipusMime() {
 		return tipusMime;
 	}
+	
 	public void setTipusMime(String tipusMime) {
 		this.tipusMime = tipusMime;
 	}
+	
 	public String getArxiuNom() {
 		return arxiuNom;
 	}
+	
 	public void setArxiuNom(String arxiuNom) {
 		this.arxiuNom = arxiuNom;
 	}
+	
 	public Format getFormat() {
 		return format;
 	}
+	
 	public void setFormat(Format format) {
 		this.format = format;
 	}
+	
 	public Extensio getExtensio() {
 		return extensio;
 	}
+	
 	public void setExtensio(Extensio extensio) {
 		this.extensio = extensio;
 	}
+	
 	public Fitxer(byte[] contingut, long tamany, String tipusMime, String arxiuNom, Format format,
 			Extensio extensio) {
 		super();
@@ -55,9 +69,15 @@ public class Fitxer {
 		this.format = format;
 		this.extensio = extensio;
 	}
+	
 	public Fitxer() {
 		super();
 	}
 	
+	@Override
+	public String toString() {
+		return "Fitxer [tamany=" + tamany + ", tipusMime=" + tipusMime
+				+ ", arxiuNom=" + arxiuNom + ", format=" + format + ", extensio=" + extensio + "]";
+	}
 	
 }

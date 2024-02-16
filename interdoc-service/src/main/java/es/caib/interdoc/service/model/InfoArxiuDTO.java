@@ -27,10 +27,10 @@ public class InfoArxiuDTO {
     private String csvValidationWeb;
     
     @Size(max = 255)
-    private String arxiuExpedientID;
+    private String arxiuExpedientId;
     
     @Size(max = 255)
-    private String arxiuDocumentID;
+    private String arxiuDocumentId;
     
     @Size(max = 255)
     private String printableUrl;
@@ -52,7 +52,7 @@ public class InfoArxiuDTO {
 
 	public InfoArxiuDTO(Long id, @Size(max = 255) String originalFileUrl, @Size(max = 255) String csv,
 			@Size(max = 255) String csvGenerationDefinition, @Size(max = 255) String csvValidationWeb,
-			@Size(max = 255) String arxiuExpedientID, @Size(max = 255) String arxiuDocumentID,
+			@Size(max = 255) String arxiuExpedientId, @Size(max = 255) String arxiuDocumentId,
 			@Size(max = 255) String printableUrl, @Size(max = 255) String eniFileUrl,
 			@Size(max = 255) String validationFileUrl, @Size(max = 5) String estatExpedient) {
 		super();
@@ -61,8 +61,8 @@ public class InfoArxiuDTO {
 		this.csv = csv;
 		this.csvGenerationDefinition = csvGenerationDefinition;
 		this.csvValidationWeb = csvValidationWeb;
-		this.arxiuExpedientID = arxiuExpedientID;
-		this.arxiuDocumentID = arxiuDocumentID;
+		this.arxiuExpedientId = arxiuExpedientId;
+		this.arxiuDocumentId = arxiuDocumentId;
 		this.printableUrl = printableUrl;
 		this.eniFileUrl = eniFileUrl;
 		this.validationFileUrl = validationFileUrl;
@@ -109,20 +109,20 @@ public class InfoArxiuDTO {
 		this.csvValidationWeb = csvValidationWeb;
 	}
 
-	public String getArxiuExpedientID() {
-		return arxiuExpedientID;
+	public String getArxiuExpedientId() {
+		return arxiuExpedientId;
 	}
 
-	public void setArxiuExpedientID(String arxiuExpedientID) {
-		this.arxiuExpedientID = arxiuExpedientID;
+	public void setArxiuExpedientId(String arxiuExpedientId) {
+		this.arxiuExpedientId = arxiuExpedientId;
 	}
 
-	public String getArxiuDocumentID() {
-		return arxiuDocumentID;
+	public String getArxiuDocumentId() {
+		return arxiuDocumentId;
 	}
 
-	public void setArxiuDocumentID(String arxiuDocumentID) {
-		this.arxiuDocumentID = arxiuDocumentID;
+	public void setArxiuDocumentId(String arxiuDocumentId) {
+		this.arxiuDocumentId = arxiuDocumentId;
 	}
 
 	public String getPrintableUrl() {
@@ -161,7 +161,7 @@ public class InfoArxiuDTO {
 	public String toString() {
 		return "InfoArxiuDTO [id=" + id + ", originalFileUrl=" + originalFileUrl + ", csv=" + csv
 				+ ", csvGenerationDefinition=" + csvGenerationDefinition + ", csvValidationWeb=" + csvValidationWeb
-				+ ", arxiuExpedientID=" + arxiuExpedientID + ", arxiuDocumentID=" + arxiuDocumentID + ", printableUrl="
+				+ ", arxiuExpedientId=" + arxiuExpedientId + ", arxiuDocumentId=" + arxiuDocumentId + ", printableUrl="
 				+ printableUrl + ", eniFileUrl=" + eniFileUrl + ", validationFileUrl=" + validationFileUrl
 				+ ", estatExpedient=" + estatExpedient + "]";
 	}

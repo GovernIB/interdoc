@@ -112,9 +112,8 @@ public class ReferenciaRepositoryBean extends AbstractCrudRepository<Referencia,
 
 		criteriaQuery.select(builder.construct(ReferenciaDTO.class, root.get(Referencia_.id),
 				root.get(Referencia_.csvId), root.get(Referencia_.uuId), root.get(Referencia_.direccio),
-				root.get(Referencia_.hash), root.get(Referencia_.emisor), root.get(Referencia_.receptor),
-				root.get(Referencia_.urlVisible), root.get(Referencia_.formatFirma), root.get(Referencia_.dataCreacio),
-				root.get(Referencia_.infoSignaturaId), root.get(Referencia_.infoArxiuId),
+				root.get(Referencia_.emisor), root.get(Referencia_.receptor), root.get(Referencia_.formatFirma), 
+				root.get(Referencia_.dataCreacio), root.get(Referencia_.infoSignaturaId), root.get(Referencia_.infoArxiuId),
 				root.get(Referencia_.fitxerId), root.get(Referencia_.referencia), root.get(Referencia_.entitatId)));
 
 		ReferenciaCriteriaHelper referenciaCriteriaHelper = new ReferenciaCriteriaHelper(builder, root);

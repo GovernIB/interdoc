@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="CSVQueryDocumentWs" targetNamespace="urn:es:gob:aapp:csvbroker:webservices:querydocument:v1.0" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns2="urn:es:gob:aapp:csvbroker:webservices:querydocument:model:v1.0" xmlns:ns1="urn:es:gob:aapp:csvbroker:webservices:querydocument:v1.0">
+  <wsdl:types>
+<xs:schema xmlns:ns1="urn:es:gob:aapp:csvstorage:webservices:document:model:v1.0" xmlns:tns="urn:es:gob:aapp:csvstorage:webservices:documentmtom:model:v1.0" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:es:gob:aapp:csvstorage:webservices:documentmtom:model:v1.0" version="1.0">
+
+  <xs:import namespace="urn:es:gob:aapp:csvstorage:webservices:document:model:v1.0"/>
+
+  <xs:import namespace="http://www.w3.org/2005/05/xmlmime"/>
+  <xs:complexType name="documentoMtomResponse">
+    <xs:complexContent>
+      <xs:extension base="ns1:response">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="contenido" type="tns:ContenidoMtomInfo"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ContenidoMtomInfo">
+    <xs:sequence>
+      <xs:element name="contenido" type="xs:base64Binary" xmime:expectedContentTypes="application/octet-stream"/>
+      <xs:element minOccurs="0" name="tipoMIME" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:es:gob:aapp:csvstorage:webservices:document:model:v1.0" version="1.0">
+
+  <xs:complexType name="response">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codigo" type="xs:string"/>
+      <xs:element minOccurs="0" name="descripcion" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+<xs:schema xmlns:ns1="urn:es:gob:aapp:csvbroker:webservices:querydocument:model:v1.0" xmlns:tns="urn:es:gob:aapp:csvbroker:webservices:querydocument:v1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="urn:es:gob:aapp:csvbroker:webservices:querydocument:v1.0" version="1.0">
+  <xs:import namespace="urn:es:gob:aapp:csvbroker:webservices:querydocument:model:v1.0"/>
+  <xs:import namespace="urn:es:gob:aapp:csvstorage:webservices:documentmtom:model:v1.0"/>
+  <xs:import namespace="urn:es:gob:aapp:csvstorage:webservices:document:model:v1.0"/>
+  <xs:element name="queryDocumentSecurityResponse" type="ns1:CSVQueryDocumentMtomSecurityResponse"/>
+  <xs:complexType name="csvQueryDocumentSecurityWSS">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="queryDocumentSecurityRequest" type="tns:ueryDocumentSecurityRequest"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ueryDocumentSecurityRequest">
+    <xs:complexContent>
+      <xs:extension base="tns:CSVQueryDocumentRequest">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="nif" type="xs:string"/>
+          <xs:element minOccurs="0" name="tipoIdentificacion" type="xs:string"/>
+          <xs:element minOccurs="0" name="ip" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="CSVQueryDocumentRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="csv" type="xs:string"/>
+      <xs:element minOccurs="0" name="dir3" type="xs:string"/>
+      <xs:element minOccurs="0" name="recuperacion_original" type="xs:string"/>
+      <xs:element minOccurs="0" name="documento_eni" type="xs:string"/>
+      <xs:element minOccurs="0" name="idEni" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CSVQueryDocumentSecurityRequest">
+    <xs:complexContent>
+      <xs:extension base="tns:CSVQueryDocumentRequest">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="nif" type="xs:string"/>
+          <xs:element minOccurs="0" name="tipoIdentificacion" type="xs:string"/>
+          <xs:element minOccurs="0" name="ip" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="CSVQueryDocumentResponse">
+    <xs:sequence>
+      <xs:element name="code" type="xs:string"/>
+      <xs:element name="description" type="xs:string"/>
+      <xs:element minOccurs="0" name="documentResponse" type="tns:documentResponse"/>
+      <xs:element minOccurs="0" name="waitResponse" type="ns1:waitResponse"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="documentResponse">
+    <xs:sequence>
+      <xs:element name="content" type="xs:base64Binary"/>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="mime" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="waitResponse">
+    <xs:sequence>
+      <xs:element name="secondsToWait" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="tipoIdentificacion">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="CLAVE_PERM"/>
+      <xs:enumeration value="PIN24"/>
+      <xs:enumeration value="DNIE"/>
+      <xs:enumeration value="PF_2CA"/>
+      <xs:enumeration value="PJ_2CA"/>
+      <xs:enumeration value="COMPONENTESSL"/>
+      <xs:enumeration value="SEDE_ELECTRONICA"/>
+      <xs:enumeration value="SELLO_ORGANO"/>
+      <xs:enumeration value="EMPLEADO_PUBLICO"/>
+      <xs:enumeration value="ENTIDAD_NO_PERSONA_JURIDICA"/>
+      <xs:enumeration value="EMPLEADO_PUBLICO_PSEUD"/>
+      <xs:enumeration value="CUALIFICADO_SELLO_ENTIDAD"/>
+      <xs:enumeration value="CUALIFICADO_AUTENTICACION"/>
+      <xs:enumeration value="CUALIFICADO_SELLO_TIEMPO"/>
+      <xs:enumeration value="REPRESENTACION_PJ"/>
+      <xs:enumeration value="REPRESENTACION_ENTIDAD_SIN_PF"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="recuperacionOriginal">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="S"/>
+      <xs:enumeration value="N"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="documentoEni">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="S"/>
+      <xs:enumeration value="N"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="Exception" type="tns:Exception"/>
+  <xs:complexType name="Exception">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="csvQueryDocumentSecurityWSS" nillable="true" type="tns:csvQueryDocumentSecurityWSS"/>
+  <xs:element name="csvQueryDocumentResponse" nillable="true" type="tns:CSVQueryDocumentResponse"/>
+</xs:schema>
+<xs:schema xmlns="urn:es:gob:aapp:csvbroker:webservices:querydocument:model:v1.0" xmlns:ns1="urn:es:gob:aapp:csvstorage:webservices:documentmtom:model:v1.0" xmlns:ns2="urn:es:gob:aapp:csvbroker:webservices:querydocument:v1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="urn:es:gob:aapp:csvbroker:webservices:querydocument:model:v1.0" version="1.0">
+  <xs:import namespace="urn:es:gob:aapp:csvstorage:webservices:documentmtom:model:v1.0"/>
+  <xs:import namespace="urn:es:gob:aapp:csvbroker:webservices:querydocument:v1.0"/>
+  <xs:import namespace="urn:es:gob:aapp:csvstorage:webservices:document:model:v1.0"/>
+  <xs:complexType name="waitResponse">
+    <xs:sequence>
+      <xs:element name="secondsToWait" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CSVQueryDocumentMtomSecurityResponse">
+    <xs:sequence>
+      <xs:element name="code" type="xs:string"/>
+      <xs:element name="description" type="xs:string"/>
+      <xs:element minOccurs="0" name="documentoMtomResponse" type="ns1:documentoMtomResponse"/>
+      <xs:element minOccurs="0" name="waitResponse" type="ns2:waitResponse"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CSVQueryDocumentMtomSecurityResponse" nillable="true" type="CSVQueryDocumentMtomSecurityResponse"/>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="csvQueryDocumentResponse">
+    <wsdl:part name="parameters" element="ns1:csvQueryDocumentResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="Exception">
+    <wsdl:part name="Exception" element="ns1:Exception">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="csvQueryDocumentSecurity">
+    <wsdl:part name="csvQueryDocumentSecurityWSS" element="ns1:csvQueryDocumentSecurityWSS">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="csvQueryDocumentSecurityResponse">
+    <wsdl:part name="parameters" element="ns2:CSVQueryDocumentMtomSecurityResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="csvQueryDocument">
+    <wsdl:part name="csvQueryDocumentSecurityWSS" element="ns1:csvQueryDocumentSecurityWSS">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="CSVQueryDocumentWs">
+    <wsdl:operation name="csvQueryDocument">
+      <wsdl:input name="csvQueryDocument" message="ns1:csvQueryDocument">
+    </wsdl:input>
+      <wsdl:output name="csvQueryDocumentResponse" message="ns1:csvQueryDocumentResponse">
+    </wsdl:output>
+      <wsdl:fault name="Exception" message="ns1:Exception">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="csvQueryDocumentSecurity">
+      <wsdl:input name="csvQueryDocumentSecurity" message="ns1:csvQueryDocumentSecurity">
+    </wsdl:input>
+      <wsdl:output name="csvQueryDocumentSecurityResponse" message="ns1:csvQueryDocumentSecurityResponse">
+    </wsdl:output>
+      <wsdl:fault name="Exception" message="ns1:Exception">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>

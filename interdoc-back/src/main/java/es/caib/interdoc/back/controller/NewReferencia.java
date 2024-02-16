@@ -10,6 +10,7 @@ import es.caib.interdoc.ws.api.ObtenerReferenciaRequestInfo;
 import es.caib.interdoc.ws.api.ObtenerReferenciaWs;
 import es.caib.interdoc.ws.api.ObtenerReferenciaWsService;
 import es.caib.interdoc.back.model.ReferenciaModel;
+import es.caib.interdoc.commons.utils.Base64;
 import es.caib.interdoc.commons.utils.Configuracio;
 import es.caib.interdoc.commons.utils.Constants;
 import es.caib.interdoc.commons.utils.Utils;
@@ -23,9 +24,13 @@ import javax.inject.Named;
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -125,17 +130,33 @@ public class NewReferencia extends AbstractController implements Serializable {
        
         		FitxerDTO fitxerDto = fitxerTemp.get();
        
-        		if (Configuracio.isDesenvolupament())
+        		if (Configuracio.isDesenvolupament()) {
         			LOG.info("FitxerDTO => " + fitxerDto.toString());
-       
-        		if ( fitxerDto != null && fitxerDto.getData() != null && fitxerDto.getData().length > 0) {
+        			LOG.info("FitxerDTO-data => " + ( (fitxerDto.getData() != null) ? Base64.encode(fitxerDto.getData()) : "null" ));
+        		}
+        		if ( fitxerDto != null) {
+        			byte[] tempFile = null;
+        			// Recuperam el fitxer
+        			if (fitxerDto.getRuta() != null) {
+        				try {
+        					Path p = Paths.get(fitxerDto.getRuta());
+        					LOG.info("Path: " + p.toString());
+        					tempFile = Files.readAllBytes(p);
+        				}catch(IOException e) {
+        					LOG.info("Error llegint fitxer");
+        					e.printStackTrace();
+        				}
+        			}
+        			
         			Fitxer f = new Fitxer();
         			f.setNom(fitxerDto.getNom());
         			f.setDescripcio(fitxerDto.getDescripcio());
         			f.setMime(fitxerDto.getMime());
-        			f.setData(fitxerDto.getData());
+        			f.setData(tempFile);
         			f.setTamany(fitxerDto.getTamany());
+        			LOG.info("API-Fitxer => " + f.toString() + " tamany: " + f.getData().length + " : " + f.getTamany());
         			infoRequest.setDocument(f);
+        			LOG.info("Document InfoRequest => " + Base64.encode(infoRequest.getDocument().getData()));
         		}	
         	}
         }
@@ -211,7 +232,7 @@ public class NewReferencia extends AbstractController implements Serializable {
         	infoRequest.getMetadades().add(m10);
         }
         
-        
+        String xmlResponse = "";
         try {
         	
         	final String obtenerReferenciaWsBaseUrl = Configuracio.getObtenerReferenciaWsdl()+"?wsdl";
@@ -235,7 +256,7 @@ public class NewReferencia extends AbstractController implements Serializable {
 	        reqContext.put("javax.xml.ws.client.connectionTimeout", 500000L);
 	        reqContext.put("javax.xml.ws.client.receiveTimeout", 500000L);
 			
-			String xmlResponse = api.creaReferencia(infoRequest);
+			xmlResponse = api.creaReferencia(infoRequest);
 			
 			if (Configuracio.isDesenvolupament())
 				LOG.info(xmlResponse);
@@ -247,13 +268,14 @@ public class NewReferencia extends AbstractController implements Serializable {
 		// Cridam al servei web 
         ResourceBundle labelsBundle = getBundle("labels");
         addGlobalMessage(labelsBundle.getString("msg.creaciocorrecta"));
+        addGlobalMessage(xmlResponse);
         
         // Els missatges no aguanten una redirecció ja que no es la mateixa petició
         // Així asseguram que es guardin fins la visualització
         keepMessages();
 
         // Redireccionam cap al llistat d'unitats orgàniques
-        //return "/listReferencia?faces-redirect=true";
-        return referencia.getValue().toString();
+        return "/listReferencia?faces-redirect=true";
+        // return referencia.getValue().toString();
     }
 }

@@ -1,5 +1,6 @@
 package es.caib.interdoc.plugins.arxiu;
 
+import java.util.Date;
 import java.util.Properties;
 
 import es.caib.interdoc.commons.utils.Constants;

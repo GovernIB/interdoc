@@ -1,5 +1,7 @@
 package es.caib.interdoc.api.interna.ws.utils;
 
+import java.util.Arrays;
+
 public class Fitxer {
 	
 	protected byte[] data;
@@ -61,6 +63,11 @@ public class Fitxer {
 	public void setTamany(long tamany) {
 		this.tamany = tamany;
 	}
-    
+
+	@Override
+	public String toString() {
+		return "Fitxer [data=" + Arrays.toString(data) + ", descripcio=" + descripcio + ", mime=" + mime + ", nom="
+				+ nom + ", tamany=" + tamany + "]";
+	}
     
 }

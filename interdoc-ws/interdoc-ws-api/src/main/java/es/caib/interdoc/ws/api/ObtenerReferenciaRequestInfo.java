@@ -41,18 +41,24 @@ import javax.xml.bind.annotation.XmlType;
     "aplicacioId",
     "csv",
     "document",
+    "firma",
     "emisor",
     "entitatId",
     "interessats",
     "metadades",
     "receptor",
-    "uuid"
+    "uuid",
+    "origen",
+    "estatElaboracio",
+    "tipusDocumental"
 })
 public class ObtenerReferenciaRequestInfo {
 
     protected String aplicacioId;
     protected String csv;
     protected Fitxer document;
+    @XmlElement(nillable = true)
+    protected Firma firma;
     protected String emisor;
     protected String entitatId;
     @XmlElement(nillable = true)
@@ -61,6 +67,9 @@ public class ObtenerReferenciaRequestInfo {
     protected List<Metadada> metadades;
     protected String receptor;
     protected String uuid;
+    protected String origen;
+    protected String estatElaboracio;
+    protected String tipusDocumental;
 
     /**
      * Obtiene el valor de la propiedad aplicacioId.
@@ -133,7 +142,31 @@ public class ObtenerReferenciaRequestInfo {
     public void setDocument(Fitxer value) {
         this.document = value;
     }
+    
+    /**
+     * Obtiene el valor de la propiedad firma.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Firma }
+     *     
+     */
+    public Firma getFirma() {
+    	return firma;
+    }
 
+    /**
+     * Define el valor de la propiedad firma.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Firma }
+     *     
+     */
+    public void setFirma(Firma value) {
+    	this.firma = value;
+    }
+    
     /**
      * Obtiene el valor de la propiedad emisor.
      * 
@@ -287,5 +320,39 @@ public class ObtenerReferenciaRequestInfo {
     public void setUuid(String value) {
         this.uuid = value;
     }
+
+	public String getOrigen() {
+		return origen;
+	}
+
+	public void setOrigen(String origen) {
+		this.origen = origen;
+	}
+
+	public String getEstatElaboracio() {
+		return estatElaboracio;
+	}
+
+	public void setEstatElaboracio(String estatElaboracio) {
+		this.estatElaboracio = estatElaboracio;
+	}
+
+	public String getTipusDocumental() {
+		return tipusDocumental;
+	}
+
+	public void setTipusDocumental(String tipusDocumental) {
+		this.tipusDocumental = tipusDocumental;
+	}
+
+	public void setInteressats(List<String> interessats) {
+		this.interessats = interessats;
+	}
+
+	public void setMetadades(List<Metadada> metadades) {
+		this.metadades = metadades;
+	}
+    
+    
 
 }
