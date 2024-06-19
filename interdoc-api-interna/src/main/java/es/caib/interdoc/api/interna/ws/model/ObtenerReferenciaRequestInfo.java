@@ -29,6 +29,7 @@ public class ObtenerReferenciaRequestInfo {
 	private String origen;
 	private String estatElaboracio;
 	private String tipusDocumental;
+	private String numeroRegistre;
 	private List<String> interessats;
 
 	public String getCsv() {
@@ -62,7 +63,7 @@ public class ObtenerReferenciaRequestInfo {
 	public void setFirma(Firma firma) {
 		this.firma = firma;
 	}
-	
+
 	public String getOrigen() {
 		return origen;
 	}
@@ -135,6 +136,14 @@ public class ObtenerReferenciaRequestInfo {
 		this.interessats = interessats;
 	}
 
+	public String getNumeroRegistre() {
+		return numeroRegistre;
+	}
+
+	public void setNumeroRegistre(String numeroRegistre) {
+		this.numeroRegistre = numeroRegistre;
+	}
+
 	public ObtenerReferenciaRequestInfo() {
 		super();
 	}
@@ -170,7 +179,7 @@ public class ObtenerReferenciaRequestInfo {
 
 	public ObtenerReferenciaRequestInfo(String csv, String uuid, Fitxer document, Firma firma, List<Metadada> metadades,
 			String aplicacioId, String entitatId, String emisor, String receptor, String origen, String estatElaboracio,
-			String tipusDocumental, List<String> interessats) {
+			String tipusDocumental, List<String> interessats, String numeroRegistre) {
 		super();
 		this.csv = csv;
 		this.uuid = uuid;
@@ -185,6 +194,7 @@ public class ObtenerReferenciaRequestInfo {
 		this.estatElaboracio = estatElaboracio;
 		this.tipusDocumental = tipusDocumental;
 		this.interessats = interessats;
+		this.numeroRegistre = numeroRegistre;
 	}
 
 	@Override
@@ -192,7 +202,8 @@ public class ObtenerReferenciaRequestInfo {
 		return "ObtenerReferenciaRequestInfo [csv=" + csv + ", uuid=" + uuid + ", document=" + document + ", firma="
 				+ firma + ", metadades=" + metadades + ", aplicacioId=" + aplicacioId + ", entitatId=" + entitatId
 				+ ", emisor=" + emisor + ", receptor=" + receptor + ", origen=" + origen + ", estatElaboracio="
-				+ estatElaboracio + ", tipusDocumental=" + tipusDocumental + ", interessats=" + interessats + "]";
+				+ estatElaboracio + ", tipusDocumental=" + tipusDocumental + ", interessats=" + interessats
+				+ ", numeroRegistre=" + numeroRegistre + "]";
 	}
 
 }

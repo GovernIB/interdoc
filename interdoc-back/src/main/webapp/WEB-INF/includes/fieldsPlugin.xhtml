@@ -45,7 +45,17 @@
 		</ui:define>
 	</ui:decorate>
 
-
+    <!--  EntitatId -->
+    <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+        <ui:define name="label">
+            <p:outputLabel for="entitatid" value="#{labels.plugin_entitatid}" />
+        </ui:define>
+        <ui:define name="input">
+            <p:inputText id="entitatid" value="#{pluginModel.value.entitatId}" />
+            <p:message for="entitatid" />
+        </ui:define>
+    </ui:decorate>
+    
 	<!-- Actiu -->
 	<ui:decorate template="/WEB-INF/decorations/field.xhtml">
 		<ui:define name="label">

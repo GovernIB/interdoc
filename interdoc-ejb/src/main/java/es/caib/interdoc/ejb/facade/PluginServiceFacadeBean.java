@@ -160,15 +160,6 @@ public class PluginServiceFacadeBean implements PluginServiceFacade {
          
          if (plugin.getPropietats() != null && plugin.getPropietats().trim().length() > 0) {
         	 prop.load(new StringReader(plugin.getPropietats()));
-        	 
-        	log.info(" ===== DEBUG CARREGARPLUGIN PROPS PLUGIN EJB ===== ");
-        	prop.forEach((x,y) -> log.info(x.toString() +  " => " + y.toString()));
-        	
-        	log.info("----");
-        	log.info("Classname => " + className);
-        	log.info("Base package => " + BASE_PACKAGE);
-        	log.info("____________________________");
-        	 
          }
          
          return org.fundaciobit.pluginsib.core.utils.PluginsManager.instancePluginByClassName(className, BASE_PACKAGE, prop);

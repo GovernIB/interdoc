@@ -1,6 +1,9 @@
 package es.caib.interdoc.service.model;
 
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
+import es.caib.interdoc.commons.utils.Utils;
+
 import javax.validation.constraints.Size;
 
 /**
@@ -13,6 +16,9 @@ import javax.validation.constraints.Size;
 public class InfoArxiuDTO {
 
     private Long id;
+    
+    public static final String EXPEDIENT_OBERT = "O";
+    public static final String EXPEDIENT_TANCAT = "T";
 
     @Size(max = 255)
     private String originalFileUrl;
@@ -44,6 +50,7 @@ public class InfoArxiuDTO {
     @Size(max = 5)
     private String estatExpedient;
 
+    private int reintents;
     
 	public InfoArxiuDTO() {
 		super();
@@ -66,7 +73,8 @@ public class InfoArxiuDTO {
 		this.printableUrl = printableUrl;
 		this.eniFileUrl = eniFileUrl;
 		this.validationFileUrl = validationFileUrl;
-		this.estatExpedient = estatExpedient;
+		this.estatExpedient = (Utils.isNotEmpty(estatExpedient)) ? estatExpedient : EXPEDIENT_OBERT;
+		this.reintents = 0;
 	}
 
 	public Long getId() {
@@ -156,6 +164,15 @@ public class InfoArxiuDTO {
 	public void setEstatExpedient(String estatExpedient) {
 		this.estatExpedient = estatExpedient;
 	}
+	
+	public int getReintents() {
+		return reintents;
+	}
+
+	public void setReintents(int reintents) {
+		this.reintents = reintents;
+	}
+
 
 	@Override
 	public String toString() {
@@ -163,7 +180,7 @@ public class InfoArxiuDTO {
 				+ ", csvGenerationDefinition=" + csvGenerationDefinition + ", csvValidationWeb=" + csvValidationWeb
 				+ ", arxiuExpedientId=" + arxiuExpedientId + ", arxiuDocumentId=" + arxiuDocumentId + ", printableUrl="
 				+ printableUrl + ", eniFileUrl=" + eniFileUrl + ", validationFileUrl=" + validationFileUrl
-				+ ", estatExpedient=" + estatExpedient + "]";
+				+ ", estatExpedient=" + estatExpedient + ", reintents=" + reintents + "]";
 	}
 	
    

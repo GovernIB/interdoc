@@ -63,7 +63,8 @@ public class ServerPasswordCallback implements CallbackHandler {
 					pc.setPassword(app.getClau());
 				}else {
 					// TODO Control de excepciones
-					log.info("L'Usuari aplicació no té permisos o no existeix.");
+					log.info("L'Usuari aplicació no existeix.");
+					throw new IOException("authentication failure. Username don't exist ...");
 				}
 				
 			} catch (NamingException e) {

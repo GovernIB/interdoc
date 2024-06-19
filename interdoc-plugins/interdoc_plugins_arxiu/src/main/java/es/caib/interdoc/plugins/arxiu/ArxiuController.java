@@ -42,7 +42,6 @@ public class ArxiuController {
 		try {
 			
 			if (this.pluginService == null) {	
-				LOG.info("pluginService is null");
 				this.pluginService = (PluginServiceFacade) (new InitialContext()).lookup(PluginServiceFacade.JNDI_NAME);
 			}
 				

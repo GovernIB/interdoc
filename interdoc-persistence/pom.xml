@@ -49,7 +49,7 @@
 			<version>21.9.0.0</version>
 			<scope>provided</scope>
 		</dependency>
-		
+
 
 		<!-- Per generar el metamodel de JPA Veure: https://docs.jboss.org/hibernate/orm/5.3/topical/html_single/metamodelgen/MetamodelGenerator.html -->
 		<dependency>

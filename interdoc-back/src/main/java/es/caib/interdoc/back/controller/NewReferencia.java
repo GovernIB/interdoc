@@ -154,9 +154,7 @@ public class NewReferencia extends AbstractController implements Serializable {
         			f.setMime(fitxerDto.getMime());
         			f.setData(tempFile);
         			f.setTamany(fitxerDto.getTamany());
-        			LOG.info("API-Fitxer => " + f.toString() + " tamany: " + f.getData().length + " : " + f.getTamany());
         			infoRequest.setDocument(f);
-        			LOG.info("Document InfoRequest => " + Base64.encode(infoRequest.getDocument().getData()));
         		}	
         	}
         }
@@ -231,6 +229,13 @@ public class NewReferencia extends AbstractController implements Serializable {
         	m10.setValor(referencia.getM10_valor());
         	infoRequest.getMetadades().add(m10);
         }
+        
+        infoRequest.setOrigen("0");
+        infoRequest.setEstatElaboracio("EE99");
+        infoRequest.setTipusDocumental("TD99");
+        
+        if (Utils.isNotEmpty(referencia.getValue().getNumeroRegistre()))
+        	infoRequest.setNumeroRegistre(referencia.getValue().getNumeroRegistre());
         
         String xmlResponse = "";
         try {

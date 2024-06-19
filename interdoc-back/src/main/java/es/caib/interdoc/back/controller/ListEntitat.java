@@ -66,7 +66,6 @@ public class ListEntitat extends AbstractController implements Serializable {
                 LOG.info("load: " + first + " - "  + pageSize);
             	LOG.info("filterBy: {}", filterBy);
 
-                // Dins JSF emprarem noms que coincideixin amb els valors de l'enumeració AtributUnitat
                 Map<EntitatAtribut, Object> filter = PFUtils.filterMetaToFilter(EntitatAtribut.class, filterBy);
                 List<Ordre<EntitatAtribut>> ordenacions = PFUtils.sortMetaToOrdre(EntitatAtribut.class, sortBy);
 

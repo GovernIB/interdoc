@@ -58,6 +58,9 @@ public class ReferenciaDTO {
 	private Long entitatId;
 
 	private Long fitxerId;
+	
+	@Size(max = 255)
+	private String numeroRegistre;
 
 	public ReferenciaDTO() {
 	}
@@ -88,10 +91,6 @@ public class ReferenciaDTO {
 		this.dataCreacio = dataCreacio;
 	}
 
-	// long, java.lang.String, java.lang.String, java.lang.String, java.lang.String,
-	// java.lang.String, java.langString, java.time.LocalDate, long, long, long,
-	// java.lang.String, long
-
 	public ReferenciaDTO(Long id, String csvId, String uuId, String direccio, String emisor, String receptor,
 			String formatFirma, LocalDate dataCreacio, Long infoSignaturaId, Long infoArxiuId, Long fitxerId,
 			String referencia, Long entitatId) {
@@ -112,7 +111,7 @@ public class ReferenciaDTO {
 
 	public ReferenciaDTO(long id, String csvId, String uuId, String referencia, String direccio, String hash,
 			String emisor, String receptor, String urlVisible, LocalDate dataCreacio, long infoSignaturaId,
-			long infoArxiuId, long entitatId, String formatFirma, long fitxerId) {
+			long infoArxiuId, long entitatId, String formatFirma, long fitxerId, String numeroRegistre) {
 		super();
 		this.id = id;
 		this.csvId = csvId;
@@ -129,6 +128,7 @@ public class ReferenciaDTO {
 		this.infoArxiuId = infoArxiuId;
 		this.entitatId = entitatId;
 		this.fitxerId = fitxerId;
+		this.numeroRegistre = numeroRegistre;
 	}
 
 	public ReferenciaDTO(Long id, String csvId, String uuId, @NotNull @Size(max = 255) String referencia,
@@ -136,7 +136,7 @@ public class ReferenciaDTO {
 			@NotEmpty @Size(max = 50) String emisor, @NotEmpty @Size(max = 50) String receptor,
 			@NotEmpty @Size(max = 255) String urlVisible, String formatFirma,
 			@NotNull @PastOrPresent LocalDate dataCreacio, Long infoSignaturaId, Long infoArxiuId, Long entitatId,
-			Long fitxerId) {
+			Long fitxerId, String numeroRegistre) {
 		super();
 		this.id = id;
 		this.csvId = csvId;
@@ -153,6 +153,7 @@ public class ReferenciaDTO {
 		this.infoArxiuId = infoArxiuId;
 		this.entitatId = entitatId;
 		this.fitxerId = fitxerId;
+		this.numeroRegistre = numeroRegistre;
 	}
 
 	public Long getId() {
@@ -274,6 +275,14 @@ public class ReferenciaDTO {
 	public void setFitxerId(Long fitxerId) {
 		this.fitxerId = fitxerId;
 	}
+	
+	public String getNumeroRegistre() {
+		return numeroRegistre;
+	}
+	
+	public void setNumeroRegistre(String numeroRegistre) {
+		this.numeroRegistre = numeroRegistre;
+	}
 
 	@Override
 	public String toString() {
@@ -281,7 +290,7 @@ public class ReferenciaDTO {
 				+ ", direccio=" + direccio + ", hash=" + hash + ", emisor=" + emisor + ", receptor=" + receptor
 				+ ", urlVisible=" + urlVisible + ", formatFirma=" + formatFirma + ", dataCreacio=" + dataCreacio
 				+ ", infoSignaturaId=" + infoSignaturaId + ", infoArxiuId=" + infoArxiuId + ", entitatId=" + entitatId
-				+ ", fitxerId=" + fitxerId + "]";
+				+ ", fitxerId=" + fitxerId + ", numeroRegistre=" + numeroRegistre + "]";
 	}
 
 }

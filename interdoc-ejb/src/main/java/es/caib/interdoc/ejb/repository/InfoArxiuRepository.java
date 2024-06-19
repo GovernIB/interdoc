@@ -5,6 +5,7 @@ import es.caib.interdoc.service.model.Ordre;
 import es.caib.interdoc.service.model.InfoArxiuAtribut;
 import es.caib.interdoc.service.model.InfoArxiuDTO;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +23,12 @@ public interface InfoArxiuRepository extends CrudRepository<InfoArxiu, Long> {
     List<InfoArxiu> getAll();
     
     List<InfoArxiuDTO> getExpedientsOberts(String estat);
+    
+    Boolean tancarExpedient(String expedientId, Long entitatId);
+    
+    int aumentarReintents(String expedientId, Long entitatId, Long valor);
+    
+    HashMap<Long, List<String>> getExpedientsObertsPerEntitat(String estat, Long entitatId);
 
     long countByFilter(Map<InfoArxiuAtribut, Object> filter);
 

@@ -6,6 +6,7 @@ import es.caib.interdoc.service.model.InfoArxiuDTO;
 import es.caib.interdoc.service.model.Ordre;
 import es.caib.interdoc.service.model.Pagina;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -60,7 +61,13 @@ public interface InfoArxiuServiceFacade {
      * Retorna tots els expedients amb estat OBERT
      * 
      */
-    List<InfoArxiuDTO> getExpedientsOberts(String estat);
+    List<InfoArxiuDTO> getExpedientsOberts();
+    
+    Boolean tancarExpedient(String expedientId, Long entitatId);
+    
+    int aumentarReintents(String expedientId, Long entitatId, Long valor);
+    
+    HashMap<Long, List<String>> getExpedientsObertsPerEntitat(String estat, Long entitatId);
 
     /**
      * Retorna una pàgina d'aplicacions que compleixen els filtres i les ordenacions indicades

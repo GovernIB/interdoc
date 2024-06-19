@@ -123,4 +123,10 @@ public class ReferenciaServiceFacadeBean implements ReferenciaServiceFacade {
 		return Optional.ofNullable(llista);
 	}
 	
+	@Override
+	@PermitAll
+	public String findExpedientByNumeroRegistre(String numeroRegistre, Long entitatId) {
+		return repository.findExpedientByNumeroRegistre(numeroRegistre, entitatId);
+	}
+	
 }

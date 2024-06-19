@@ -68,7 +68,9 @@ public class InfoArxiu extends BaseEntity {
     
     @Column(name = "ESTATEXPEDIENT", nullable = true, length = 5)
     private String estatExpedient;
-
+    
+    @Column(name = "REINTENTS", nullable = true, length = 5)
+    private int reintents;
     
     public Long getId() {
 		return id;
@@ -157,6 +159,14 @@ public class InfoArxiu extends BaseEntity {
 	public void setEstatExpedient(String estatExpedient) {
 		this.estatExpedient = estatExpedient;
 	}
+	
+	public int getReintents() {
+		return reintents;
+	}
+	
+	public void setReintents(int reintents) {
+		this.reintents = reintents;
+	}
 
 	/*
    La implementació de equals i hashCode s'hauria de fer sempre que es pugui amb una clau natural, o en cas que
@@ -184,7 +194,10 @@ public class InfoArxiu extends BaseEntity {
 				+ ", csvGenerationDefinition=" + csvGenerationDefinition + ", csvValidationWeb=" + csvValidationWeb
 				+ ", arxiuExpedientId=" + arxiuExpedientId + ", arxiuDocumentId=" + arxiuDocumentId + ", printableUrl="
 				+ printableUrl + ", eniFileUrl=" + eniFileUrl + ", validationFileUrl=" + validationFileUrl
-				+ ", estatExpedient=" + estatExpedient + "]";
+				+ ", estatExpedient=" + estatExpedient + ", reintents=" + reintents + "]";
 	}
+	
+	@OneToOne(mappedBy = "infoArxiu", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Referencia referencia;
 
 }

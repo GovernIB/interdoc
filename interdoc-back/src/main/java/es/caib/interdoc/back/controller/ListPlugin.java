@@ -1,6 +1,7 @@
 package es.caib.interdoc.back.controller;
 
 import es.caib.interdoc.back.utils.PFUtils;
+import es.caib.interdoc.service.facade.EntitatServiceFacade;
 import es.caib.interdoc.service.facade.PluginServiceFacade;
 import es.caib.interdoc.service.model.*;
 import org.primefaces.model.FilterMeta;
@@ -34,6 +35,9 @@ public class ListPlugin extends AbstractController implements Serializable {
 
     @EJB
     private PluginServiceFacade pluginService;
+    
+    @EJB
+    private EntitatServiceFacade entitatService;
 
     /**
      * Model de dades emprat pel compoment dataTable de primefaces.
@@ -68,17 +72,28 @@ public class ListPlugin extends AbstractController implements Serializable {
                 // Dins JSF emprarem noms que coincideixin amb els valors de l'enumeració AtributUnitat
                 Map<PluginAtribut, Object> filter = PFUtils.filterMetaToFilter(PluginAtribut.class, filterBy);
                 List<Ordre<PluginAtribut>> ordenacions = PFUtils.sortMetaToOrdre(PluginAtribut.class, sortBy);
-
+                
                 Pagina<PluginDTO> pagina = pluginService
                         .findFiltered(first, pageSize, filter, ordenacions);
-
+                
                 setRowCount((int) pagina.getTotal());
+                
                 return pagina.getItems();
             }
         };
     }
 
     // ACCIONS
+    
+	public String getEntitat(Long entitatId) {
+		if (entitatId != null) {
+			LOG.debug("getEntitat: {" + entitatId + "}");
+			EntitatDTO entitat = entitatService.findById(entitatId).orElse(null);
+			return (entitat != null) ? entitat.getNom() : "";
+		}
+		return "";
+	}
+    
 
     /**
      * Esborra l'unitat orgànica amb l'identificador indicat. El mètode retorna void perquè no cal navegació ja que

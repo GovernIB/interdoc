@@ -10,6 +10,7 @@ import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -112,9 +113,10 @@ public class ReferenciaRepositoryBean extends AbstractCrudRepository<Referencia,
 
 		criteriaQuery.select(builder.construct(ReferenciaDTO.class, root.get(Referencia_.id),
 				root.get(Referencia_.csvId), root.get(Referencia_.uuId), root.get(Referencia_.direccio),
-				root.get(Referencia_.emisor), root.get(Referencia_.receptor), root.get(Referencia_.formatFirma), 
-				root.get(Referencia_.dataCreacio), root.get(Referencia_.infoSignaturaId), root.get(Referencia_.infoArxiuId),
-				root.get(Referencia_.fitxerId), root.get(Referencia_.referencia), root.get(Referencia_.entitatId)));
+				root.get(Referencia_.emisor), root.get(Referencia_.receptor), root.get(Referencia_.formatFirma),
+				root.get(Referencia_.dataCreacio), root.get(Referencia_.infoSignaturaId),
+				root.get(Referencia_.infoArxiuId), root.get(Referencia_.fitxerId), root.get(Referencia_.referencia),
+				root.get(Referencia_.entitatId)));
 
 		ReferenciaCriteriaHelper referenciaCriteriaHelper = new ReferenciaCriteriaHelper(builder, root);
 		criteriaQuery.where(referenciaCriteriaHelper.getPredicate(ReferenciaAtribut.csvId, csvId));
@@ -140,11 +142,27 @@ public class ReferenciaRepositoryBean extends AbstractCrudRepository<Referencia,
 
 	@Override
 	public List<Referencia> findBetweenDates(LocalDate inici, LocalDate fi) {
-		
-		TypedQuery<Referencia> query = entityManager.createNamedQuery(Referencia.FILTER_BETWEEN_DATES, Referencia.class);
+
+		TypedQuery<Referencia> query = entityManager.createNamedQuery(Referencia.FILTER_BETWEEN_DATES,
+				Referencia.class);
 		query.setParameter("inici", inici);
 		query.setParameter("fi", fi);
-		
+
 		return query.getResultList();
+	}
+
+	@Override
+	public String findExpedientByNumeroRegistre(String numeroRegistre, Long entitatId) {
+
+		StringBuilder query = new StringBuilder(
+				"Select distinct i.arxiuExpedientId from Referencia as r left outer join r.infoArxiu as i where r.numeroRegistre = :numeroRegistre and r.entitatId = :entitatId");
+
+		Query q = entityManager.createQuery(query.toString());
+		q.setParameter("numeroRegistre", numeroRegistre);
+		q.setParameter("entitatId", entitatId);
+
+		List<String> resultats = q.getResultList();
+		
+		return (resultats.size() > 0) ? resultats.get(0) : null;
 	}
 }

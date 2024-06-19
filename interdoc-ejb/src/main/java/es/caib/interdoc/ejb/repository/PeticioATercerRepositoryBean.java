@@ -74,16 +74,10 @@ public class PeticioATercerRepositoryBean extends AbstractCrudRepository<Peticio
         try{
 
             List<PeticioATercerDTO> resultats = query.getResultList();
-
-            System.out.println("RESULTATS: " + resultats.size());
-
             return resultats;
 
         }catch(Exception e){
-            System.out.println("======================= ERROR =============================== ");
             e.printStackTrace();
-            System.out.println("==============================================================");
-
             return new ArrayList<PeticioATercerDTO>();
         }
 

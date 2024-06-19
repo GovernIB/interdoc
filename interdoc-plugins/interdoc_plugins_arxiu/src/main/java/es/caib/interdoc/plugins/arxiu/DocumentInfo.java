@@ -1,6 +1,8 @@
 package es.caib.interdoc.plugins.arxiu;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +23,7 @@ public class DocumentInfo implements Serializable {
 	private Fitxer fitxer;
 	private InfoSignaturaDTO signatura;
 	private SignaturaArxiu firma;
+	private String numeroRegistre;
 
 	public DocumentInfo() {
 		super();
@@ -48,6 +51,23 @@ public class DocumentInfo implements Serializable {
 		this.fitxer = fitxer;
 		this.signatura = signatura;
 		this.firma = firma;
+	}
+	
+	public DocumentInfo(String nom, List<String> organs, List<String> interessats, Map<String, Object> metadades,
+			String origen, String estatElaboracio, String tipusDocumental, Fitxer fitxer, InfoSignaturaDTO signatura,
+			SignaturaArxiu firma, String numeroRegistre) {
+		super();
+		this.nom = nom;
+		this.organs = organs;
+		this.interessats = interessats;
+		this.metadades = metadades;
+		this.origen = origen;
+		this.estatElaboracio = estatElaboracio;
+		this.tipusDocumental = tipusDocumental;
+		this.fitxer = fitxer;
+		this.signatura = signatura;
+		this.firma = firma;
+		this.numeroRegistre = numeroRegistre;
 	}
 
 	public SignaturaArxiu getFirma() {
@@ -129,12 +149,67 @@ public class DocumentInfo implements Serializable {
 	public void setFitxer(Fitxer fitxer) {
 		this.fitxer = fitxer;
 	}
+	
+	public String getNumeroRegistre() {
+		return numeroRegistre;
+	}
+	
+	public void setNumeroRegistre(String numeroRegistre) {
+		this.numeroRegistre = numeroRegistre;
+	}
+	
 
 	@Override
 	public String toString() {
-		return "DocumentInfo [nom=" + nom + ", organs=" + organs + ", interessats=" + interessats + ", metadades="
-				+ metadades + ", origen=" + origen + ", fitxer=" + fitxer + ", signatura=" + signatura + ", firma="
-				+ firma + "]";
+		
+		 String objeto = "nom=" + nom;
+		 
+		if (organs != null) {
+			objeto += ", organs=" + Arrays.toString(organs.toArray());
+		}
+		
+		if (interessats != null) {
+			objeto += ", interessats=" + Arrays.toString(interessats.toArray());
+		}
+		
+		if (metadades != null) {
+			objeto += ", metadades=[";
+			for (Map.Entry<String, Object> entry : metadades.entrySet()) {
+				objeto += "(" + entry.getKey() + "=" + entry.getValue() + "),";
+			}
+			objeto += "]";
+		}
+		
+		if (origen != null) {
+			objeto += ", origen=" + origen;
+		}
+		
+		if (fitxer != null) {
+			objeto += ", fitxer=[" + fitxer + "]";
+		}
+		
+		if (signatura != null) {
+			objeto += ", signatura=[" + signatura + "]";
+		}
+		
+		if (firma != null) {
+			objeto += ", firma=[" + firma + "]";
+		}
+		
+		if (estatElaboracio != null) {
+			objeto += ", estatElaboracio=" + estatElaboracio;
+		}
+		
+		if (tipusDocumental != null) {
+			objeto += ", tipusDocumental=" + tipusDocumental;
+		}
+		
+		if (numeroRegistre != null) {
+			objeto += ", numeroRegistre=" + numeroRegistre;
+		}
+		
+		return "DocumentInfo [" + objeto + "]";
+		
 	}
 	
 	

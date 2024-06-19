@@ -22,7 +22,8 @@ import java.util.Objects;
 )
 @NamedQueries({
         @NamedQuery(name = Referencia.GET_ALL, query = "select r from Referencia r"),
-        @NamedQuery(name = Referencia.FILTER_BETWEEN_DATES, query = "select r from Referencia r where r.dataCreacio >= :inici and r.dataCreacio <= :fi")
+        @NamedQuery(name = Referencia.FILTER_BETWEEN_DATES, query = "select r from Referencia r where r.dataCreacio >= :inici and r.dataCreacio <= :fi"),
+        @NamedQuery(name = Referencia.FIND_EXPEDIENT_BY_NUMERO_REGISTRE, query = "select r from Referencia r where r.numeroRegistre = :numeroRegistre" )
 })
 public class Referencia extends BaseEntity {
 
@@ -30,6 +31,7 @@ public class Referencia extends BaseEntity {
 
     public static final String GET_ALL = "Referencia.GET_ALL";
     public static final String FILTER_BETWEEN_DATES = "Referencia.FILTER_BETWEEN_DATES";
+    public static final String FIND_EXPEDIENT_BY_NUMERO_REGISTRE = "Referencia.FIND_EXPEDIENT_BY_NUMERO_REGISTRE";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "referencia-sequence")
@@ -89,6 +91,9 @@ public class Referencia extends BaseEntity {
     
     @Column(name = "ENTITATID", nullable = false, length = 19)
     private Long entitatId;
+    
+    @Column(name = "NUMEROREGISTRE", nullable = true, length = 255)
+    private String numeroRegistre;
 
     public Long getId() {
         return id;
@@ -209,6 +214,13 @@ public class Referencia extends BaseEntity {
 	public void setEntitatId(Long entitatId) {
 		this.entitatId = entitatId;
 	}
+	public String getNumeroRegistre() {
+		return numeroRegistre;
+	}
+
+	public void setNumeroRegistre(String numeroRegistre) {
+		this.numeroRegistre = numeroRegistre;
+	}
 
 	@Override
     public boolean equals(Object o) {
@@ -229,7 +241,41 @@ public class Referencia extends BaseEntity {
 				+ ", direccio=" + direccio + ", hash=" + hash + ", emisor=" + emisor + ", receptor=" + receptor
 				+ ", urlVisible=" + urlVisible + ", formatFirma=" + formatFirma + ", dataCreacio=" + dataCreacio
 				+ ", infoSignaturaId=" + infoSignaturaId + ", infoArxiuId=" + infoArxiuId + ", fitxerId=" + fitxerId
-				+ ", entitatId=" + entitatId + "]";
+				+ ", entitatId=" + entitatId + ", numeroRegistre=" + numeroRegistre + "]";
 	}
+
+	public Referencia() {
+		super();
+	}
+
+	public Referencia(Long id, @Size(max = 255) String csvId, @Size(max = 255) String uuId,
+			@Size(max = 255) String referencia, @NotEmpty @Size(max = 255) String direccio,
+			@Size(max = 255) String hash, @Size(max = 50) String emisor, @Size(max = 50) String receptor,
+			@Size(max = 255) String urlVisible, @Size(max = 5) String formatFirma,
+			@NotNull @PastOrPresent LocalDate dataCreacio, Long infoSignaturaId, Long infoArxiuId, Long fitxerId,
+			Long entitatId, String numeroRegistre) {
+		super();
+		this.id = id;
+		this.csvId = csvId;
+		this.uuId = uuId;
+		this.referencia = referencia;
+		this.direccio = direccio;
+		this.hash = hash;
+		this.emisor = emisor;
+		this.receptor = receptor;
+		this.urlVisible = urlVisible;
+		this.formatFirma = formatFirma;
+		this.dataCreacio = dataCreacio;
+		this.infoSignaturaId = infoSignaturaId;
+		this.infoArxiuId = infoArxiuId;
+		this.fitxerId = fitxerId;
+		this.entitatId = entitatId;
+		this.numeroRegistre = numeroRegistre;
+	}
+	
+	@JoinColumn(name = "INFOARXIUID", referencedColumnName = "INFOARXIUID", insertable = false, updatable = false)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private InfoArxiu infoArxiu;
+	
 
 }

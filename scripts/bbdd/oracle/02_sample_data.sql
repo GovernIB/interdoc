@@ -28,9 +28,8 @@ es.caib.interdoc.plugins.firma.localizacion=Palma
 es.caib.interdoc.plugins.firma.motivo=Test
 es.caib.interdoc.plugins.firma.tipodocumentalid=99
 es.caib.interdoc.plugins.firma.signId=1
-es.caib.interdoc.plugins.firma.alias=preprod-dgmad
-# preprod-dgmad afirmades-firma
-es.caib.interdoc.plugins.firma.applicationId=CAIBDEV2.REGWEB
+es.caib.interdoc.plugins.firma.alias=alias
+es.caib.interdoc.plugins.firma.applicationId=appId
 es.caib.interdoc.plugins.firma.debug=true;
 es.caib.interdoc.plugins.firma.profile=PROFILE_PADES', 'es.caib.interdoc.plugins.apifirmasimple.FirmaPluginImpl', CURRENT_TIMESTAMP, 1, 1, 2);
 

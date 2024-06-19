@@ -42,11 +42,10 @@
             <artifactId>interdoc-persistence</artifactId>
             <scope>provided</scope>
         </dependency>
-        
         <dependency>
             <groupId>org.fundaciobit.pluginsib.core</groupId>
             <artifactId>pluginsib-core</artifactId>
-            <version>2.0.0</version>
+            <version>2.0.2</version>
             <scope>provided</scope>
         </dependency>
         
@@ -79,6 +78,11 @@
             <groupId>org.jboss.arquillian.junit</groupId>
             <artifactId>arquillian-junit-container</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+        	<groupId>es.caib.interdoc</groupId>
+        	<artifactId>interdoc-plugins-arxiu</artifactId>
+        	<version>1.0.0</version>
         </dependency>
     </dependencies>
 

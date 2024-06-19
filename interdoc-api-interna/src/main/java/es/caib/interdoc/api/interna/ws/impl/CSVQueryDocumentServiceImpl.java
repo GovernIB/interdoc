@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.security.Principal;
 import java.util.Optional;
 
 import javax.activation.DataHandler;
@@ -15,6 +16,10 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.mail.util.ByteArrayDataSource;
 
+import org.apache.cxf.message.Message;
+import org.apache.cxf.phase.PhaseInterceptorChain;
+import org.apache.cxf.security.SecurityContext;
+import org.apache.wss4j.common.principal.WSUsernameTokenPrincipalImpl;
 import org.jboss.ws.api.annotation.TransportGuarantee;
 import org.jboss.ws.api.annotation.WebContext;
 import org.slf4j.Logger;
@@ -26,6 +31,7 @@ import es.caib.interdoc.plugins.arxiu.ArxiuController;
 import es.caib.interdoc.service.facade.AccesServiceFacade;
 import es.caib.interdoc.service.facade.InfoArxiuServiceFacade;
 import es.caib.interdoc.service.facade.ReferenciaServiceFacade;
+import es.caib.interdoc.service.model.AccesDTO;
 import es.caib.interdoc.service.model.InfoArxiuDTO;
 import es.caib.interdoc.service.model.ReferenciaDTO;
 import es.caib.interdoc.api.interna.ws.model.CSVQueryDocumentResponse;
@@ -66,7 +72,7 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
 	protected InfoArxiuServiceFacade infoArxiuService;
 
 	@EJB(mappedName = AccesServiceFacade.JNDI_NAME)
-	protected AccesServiceFacade accessService;
+	protected AccesServiceFacade accesService;
 
 	@Override
 	public CSVQueryDocumentResponse csvQueryDocument(
@@ -111,7 +117,8 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
 		
 		Optional<ReferenciaDTO> referenciaDto = null;
 		String resultatArxiu = null;
-		Long entitatId = 2L; 
+		
+		Long entitatId = 2L; // TODO, obtener el entitatId a partir del código DIR3 asociado al usuario
 		
 		if ( Utils.isNotEmpty(idEni)) {
 			// Es tracta d'un fitxer pujat previament a Arxiu
@@ -204,7 +211,6 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
 					if (isDescarregaPDF && infoArxiu.getOriginalFileUrl() != null) {
 						LOG.info("isDescarregaPDF => true");
 						byte[] filePDF = downloadUrl(new URL(infoArxiu.getOriginalFileUrl()));
-						LOG.info("byteArray length => " + filePDF.length);
 					}
 
 				} else {
@@ -225,6 +231,63 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
 					"No existeix cap referencia amb les dades indicades");
 		}
 
+		// Enregistrar l'accés si disposam de la informació
+		if (referenciaDto.isPresent() && ueriRequest.getTipoIdentificacion() != null) {
+			try {
+				AccesDTO acces = new AccesDTO();
+				
+				if (referenciaDto.isPresent()) {
+					ReferenciaDTO ref = referenciaDto.get();
+					acces.setReferenciaId(ref.getId());
+				}
+				
+				if(ueriRequest.getNif() != null)
+					acces.setIdentificacio(ueriRequest.getNif());
+				
+				if (ueriRequest.getIp() != null)
+					acces.setIp(ueriRequest.getIp());
+				
+				if (ueriRequest.getTipoIdentificacion() != null)
+					acces.setTipusIdentificacio(ueriRequest.getTipoIdentificacion().value());
+				
+				accesService.create(acces);
+				
+			} catch(Exception e ) {
+				LOG.error("Error enregistrament acces => " + e.getMessage());
+				e.printStackTrace();
+			}
+		} else {
+			
+			// Agafam el nom del usuari que ha fet la petició
+			Message message = PhaseInterceptorChain.getCurrentMessage();
+		    SecurityContext context = message.get( SecurityContext.class );
+		    Principal principal2 = context.getUserPrincipal();
+			if (principal2 != null) {
+				LOG.info("principal2 => " + principal2.getName());
+			
+				// obtener todo de message.getContextualPropertyKeys()
+				for (String key : message.getContextualPropertyKeys()) {
+                    LOG.info("key => " + key);
+                }
+				
+				/*
+				try {
+					AccesDTO acces = new AccesDTO();
+					if (referenciaDto.isPresent()) {
+						ReferenciaDTO ref = referenciaDto.get();
+						acces.setReferenciaId(ref.getId());
+					}
+					accesService.create(acces);
+					
+				} catch(Exception e ) {
+					LOG.error("Error enregistrament acces => " + e.getMessage());
+					e.printStackTrace();
+				}
+				*/
+			}
+		    
+		}
+		
 
 		// Montam la resposta
 		CSVQueryDocumentMtomSecurityResponse response = new CSVQueryDocumentMtomSecurityResponse();

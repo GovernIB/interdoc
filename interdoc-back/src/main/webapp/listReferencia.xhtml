@@ -31,11 +31,10 @@
 					<f:facet name="{RowsPerPageLabel}">
                         #{labels.dataTable_rowsPerPage}
                     </f:facet>
-					<p:column sortBy="#{referencia.id}">
+					<!--  p:column sortBy="#{referencia.id}">
 						<f:facet name="header">#{labels.referencia_id}</f:facet>
 						<h:outputText value="#{referencia.id}" />
-					</p:column>
-
+					</p:column -->
 					<p:column filterBy="#{referencia.csvId}"
 						sortBy="#{referencia.csvId}">
 						<f:facet name="header">#{labels.referencia_csvid}</f:facet>
@@ -55,12 +54,22 @@
 						<f:facet name="header">#{labels.referencia_receptor}</f:facet>
 						<h:outputText value="#{referencia.receptor}" />
 					</p:column>
+					<p:column filterBy="#{referencia.numeroRegistre}"
+						sortBy="#{referencia.numeroRegistre}">
+						<f:facet name="header">#{labels.referencia_numeroRegistre}</f:facet>
+						<h:outputText value="#{referencia.numeroRegistre}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">#{labels.referencia_entitatid}</f:facet>
+						<h:outputText value="#{listReferencia.getEntitat(referencia.entitatId)}" />
+					</p:column>
 					<p:column sortBy="#{referencia.dataCreacio}">
 						<f:facet name="header">#{labels.referencia_dataCreacio}</f:facet>
 						<h:outputText value="#{referencia.dataCreacio}">
 							<f:convertDateTime type="localDate" pattern="dd-MM-yyyy" />
 						</h:outputText>
 					</p:column>
+					
 
 					<p:column>
 						<f:facet name="header"></f:facet>

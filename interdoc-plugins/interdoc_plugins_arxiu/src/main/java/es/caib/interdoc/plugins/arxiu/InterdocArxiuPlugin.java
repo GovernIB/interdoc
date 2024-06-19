@@ -1,6 +1,5 @@
 package es.caib.interdoc.plugins.arxiu;
 
-import java.util.Date;
 import java.util.Properties;
 
 import es.caib.interdoc.commons.utils.Constants;
@@ -39,9 +38,9 @@ public interface InterdocArxiuPlugin extends org.fundaciobit.pluginsib.core.IPlu
 	
 	public Document descarregarDocument(String identificador);
 	
-	public String tancarExpedient(String identificador);
+	public String tancarExpedientPerId(String identificador);
 
 	boolean tancarExpedientIfProperty(String identificador);
 
-	void tancarExpedient(String identificador, Long entitatId) throws Exception;
+	boolean tancarExpedient(String identificador) throws Exception;
 }

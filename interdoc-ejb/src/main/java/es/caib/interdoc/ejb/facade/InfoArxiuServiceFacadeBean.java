@@ -22,6 +22,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -90,8 +91,26 @@ public class InfoArxiuServiceFacadeBean implements InfoArxiuServiceFacade {
     
     @Override
     @PermitAll
-    public List<InfoArxiuDTO> getExpedientsOberts(String estat) {
-         return repository.getExpedientsOberts(estat);
+    public List<InfoArxiuDTO> getExpedientsOberts() {
+         return repository.getExpedientsOberts(InfoArxiuDTO.EXPEDIENT_OBERT);
+    }
+    
+    @Override
+    @PermitAll
+    public HashMap<Long, List<String>> getExpedientsObertsPerEntitat(String estat, Long entitatId) {
+    	return repository.getExpedientsObertsPerEntitat(estat, entitatId);
+    }
+    
+    @Override
+    @PermitAll
+	public Boolean tancarExpedient(String expedientId, Long entitatId) {
+		return repository.tancarExpedient(expedientId, entitatId);
+	}
+    
+    @Override
+    @PermitAll
+    public int aumentarReintents(String expedientId, Long entitatId, Long valor) {
+    	return repository.aumentarReintents(expedientId, entitatId, valor);
     }
 
     @Override

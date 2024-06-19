@@ -1,9 +1,14 @@
 package es.caib.interdoc.back.controller;
 
 import es.caib.interdoc.back.utils.PFUtils;
+import es.caib.interdoc.commons.utils.Utils;
+import es.caib.interdoc.service.facade.EntitatServiceFacade;
+import es.caib.interdoc.service.facade.InfoArxiuServiceFacade;
 import es.caib.interdoc.service.facade.ReferenciaServiceFacade;
 import es.caib.interdoc.service.model.ReferenciaAtribut;
 import es.caib.interdoc.service.model.ReferenciaDTO;
+import es.caib.interdoc.service.model.EntitatDTO;
+import es.caib.interdoc.service.model.InfoArxiuDTO;
 import es.caib.interdoc.service.model.Ordre;
 import es.caib.interdoc.service.model.Pagina;
 import org.primefaces.model.FilterMeta;
@@ -37,6 +42,12 @@ public class ListReferencia extends AbstractController implements Serializable {
 
     @EJB
     private ReferenciaServiceFacade referenciaService;
+    
+    @EJB
+    private EntitatServiceFacade entitatService;
+    
+    @EJB
+    private InfoArxiuServiceFacade infoArxiuService;
 
     /**
      * Model de dades emprat pel compoment dataTable de primefaces.
@@ -83,6 +94,27 @@ public class ListReferencia extends AbstractController implements Serializable {
 
     // ACCIONS
 
+    
+    public boolean isClosedExpedient(Long infoArxiuId) {
+		if (infoArxiuId != null) {
+			InfoArxiuDTO infoArxiu = infoArxiuService.findById(infoArxiuId).orElse(null);
+			if (infoArxiu != null && Utils.isNotEmpty(infoArxiu.getArxiuExpedientId())) {
+				
+			}
+			return ( infoArxiu.getEstatExpedient().equals(InfoArxiuDTO.EXPEDIENT_TANCAT));
+		}
+		return true;
+    }
+    
+    
+	public String getEntitat(Long entitatId) {
+        if (entitatId != null) {
+        	EntitatDTO entitat = entitatService.findById(entitatId).orElse(null);
+        	return (entitat != null) ? entitat.getNom() : "";
+        }
+        return "";
+	}
+	
     /**
      * Esborra l'unitat orgànica amb l'identificador indicat. El mètode retorna void perquè no cal navegació ja que
      * l'eliminació es realitza des de la pàgina de llistat, i quedam en aquesta pàgina.

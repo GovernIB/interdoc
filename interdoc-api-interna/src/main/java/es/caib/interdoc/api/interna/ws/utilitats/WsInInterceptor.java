@@ -57,26 +57,6 @@ public class WsInInterceptor extends AbstractPhaseInterceptor<Message> {
         LOG.debug("  + Method NAME = {}", method.getName());
         LOG.debug("  + Method CLASS = {}", method.getDeclaringClass());
         
-        /*
-        try {	
-        	HttpServletRequest hsr = (HttpServletRequest) message.get("HTTP.REQUEST");
-            Enumeration<String> headerNames = hsr.getHeaderNames();
-            while(headerNames.hasMoreElements()) {
-              String headerName = headerNames.nextElement();
-              System.out.println("Header Name - " + headerName + ", Value - " + hsr.getHeader(headerName));
-            }
-            
-            Enumeration<String> params = hsr.getParameterNames(); 
-            while(params.hasMoreElements()){
-             String paramName = params.nextElement();
-             System.out.println("Parameter Name - "+paramName+", Value - "+ hsr.getParameter(paramName));
-            }
-           
-        }catch(Exception e) {
-        	LOG.error(e.getMessage());
-        }
-        */
-        
     }
 
     private Method getTargetMethod(Message m) {

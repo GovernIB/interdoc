@@ -81,12 +81,26 @@
 		</ui:define>
 	</ui:decorate>
 
+    <!-- fitxerId -->
 	<ui:decorate template="/WEB-INF/decorations/field.xhtml">
 		<ui:define name="label"></ui:define>
 		<ui:define name="input">
 			<p:inputText id="fitxerId" value="#{referenciaModel.value.fitxerId}" />
 		</ui:define>
 	</ui:decorate>
+	
+	<!--  numeroRegistre -->
+	<ui:decorate template="/WEB-INF/decorations/field.xhtml">
+		<ui:define name="label">
+			<p:outputLabel for="numeroRegistre" value="#{labels.referencia_numeroRegistre}" />
+		</ui:define>
+		<ui:define name="input">
+			<p:inputText id="numeroRegistre" value="#{referenciaModel.value.numeroRegistre}" />
+			<p:message for="numeroRegistre" />
+		</ui:define>
+	</ui:decorate>
+	
+	
 	<!-- interessats -->
 	<!--  >ui:decorate template="/WEB-INF/decorations/field.xhtml">
         <ui:define name="label">

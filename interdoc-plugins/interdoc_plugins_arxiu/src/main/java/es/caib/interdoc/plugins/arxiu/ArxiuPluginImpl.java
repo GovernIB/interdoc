@@ -108,9 +108,9 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 			propietats.put(PROPERTY_CODI_APLICACIO, config.getValue(PROPERTY_CODI_APLICACIO, String.class));
 
 			if (Configuracio.isDesenvolupament()) {
-				LOG.info("------------ PROPIEDADES ARXIU FILE -------------------");
+				LOG.debug("------------ PROPIEDADES ARXIU FILE -------------------");
 				propietats.stringPropertyNames().forEach(x -> LOG.info(x + " => " + propietats.getProperty(x)));
-				LOG.info("---------------------------------------------------");
+				LOG.debug("---------------------------------------------------");
 			}
 		} catch (Exception e) {
 			LOG.error("S'ha produit un error alhora de carregar les propietats. ");
@@ -228,6 +228,10 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 					+ ")");
 			throw new DocumentNotValidException();
 		}
+		
+		if (Utils.isEmpty(expedientId)) {
+			LOG.error("No existeix expedientId");
+		}
 
 		Fitxer fitxerOriginal = documentInfo.getFitxer();
 
@@ -326,6 +330,7 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 		} else if (documentInfo.getSignatura() != null && !documentInfo.getSignatura().getFileName().isEmpty()) {
 
 			LOG.info("El document está signat per interdoc");
+			DocumentContingut documentContingut = new DocumentContingut();
 
 			if (documentInfo.getSignatura().getEniPerfilFirma() != null)
 				firma.setPerfil(getPerfilFirma(documentInfo.getSignatura().getEniPerfilFirma()));
@@ -335,23 +340,122 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 				switch (documentInfo.getSignatura().getEniTipoFirma().trim()) {
 				case "TF01":
 					firmaTipus = FirmaTipus.CSV;
+					
+					LOG.info("TF01 => CSV");
+					
+					firma.setFitxerNom(documentInfo.getSignatura().getFileName());
+					firma.setContingut(documentInfo.getSignatura().getFileData());
+					firma.setTamany(documentInfo.getSignatura().getFileData().length);
+					firma.setTipusMime(documentInfo.getSignatura().getFileMime());
+					
+					documentContingut = new DocumentContingut();
+					documentContingut.setArxiuNom(fitxerFirmat.getArxiuNom());
+					documentContingut.setContingut(fitxerFirmat.getContingut());
+					documentContingut.setTamany(fitxerFirmat.getTamany());
+					documentContingut.setTipusMime(fitxerFirmat.getTipusMime());
+					document.setContingut(documentContingut);
+					
+					if (fitxerFirmat.getExtensio() != null) {
+
+						LOG.info("Obtenim la extensió a partir del fitxerFirmat: "
+								+ fitxerFirmat.getExtensio().toString());
+						metadadesDoc.setExtensio(DocumentExtensio.toEnum(fitxerFirmat.getExtensio().toString()));
+						metadadesDoc.setFormat(getDocumentFormat(metadadesDoc.getExtensio()));
+
+					} else {
+
+						LOG.info("Obtenim la extensió a partir del nom de fitxerFirmat");
+
+						String extensionFichero = "."
+								+ FilenameUtils.getExtension(fitxerFirmat.getArxiuNom()).toLowerCase();
+						metadadesDoc.setExtensio(DocumentExtensio.toEnum(Extensio.toEnum(extensionFichero).toString()));
+						metadadesDoc.setFormat(getDocumentFormat(metadadesDoc.getExtensio()));
+					}
+
+					LOG.info("metadades Ext: => " + metadadesDoc.getExtensio().toString());
+					LOG.info("metadades For: => " + metadadesDoc.getFormat().toString());
+					
 					break;
 				case "TF02":
 					firmaTipus = FirmaTipus.XADES_DET;
-					break;
-				case "TF03":
-					firmaTipus = FirmaTipus.XADES_ENV;
-					break;
-				case "TF04":
-					firmaTipus = FirmaTipus.CADES_DET;
 
-					LOG.info("TF04 => ATACHED");
+					LOG.info("TF02 => XADES DETACHED");
 
+					firma.setFitxerNom(documentInfo.getSignatura().getFileName());
 					firma.setContingut(documentInfo.getSignatura().getFileData());
 					firma.setTamany(documentInfo.getSignatura().getFileData().length);
 					firma.setTipusMime(documentInfo.getSignatura().getFileMime());
 
-					DocumentContingut documentContingut = new DocumentContingut();
+					documentContingut = new DocumentContingut();
+					documentContingut.setArxiuNom(fitxerFirmat.getArxiuNom());
+					documentContingut.setContingut(fitxerFirmat.getContingut());
+					documentContingut.setTamany(fitxerFirmat.getTamany());
+					documentContingut.setTipusMime(fitxerFirmat.getTipusMime());
+					// document.setContingut(documentContingut);
+
+					if (fitxerFirmat.getExtensio() != null) {
+
+						LOG.info("Obtenim la extensió a partir del fitxerFirmat: "
+								+ fitxerFirmat.getExtensio().toString());
+						metadadesDoc.setExtensio(DocumentExtensio.toEnum(fitxerFirmat.getExtensio().toString()));
+						metadadesDoc.setFormat(getDocumentFormat(metadadesDoc.getExtensio()));
+
+					} else {
+
+						LOG.info("Obtenim la extensió a partir del nom de fitxerFirmat");
+
+						String extensionFichero = "."
+								+ FilenameUtils.getExtension(fitxerFirmat.getArxiuNom()).toLowerCase();
+						metadadesDoc.setExtensio(DocumentExtensio.toEnum(Extensio.toEnum(extensionFichero).toString()));
+						metadadesDoc.setFormat(getDocumentFormat(metadadesDoc.getExtensio()));
+					}
+
+					LOG.info("metadades Ext: => " + metadadesDoc.getExtensio().toString());
+					LOG.info("metadades For: => " + metadadesDoc.getFormat().toString());
+
+					break;
+				case "TF03":
+					firmaTipus = FirmaTipus.XADES_ENV;
+					
+					LOG.info("TF02 => XADES ENVELOPED");
+
+					firma.setFitxerNom(documentInfo.getSignatura().getFileName());
+					firma.setContingut(documentInfo.getSignatura().getFileData());
+					firma.setTamany(documentInfo.getSignatura().getFileData().length);
+					firma.setTipusMime(documentInfo.getSignatura().getFileMime());
+
+					if (fitxerFirmat.getExtensio() != null) {
+
+						LOG.info("Obtenim la extensió a partir del fitxerFirmat: "
+								+ fitxerFirmat.getExtensio().toString());
+						metadadesDoc.setExtensio(DocumentExtensio.toEnum(fitxerFirmat.getExtensio().toString()));
+						metadadesDoc.setFormat(getDocumentFormat(metadadesDoc.getExtensio()));
+
+					} else {
+
+						LOG.info("Obtenim la extensió a partir del nom de fitxerFirmat");
+
+						String extensionFichero = "."
+								+ FilenameUtils.getExtension(fitxerFirmat.getArxiuNom()).toLowerCase();
+						metadadesDoc.setExtensio(DocumentExtensio.toEnum(Extensio.toEnum(extensionFichero).toString()));
+						metadadesDoc.setFormat(getDocumentFormat(metadadesDoc.getExtensio()));
+					}
+
+					LOG.info("metadades Ext: => " + metadadesDoc.getExtensio().toString());
+					LOG.info("metadades For: => " + metadadesDoc.getFormat().toString());
+
+					break;
+				case "TF04":
+					firmaTipus = FirmaTipus.CADES_DET;
+
+					LOG.info("TF04 => DETACHED");
+
+					firma.setFitxerNom(documentInfo.getSignatura().getFileName());
+					firma.setContingut(documentInfo.getSignatura().getFileData());
+					firma.setTamany(documentInfo.getSignatura().getFileData().length);
+					firma.setTipusMime(documentInfo.getSignatura().getFileMime());
+
+					documentContingut = new DocumentContingut();
 					documentContingut.setArxiuNom(fitxerFirmat.getArxiuNom());
 					documentContingut.setContingut(fitxerFirmat.getContingut());
 					documentContingut.setTamany(fitxerFirmat.getTamany());
@@ -381,6 +485,34 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 					break;
 				case "TF05":
 					firmaTipus = FirmaTipus.CADES_ATT;
+					
+					LOG.info("TF05 => CADES ATTACHED");
+					
+					firma.setFitxerNom(documentInfo.getSignatura().getFileName());
+					firma.setContingut(documentInfo.getSignatura().getFileData());
+					firma.setTamany(documentInfo.getSignatura().getFileData().length);
+					firma.setTipusMime(documentInfo.getSignatura().getFileMime());
+
+					if (fitxerFirmat.getExtensio() != null) {
+
+						LOG.info("Obtenim la extensió a partir del fitxerFirmat: "
+								+ fitxerFirmat.getExtensio().toString());
+						metadadesDoc.setExtensio(DocumentExtensio.toEnum(fitxerFirmat.getExtensio().toString()));
+						metadadesDoc.setFormat(getDocumentFormat(metadadesDoc.getExtensio()));
+
+					} else {
+
+						LOG.info("Obtenim la extensió a partir del nom de fitxerFirmat");
+
+						String extensionFichero = "."
+								+ FilenameUtils.getExtension(fitxerFirmat.getArxiuNom()).toLowerCase();
+						metadadesDoc.setExtensio(DocumentExtensio.toEnum(Extensio.toEnum(extensionFichero).toString()));
+						metadadesDoc.setFormat(getDocumentFormat(metadadesDoc.getExtensio()));
+					}
+
+					LOG.info("metadades Ext: => " + metadadesDoc.getExtensio().toString());
+					LOG.info("metadades For: => " + metadadesDoc.getFormat().toString());
+					
 					break;
 				case "TF06":
 					LOG.info("TF06 => ATACHED");
@@ -416,338 +548,322 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 
 		document.setMetadades(metadadesDoc);
 
+		if (Configuracio.isDesenvolupament()) {
+
+			LOG.info(" ==============  DOCUMENT A CREAR ================== ");
+
+			if (document.getContingut() != null) {
+				LOG.info("document.getContingut().getArxiuNom => " + document.getContingut().getArxiuNom());
+				LOG.info("document.getContingut().getTipusMime => " + document.getContingut().getTipusMime());
+				LOG.info("document.getContingut().getTamany => " + document.getContingut().getTamany());
+				LOG.info("document.getContingut().getContingutTamany => "
+						+ document.getContingut().getContingut().length);
+			}
+
+			LOG.info(" ---------- FIRMES --------------- ");
+			if (document.getFirmes() != null && document.getFirmes().size() > 0) {
+				document.getFirmes().forEach(x -> {
+					LOG.info("Firma => " + x.toString());
+					LOG.info("Firma.getFitxerNom => " + x.getFitxerNom());
+					LOG.info("Firma.getContingut().length => " + x.getContingut().length);
+					LOG.info("Firma.getTamany => " + x.getTamany());
+					LOG.info("Firma.getPerfil => " + x.getPerfil().name());
+					LOG.info("Firma.getTipusMime => " + x.getTipusMime());
+					LOG.info("Firma.getTipus => " + x.getTipus().name());
+				});
+			}
+
+		}
+		
+		if (plugin == null) {
+			plugin = getArxiuPlugin();
+		}
+
 		ContingutArxiu documentoCreado = plugin.documentCrear(document, expedientId);
 
-		System.out.println("Id Documento: " + documentoCreado.getIdentificador());
+		LOG.info("Id Documento: " + documentoCreado.getIdentificador());
 
 		return documentoCreado.getIdentificador();
 
 	}
 
 	/*
-	public String crearDocument_v2(DocumentInfo documentInfo, String expedientId, Date fecha)
-			throws DocumentNotValidException, Exception {
-
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-
-		if (documentInfo.getFitxer() == null || documentInfo.getFitxer().getTamany() < 1L) {
-			LOG.error("No existeix document adjunt o el tamany es inferior a 1 (" + documentInfo.getFitxer().getTamany()
-					+ ")");
-			throw new DocumentNotValidException();
-		}
-
-		Fitxer fitxerOriginal = documentInfo.getFitxer();
-
-		Document documentPerCrear = new Document();
-		documentPerCrear.setIdentificador(null);
-		documentPerCrear.setNom(fitxerOriginal.getArxiuNom());
-		documentPerCrear.setEstat(DocumentEstat.DEFINITIU);
-		documentPerCrear.setContingut(null);
-		documentPerCrear.setFirmes(new ArrayList<Firma>());
-
-		try {
-			// Firma firma = getFirma(documentInfo);
-
-			Firma firma = null;
-			FirmaTipus firmaTipus = null;
-
-			if (documentInfo.getFirma() != null && documentInfo.getFirma().getFormatFirma() != null) {
-
-				LOG.info("Ja vé firmat: ens envien el document ja firmat, pot ser PADES o detached");
-
-				// ens envien el document ja firmat, pot ser PADES o detached
-				firma = new Firma();
-				firma.setTipus(FirmaTipus.toEnum(documentInfo.getFirma().getFormatFirma()));
-				firma.setPerfil(getPerfilFirma(documentInfo.getFirma().getPerfilFirma()));
-
-				if (documentInfo.getFirma().getFirma() != null
-						&& documentInfo.getFirma().getFirma().getArxiuNom() != null
-						&& documentInfo.getFirma().getFirma().getArxiuNom().length() > 0) {
-
-					// firma detached
-					Fitxer signaturaTemp = documentInfo.getFirma().getFirma();
-					firma.setFitxerNom(signaturaTemp.getArxiuNom());
-					firma.setContingut(signaturaTemp.getContingut());
-					firma.setTamany(signaturaTemp.getTamany());
-					firma.setTipusMime(signaturaTemp.getTipusMime());
-
-					LOG.info("Firma que s'adjunta a documentPerCrear amb firma detached: " + firma.toString());
-					if (Configuracio.isDesenvolupament() && firma != null) {
-						LOG.info("========== INFO FIRMA DOCUMENT ARXIU =======================");
-						LOG.info("firma.getFitxerNom => " + firma.getFitxerNom());
-						LOG.info("firma.getContingut().length => " + (firma.getContingut()).length);
-						LOG.info("firma.getTamany() => " + firma.getTamany());
-						LOG.info("firma.getPerfil() => "
-								+ ((firma.getPerfil() != null) ? firma.getPerfil().name() : "null"));
-						LOG.info("firma.getTipusMime => "
-								+ ((firma.getTipusMime() != null) ? firma.getTipusMime() : "null"));
-						LOG.info(
-								"firma.getTipus => " + ((firma.getTipus() != null) ? firma.getTipus().name() : "null"));
-						LOG.info("_______________________________________________");
-					}
-
-					documentPerCrear.getFirmes().add(firma);
-					Fitxer ftemp = documentInfo.getFitxer();
-					if (ftemp != null) {
-						DocumentContingut documentContingut = new DocumentContingut();
-						documentContingut.setArxiuNom(ftemp.getArxiuNom());
-						documentContingut.setContingut(ftemp.getContingut());
-						documentContingut.setTamany(ftemp.getTamany());
-						documentContingut.setTipusMime(ftemp.getTipusMime());
-						documentPerCrear.setContingut(documentContingut);
-					} else {
-						LOG.info("document null amb firma detached");
-					}
-
-				} else {
-					// firma atached
-					firma.setFitxerNom(documentInfo.getNom());
-					firma.setContingut(documentInfo.getFitxer().getContingut());
-					firma.setTamany(documentInfo.getFitxer().getTamany());
-					firma.setTipusMime(documentInfo.getFitxer().getTipusMime());
-
-					LOG.info("Firma que s'adjunta a documentPerCrear amb firma atached: " + firma.toString());
-					documentPerCrear.getFirmes().add(firma);
-
-					if (Configuracio.isDesenvolupament() && firma != null) {
-						LOG.info("========== INFO FIRMA DOCUMENT ARXIU =======================");
-						LOG.info("firma.getFitxerNom => " + firma.getFitxerNom());
-						LOG.info("firma.getContingut().length => " + (firma.getContingut()).length);
-						LOG.info("firma.getTamany() => " + firma.getTamany());
-						LOG.info("firma.getPerfil() => "
-								+ ((firma.getPerfil() != null) ? firma.getPerfil().name() : "null"));
-						LOG.info("firma.getTipusMime => "
-								+ ((firma.getTipusMime() != null) ? firma.getTipusMime() : "null"));
-						LOG.info(
-								"firma.getTipus => " + ((firma.getTipus() != null) ? firma.getTipus().name() : "null"));
-						LOG.info("_______________________________________________");
-					}
-
-				}
-			} else if (documentInfo.getSignatura() != null) {
-
-				// es tracta d'un document que hem firmat amb portafib: PADES (TF06) O
-				// CADES(TF04)
-
-				LOG.info("document firmat per interdoc");
-
-				firma = new Firma();
-				firma.setFitxerNom(documentInfo.getSignatura().getFileName());
-				firma.setContingut(documentInfo.getSignatura().getFileData());
-				firma.setTamany((documentInfo.getSignatura().getFileData()).length);
-				firma.setTipusMime(documentInfo.getSignatura().getFileMime());
-
-				if (documentInfo.getSignatura().getEniPerfilFirma() != null)
-					firma.setPerfil(getPerfilFirma(documentInfo.getSignatura().getEniPerfilFirma()));
-
-				if (documentInfo.getSignatura().getEniTipoFirma() != null) {
-					switch (documentInfo.getSignatura().getEniTipoFirma().trim()) {
-					case "TF01":
-						firmaTipus = FirmaTipus.CSV;
-						break;
-					case "TF02":
-						firmaTipus = FirmaTipus.XADES_DET;
-						break;
-					case "TF03":
-						firmaTipus = FirmaTipus.XADES_ENV;
-						break;
-					case "TF04":
-						firmaTipus = FirmaTipus.CADES_DET;
-
-						// Adjuntam el contingut
-
-						Fitxer ftemp = documentInfo.getFitxer();
-						if (ftemp != null) {
-							DocumentContingut documentContingut = new DocumentContingut();
-							documentContingut.setArxiuNom(ftemp.getArxiuNom());
-							documentContingut.setContingut(ftemp.getContingut());
-							documentContingut.setTamany(ftemp.getTamany());
-							documentContingut.setTipusMime(ftemp.getTipusMime());
-							documentPerCrear.setContingut(documentContingut);
-						} else {
-							LOG.info("document null amb firma detached");
-						}
-
-						break;
-					case "TF05":
-						firmaTipus = FirmaTipus.CADES_ATT;
-						break;
-					case "TF06":
-						firmaTipus = FirmaTipus.PADES;
-						break;
-					case "TF07":
-						firmaTipus = FirmaTipus.SMIME;
-						break;
-					case "TF08":
-						firmaTipus = FirmaTipus.ODT;
-						break;
-					case "TF09":
-						firmaTipus = FirmaTipus.OOXML;
-						break;
-					}
-					firma.setTipus(firmaTipus);
-
-					LOG.info("InfoFirma de document de interdoc => " + firma.toString());
-
-					documentPerCrear.getFirmes().add(firma);
-
-					if (Configuracio.isDesenvolupament() && firma != null) {
-						LOG.info("========== INFO FIRMA DOCUMENT ARXIU =======================");
-						LOG.info("firma.getFitxerNom => " + firma.getFitxerNom());
-						LOG.info("firma.getContingut().length => " + (firma.getContingut()).length);
-						LOG.info("firma.getTamany() => " + firma.getTamany());
-						LOG.info("firma.getPerfil() => "
-								+ ((firma.getPerfil() != null) ? firma.getPerfil().name() : "null"));
-						LOG.info("firma.getTipusMime => "
-								+ ((firma.getTipusMime() != null) ? firma.getTipusMime() : "null"));
-						LOG.info(
-								"firma.getTipus => " + ((firma.getTipus() != null) ? firma.getTipus().name() : "null"));
-						LOG.info("_______________________________________________");
-					}
-
-				}
-			} else {
-				LOG.info("Firma NULL => No es pot obtenir la firma");
-			}
-
-		} catch (Exception e) {
-			LOG.error("No es pot obtenir la firma!");
-			e.printStackTrace();
-		}
-
-		DocumentMetadades documentMetadades = new DocumentMetadades();
-		documentMetadades.setSerieDocumental(propietats.getProperty(PROPERTY_SERIE_DOCUMENTAL));
-
-		TimeZone tz = TimeZone.getTimeZone("UTC");
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-		df.setTimeZone(tz);
-
-		String fecha2 = df.format(new Date());
-		LOG.info("Formato fecha => " + fecha2);
-
-		// documentMetadades.setDataCaptura(fecha);
-		// LOG.info("Data captura => " +
-		// sdf.format(documentMetadades.getDataCaptura()));
-
-		documentMetadades.setOrigen(ContingutOrigen.toEnum(documentInfo.getOrigen()));
-		documentMetadades.setTipusDocumental(DocumentTipus.toEnum(documentInfo.getTipusDocumental()));
-
-		if (documentInfo.getEstatElaboracio() != null)
-			documentMetadades.setEstatElaboracio(DocumentEstatElaboracio.toEnum(documentInfo.getEstatElaboracio()));
-
-		LOG.info("ArxiuPluginImpl::FitxerOriginal => " + fitxerOriginal.toString());
-
-		if (fitxerOriginal.getExtensio() != null) {
-
-			LOG.info("Ens arriba extensio: " + fitxerOriginal.getExtensio().toString());
-
-			DocumentExtensio extensio = DocumentExtensio.toEnum(fitxerOriginal.getExtensio().toString());
-
-			if (extensio != null)
-				documentMetadades.setExtensio(extensio);
-
-			if (documentMetadades.getFormat() == null && extensio != null) {
-				documentMetadades.setFormat(getDocumentFormat(extensio));
-				LOG.info("getDocumentFormat => " + DocumentFormat.toEnum(fitxerOriginal.getTipusMime()) + " - "
-						+ getDocumentFormat(extensio));
-			} else {
-				LOG.info("geDocumentFormat == null => set DocumentFormat.PDF");
-				documentMetadades.setFormat(DocumentFormat.PDF);
-			}
-
-		} else {
-			documentMetadades.setExtensio(DocumentExtensio.PDF);
-			documentMetadades.setFormat(DocumentFormat.PDF);
-		}
-
-		if (documentInfo.getOrgans() != null)
-			documentMetadades.setOrgans(documentInfo.getOrgans());
-
-		if (documentInfo.getMetadades() != null && documentInfo.getMetadades().size() > 0)
-			documentMetadades.setMetadadesAddicionals(documentInfo.getMetadades());
-
-		documentPerCrear.setDocumentMetadades(documentMetadades);
-
-		if (plugin == null) {
-			plugin = getArxiuPlugin();
-		}
-
-		ContingutArxiu subido = this.plugin.documentCrear(documentPerCrear, expedientId);
-
-		
-		ContingutTipus subidoTipus = subido.getTipus();
-		  
-		  ExpedientMetadades subMetadades = subido.getExpedientMetadades();
-		  
-		  DocumentMetadades subDocMetadadades = subido.getDocumentMetadades();
-		  
-		  List<Firma> subFirmes = subido.getFirmes();
-		  
-		  if (Configuracio.isDesenvolupament()) {
-		  LOG.info("========== FITXERORIGINAL ENTRADA ===================");
-		  LOG.info("fitxerOriginal.getArxiuNom => " + fitxerOriginal.getArxiuNom());
-		  LOG.info("fitxerOriginal.getExtensio => " + ((fitxerOriginal.getExtensio() !=
-		  null) ? fitxerOriginal.getExtensio().name() : "null"));
-		  LOG.info("fitxerOriginal.getFormat => " + ((fitxerOriginal.getFormat() !=
-		  null) ? fitxerOriginal.getFormat().name() : "null"));
-		  LOG.info("fitxerOriginal.getTamany => " +
-		  String.valueOf(fitxerOriginal.getTamany()));
-		  LOG.info("fitxerOriginal.getTipusMime => " + fitxerOriginal.getTipusMime());
-		  LOG.info("_____________________________________________");
-		  LOG.info("documentMetadades.getSerieDocumental => " +
-		  documentMetadades.getSerieDocumental());
-		  LOG.info("documentMetadades.getDataCaptura => " +
-		  sdf.format(documentMetadades.getDataCaptura()));
-		  LOG.info("documentMetadades.getOrigen => " +
-		  documentMetadades.getOrigen().name()); if (documentInfo.getOrgans() != null
-		  && documentInfo.getOrgans().size() > 0)
-		  documentMetadades.getOrgans().forEach(x -> LOG.info("Organ => " + x));
-		  LOG.info(" ==============  DOCUMENT CREAT ================== ");
-		  LOG.info("subido.identificador => " + subido.getIdentificador());
-		  LOG.info("subido.nom => " + subido.getNom());
-		  LOG.info("subido.descripcio => " + subido.getDescripcio());
-		  LOG.info("subido.versio => " + subido.getVersio());
-		  LOG.info("subido Tipus => " + ((subidoTipus != null) ? subidoTipus.toString()
-		  : "null")); if (subMetadades != null) {
-		  LOG.info("subido docMetadades.getIdentificador =>" +
-		  subMetadades.getIdentificador());
-		  LOG.info("subido docMetadades.getSerieDocumental =>" +
-		  subMetadades.getSerieDocumental());
-		  LOG.info("subido docMetadades.getVersioNti => " +
-		  subMetadades.getVersioNti());
-		  LOG.info("subido docMetadades.getClassificacio =>" +
-		  subMetadades.getClassificacio());
-		  LOG.info("subido expMetadades.getDataObertura =>" +
-		  sdf.format(subMetadades.getDataObertura())); if (subMetadades.getOrgans() !=
-		  null && subMetadades.getOrgans().size() > 0)
-		  subMetadades.getOrgans().forEach(x -> LOG.info("subMetadades.getOrgans => " +
-		  x)); LOG.info("subido expMetadades.getEstat =>" +
-		  subMetadades.getEstat().name()); } if (subDocMetadadades != null) {
-		  LOG.info("docMetadadades.getCsv =>" +
-		  (Utils.isNotEmpty(subDocMetadadades.getCsv()) ? subDocMetadadades.getCsv() :
-		  "null")); LOG.info("docMetadadades.getDataCaptura =>" +
-		  sdf.format(subDocMetadadades.getDataCaptura()));
-		  LOG.info("docMetadadades.getExtensio =>" + ((subDocMetadadades.getExtensio()
-		  != null) ? subDocMetadadades.getExtensio().name() : "null"));
-		  LOG.info("docMetadadades.getFormat =>" + ((subDocMetadadades.getFormat() !=
-		  null) ? subDocMetadadades.getFormat().name() : "null"));
-		  LOG.info("docMetadadades.getIdentificadorOrigen =>" +
-		  (Utils.isNotEmpty(subDocMetadadades.getIdentificadorOrigen()) ?
-		  subDocMetadadades.getIdentificadorOrigen() : "null"));
-		  LOG.info("docMetadadades.getOrigen =>" +
-		  subDocMetadadades.getOrigen().name());
-		  LOG.info("docMetadadades.getSerieDocumental =>" +
-		  (Utils.isNotEmpty(subDocMetadadades.getSerieDocumental()) ?
-		  subDocMetadadades.getSerieDocumental() : "null"));
-		  LOG.info("docMetadadades.getTipusDocumental =>" +
-		  subDocMetadadades.getTipusDocumental().name()); } if (subido.getFirmes() !=
-		  null && subido.getFirmes().size() > 0) subFirmes.forEach(x ->
-		  LOG.info("Firma => " + x.getFitxerNom())); }
-		  
-		return subido.getIdentificador();
-
-	}
-	*/
+	 * public String crearDocument_v2(DocumentInfo documentInfo, String expedientId,
+	 * Date fecha) throws DocumentNotValidException, Exception {
+	 * 
+	 * SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	 * 
+	 * if (documentInfo.getFitxer() == null || documentInfo.getFitxer().getTamany()
+	 * < 1L) { LOG.error("No existeix document adjunt o el tamany es inferior a 1 ("
+	 * + documentInfo.getFitxer().getTamany() + ")"); throw new
+	 * DocumentNotValidException(); }
+	 * 
+	 * Fitxer fitxerOriginal = documentInfo.getFitxer();
+	 * 
+	 * Document documentPerCrear = new Document();
+	 * documentPerCrear.setIdentificador(null);
+	 * documentPerCrear.setNom(fitxerOriginal.getArxiuNom());
+	 * documentPerCrear.setEstat(DocumentEstat.DEFINITIU);
+	 * documentPerCrear.setContingut(null); documentPerCrear.setFirmes(new
+	 * ArrayList<Firma>());
+	 * 
+	 * try { // Firma firma = getFirma(documentInfo);
+	 * 
+	 * Firma firma = null; FirmaTipus firmaTipus = null;
+	 * 
+	 * if (documentInfo.getFirma() != null &&
+	 * documentInfo.getFirma().getFormatFirma() != null) {
+	 * 
+	 * LOG.
+	 * info("Ja vé firmat: ens envien el document ja firmat, pot ser PADES o detached"
+	 * );
+	 * 
+	 * // ens envien el document ja firmat, pot ser PADES o detached firma = new
+	 * Firma();
+	 * firma.setTipus(FirmaTipus.toEnum(documentInfo.getFirma().getFormatFirma()));
+	 * firma.setPerfil(getPerfilFirma(documentInfo.getFirma().getPerfilFirma()));
+	 * 
+	 * if (documentInfo.getFirma().getFirma() != null &&
+	 * documentInfo.getFirma().getFirma().getArxiuNom() != null &&
+	 * documentInfo.getFirma().getFirma().getArxiuNom().length() > 0) {
+	 * 
+	 * // firma detached Fitxer signaturaTemp = documentInfo.getFirma().getFirma();
+	 * firma.setFitxerNom(signaturaTemp.getArxiuNom());
+	 * firma.setContingut(signaturaTemp.getContingut());
+	 * firma.setTamany(signaturaTemp.getTamany());
+	 * firma.setTipusMime(signaturaTemp.getTipusMime());
+	 * 
+	 * LOG.info("Firma que s'adjunta a documentPerCrear amb firma detached: " +
+	 * firma.toString()); if (Configuracio.isDesenvolupament() && firma != null) {
+	 * LOG.info("========== INFO FIRMA DOCUMENT ARXIU =======================");
+	 * LOG.info("firma.getFitxerNom => " + firma.getFitxerNom());
+	 * LOG.info("firma.getContingut().length => " + (firma.getContingut()).length);
+	 * LOG.info("firma.getTamany() => " + firma.getTamany());
+	 * LOG.info("firma.getPerfil() => " + ((firma.getPerfil() != null) ?
+	 * firma.getPerfil().name() : "null")); LOG.info("firma.getTipusMime => " +
+	 * ((firma.getTipusMime() != null) ? firma.getTipusMime() : "null")); LOG.info(
+	 * "firma.getTipus => " + ((firma.getTipus() != null) ? firma.getTipus().name()
+	 * : "null")); LOG.info("_______________________________________________"); }
+	 * 
+	 * documentPerCrear.getFirmes().add(firma); Fitxer ftemp =
+	 * documentInfo.getFitxer(); if (ftemp != null) { DocumentContingut
+	 * documentContingut = new DocumentContingut();
+	 * documentContingut.setArxiuNom(ftemp.getArxiuNom());
+	 * documentContingut.setContingut(ftemp.getContingut());
+	 * documentContingut.setTamany(ftemp.getTamany());
+	 * documentContingut.setTipusMime(ftemp.getTipusMime());
+	 * documentPerCrear.setContingut(documentContingut); } else {
+	 * LOG.info("document null amb firma detached"); }
+	 * 
+	 * } else { // firma atached firma.setFitxerNom(documentInfo.getNom());
+	 * firma.setContingut(documentInfo.getFitxer().getContingut());
+	 * firma.setTamany(documentInfo.getFitxer().getTamany());
+	 * firma.setTipusMime(documentInfo.getFitxer().getTipusMime());
+	 * 
+	 * LOG.info("Firma que s'adjunta a documentPerCrear amb firma atached: " +
+	 * firma.toString()); documentPerCrear.getFirmes().add(firma);
+	 * 
+	 * if (Configuracio.isDesenvolupament() && firma != null) {
+	 * LOG.info("========== INFO FIRMA DOCUMENT ARXIU =======================");
+	 * LOG.info("firma.getFitxerNom => " + firma.getFitxerNom());
+	 * LOG.info("firma.getContingut().length => " + (firma.getContingut()).length);
+	 * LOG.info("firma.getTamany() => " + firma.getTamany());
+	 * LOG.info("firma.getPerfil() => " + ((firma.getPerfil() != null) ?
+	 * firma.getPerfil().name() : "null")); LOG.info("firma.getTipusMime => " +
+	 * ((firma.getTipusMime() != null) ? firma.getTipusMime() : "null")); LOG.info(
+	 * "firma.getTipus => " + ((firma.getTipus() != null) ? firma.getTipus().name()
+	 * : "null")); LOG.info("_______________________________________________"); }
+	 * 
+	 * } } else if (documentInfo.getSignatura() != null) {
+	 * 
+	 * // es tracta d'un document que hem firmat amb portafib: PADES (TF06) O //
+	 * CADES(TF04)
+	 * 
+	 * LOG.info("document firmat per interdoc");
+	 * 
+	 * firma = new Firma();
+	 * firma.setFitxerNom(documentInfo.getSignatura().getFileName());
+	 * firma.setContingut(documentInfo.getSignatura().getFileData());
+	 * firma.setTamany((documentInfo.getSignatura().getFileData()).length);
+	 * firma.setTipusMime(documentInfo.getSignatura().getFileMime());
+	 * 
+	 * if (documentInfo.getSignatura().getEniPerfilFirma() != null)
+	 * firma.setPerfil(getPerfilFirma(documentInfo.getSignatura().getEniPerfilFirma(
+	 * )));
+	 * 
+	 * if (documentInfo.getSignatura().getEniTipoFirma() != null) { switch
+	 * (documentInfo.getSignatura().getEniTipoFirma().trim()) { case "TF01":
+	 * firmaTipus = FirmaTipus.CSV; break; case "TF02": firmaTipus =
+	 * FirmaTipus.XADES_DET; break; case "TF03": firmaTipus = FirmaTipus.XADES_ENV;
+	 * break; case "TF04": firmaTipus = FirmaTipus.CADES_DET;
+	 * 
+	 * // Adjuntam el contingut
+	 * 
+	 * Fitxer ftemp = documentInfo.getFitxer(); if (ftemp != null) {
+	 * DocumentContingut documentContingut = new DocumentContingut();
+	 * documentContingut.setArxiuNom(ftemp.getArxiuNom());
+	 * documentContingut.setContingut(ftemp.getContingut());
+	 * documentContingut.setTamany(ftemp.getTamany());
+	 * documentContingut.setTipusMime(ftemp.getTipusMime());
+	 * documentPerCrear.setContingut(documentContingut); } else {
+	 * LOG.info("document null amb firma detached"); }
+	 * 
+	 * break; case "TF05": firmaTipus = FirmaTipus.CADES_ATT; break; case "TF06":
+	 * firmaTipus = FirmaTipus.PADES; break; case "TF07": firmaTipus =
+	 * FirmaTipus.SMIME; break; case "TF08": firmaTipus = FirmaTipus.ODT; break;
+	 * case "TF09": firmaTipus = FirmaTipus.OOXML; break; }
+	 * firma.setTipus(firmaTipus);
+	 * 
+	 * LOG.info("InfoFirma de document de interdoc => " + firma.toString());
+	 * 
+	 * documentPerCrear.getFirmes().add(firma);
+	 * 
+	 * if (Configuracio.isDesenvolupament() && firma != null) {
+	 * LOG.info("========== INFO FIRMA DOCUMENT ARXIU =======================");
+	 * LOG.info("firma.getFitxerNom => " + firma.getFitxerNom());
+	 * LOG.info("firma.getContingut().length => " + (firma.getContingut()).length);
+	 * LOG.info("firma.getTamany() => " + firma.getTamany());
+	 * LOG.info("firma.getPerfil() => " + ((firma.getPerfil() != null) ?
+	 * firma.getPerfil().name() : "null")); LOG.info("firma.getTipusMime => " +
+	 * ((firma.getTipusMime() != null) ? firma.getTipusMime() : "null")); LOG.info(
+	 * "firma.getTipus => " + ((firma.getTipus() != null) ? firma.getTipus().name()
+	 * : "null")); LOG.info("_______________________________________________"); }
+	 * 
+	 * } } else { LOG.info("Firma NULL => No es pot obtenir la firma"); }
+	 * 
+	 * } catch (Exception e) { LOG.error("No es pot obtenir la firma!");
+	 * e.printStackTrace(); }
+	 * 
+	 * DocumentMetadades documentMetadades = new DocumentMetadades();
+	 * documentMetadades.setSerieDocumental(propietats.getProperty(
+	 * PROPERTY_SERIE_DOCUMENTAL));
+	 * 
+	 * TimeZone tz = TimeZone.getTimeZone("UTC"); DateFormat df = new
+	 * SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"); df.setTimeZone(tz);
+	 * 
+	 * String fecha2 = df.format(new Date()); LOG.info("Formato fecha => " +
+	 * fecha2);
+	 * 
+	 * // documentMetadades.setDataCaptura(fecha); // LOG.info("Data captura => " +
+	 * // sdf.format(documentMetadades.getDataCaptura()));
+	 * 
+	 * documentMetadades.setOrigen(ContingutOrigen.toEnum(documentInfo.getOrigen()))
+	 * ; documentMetadades.setTipusDocumental(DocumentTipus.toEnum(documentInfo.
+	 * getTipusDocumental()));
+	 * 
+	 * if (documentInfo.getEstatElaboracio() != null)
+	 * documentMetadades.setEstatElaboracio(DocumentEstatElaboracio.toEnum(
+	 * documentInfo.getEstatElaboracio()));
+	 * 
+	 * LOG.info("ArxiuPluginImpl::FitxerOriginal => " + fitxerOriginal.toString());
+	 * 
+	 * if (fitxerOriginal.getExtensio() != null) {
+	 * 
+	 * LOG.info("Ens arriba extensio: " + fitxerOriginal.getExtensio().toString());
+	 * 
+	 * DocumentExtensio extensio =
+	 * DocumentExtensio.toEnum(fitxerOriginal.getExtensio().toString());
+	 * 
+	 * if (extensio != null) documentMetadades.setExtensio(extensio);
+	 * 
+	 * if (documentMetadades.getFormat() == null && extensio != null) {
+	 * documentMetadades.setFormat(getDocumentFormat(extensio));
+	 * LOG.info("getDocumentFormat => " +
+	 * DocumentFormat.toEnum(fitxerOriginal.getTipusMime()) + " - " +
+	 * getDocumentFormat(extensio)); } else {
+	 * LOG.info("geDocumentFormat == null => set DocumentFormat.PDF");
+	 * documentMetadades.setFormat(DocumentFormat.PDF); }
+	 * 
+	 * } else { documentMetadades.setExtensio(DocumentExtensio.PDF);
+	 * documentMetadades.setFormat(DocumentFormat.PDF); }
+	 * 
+	 * if (documentInfo.getOrgans() != null)
+	 * documentMetadades.setOrgans(documentInfo.getOrgans());
+	 * 
+	 * if (documentInfo.getMetadades() != null && documentInfo.getMetadades().size()
+	 * > 0) documentMetadades.setMetadadesAddicionals(documentInfo.getMetadades());
+	 * 
+	 * documentPerCrear.setDocumentMetadades(documentMetadades);
+	 * 
+	 * if (plugin == null) { plugin = getArxiuPlugin(); }
+	 * 
+	 * ContingutArxiu subido = this.plugin.documentCrear(documentPerCrear,
+	 * expedientId);
+	 * 
+	 * 
+	 * ContingutTipus subidoTipus = subido.getTipus();
+	 * 
+	 * ExpedientMetadades subMetadades = subido.getExpedientMetadades();
+	 * 
+	 * DocumentMetadades subDocMetadadades = subido.getDocumentMetadades();
+	 * 
+	 * List<Firma> subFirmes = subido.getFirmes();
+	 * 
+	 * if (Configuracio.isDesenvolupament()) {
+	 * LOG.info("========== FITXERORIGINAL ENTRADA ===================");
+	 * LOG.info("fitxerOriginal.getArxiuNom => " + fitxerOriginal.getArxiuNom());
+	 * LOG.info("fitxerOriginal.getExtensio => " + ((fitxerOriginal.getExtensio() !=
+	 * null) ? fitxerOriginal.getExtensio().name() : "null"));
+	 * LOG.info("fitxerOriginal.getFormat => " + ((fitxerOriginal.getFormat() !=
+	 * null) ? fitxerOriginal.getFormat().name() : "null"));
+	 * LOG.info("fitxerOriginal.getTamany => " +
+	 * String.valueOf(fitxerOriginal.getTamany()));
+	 * LOG.info("fitxerOriginal.getTipusMime => " + fitxerOriginal.getTipusMime());
+	 * LOG.info("_____________________________________________");
+	 * LOG.info("documentMetadades.getSerieDocumental => " +
+	 * documentMetadades.getSerieDocumental());
+	 * LOG.info("documentMetadades.getDataCaptura => " +
+	 * sdf.format(documentMetadades.getDataCaptura()));
+	 * LOG.info("documentMetadades.getOrigen => " +
+	 * documentMetadades.getOrigen().name()); if (documentInfo.getOrgans() != null
+	 * && documentInfo.getOrgans().size() > 0)
+	 * documentMetadades.getOrgans().forEach(x -> LOG.info("Organ => " + x));
+	 * LOG.info(" ==============  DOCUMENT CREAT ================== ");
+	 * LOG.info("subido.identificador => " + subido.getIdentificador());
+	 * LOG.info("subido.nom => " + subido.getNom());
+	 * LOG.info("subido.descripcio => " + subido.getDescripcio());
+	 * LOG.info("subido.versio => " + subido.getVersio());
+	 * LOG.info("subido Tipus => " + ((subidoTipus != null) ? subidoTipus.toString()
+	 * : "null")); if (subMetadades != null) {
+	 * LOG.info("subido docMetadades.getIdentificador =>" +
+	 * subMetadades.getIdentificador());
+	 * LOG.info("subido docMetadades.getSerieDocumental =>" +
+	 * subMetadades.getSerieDocumental());
+	 * LOG.info("subido docMetadades.getVersioNti => " +
+	 * subMetadades.getVersioNti());
+	 * LOG.info("subido docMetadades.getClassificacio =>" +
+	 * subMetadades.getClassificacio());
+	 * LOG.info("subido expMetadades.getDataObertura =>" +
+	 * sdf.format(subMetadades.getDataObertura())); if (subMetadades.getOrgans() !=
+	 * null && subMetadades.getOrgans().size() > 0)
+	 * subMetadades.getOrgans().forEach(x -> LOG.info("subMetadades.getOrgans => " +
+	 * x)); LOG.info("subido expMetadades.getEstat =>" +
+	 * subMetadades.getEstat().name()); } if (subDocMetadadades != null) {
+	 * LOG.info("docMetadadades.getCsv =>" +
+	 * (Utils.isNotEmpty(subDocMetadadades.getCsv()) ? subDocMetadadades.getCsv() :
+	 * "null")); LOG.info("docMetadadades.getDataCaptura =>" +
+	 * sdf.format(subDocMetadadades.getDataCaptura()));
+	 * LOG.info("docMetadadades.getExtensio =>" + ((subDocMetadadades.getExtensio()
+	 * != null) ? subDocMetadadades.getExtensio().name() : "null"));
+	 * LOG.info("docMetadadades.getFormat =>" + ((subDocMetadadades.getFormat() !=
+	 * null) ? subDocMetadadades.getFormat().name() : "null"));
+	 * LOG.info("docMetadadades.getIdentificadorOrigen =>" +
+	 * (Utils.isNotEmpty(subDocMetadadades.getIdentificadorOrigen()) ?
+	 * subDocMetadadades.getIdentificadorOrigen() : "null"));
+	 * LOG.info("docMetadadades.getOrigen =>" +
+	 * subDocMetadadades.getOrigen().name());
+	 * LOG.info("docMetadadades.getSerieDocumental =>" +
+	 * (Utils.isNotEmpty(subDocMetadadades.getSerieDocumental()) ?
+	 * subDocMetadadades.getSerieDocumental() : "null"));
+	 * LOG.info("docMetadadades.getTipusDocumental =>" +
+	 * subDocMetadadades.getTipusDocumental().name()); } if (subido.getFirmes() !=
+	 * null && subido.getFirmes().size() > 0) subFirmes.forEach(x ->
+	 * LOG.info("Firma => " + x.getFitxerNom())); }
+	 * 
+	 * return subido.getIdentificador();
+	 * 
+	 * }
+	 */
 
 	@Override
 	public InfoArxiuDTO consultarDocument(String documentId, String expedientId) throws Exception {
@@ -791,6 +907,7 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 				info.setArxiuDocumentId(documentId);
 				info.setArxiuExpedientId(expedientId);
 				info.setCsv(detalls.getMetadades().getCsv());
+				info.setEstatExpedient(InfoArxiuDTO.EXPEDIENT_OBERT);
 
 				// info.setCsvGenerationDefinition(detalls.getMetadades().getCsvDef());
 				// info.setCsvValidationWeb(csvValidation);
@@ -1010,51 +1127,33 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 	}
 
 	@Override
-	public void tancarExpedient(String identificador, Long entitatId) throws Exception {
+	public boolean tancarExpedient(String identificador) throws Exception {
 
-		Date inici = new Date();
-		Resultado res = null;
 		int reintents = 10;
-
+		String resultat = null;
+		String error = null;
 		do {
 			--reintents;
 
 			try {
-
-				String resultat = tancarExpedient(identificador);
+				resultat = tancarExpedientPerId(identificador);
 				LOG.info("resultat tancarExpedient amb id " + identificador + " => " + resultat);
-
+				
 			} catch (Exception var23) {
 				LOG.error(
 						"Error no controlat al tancarExpedient()[Miram si podem reintentar...]: " + var23.getMessage(),
 						var23);
-				String error = var23.getMessage();
+				error = var23.getMessage();
 				if (reintents <= 0 || error == null || !error.contains("Proxy Error")
 						|| !error.contains("/services/closeFile")) {
 					LOG.error("Error no controlat al tancarExpedient()");
 				}
-
-				res = new Resultado();
-				res.setCodigoResultado("COD_020");
-				res.setMsjResultado("Send timeout");
 			}
 
-			String errorCodi = res.getCodigoResultado();
-			if (!this.hiHaError(errorCodi)) {
+			// Sortim si s'ha tancat correctament
+			if (Utils.isNotEmpty(resultat)) {
 				LOG.info("Se ha cerrado correctamente el Expediente: " + identificador);
 				break;
-			}
-
-			String msg = res.getMsjResultado();
-
-			if (!"COD_020".equals(errorCodi) || !msg.startsWith("Send timeout")) {
-				if ("COD_021".equals(errorCodi)
-						&& msg.startsWith("Could not have the permission of Delete to perfom the operation")) {
-					LOG.info("S'ha intentat cerrarExpediente() però aquest ja esta a RM. Es dóna per bó.");
-					break;
-				}
-				LOG.error("No s'ha pogut tancar l'expedient amb uuid " + identificador + ": " + res.getCodigoResultado()
-						+ " - " + res.getMsjResultado());
 			}
 
 			LOG.warn("Gestió de reintents de apiArxiu.cerrarExpediente(): reintent compte enrera " + reintents
@@ -1066,16 +1165,15 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 			}
 			if (reintents <= 0) {
 				LOG.error("S'han esgotat els reintents i no s'ha pogut tancar l'expedient amb uuid " + identificador
-						+ ": " + res.getCodigoResultado() + " - " + res.getMsjResultado());
+						+ ": " + error);
 			}
 
 		} while (reintents > 0);
+		
+		return reintents > 0;
 
 	}
 
-	private boolean hiHaError(String code) {
-		return !"COD_000".equals(code);
-	}
 
 	@Override
 	public boolean borrarExpedient(String identificador) {
@@ -1123,14 +1221,14 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 	public boolean tancarExpedientIfProperty(String identificador) {
 		LOG.info("tancarExpedientIfProperty::" + identificador);
 		if ("true".equals(propietats.getProperty(PROPERTY_TANCAR_EXPEDIENT))) {
-			tancarExpedient(identificador);
+			tancarExpedientPerId(identificador);
 			return true;
 		}
 		return false;
 	}
 
 	@Override
-	public String tancarExpedient(String identificador) {
+	public String tancarExpedientPerId(String identificador) {
 		LOG.info("tancarExpedient::" + identificador);
 		if (Utils.isNotEmpty(identificador)) {
 			if (plugin == null) {

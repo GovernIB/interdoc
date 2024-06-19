@@ -11,5 +11,6 @@ public enum InfoArxiuAtribut implements Atribut {
     printableUrl,
     eniFileUrl,
     validationFileUrl,
-    estatExpedient
+    estatExpedient,
+    reintents
 }

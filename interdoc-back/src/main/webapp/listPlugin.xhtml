@@ -29,10 +29,10 @@
                     <f:facet name="{RowsPerPageLabel}">
                         #{labels.dataTable_rowsPerPage}
                     </f:facet>
-                    <p:column sortBy="#{plugin.id}">
+                    <!--  p:column sortBy="#{plugin.id}">
                         <f:facet name="header">#{labels.plugin_id}</f:facet>
                         <h:outputText value="#{plugin.id}"/>
-                    </p:column>
+                    </p:column -->
 
                     <p:column filterBy="#{plugin.nom}" sortBy="#{plugin.nom}">
                         <f:facet name="header">#{labels.plugin_nom}</f:facet>
@@ -42,7 +42,10 @@
                         <f:facet name="header">#{labels.plugin_classe}</f:facet>
                         <h:outputText value="#{plugin.classe}"/>
                     </p:column>
-                    
+                    <p:column>
+                        <f:facet name="header">#{labels.plugin_entitatid}</f:facet>
+                        <h:outputText value="#{listPlugin.getEntitat(plugin.entitatId)}"/>
+                    </p:column>
                     <p:column filterBy="#{plugin.actiu}">
                         <f:facet name="header">#{labels.plugin_actiu}</f:facet>
                         <h:outputText value="#{plugin.actiu}"/>

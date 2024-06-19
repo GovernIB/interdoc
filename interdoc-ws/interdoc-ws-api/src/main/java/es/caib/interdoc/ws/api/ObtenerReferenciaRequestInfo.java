@@ -50,7 +50,8 @@ import javax.xml.bind.annotation.XmlType;
     "uuid",
     "origen",
     "estatElaboracio",
-    "tipusDocumental"
+    "tipusDocumental",
+    "numeroRegistre"
 })
 public class ObtenerReferenciaRequestInfo {
 
@@ -70,6 +71,7 @@ public class ObtenerReferenciaRequestInfo {
     protected String origen;
     protected String estatElaboracio;
     protected String tipusDocumental;
+    protected String numeroRegistre;
 
     /**
      * Obtiene el valor de la propiedad aplicacioId.
@@ -353,6 +355,13 @@ public class ObtenerReferenciaRequestInfo {
 		this.metadades = metadades;
 	}
     
+	public void setNumeroRegistre(String numeroRegistre) {
+		this.numeroRegistre = numeroRegistre;
+	}
+	
+	public String getNumeroRegistre() {
+		return numeroRegistre;
+	}
     
 
 }

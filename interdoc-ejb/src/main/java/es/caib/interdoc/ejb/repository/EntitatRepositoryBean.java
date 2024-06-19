@@ -28,82 +28,74 @@ import java.util.Optional;
 @Stateless
 @Local(EntitatRepository.class)
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
-public class EntitatRepositoryBean extends AbstractCrudRepository<Entitat, Long>
-        implements EntitatRepository {
+public class EntitatRepositoryBean extends AbstractCrudRepository<Entitat, Long> implements EntitatRepository {
 
-    protected EntitatRepositoryBean() {
-        super(Entitat.class);
-    }
+	protected EntitatRepositoryBean() {
+		super(Entitat.class);
+	}
 
+	@Override
+	public List<EntitatDTO> findPagedByFilterAndOrder(int firstResult, int maxResult,
+			Map<EntitatAtribut, Object> filter, List<Ordre<EntitatAtribut>> ordenacio) {
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<EntitatDTO> criteriaQuery = builder.createQuery(EntitatDTO.class);
+		Root<Entitat> root = criteriaQuery.from(Entitat.class);
 
-    @Override
-    public List<EntitatDTO> findPagedByFilterAndOrder(int firstResult, int maxResult,
-                                                        Map<EntitatAtribut, Object> filter,
-                                                        List<Ordre<EntitatAtribut>> ordenacio) {
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<EntitatDTO> criteriaQuery = builder.createQuery(EntitatDTO.class);
-        Root<Entitat> root = criteriaQuery.from(Entitat.class);
+		criteriaQuery.select(builder.construct(EntitatDTO.class, root.get(Entitat_.id), root.get(Entitat_.nom),
+				root.get(Entitat_.codiDir3), root.get(Entitat_.dataCreacio), root.get(Entitat_.actiu)));
 
-        criteriaQuery.select(builder.construct(EntitatDTO.class,
-                root.get(Entitat_.id),
-                root.get(Entitat_.nom),
-                root.get(Entitat_.codiDir3),
-                root.get(Entitat_.dataCreacio),
-                root.get(Entitat_.actiu)));
+		EntitatCriteriaHelper entitatCriteriaHelper = new EntitatCriteriaHelper(builder, root);
+		criteriaQuery.where(entitatCriteriaHelper.getPredicates(filter));
+		criteriaQuery.orderBy(entitatCriteriaHelper.getOrderList(ordenacio));
 
-        EntitatCriteriaHelper entitatCriteriaHelper = new EntitatCriteriaHelper(builder, root);
-        criteriaQuery.where(entitatCriteriaHelper.getPredicates(filter));
-        criteriaQuery.orderBy(entitatCriteriaHelper.getOrderList(ordenacio));
+		TypedQuery<EntitatDTO> query = entityManager.createQuery(criteriaQuery);
+		query.setFirstResult(firstResult);
+		query.setMaxResults(maxResult);
 
-        TypedQuery<EntitatDTO> query = entityManager.createQuery(criteriaQuery);
-        query.setFirstResult(firstResult);
-        query.setMaxResults(maxResult);
-        return query.getResultList();
-    }
-    
-    @Override
-    public EntitatDTO findByCodiDir3(String codi) {
-    	
-    	CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<EntitatDTO> criteriaQuery = builder.createQuery(EntitatDTO.class);
-        Root<Entitat> root = criteriaQuery.from(Entitat.class);
-        
-        criteriaQuery.select(builder.construct(EntitatDTO.class,
-                root.get(Entitat_.id),
-                root.get(Entitat_.nom),
-                root.get(Entitat_.codiDir3)));
-        
-        // TODO afegir la columna de ACTIU
+		return query.getResultList();
+	}
 
-        EntitatCriteriaHelper entitatCriteriaHelper = new EntitatCriteriaHelper(builder, root);
-		criteriaQuery.where(entitatCriteriaHelper.getPredicate(EntitatAtribut.codiDir3, codi) );
+	@Override
+	public EntitatDTO findByCodiDir3(String codi) {
 
-        TypedQuery<EntitatDTO> query = entityManager.createQuery(criteriaQuery);
-        List<EntitatDTO> resultats = query.getResultList();
-        if (resultats.size() > 0)
-        	return resultats.get(0);
-        else
-        	return null;
-    }
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<EntitatDTO> criteriaQuery = builder.createQuery(EntitatDTO.class);
+		Root<Entitat> root = criteriaQuery.from(Entitat.class);
 
-    @Override
-    public List<Entitat> getAll() {
-        TypedQuery<Entitat> query = entityManager.createNamedQuery(Entitat.GET_ALL, Entitat.class);
-        return query.getResultList();
-    }
+		criteriaQuery.select(builder.construct(EntitatDTO.class, root.get(Entitat_.id), root.get(Entitat_.nom),
+				root.get(Entitat_.codiDir3)));
 
-    @Override
-    public long countByFilter(Map<EntitatAtribut, Object> filter) {
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Long> criteriaQuery = builder.createQuery(Long.class);
-        Root<Entitat> root = criteriaQuery.from(Entitat.class);
+		// TODO afegir la columna de ACTIU
 
-        criteriaQuery.select(builder.count(root));
+		EntitatCriteriaHelper entitatCriteriaHelper = new EntitatCriteriaHelper(builder, root);
+		criteriaQuery.where(entitatCriteriaHelper.getPredicate(EntitatAtribut.codiDir3, codi));
 
-        EntitatCriteriaHelper entitatCriteriaHelper = new EntitatCriteriaHelper(builder, root);
-        criteriaQuery.where(entitatCriteriaHelper.getPredicates(filter));
+		TypedQuery<EntitatDTO> query = entityManager.createQuery(criteriaQuery);
+		List<EntitatDTO> resultats = query.getResultList();
+		if (resultats.size() > 0)
+			return resultats.get(0);
+		else
+			return null;
+	}
 
-        TypedQuery<Long> query = entityManager.createQuery(criteriaQuery);
-        return query.getSingleResult();
-    }
+	@Override
+	public List<Entitat> getAll() {
+		TypedQuery<Entitat> query = entityManager.createNamedQuery(Entitat.GET_ALL, Entitat.class);
+		return query.getResultList();
+	}
+
+	@Override
+	public long countByFilter(Map<EntitatAtribut, Object> filter) {
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Long> criteriaQuery = builder.createQuery(Long.class);
+		Root<Entitat> root = criteriaQuery.from(Entitat.class);
+
+		criteriaQuery.select(builder.count(root));
+
+		EntitatCriteriaHelper entitatCriteriaHelper = new EntitatCriteriaHelper(builder, root);
+		criteriaQuery.where(entitatCriteriaHelper.getPredicates(filter));
+
+		TypedQuery<Long> query = entityManager.createQuery(criteriaQuery);
+		return query.getSingleResult();
+	}
 }

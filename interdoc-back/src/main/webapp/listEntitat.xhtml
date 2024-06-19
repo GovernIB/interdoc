@@ -11,7 +11,7 @@
 
         <ui:define name="metadata">
             <f:metadata>
-                <f:importConstants type="es.caib.interdoc.service.model.Estat" />
+                <f:importConstants type="es.caib.interdoc.service.model.EstatPublicacio" />
             </f:metadata>
         </ui:define>
 
@@ -35,10 +35,10 @@
                     <f:facet name="{RowsPerPageLabel}">
                         #{labels.dataTable_rowsPerPage}
                     </f:facet>
-                    <p:column sortBy="#{entitat.id}">
+                    <!--  p:column sortBy="#{entitat.id}">
                         <f:facet name="header">#{labels.entitat_id}</f:facet>
                         <h:outputText value="#{entitat.id}"/>
-                    </p:column>
+                    </p:column -->
 
                     <p:column filterBy="#{entitat.nom}" sortBy="#{entitat.nom}">
                         <f:facet name="header">#{labels.entitat_nom}</f:facet>
@@ -48,12 +48,12 @@
                         <f:facet name="header">#{labels.entitat_codiDir3}</f:facet>
                         <h:outputText value="#{entitat.codiDir3}"/>
                     </p:column>
-                    <p:column sortBy="#{entitat.dataCreacio}">
+                    <!--  p:column sortBy="#{entitat.dataCreacio}">
                         <f:facet name="header">#{labels.entitat_dataCreacio}</f:facet>
                         <h:outputText value="#{entitat.dataCreacio}">
                             <f:convertDateTime type="localDate" pattern="dd-MM-yyyy"/>
                         </h:outputText>
-                    </p:column>
+                    </p:column -->
                     <p:column filterBy="#{entitat.actiu}">
                         <f:facet name="header">#{labels.entitat_estat}</f:facet>
                         <f:facet name="filter">

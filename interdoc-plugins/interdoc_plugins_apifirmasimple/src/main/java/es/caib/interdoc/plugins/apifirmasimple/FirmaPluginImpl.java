@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Properties;
 
@@ -143,18 +144,6 @@ public class FirmaPluginImpl extends AbstractPluginProperties implements Interdo
 			propietats.put(PROPERTY_PERFIL, propietats.getProperty(PROPERTY_PROFILE_PADES));
 			LOG.info("Set perfil => " + propietats.getProperty(PROPERTY_PROFILE_PADES));
 		}
-
-		if (Configuracio.isDesenvolupament()) {
-			try {
-				LOG.info("------------ PROPIEDADES FIRMA DB -------------------");
-				propietats.stringPropertyNames().forEach(x -> LOG.info(x + " => " + propietats.getProperty(x)));
-				LOG.info("---------------------------------------------------");
-
-			} catch (Exception e) {
-				LOG.error("S'ha produit un error alhora de carregar les propietats");
-				e.printStackTrace();
-			}
-		}
 	}
 
 	@Override
@@ -196,7 +185,7 @@ public class FirmaPluginImpl extends AbstractPluginProperties implements Interdo
 			LOG.info("fileToSign.mime => " + fileToSign.getMime());
 			LOG.info("fileToSign.data.length => " + fileToSign.getData().length);
 		}
-		
+
 		FirmaSimpleSignatureResult resultFirma = null;
 		try {
 			resultFirma = internalSignDocument(fileToSign);
@@ -220,7 +209,7 @@ public class FirmaPluginImpl extends AbstractPluginProperties implements Interdo
 			infoFirma.setErrorStackTrace(fstatus.getErrorStackTrace());
 
 			FirmaSimpleSignedFileInfo fssf = resultFirma.getSignedFileInfo();
-			infoFirma.setSignOperation(fssf.getSignOperation()   );
+			infoFirma.setSignOperation(fssf.getSignOperation());
 			infoFirma.setSignType(fssf.getSignType());
 			infoFirma.setSignAlgorithm(fssf.getSignAlgorithm());
 			infoFirma.setSignMode(fssf.getSignMode());
@@ -229,7 +218,7 @@ public class FirmaPluginImpl extends AbstractPluginProperties implements Interdo
 			infoFirma.setPolicyIncluded(fssf.isPolicyIncluded());
 			infoFirma.setEniPerfilFirma(fssf.getEniPerfilFirma());
 			infoFirma.setEniTipoFirma(fssf.getEniTipoFirma());
-			
+
 			FirmaSimpleSignerInfo fssi = fssf.getSignerInfo();
 
 			if (fssi != null) {
@@ -280,7 +269,7 @@ public class FirmaPluginImpl extends AbstractPluginProperties implements Interdo
 
 		// Si és un fitxer PDF utilitzarem ENVIAFIB_PADES, sino CADES_ATACHED
 		String perfil = (fileInfoSignature.getName().contains(".pdf")) ? propietats.getProperty(PROPERTY_PROFILE_PADES)
-				: propietats.getProperty(PROPERTY_PROFILE_CADES);
+				: propietats.getProperty(PROPERTY_PROFILE_XADES);
 
 		FirmaSimpleCommonInfo commonInfo;
 		commonInfo = new FirmaSimpleCommonInfo(perfil, languageUI, username, administrationID, signerEmail);
@@ -312,7 +301,6 @@ public class FirmaPluginImpl extends AbstractPluginProperties implements Interdo
 			plugin = getApiFirmaEnServidorSimple();
 		}
 
-		LOG.info("inici firma plugin.signDocument");
 		FirmaSimpleSignatureResult fullResults = plugin.signDocument(signature);
 
 		FirmaSimpleStatus transactionStatus = fullResults.getStatus();
@@ -362,6 +350,15 @@ public class FirmaPluginImpl extends AbstractPluginProperties implements Interdo
 					LOG.info("  RESULT: Fitxer signat guardat en '" + new File(".").getAbsolutePath() + fsf.getNom()
 							+ "'");
 					printSignatureInfo(fullResults);
+
+					if (Configuracio.isDesenvolupament()) {
+						// Guardam copia a la ruta de files signed
+						String filePath = Configuracio.getFileTempPath() + fullResults.getSignID() + "_" + fsf.getNom();
+						FileOutputStream fos2 = new FileOutputStream(filePath);
+						fos2.write(fsf.getData());
+						fos2.close();
+						LOG.info("Save file Signed: " + filePath);
+					}
 				}
 
 				return fullResults;

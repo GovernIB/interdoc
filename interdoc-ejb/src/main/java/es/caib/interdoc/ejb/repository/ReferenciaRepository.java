@@ -31,5 +31,7 @@ public interface ReferenciaRepository extends CrudRepository<Referencia, Long> {
     List<Referencia> findBetweenDates(LocalDate inici, LocalDate fi);
 
     long countByFilter(Map<ReferenciaAtribut, Object> filter);
+    
+    String findExpedientByNumeroRegistre(String numeroRegistre, Long entitatId);
 
 }

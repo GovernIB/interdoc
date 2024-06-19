@@ -62,6 +62,8 @@ public interface ReferenciaServiceFacade {
     Optional<ReferenciaDTO> findByCSV(String csv) throws RecursNoTrobatException;
     
     Optional<List<ReferenciaDTO>> findBetweenDates(LocalDate inici, LocalDate fi);
+    
+    String findExpedientByNumeroRegistre(String numeroRegistre, Long entitatId);
 
     /**
      * Retorna una pàgina d'aplicacions que compleixen els filtres i les ordenacions indicades

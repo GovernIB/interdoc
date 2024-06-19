@@ -18,7 +18,10 @@ import es.caib.interdoc.plugins.arxiu.ArxiuController;
 import es.caib.plugins.arxiu.api.Document;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -51,7 +54,11 @@ public class ConsultaDocumentService {
 			@QueryParam("uuid") String uuid,
 		
 			@Parameter( description = "codi de l'entitat", required = true, schema = @Schema(implementation = String.class))
-			@QueryParam("entitatId") String entitatId) {
+			@QueryParam("entitatId") String entitatId,
+			
+			@Parameter( description = "Enidoc", required = false,  schema = @Schema(implementation = String.class))
+			@QueryParam("enidoc") String enidoc) {
+			
 		try {
 
 			if (Configuracio.isDesenvolupament()) {
@@ -59,6 +66,7 @@ public class ConsultaDocumentService {
 				log.info("------ Paràmetres entrada -------");
 				log.info("UUID: " + ((Utils.isNotEmpty(uuid)) ? uuid : "null"));
 				log.info("EntitatId: " + (Utils.isNotEmpty(entitatId) ? entitatId: "null" ));
+				log.info("Enidoc: " + (Utils.isNotEmpty(enidoc) ? enidoc: "null" ));
 				log.info("----------------------------------");
 			}
 			
@@ -68,22 +76,41 @@ public class ConsultaDocumentService {
 			
 			ArxiuController pluginArxiu = new ArxiuController(Long.parseLong(entitatId));
 			
-			Document doc = null; 
-			
-			if (pluginArxiu.getPlugin() != null)
-				doc = pluginArxiu.getPlugin().descarregarDocument(uuid);
-			
-			if (doc != null) {
-				log.info("--------- RECUPERAR DOCUMENT AMB UUID " + uuid + " -----------");
-				log.info("document::nom => " + doc.getNom());
-				log.info("document::descripcio => " + doc.getDescripcio());
-				log.info("document::estat => " + doc.getEstat());
-				log.info("---------------------------------------------------------------");
+			if ("true".equalsIgnoreCase(enidoc)) {
 				
-				byte[] contingut = doc.getContingut().getContingut();
+				String enidocXml = "";
 				
-				String headerValue = "attachment; filename=\"" + doc.getNom()+ "\"";
-				return Response.ok().type(MediaType.APPLICATION_OCTET_STREAM).header(HttpHeaders.CONTENT_DISPOSITION, headerValue).entity(contingut).build();
+				if (pluginArxiu.getPlugin() != null)
+					enidocXml = pluginArxiu.getPlugin().generarEniDoc(uuid);
+				
+				if (enidocXml != null) {
+					
+					log.info("--------- RECUPERAR ENIDOC AMB UUID " + uuid + " -----------");
+					log.info("enidoc::xml => " + enidocXml);
+					log.info("---------------------------------------------------------------");
+
+					return Response.ok().type(MediaType.APPLICATION_XML).entity(enidocXml).build();
+				}
+			
+			}else {
+				
+				Document doc = null;
+				
+				if (pluginArxiu.getPlugin() != null)
+					doc = pluginArxiu.getPlugin().descarregarDocument(uuid);
+				
+				if (doc != null) {
+					log.info("--------- RECUPERAR DOCUMENT AMB UUID " + uuid + " -----------");
+					log.info("document::nom => " + doc.getNom());
+					log.info("document::descripcio => " + doc.getDescripcio());
+					log.info("document::estat => " + doc.getEstat());
+					log.info("---------------------------------------------------------------");
+					
+					byte[] contingut = doc.getContingut().getContingut();
+					
+					String headerValue = "attachment; filename=\"" + doc.getNom()+ "\"";
+					return Response.ok().type(MediaType.APPLICATION_OCTET_STREAM).header(HttpHeaders.CONTENT_DISPOSITION, headerValue).entity(contingut).build();
+				}
 			}
 			
 			return generateErrorResponse("Error: No s'ha recuperat cap fitxer amb aquest UUID");		

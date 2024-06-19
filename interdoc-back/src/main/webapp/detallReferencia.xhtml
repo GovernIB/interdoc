@@ -68,6 +68,9 @@
 			<h:outputText value="#{labels.referencia_receptor}:" />
             <h:outputText value="#{detallReferenciaModel.referencia.receptor}" />
             
+            <!-- numero de registre -->
+            <h:outputText value="#{labels.referencia_numregistre}:" />
+            <h:outputText value="#{detallReferenciaModel.referencia.numRegistre}" />
 			
 			<!-- dataCreacio -->
 			<h:outputText value="#{labels.referencia_dataCreacio}:" />
@@ -75,6 +78,7 @@
 			
 		</p:panelGrid>
 
+		<c:if test="#{detallReferenciaModel.fitxer != null}">
 		<p:panelGrid columns="2">
             <f:facet name="header">
                 Informació del fitxer
@@ -109,7 +113,9 @@
             <h:outputText value="#{detallReferenciaModel.fitxer.dataCreacio}" />
             
         </p:panelGrid>
+		</c:if>
 
+		<c:if test="#{detallReferenciaModel.infoSignatura != null}">
 		<p:panelGrid columns="2">
             <f:facet name="header">
                 Informació de la signatura
@@ -171,20 +177,10 @@
             <h:outputText value="#{labels.referencia_formatfirma}:" />
             <h:outputText value="#{detallReferenciaModel.referencia.formatFirma}" />
             
-            <!-- 
-            String signId;
-		    String fileName;
-		    String fileMime;
-		    String signLevel;
-		    Boolean checkAdministrationIdOfSigner;
-		    Boolean checkDocumentModifications;
-		    Boolean checkValidationSignature;		    
-		    Date signDate;
-            -->
-            
         </p:panelGrid>
+        </c:if>
 		
-		
+		<c:if test="#{detallReferenciaModel.infoArxiu != null}">
 		<p:panelGrid columns="2">
             <f:facet name="header">
                 Informació plugin arxiu
@@ -200,19 +196,20 @@
             
 			<!-- arxiuExpedientID -->
 			<h:outputText value="#{labels.infoarxiu_expedientid}:" />
-            <h:outputText value="#{detallReferenciaModel.infoArxiu.arxiuExpedientID}" />
+            <h:outputText value="#{detallReferenciaModel.infoArxiu.arxiuExpedientId}" />
             
 			<!-- arxiuDocumentID -->
 			<h:outputText value="#{labels.infoarxiu_documentid}:" />
-            <h:outputText value="#{detallReferenciaModel.infoArxiu.arxiuDocumentID}" />
+            <h:outputText value="#{detallReferenciaModel.infoArxiu.arxiuDocumentId}" />
             
 			<!-- estatExpedient -->
 			<h:outputText value="#{labels.infoarxiu_estatexpedient}:" />
             <h:outputText value="#{detallReferenciaModel.infoArxiu.estatExpedient}" />
 
         </p:panelGrid>
+        </c:if>
 
-
+		
 		<p:panelGrid columns="2">
             <f:facet name="header">
                 Metadades

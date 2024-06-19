@@ -1,6 +1,8 @@
 package es.caib.interdoc.back.model;
 
+import es.caib.interdoc.service.facade.EntitatServiceFacade;
 import es.caib.interdoc.service.facade.PluginServiceFacade;
+import es.caib.interdoc.service.model.EntitatDTO;
 import es.caib.interdoc.service.model.PluginDTO;
 
 import javax.ejb.EJB;
@@ -16,8 +18,13 @@ public class PluginModel implements Serializable {
 
     @EJB
 	private PluginServiceFacade pluginService;
+    
+    @EJB
+    private EntitatServiceFacade entitatService;
 
     private PluginDTO value = new PluginDTO();
+    
+    private EntitatDTO entitat = new EntitatDTO();
 
     public PluginDTO getValue() {
         return value;
@@ -32,5 +39,6 @@ public class PluginModel implements Serializable {
             throw new IllegalArgumentException("id is null");
         }
         value = pluginService.findById(value.getId()).orElseThrow();
+        entitat = entitatService.findById(value.getEntitatId()).orElseThrow();
     }
 }

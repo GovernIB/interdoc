@@ -35,10 +35,10 @@
                     <f:facet name="{RowsPerPageLabel}">
                         #{labels.dataTable_rowsPerPage}
                     </f:facet>
-                    <p:column sortBy="#{aplicacio.id}">
+                    <!--  p:column sortBy="#{aplicacio.id}">
                         <f:facet name="header">#{labels.aplicacio_id}</f:facet>
                         <h:outputText value="#{aplicacio.id}"/>
-                    </p:column>
+                    </p:column -->
 
                     <p:column filterBy="#{aplicacio.nom}" sortBy="#{aplicacio.nom}">
                         <f:facet name="header">#{labels.aplicacio_nom}</f:facet>
@@ -52,12 +52,12 @@
                         <f:facet name="header">#{labels.aplicacio_codiDir3}</f:facet>
                         <h:outputText value="#{aplicacio.codiDir3}"/>
                     </p:column>
-                    <p:column sortBy="#{aplicacio.dataCreacio}">
+                    <!--   p:column sortBy="#{aplicacio.dataCreacio}">
                         <f:facet name="header">#{labels.aplicacio_dataCreacio}</f:facet>
                         <h:outputText value="#{aplicacio.dataCreacio}">
                             <f:convertDateTime type="localDate" pattern="dd-MM-yyyy"/>
                         </h:outputText>
-                    </p:column>
+                    </p:column -->
                     <p:column filterBy="#{aplicacio.estat}">
                         <f:facet name="header">#{labels.aplicacio_estat}</f:facet>
                         <f:facet name="filter">

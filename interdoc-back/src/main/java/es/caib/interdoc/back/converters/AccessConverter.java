@@ -10,12 +10,17 @@ import javax.faces.convert.Converter;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import es.caib.interdoc.service.facade.AccesServiceFacade;
 import es.caib.interdoc.service.model.AccesDTO;
 
 @Named
 @RequestScoped
 public class AccessConverter implements Converter {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(AccessConverter.class);
 
 	@Inject
 	AccesServiceFacade service;
@@ -29,12 +34,11 @@ public class AccessConverter implements Converter {
 			if(!value.equals("null")) {
 				Optional<List<AccesDTO>> accesos = service.findByRefenciaId(Long.parseLong(value));
 				if (!accesos.isEmpty()) {
-					System.out.println("getAsObject => " + acces.toString());
 					return accesos.get();
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("ERROR Converter:getAsObject");
+			LOG.debug("ERROR Converter:getAsObject => " + e.getMessage());
 		}
 		
 		return acces;
@@ -49,12 +53,11 @@ public class AccessConverter implements Converter {
 			if (value instanceof AccesDTO) {
 				AccesDTO acces = (AccesDTO) value;
 				r = String.valueOf(acces.getReferenciaId());
-				System.out.println("getAsString => " + r);
 			}else if (value instanceof String) {
 	               r = (String) value;
 	            }
 		} catch(Exception e) {
-			System.out.println("ERROR Converter:getAsString");
+			LOG.debug("ERROR Converter:getAsString => " + e.getMessage());
 		}
 		
 		return r;

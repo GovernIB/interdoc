@@ -9,7 +9,6 @@ import es.caib.interdoc.plugins.apifirmasimple.FirmaSimpleController;
 import es.caib.interdoc.plugins.arxiu.ArxiuController;
 import es.caib.interdoc.plugins.arxiu.DocumentInfo;
 import es.caib.interdoc.plugins.arxiu.Extensio;
-import es.caib.interdoc.plugins.arxiu.Origen;
 import es.caib.interdoc.plugins.arxiu.SignaturaArxiu;
 import es.caib.interdoc.service.facade.EntitatServiceFacade;
 import es.caib.interdoc.service.facade.FitxerServiceFacade;
@@ -24,7 +23,6 @@ import es.caib.interdoc.service.model.InfoSignaturaDTO;
 import es.caib.interdoc.service.model.ReferenciaDTO;
 import es.caib.interdoc.service.model.ReferenciaXMLDTO;
 import es.caib.interdoc.plugins.arxiu.Fitxer;
-import es.caib.interdoc.plugins.arxiu.Format;
 import es.caib.interdoc.api.interna.ws.exception.InterdocException;
 import es.caib.interdoc.api.interna.ws.model.ObtenerReferenciaRequestInfo;
 import es.caib.interdoc.api.interna.ws.resposta.EmisorBean;
@@ -41,8 +39,8 @@ import es.caib.interdoc.api.interna.ws.utils.Metadada;
 import org.apache.commons.io.FilenameUtils;
 import org.jboss.ws.api.annotation.TransportGuarantee;
 import org.jboss.ws.api.annotation.WebContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;  
+
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -53,7 +51,6 @@ import java.security.MessageDigest;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,7 +83,7 @@ import javax.xml.bind.JAXBException;
 		+ ObtenerReferenciaWsImpl.NAME_WS, transportGuarantee = TransportGuarantee.NONE, secureWSDLAccess = false, authMethod = "KEYCLOAK")
 public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 
-	private static final Logger log = LoggerFactory.getLogger(ObtenerReferenciaWsImpl.class);
+	protected static final Logger log = Logger.getLogger(ObtenerReferenciaWsImpl.class);
 
 	public static final String NAME = "ObtenerReferencia";
 
@@ -226,6 +223,9 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 				log.info("INTERESSATS: " + ((obtenerReferenciaRequestInfo.getInteressats() != null)
 						? obtenerReferenciaRequestInfo.getInteressats().size()
 						: 0));
+				log.info("NUMERO REGISTRE: " + ((obtenerReferenciaRequestInfo.getNumeroRegistre() != null)
+                        ? obtenerReferenciaRequestInfo.getNumeroRegistre()
+                        : "null"));
 				log.info("ENTITATID: " + ((obtenerReferenciaRequestInfo.getEntitatId() != null)
 						? String.valueOf(obtenerReferenciaRequestInfo.getEntitatId())
 						: 0));
@@ -258,8 +258,6 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 
 				log.info("CodiDir3 => " + obtenerReferenciaRequestInfo.getEntitatId() + " - id => " + entitatId);
 			} else {
-				// return generateXMLErrorResponse("400", "Error: el codi d'entitat és
-				// obligatori.");
 				throw new InterdocException("El codi d'entitat és obligatori");
 			}
 
@@ -289,6 +287,15 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 					out.write(obtenerReferenciaRequestInfo.getDocument().getData());
 					out.flush();
 					out.close();
+					
+					// Guardam copia a la ruta de files
+					String filePath = Configuracio.getFileTempPath();
+					File file2 = new File(filePath + fileName);
+					OutputStream out2 = new FileOutputStream(file2);
+					out2.write(obtenerReferenciaRequestInfo.getDocument().getData());
+					out2.flush();
+					out2.close();
+					log.info("Save copy of file: " + filePath + fileName);
 
 					fitxerDto = new FitxerDTO();
 					fitxerDto.setNom(fileName);
@@ -310,12 +317,6 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 					}
 
 				} else {
-					log.error("obtenerReferenciaRequestInfo.getDocument() is null");
-					/*
-					 * return generateXMLErrorResponse("500",
-					 * "Error: no ens arriba cap UUID ni fitxer. Al manco, ens ha d'arribar un d'ells."
-					 * );
-					 */
 					throw new InterdocException(
 							"no ens arriba cap UUID ni fitxer. Al manco, ens ha d'arribar un d'ells.");
 				}
@@ -359,18 +360,13 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 													? infoSignatura.getEniTipoFirma()
 													: "null"));
 									log.info("Is Signed ? " + String.valueOf(isSigned));
-								} else {
-									log.error("infosignatura is null");
-								}
+								} 
 							}
 
-						} else {
-							log.debug("No s'ha pogut carregar el plugin de firma.");
 						}
 
 					} catch (Exception e) {
 						e.printStackTrace();
-						// return generateXMLErrorResponse("500", e.getMessage());
 						throw new InterdocException(e);
 					}
 
@@ -405,14 +401,9 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 					fitxerInfo.setTipusMime(fitxerDto.getMime());
 
 					String extensionFichero = "." + FilenameUtils.getExtension(fitxerDto.getNom()).toLowerCase();
-
 					final Extensio extensio = Extensio.toEnum(extensionFichero);
-
-					log.info((extensio != null) ? "Extensio: " + extensio.toString() : "null - " + extensionFichero);
-
 					fitxerInfo.setExtensio((extensio != null) ? extensio : Extensio.PDF);
-
-					log.info("FITXERDTO: => " + fitxerInfo.toString());
+					// log.info("FITXERDTO: => " + fitxerInfo.toString());
 
 					if (obtenerReferenciaRequestInfo.getFirma() != null
 							&& obtenerReferenciaRequestInfo.getFirma().getFormat() != null
@@ -443,7 +434,7 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 							infoFirma.setFirma(fitxerFirma);
 						}
 
-						log.info("Infofirma => " + infoFirma.toString());
+						// log.info("Infofirma => " + infoFirma.toString());
 					}
 
 					DocumentInfo documentInfo = new DocumentInfo();
@@ -464,21 +455,29 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 					documentInfo.setFitxer(fitxerInfo);
 					documentInfo.setSignatura(infoSignatura);
 					documentInfo.setFirma(infoFirma);
+					
+					String numeroExpedient = null;
+					if (obtenerReferenciaRequestInfo.getNumeroRegistre() != null) {
+						numeroExpedient = referenciaService.findExpedientByNumeroRegistre(obtenerReferenciaRequestInfo.getNumeroRegistre(), entitatId);
+						log.info("Numero Expedient => " + numeroExpedient);
+					}
+					
+					// log.info( " ------------------------ INFO PRE ARXIU ------------------------");
+					// log.info("DocumentInfo => " + documentInfo.toString());
+					// log.info( " ----------------------------------------------------------------");
 
 					try {
 						arxiu = new ArxiuController(entitatId);
 
 						if (arxiu.getPlugin() != null) {
-
-							// Misma fecha para expediente y documento
-							Date fecha = new Date();
-
-							identificadorExpedient = arxiu.getPlugin().crearExpedient(documentInfo);
-
-							identificadorDocument = arxiu.getPlugin().crearDocument(documentInfo,
-									identificadorExpedient);
+							
+							identificadorExpedient = (Utils.isEmpty(numeroExpedient)) ? arxiu.getPlugin().crearExpedient(documentInfo) : numeroExpedient;
+							log.info("Identificador expedient => " + identificadorExpedient);
+							
+							identificadorDocument = arxiu.getPlugin().crearDocument(documentInfo, identificadorExpedient);
 
 							if (Configuracio.isDesenvolupament())
+								log.info("numeroExpedient == null ??? " + ((numeroExpedient == null) ? "true" : "false") );
 								log.info("Identificadors expedient => " + identificadorExpedient + " - document => "
 										+ identificadorDocument);
 
@@ -490,18 +489,21 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 								infoArxiuId = infoArxiuService.create(resultat);
 
 							if (infoArxiuId > 0) {
-								arxiu.getPlugin().tancarExpedientIfProperty(identificadorExpedient);
+								// Tancam el expedient dins Arxiu
+								boolean updated = arxiu.getPlugin().tancarExpedientIfProperty(identificadorExpedient);
+								
+								if (updated) {
+									// Actualitzam l'estatExpedient
+									resultat.setId(infoArxiuId);
+									resultat.setEstatExpedient(InfoArxiuDTO.EXPEDIENT_TANCAT);
+									infoArxiuService.update(resultat);
+								}
 							}
 
-						} else {
-							log.debug("Error alhora de carregar el plugin d'arxiu.");
-						}
+						} 
 
 					} catch (Exception e) {
-						log.error("Error pujada arxiu => " + e.getMessage());
 						e.printStackTrace();
-						// return generateXMLErrorResponse("500", "Error pujada arxiu => " +
-						// e.getMessage());
 						throw new InterdocException("Error pujada arxiu", e);
 					}
 
@@ -511,7 +513,7 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 				} else {
 					// return generateXMLErrorResponse("500", "El fitxer no es puja a arxiu perqué
 					// no està signat");
-					throw new InterdocException("El fitxer no es puja a arxiu perqué no està signat");
+					throw new InterdocException("El fitxer no es pot pujar a arxiu perqué no està signat");
 				}
 			}
 
@@ -568,6 +570,11 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 				nuevaReferenciaDto.setInfoSignaturaId(infoSignaturaId);
 				nuevaReferenciaDto.setInfoArxiuId(infoArxiuId);
 				nuevaReferenciaDto.setFitxerId(fitxerId);
+				
+				if (obtenerReferenciaRequestInfo.getNumeroRegistre() != null) {
+					nuevaReferenciaDto.setNumeroRegistre(obtenerReferenciaRequestInfo.getNumeroRegistre());
+				}
+				
 				nuevaReferenciaDto.setId(null);
 				Long referenciaDB = referenciaService.create(nuevaReferenciaDto);
 
@@ -594,11 +601,10 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 				return respostaXML;
 			}
 
-			return generateXMLErrorResponse("500", "Error desconegut");
+			throw new InterdocException("Error desconegut");
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			// return generateXMLErrorResponse("500", "Error: " + e.getMessage());
 			throw new InterdocException(e);
 		}
 
@@ -666,13 +672,13 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 		}
 
 		IdentificadorBean identificadorBean = new IdentificadorBean();
-		if (Utils.isNotEmpty(obtenerReferenciaRequestInfo.getCsv())) {
-			identificadorBean.setValorCSV(obtenerReferenciaRequestInfo.getCsv());
-		} else if (Utils.isNotEmpty(obtenerReferenciaRequestInfo.getUuid())) {
-			identificadorBean.setSecuenciaIdentificador(obtenerReferenciaRequestInfo.getUuid());
-		} else {
+		
+		if (Utils.isNotEmpty(obtenerReferenciaRequestInfo.getUuid())) {
 			identificadorBean.setSecuenciaIdentificador(referencia);
+		} else {
+			identificadorBean.setValorCSV(referencia);	
 		}
+		
 		referenciaDocumentoBean.setIdentificadorBean(identificadorBean);
 
 		if (obtenerReferenciaRequestInfo.getMetadades() != null) {

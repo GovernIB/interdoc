@@ -42,6 +42,16 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>interdoc_api_interna_secured</web-resource-name>
+            <url-pattern>/secure/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>ITD_WS</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>interdoc_api_interna_protected</web-resource-name>
             <url-pattern>/protected/*</url-pattern>
             <http-method>POST</http-method>
         </web-resource-collection>

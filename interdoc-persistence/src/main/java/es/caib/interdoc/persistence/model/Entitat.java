@@ -1,6 +1,6 @@
 package es.caib.interdoc.persistence.model;
 
-import es.caib.interdoc.service.model.Estat;
+import es.caib.interdoc.service.model.EstatPublicacio;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -50,10 +50,9 @@ public class Entitat extends BaseEntity {
     @PastOrPresent
     private LocalDate dataCreacio;
 
-    
     @Column(name = "ACTIU", nullable = false)
     @NotNull
-    private Estat actiu;
+    private EstatPublicacio actiu;
     
     
     public Long getId() {
@@ -88,11 +87,11 @@ public class Entitat extends BaseEntity {
         this.dataCreacio = dataCreacio;
     }
 
-    public Estat getActiu() {
+    public EstatPublicacio getActiu() {
 		return actiu;
 	}
 
-	public void setActiu(Estat actiu) {
+	public void setActiu(EstatPublicacio actiu) {
 		this.actiu = actiu;
 	}
 

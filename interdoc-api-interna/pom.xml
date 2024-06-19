@@ -27,11 +27,6 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
@@ -40,13 +35,11 @@
 		<dependency>
 			<groupId>es.caib.interdoc</groupId>
 			<artifactId>interdoc-commons</artifactId>
-			<version>1.0.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>es.caib.interdoc</groupId>
 			<artifactId>interdoc-persistence</artifactId>
-			<version>1.0.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -58,7 +51,6 @@
 		<dependency>
 			<groupId>es.caib.interdoc</groupId>
 			<artifactId>interdoc-service</artifactId>
-			<version>1.0.0</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -96,7 +88,6 @@
 		<dependency>
 			<groupId>es.caib.interdoc</groupId>
 			<artifactId>interdoc-plugins-apifirmasimple</artifactId>
-			<version>1.0.0</version>
 			<scope>provided</scope>
 			<exclusions>
 				<exclusion>

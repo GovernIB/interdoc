@@ -2,6 +2,7 @@ package es.caib.interdoc.back.model;
 
 import es.caib.interdoc.service.facade.EntitatServiceFacade;
 import es.caib.interdoc.service.facade.ReferenciaServiceFacade;
+import es.caib.interdoc.service.model.EntitatDTO;
 import es.caib.interdoc.service.model.ReferenciaDTO;
 
 import javax.ejb.EJB;
@@ -24,6 +25,8 @@ public class ReferenciaModel implements Serializable {
 	private ReferenciaDTO value = new ReferenciaDTO();
 
 	private String entitatDir3;
+	
+	private EntitatDTO entitat;
 	
 	private String interessats1;
 	private String interessats2;
@@ -67,6 +70,7 @@ public class ReferenciaModel implements Serializable {
 			throw new IllegalArgumentException("id is null");
 		}
 		value = referenciaService.findById(value.getId()).orElseThrow();
+		entitat = entitatService.findById(value.getEntitatId()).orElse(null);
 	}
 
 	public String getInteressats1() {

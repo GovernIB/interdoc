@@ -50,15 +50,6 @@ public class FirmaSimpleController {
 			plugin.carregarProperties(props);
 
 		}
-
-		/*
-		 * if (entitatId < 1) { // Carregam el plugin amb el Producer
-		 * FirmaPluginProducer producer = new FirmaPluginProducer(); plugin =
-		 * producer.getFirmaPlugin(); setPlugin(plugin);
-		 * 
-		 * carregarPropertiesFile(); }
-		 */
-
 	}
 
 	public FirmaPluginImpl getPlugin() {

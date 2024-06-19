@@ -37,13 +37,11 @@
         <dependency>
             <groupId>es.caib.interdoc</groupId>
             <artifactId>interdoc-commons</artifactId>
-            <version>1.0.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>es.caib.interdoc</groupId>
             <artifactId>interdoc-persistence</artifactId>
-            <version>1.0.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -55,7 +53,6 @@
         <dependency>
             <groupId>es.caib.interdoc</groupId>
             <artifactId>interdoc-service</artifactId>
-            <version>1.0.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
