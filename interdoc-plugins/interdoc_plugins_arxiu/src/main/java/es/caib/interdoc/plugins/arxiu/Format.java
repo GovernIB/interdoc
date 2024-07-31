@@ -1,6 +1,6 @@
 package es.caib.interdoc.plugins.arxiu;
 
-import es.caib.plugins.arxiu.api.DocumentFormat;
+import es.caib.pluginsib.arxiu.api.DocumentFormat;
 
 public enum Format {
 

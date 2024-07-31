@@ -1,6 +1,6 @@
 package es.caib.interdoc.plugins.arxiu;
 
-import es.caib.plugins.arxiu.api.DocumentExtensio;
+import es.caib.pluginsib.arxiu.api.DocumentExtensio;
 
 public enum Extensio {
 

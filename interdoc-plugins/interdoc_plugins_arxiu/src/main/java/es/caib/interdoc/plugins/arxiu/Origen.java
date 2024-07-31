@@ -1,6 +1,6 @@
 package es.caib.interdoc.plugins.arxiu;
 
-import es.caib.plugins.arxiu.api.ContingutOrigen;
+import es.caib.pluginsib.arxiu.api.ContingutOrigen;
 
 public enum Origen {
 	

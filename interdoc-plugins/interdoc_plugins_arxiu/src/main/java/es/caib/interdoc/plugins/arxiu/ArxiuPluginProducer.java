@@ -1,7 +1,7 @@
 package es.caib.interdoc.plugins.arxiu;
 
-import es.caib.plugins.arxiu.api.IArxiuPlugin;
-import es.caib.plugins.arxiu.caib.ArxiuPluginCaib;
+import es.caib.pluginsib.arxiu.api.IArxiuPlugin;
+import es.caib.pluginsib.arxiu.caib.ArxiuPluginCaib;
 
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;

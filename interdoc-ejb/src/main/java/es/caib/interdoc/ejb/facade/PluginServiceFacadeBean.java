@@ -162,7 +162,7 @@ public class PluginServiceFacadeBean implements PluginServiceFacade {
         	 prop.load(new StringReader(plugin.getPropietats()));
          }
          
-         return org.fundaciobit.pluginsib.core.utils.PluginsManager.instancePluginByClassName(className, BASE_PACKAGE, prop);
+         return org.fundaciobit.pluginsib.core.v3.utils.PluginsManager.instancePluginByClassName(className, BASE_PACKAGE, prop);
     }
     
     private Properties carregarPropietats(Plugin plugin) throws Exception {

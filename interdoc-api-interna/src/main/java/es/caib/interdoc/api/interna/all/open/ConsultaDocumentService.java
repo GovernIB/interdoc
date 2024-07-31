@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 import es.caib.interdoc.commons.utils.Configuracio;
 import es.caib.interdoc.commons.utils.Utils;
 import es.caib.interdoc.plugins.arxiu.ArxiuController;
-import es.caib.plugins.arxiu.api.Document;
+import es.caib.pluginsib.arxiu.api.Document;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;

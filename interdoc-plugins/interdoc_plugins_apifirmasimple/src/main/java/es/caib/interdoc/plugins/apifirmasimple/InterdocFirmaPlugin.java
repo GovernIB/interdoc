@@ -8,9 +8,9 @@ import es.caib.interdoc.commons.utils.Constants;
 import es.caib.interdoc.service.model.FitxerDTO;
 import es.caib.interdoc.service.model.InfoSignaturaDTO;
 
-public interface InterdocFirmaPlugin extends org.fundaciobit.pluginsib.core.IPlugin {
+public interface InterdocFirmaPlugin extends org.fundaciobit.pluginsib.core.v3.IPluginIB {
 	
-	public static final String INTERDOC_FIRMA_PLUGIN_PROPERTY = Constants.INTERDOC_PROPERTY_BASE + IPLUGIN_BASE_PROPERTIES + "firma.";
+	public static final String INTERDOC_FIRMA_PLUGIN_PROPERTY = Constants.INTERDOC_PROPERTY_BASE + IPLUGINSIB_BASE_PROPERTIES + "firma.";
 	
 	public InfoSignaturaDTO firmarDocument(FitxerDTO fitxer) throws Exception;
 	

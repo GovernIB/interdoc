@@ -4,8 +4,8 @@ import java.util.Properties;
 
 import es.caib.interdoc.commons.utils.Constants;
 import es.caib.interdoc.service.model.InfoArxiuDTO;
-import es.caib.plugins.arxiu.api.Document;
-import es.caib.plugins.arxiu.api.Expedient;
+import es.caib.pluginsib.arxiu.api.Document;
+import es.caib.pluginsib.arxiu.api.Expedient;
 
 
 /**
@@ -14,9 +14,9 @@ import es.caib.plugins.arxiu.api.Expedient;
  *
  */
 
-public interface InterdocArxiuPlugin extends org.fundaciobit.pluginsib.core.IPlugin {
+public interface InterdocArxiuPlugin extends org.fundaciobit.pluginsib.core.v3.IPluginIB {
 	
-	public static final String INTERDOC_ARXIU_PLUGIN_PROPERTY = Constants.INTERDOC_PROPERTY_BASE + IPLUGIN_BASE_PROPERTIES + "arxiu.";
+	public static final String INTERDOC_ARXIU_PLUGIN_PROPERTY = Constants.INTERDOC_PROPERTY_BASE + IPLUGINSIB_BASE_PROPERTIES + "arxiu.";
 	
 	public void carregarProperties(Properties props);
 	
