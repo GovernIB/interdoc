@@ -90,7 +90,10 @@ public class ReferenciaXMLServiceFacadeBean implements ReferenciaXMLServiceFacad
 	@Override
 	@PermitAll
 	public Optional<ReferenciaXMLDTO> findByReferenciaId(Long referenciaId) {
-		return Optional.ofNullable(repository.findByReferenciaId(referenciaId));
+		if (referenciaId != null) {
+			return Optional.ofNullable(repository.findByReferenciaId(referenciaId));
+		}
+		return Optional.empty();
 	}
 
 }

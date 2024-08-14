@@ -2,16 +2,17 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 <!--
 Pàgina amb informació d'accessibilitat
 -->
 <ui:composition template="/WEB-INF/templates/layout.xhtml">
 
-    <ui:define name="pageTitle">#{labels.configuracio_title}</ui:define>
+    <ui:define name="pageTitle">#{labels.perfil_link}</ui:define>
 
     <ui:define name="breadcrumb">
-        <p:menuitem value="#{labels.configuracio_link}" outcome="/configuracio"/>
+        <p:menuitem value="#{labels.perfil_link}" outcome="/configuracio"/>
     </ui:define>
 
     <ui:define name="content">
@@ -36,6 +37,10 @@ Pàgina amb informació d'accessibilitat
 		    <tr>
 		      <th scope="row">#{labels['configuracio_nif']}</th>
 		      <td>#{userInfo.nif}</td>
+		    </tr>
+		    <tr>
+		    	<th scope="row">#{labels['configuracio_rol']}</th>
+		    	<td><c:if test="#{security.admin}">#{labels.admin_label}</c:if></td>
 		    </tr>
 		  </tbody>
 		</table>

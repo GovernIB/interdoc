@@ -176,9 +176,9 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 			String identificadorExpedient = null;
 			String identificadorDocument = null;
 
-			Long infoSignaturaId = 0L;
-			Long infoArxiuId = 0L;
-			Long fitxerId = 0L;
+			Long infoSignaturaId = null;
+			Long infoArxiuId = null;
+			Long fitxerId = null;
 
 			if (Configuracio.isDesenvolupament()) {
 

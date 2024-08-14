@@ -42,6 +42,8 @@ faces-config.NavData
 /interdoc-api-interna-client/
 /interdoc.bat
 /interdocfront.bat
+/interdocback.bat
+/fitxers/
 installCerts.bat
 interdoc-commons/bin/
 interdoc-persistence/bin/

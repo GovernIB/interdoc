@@ -37,14 +37,14 @@ public class PluginDTO {
     private Long entitatId;
 
     @NotNull
-    private Estat actiu;
+    private EstatPublicacio actiu;
 
     public PluginDTO() {
     }
         
 	public PluginDTO(Long id, @NotEmpty @Size(max = 50) String nom, @NotEmpty @Size(max = 255) String classe,
 			@NotEmpty String propietats, @NotNull @PastOrPresent LocalDate dataCreacio, @NotNull Long entitatId, 
-			@NotNull Estat actiu) {
+			@NotNull EstatPublicacio actiu) {
 		super();
 		this.id = id;
 		this.nom = nom;
@@ -57,7 +57,7 @@ public class PluginDTO {
     
     public PluginDTO(@NotEmpty @Size(max = 50) String nom, @NotEmpty @Size(max = 255) String classe,
 			@NotEmpty String propietats, @NotNull @PastOrPresent LocalDate dataCreacio, @NotNull Long entitatId, 
-			@NotNull Estat actiu) {
+			@NotNull EstatPublicacio actiu) {
 		super();
 		this.nom = nom;
 		this.classe = classe;
@@ -68,7 +68,7 @@ public class PluginDTO {
 	}
     
     public PluginDTO(@NotEmpty @Size(max = 50) String nom, @NotEmpty @Size(max = 255) String classe,
-			@NotEmpty String propietats, @NotNull @PastOrPresent LocalDate dataCreacio, @NotNull Estat actiu) {
+			@NotEmpty String propietats, @NotNull @PastOrPresent LocalDate dataCreacio, @NotNull EstatPublicacio actiu) {
 		super();
 		this.nom = nom;
 		this.classe = classe;
@@ -125,11 +125,11 @@ public class PluginDTO {
 		this.entitatId = entitatId;
 	}
 
-	public Estat getActiu() {
+	public EstatPublicacio getActiu() {
 		return actiu;
 	}
 
-	public void setActiu(Estat actiu) {
+	public void setActiu(EstatPublicacio actiu) {
 		this.actiu = actiu;
 	}
 

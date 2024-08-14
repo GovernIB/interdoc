@@ -64,12 +64,13 @@
 		<dependency>
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
+			<version>${primefaces.version}</version>
 		</dependency>
-		<dependency>
+		<!-- dependency>
 			<groupId>org.primefaces.themes</groupId>
 			<artifactId>bootstrap</artifactId>
 			<version>1.0.10</version>
-		</dependency>
+		<dependency -->
 
 		<!-- llibreries per file upload -->
 		<dependency>

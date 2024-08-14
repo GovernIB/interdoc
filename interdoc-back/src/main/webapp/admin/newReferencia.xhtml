@@ -50,14 +50,14 @@ Pàgina per creació noves referencies desde backend.
 							<div class="tab-content" id="main_form">
 
 								<div class="tab-pane active" role="tabpanel" id="step1">
-									<h4 class="text-center">Puja el document</h4>
+									<h4 class="text-center">#{labels.novaReferencia_pas1_title}</h4>
 									<div class="row" style="margin-top:30px;">
 
 										<div class="col-md-6 col-center form-group">
 											<input id="fileupload" class="input-group" type="file"
 												name="fileupload" style="margin-bottom: 10px;" />
 											<button id="upload-button" type="button"
-												class="btn btn-primary" onclick="uploadFile()">Upload</button>
+												class="btn btn-primary" onclick="uploadFile()">#{labels.novaReferencia_pas1_button_title}</button>
 											<div id="uploadAlert" class="alert" role="alert"
 												style="margin-top: 10px;"></div>
 											<script type="text/javascript">
@@ -76,7 +76,7 @@ Pàgina per creació noves referencies desde backend.
 																.getElementById("uploadAlert");
 														alertContainer.classList
 																.add("alert-danger");
-														alertContainer.innerHTML = "Ha ocorregut un error"
+														alertContainer.innerHTML = "#{labels.novaReferencia_pas1_upload_error}"
 													} else {
 														const respostaJson = await
 														response.json();
@@ -87,7 +87,7 @@ Pàgina per creació noves referencies desde backend.
 																.getElementById("uploadAlert");
 														alertContainer.classList
 																.add("alert-success");
-														alertContainer.innerHTML = "El fitxer s'ha pujat correctament."
+														alertContainer.innerHTML = "#{labels.novaReferencia_pas1_upload_ok}"
 
 														let inputId = document
 																.getElementById("form:fitxerId");
@@ -102,12 +102,12 @@ Pàgina per creació noves referencies desde backend.
 
 									</div>
 									<ul class="list-inline pull-right">
-										<li><button type="button" class="default-btn next-step">Continuar</button></li>
+										<li><button type="button" class="default-btn next-step">#{labels.novaReferencia_continuar_button}</button></li>
 									</ul>
 								</div>
 
 								<div class="tab-pane" role="tabpanel" id="step2">
-									<h4 class="text-center">Informació de la referència</h4>
+									<h4 class="text-center">#{labels.novaReferencia_pas2_title}</h4>
 									<div class="container" style="margin-top:30px;">
 
 										<ui:include src="/WEB-INF/includes/fieldsReferencia.xhtml">
@@ -117,13 +117,13 @@ Pàgina per creació noves referencies desde backend.
 									</div>
 
 									<ul class="list-inline pull-right">
-										<li><button type="button" class="default-btn prev-step">Tornar</button></li>
-										<li><button type="button" class="default-btn next-step">Continuar</button></li>
+										<li><button type="button" class="default-btn prev-step">#{labels.novaReferencia_tornar_button}</button></li>
+										<li><button type="button" class="default-btn next-step">#{labels.novaReferencia_continuar_button}</button></li>
 									</ul>
 								</div>
 
 								<div class="tab-pane" role="tabpanel" id="step3">
-									<h4 class="text-center">Interessats</h4>
+									<h4 class="text-center">#{labels.novaReferencia_pas3_title}</h4>
 									<div class="container">
 											
 									    <ui:decorate template="/WEB-INF/decorations/field.xhtml">
@@ -174,14 +174,14 @@ Pàgina per creació noves referencies desde backend.
 									</div>
 
 									<ul class="list-inline pull-right">
-										<li><button type="button" class="default-btn prev-step">Tornar</button></li>
-										<li><button type="button" class="default-btn next-step">Continuar</button></li>
+										<li><button type="button" class="default-btn prev-step">#{labels.novaReferencia_tornar_button}</button></li>
+										<li><button type="button" class="default-btn next-step">#{labels.novaReferencia_continuar_button}</button></li>
 									</ul>
 								</div>
 
 
 								<div class="tab-pane" role="tabpanel" id="step4">
-									<h4 class="text-center">Metadades</h4>
+									<h4 class="text-center">#{labels.novaReferencia_pas4_title}</h4>
 									<div class="container">
 									
 									
@@ -378,7 +378,7 @@ Pàgina per creació noves referencies desde backend.
 									</div>
 
 									<ul class="list-inline pull-right">
-										<li><button type="button" class="default-btn prev-step">Tornar</button></li>
+										<li><button type="button" class="default-btn prev-step">#{labels.novaReferencia_tornar_button}</button></li>
 										<li><p:commandButton id="saveButton"
 												action="#{newReferencia.save}"
 												value="#{labels.button_guardar}" process="@form"

@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
 
-import es.caib.interdoc.service.model.Estat;
+import es.caib.interdoc.service.model.EstatPublicacio;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -84,7 +84,7 @@ public class Plugin extends BaseEntity {
   
     @Column(name = "ACTIU", nullable = false)
     @NotNull
-    private Estat actiu;
+    private EstatPublicacio actiu;
 
     public Long getId() {
 		return id;
@@ -134,11 +134,11 @@ public class Plugin extends BaseEntity {
 		this.entitatId = entitatId;
 	}
 	
-	public Estat getActiu() {
+	public EstatPublicacio getActiu() {
 		return actiu;
 	}
 
-	public void setActiu(Estat actiu) {
+	public void setActiu(EstatPublicacio actiu) {
 		this.actiu = actiu;
 	}
 

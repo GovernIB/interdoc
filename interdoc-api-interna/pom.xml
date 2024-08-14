@@ -463,7 +463,7 @@
 									<sourceDirectory>${basedir}/code</sourceDirectory>
 									<portname>ObtenerReferenciaWs</portname>
 									<address>
-										http://localhost:8280/interdocapi/interna/protected/ObtenerReferenciaWsService/ObtenerReferenciaWs
+										https://localhost:8280/interdocapi/interna/protected/ObtenerReferenciaWsService/ObtenerReferenciaWs
 									</address>
 								</configuration>
 								<goals>
@@ -523,7 +523,7 @@
 									<sourceDirectory>${basedir}/code</sourceDirectory>
 									<portname>CSVQueryDocumentWs</portname>
 									<address>
-										http://localhost:8280/interdocapi/interna/protected/CSVQueryDocumentWsService/CSVQueryDocumentWs
+										https://localhost:8280/interdocapi/interna/protected/CSVQueryDocumentWsService/CSVQueryDocumentWs
 									</address>
 								</configuration>
 								<goals>

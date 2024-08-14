@@ -118,7 +118,7 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
 		Optional<ReferenciaDTO> referenciaDto = null;
 		String resultatArxiu = null;
 		
-		Long entitatId = 2L; // TODO, obtener el entitatId a partir del código DIR3 asociado al usuario
+		Long entitatId = 1L;
 		
 		if ( Utils.isNotEmpty(idEni)) {
 			// Es tracta d'un fitxer pujat previament a Arxiu
@@ -180,6 +180,11 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
 				LOG.info("ref.fitxerId =>" + ref.getFitxerId());
 				LOG.info("ref.infoSignaturaId =>" + ref.getInfoSignaturaId());
 				LOG.info("ref.infoArxiuId => " + ref.getInfoArxiuId());
+				LOG.info("ref.entitatId => " + ref.getEntitatId());	
+			}
+			
+			if (ref != null && ref.getEntitatId() > 0) {
+				entitatId = ref.getEntitatId();
 			}
 			
 			if (ref.getInfoArxiuId() != null && ref.getInfoArxiuId() > 0) {
@@ -197,8 +202,7 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
 						LOG.info("infoArxiu.getEniFileUrl => " + infoArxiu.getEniFileUrl());
 						LOG.info("infoArxiu.getOriginalFileUrl => " + infoArxiu.getOriginalFileUrl());
 					}
-
-					
+		
 					ArxiuController pluginArxiu = new ArxiuController(entitatId);
 
 					// Generam el ENIDOC

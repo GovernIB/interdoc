@@ -112,6 +112,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.fundaciobit.pluginsib.core.v3</groupId>
 			<artifactId>pluginsib-core</artifactId>
@@ -191,6 +192,33 @@
 							</webModule>
 						<!-- API INTERNA END -->
 					</modules>
+					<packagingExcludes>
+                        <!-- Requereix afegir mòdul 'org.apache.commons.codec' a jboss-deployment-structure.xml -->
+                         **/commons-codec-*redhat*.jar,
+                        <!-- Requereix afegir mòdul 'org.apache.commons.io' a jboss-deployment-structure.xml -->
+                         **/commons-io-*redhat*.jar,
+                        <!-- Requereix afegir mòdul 'org.apache.httpcomponents.core' a jboss-deployment-structure.xml -->
+                         **/httpclient-*redhat*.jar,
+                         **/httpcore-*redhat*.jar,
+                        <!-- Requereix afegir mòdul 'com.fasterxml.jackson.core.jackson-annotations' a jboss-deployment-structure.xml -->
+                         **/jackson-annotations-*redhat*.jar,
+                        <!-- Requereix afegir mòdul 'com.fasterxml.jackson.core.jackson-core' a jboss-deployment-structure.xml -->
+                         **/jackson-core-*redhat*.jar,
+                        <!-- Requereix afegir mòdul 'org.codehaus.jackson.jackson-core-asl' a jboss-deployment-structure.xml -->
+                         **/jackson-core-asl-*redhat*.jar,
+                        <!-- Requereix afegir mòdul 'com.fasterxml.jackson.core.jackson-databind' a jboss-deployment-structure.xml -->
+                         **/jackson-databind-*redhat*.jar,
+                        <!-- Requereix afegir mòdul 'org.codehaus.jackson.jackson-jaxrs' a jboss-deployment-structure.xml -->
+                         **/jackson-jaxrs-*redhat*.jar,
+                        <!-- Requereix afegir mòdul 'org.codehaus.jackson.jackson-mapper-asl' a jboss-deployment-structure.xml -->
+                         **/jackson-mapper-asl-*redhat*.jar,
+                        <!-- Requereix afegir mòdul 'org.codehaus.jackson.jackson-xc' a jboss-deployment-structure.xml -->
+                         **/jackson-xc-*redhat*.jar,
+                        <!-- Requereix afegir mòdul 'org.jboss.ejb3' a jboss-deployment-structure.xml -->
+                         **/jboss-ejb3-ext-api-*redhat*.jar,
+                        <!-- Requereix afegir mòdul 'org.codehaus.jettison' a jboss-deployment-structure.xml -->
+                         **/jettison-*redhat*.jar,
+                    </packagingExcludes>
 				</configuration>
 			</plugin>
 			<!-- Per arrencar/desplegar automàticament l'aplicació. Documentació ús: 

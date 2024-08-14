@@ -9,6 +9,20 @@ body {
 	color: #333;
 	background-color: #eaeaea;
 }
+body .ui-button{ 
+	background: #4dba79 !important;
+	border-color: #4dba79 !important;
+}
+body .ui-datatable .ui-datatable-data > tr > td {
+	padding: 0.1rem 0.1rem !important;
+}
+
+body .ui-button.ui-button-text-icon-left .ui-button-text {
+	padding:0.2rem 1rem 0.2rem 2rem;
+}
+.ui-menubutton .ui-button {
+	margin: 2px;
+} 
 a{
 	color: #4dba79;
 }
@@ -74,6 +88,19 @@ a:hover{
 	margin-left: auto;
 	margin-right: auto;
 }
+.text-center{
+	text-align: center;
+}
+.ui-datatable-tablewrapper {
+	border: 1px solid #ececec;
+}
+.ui-datatable-odd {
+   background-color:#F9F9F9 !important;
+}
+
+.ui-datatable-even {
+   background-color:#FFFFFF;
+}
 /* FI Estils generals */
 
 /* Motlla de pa */
@@ -92,6 +119,23 @@ a:hover{
 }
 /* FI Motlla de pa */
 
+/* Detall Referencia */
+.forty-percent {
+     width: 40%;
+}
+.thirty-percent {
+	width: 30%;
+}
+.sixty-percent {
+     width: 60%;
+}
+.seventy-percent {
+	width: 70%;
+}
+.top-alignment {
+     vertical-align: top;
+}
+/* FI Detall Referencia */
 
 /* APLICA QUAN WIDTH MENOR DE 992px */
 @media only screen and (max-width: 992px) {
@@ -304,6 +348,12 @@ a:hover{
 }
 .minW0{
 	min-width: 0;
+}
+.nomUsuari{
+	margin: 0 8px;
+}
+body .ui-commandlink, body .ui-link{
+	color: #000 !important;
 }
 /* FI Capçalera */
 

@@ -17,6 +17,14 @@
 	</ui:define>
 
 	<ui:define name="content">
+		
+		<c:if test="#{security.admin}">
+			<p>
+				<p:button value="#{labels.newReferencia_link}" styleClass="float-right"
+					outcome="/admin/newReferencia" />
+			</p>
+		</c:if>
+		
 		<p>
 			<h:form>
 				<p:dataTable id="dataTable" value="#{listReferencia.lazyModel}"
@@ -120,12 +128,6 @@
 				</p:dataTable>
 			</h:form>
 		</p>
-		<c:if test="#{security.admin}">
-			<p>
-				<p:button value="#{labels.newReferencia_link}"
-					outcome="/admin/newReferencia" />
-			</p>
-		</c:if>
 	</ui:define>
 </ui:composition>
 </html>

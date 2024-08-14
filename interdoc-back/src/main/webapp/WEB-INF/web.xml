@@ -7,7 +7,7 @@
 	<display-name>Interdoc Back</display-name>
 
 	<welcome-file-list>
-		<welcome-file>index.xhtml</welcome-file>
+		<welcome-file>listReferencia.xhtml</welcome-file>
 	</welcome-file-list>
 
 	<!-- Servlet de JSF -->
@@ -96,10 +96,10 @@
 		<param-value>true</param-value>
 	</context-param>
 	<!-- El tema ha de coincidir amb la dependència inclosa dins el WAR. Per 
-		no emprar-ne cap posar el valor none -->
+		no emprar-ne cap posar el valor none / bootstrap-->
 	<context-param>
 		<param-name>primefaces.THEME</param-name>
-		<param-value>bootstrap</param-value>
+		<param-value>saga</param-value>
 	</context-param>
 
 	<!-- Pàgina estàndard d'error, en cas que l'usauri no tengui el rol requerit -->

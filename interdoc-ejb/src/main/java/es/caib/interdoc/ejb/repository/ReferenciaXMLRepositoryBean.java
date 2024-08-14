@@ -76,7 +76,10 @@ public class ReferenciaXMLRepositoryBean extends AbstractCrudRepository<Referenc
         criteriaQuery.where(referenciaXMLCriteriaHelper.getPredicate(ReferenciaXMLAtribut.referenciaId, referenciaId));
 
         TypedQuery<ReferenciaXMLDTO> query = entityManager.createQuery(criteriaQuery);
-        return query.getResultList().get(0);
+        
+        List<ReferenciaXMLDTO> resultats = query.getResultList();
+        
+        return ( resultats != null && resultats.size() > 0) ? resultats.get(0) : null;
     	
     }
 
