@@ -85,7 +85,6 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 
 	public ArxiuPluginImpl() {
 		super();
-		LOG.info("Inici del plugin d'arxiu Impl");
 	}
 
 	public ArxiuPluginImpl(String classe, Properties props) {
@@ -107,11 +106,13 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 			propietats.put(PROPERTY_CLASIFICACIO, config.getValue(PROPERTY_CLASIFICACIO, String.class));
 			propietats.put(PROPERTY_CODI_APLICACIO, config.getValue(PROPERTY_CODI_APLICACIO, String.class));
 
+			/*
 			if (Configuracio.isDesenvolupament()) {
 				LOG.debug("------------ PROPIEDADES ARXIU FILE -------------------");
 				propietats.stringPropertyNames().forEach(x -> LOG.info(x + " => " + propietats.getProperty(x)));
 				LOG.debug("---------------------------------------------------");
 			}
+			*/
 		} catch (Exception e) {
 			LOG.error("S'ha produit un error alhora de carregar les propietats. ");
 			e.printStackTrace();
@@ -180,9 +181,11 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 				LOG.info(" ==============  EXPEDIENT CREAT ================== ");
 				LOG.info("expedientCreat.identificador => " + expedientCreat.getIdentificador());
 				LOG.info("expedientCreat.nom => " + expedientCreat.getNom());
+				LOG.info("expedientCreat.versio => " + expedientCreat.getVersio());
+				
+				/*
 				LOG.info("expedientCreat.descripcio => "
 						+ (Utils.isNotEmpty(expedientCreat.getDescripcio()) ? expedientCreat.getDescripcio() : "null"));
-				LOG.info("expedientCreat.versio => " + expedientCreat.getVersio());
 				LOG.info("Contingut Tipus => " + contingutTipus.toString());
 				if (expMetadades != null) {
 					LOG.info("expMetadades.getIdentificador =>" + expMetadades.getIdentificador());
@@ -208,6 +211,7 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 				if (expedientCreat.getFirmes() != null && expedientCreat.getFirmes().size() > 0)
 					expFirmes.forEach(
 							x -> LOG.info("Firma => " + (Utils.isNotEmpty(x.getFitxerNom()) ? x.getFitxerNom() : "")));
+			    */
 			}
 
 			return expedientCreat.getIdentificador();
@@ -234,8 +238,6 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 		}
 
 		Fitxer fitxerOriginal = documentInfo.getFitxer();
-
-		LOG.info("Fitxer dins crearDocument => " + fitxerOriginal.toString());
 
 		Document document = new Document();
 		document.setIdentificador(null);
@@ -296,14 +298,14 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 				document.setContingut(documentContingut);
 
 				if (fitxerFirmat.getExtensio() != null) {
-
-					LOG.info("Obtenim la extensió a partir del fitxerFirmat: " + fitxerFirmat.getExtensio().toString());
+					
+					//LOG.info("Obtenim la extensió a partir del fitxerFirmat: " + fitxerFirmat.getExtensio().toString());
 					metadadesDoc.setExtensio(DocumentExtensio.toEnum(fitxerFirmat.getExtensio().toString()));
 					metadadesDoc.setFormat(getDocumentFormat(metadadesDoc.getExtensio()));
 
 				} else {
 
-					LOG.info("Obtenim la extensió a partir del nom de fitxerFirmat");
+					//LOG.info("Obtenim la extensió a partir del nom de fitxerFirmat");
 
 					String extensionFichero = "."
 							+ FilenameUtils.getExtension(fitxerFirmat.getArxiuNom()).toLowerCase();
@@ -311,8 +313,8 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 					metadadesDoc.setFormat(getDocumentFormat(metadadesDoc.getExtensio()));
 				}
 
-				LOG.info("metadades Ext: => " + metadadesDoc.getExtensio().toString());
-				LOG.info("metadades For: => " + metadadesDoc.getFormat().toString());
+				//LOG.info("metadades Ext: => " + metadadesDoc.getExtensio().toString());
+				//LOG.info("metadades For: => " + metadadesDoc.getFormat().toString());
 
 			} else {
 
@@ -357,14 +359,13 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 					
 					if (fitxerFirmat.getExtensio() != null) {
 
-						LOG.info("Obtenim la extensió a partir del fitxerFirmat: "
-								+ fitxerFirmat.getExtensio().toString());
+						// LOG.info("Obtenim la extensió a partir del fitxerFirmat: " + fitxerFirmat.getExtensio().toString());
 						metadadesDoc.setExtensio(DocumentExtensio.toEnum(fitxerFirmat.getExtensio().toString()));
 						metadadesDoc.setFormat(getDocumentFormat(metadadesDoc.getExtensio()));
 
 					} else {
 
-						LOG.info("Obtenim la extensió a partir del nom de fitxerFirmat");
+						// LOG.info("Obtenim la extensió a partir del nom de fitxerFirmat");
 
 						String extensionFichero = "."
 								+ FilenameUtils.getExtension(fitxerFirmat.getArxiuNom()).toLowerCase();
@@ -372,8 +373,8 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 						metadadesDoc.setFormat(getDocumentFormat(metadadesDoc.getExtensio()));
 					}
 
-					LOG.info("metadades Ext: => " + metadadesDoc.getExtensio().toString());
-					LOG.info("metadades For: => " + metadadesDoc.getFormat().toString());
+					// LOG.info("metadades Ext: => " + metadadesDoc.getExtensio().toString());
+					// LOG.info("metadades For: => " + metadadesDoc.getFormat().toString());
 					
 					break;
 				case "TF02":
@@ -395,14 +396,13 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 
 					if (fitxerFirmat.getExtensio() != null) {
 
-						LOG.info("Obtenim la extensió a partir del fitxerFirmat: "
-								+ fitxerFirmat.getExtensio().toString());
+						// LOG.info("Obtenim la extensió a partir del fitxerFirmat: " + fitxerFirmat.getExtensio().toString());
 						metadadesDoc.setExtensio(DocumentExtensio.toEnum(fitxerFirmat.getExtensio().toString()));
 						metadadesDoc.setFormat(getDocumentFormat(metadadesDoc.getExtensio()));
 
 					} else {
 
-						LOG.info("Obtenim la extensió a partir del nom de fitxerFirmat");
+						// LOG.info("Obtenim la extensió a partir del nom de fitxerFirmat");
 
 						String extensionFichero = "."
 								+ FilenameUtils.getExtension(fitxerFirmat.getArxiuNom()).toLowerCase();
@@ -410,8 +410,8 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 						metadadesDoc.setFormat(getDocumentFormat(metadadesDoc.getExtensio()));
 					}
 
-					LOG.info("metadades Ext: => " + metadadesDoc.getExtensio().toString());
-					LOG.info("metadades For: => " + metadadesDoc.getFormat().toString());
+					// LOG.info("metadades Ext: => " + metadadesDoc.getExtensio().toString());
+					// LOG.info("metadades For: => " + metadadesDoc.getFormat().toString());
 
 					break;
 				case "TF03":
@@ -426,14 +426,13 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 
 					if (fitxerFirmat.getExtensio() != null) {
 
-						LOG.info("Obtenim la extensió a partir del fitxerFirmat: "
-								+ fitxerFirmat.getExtensio().toString());
+						// LOG.info("Obtenim la extensió a partir del fitxerFirmat: " + fitxerFirmat.getExtensio().toString());
 						metadadesDoc.setExtensio(DocumentExtensio.toEnum(fitxerFirmat.getExtensio().toString()));
 						metadadesDoc.setFormat(getDocumentFormat(metadadesDoc.getExtensio()));
 
 					} else {
 
-						LOG.info("Obtenim la extensió a partir del nom de fitxerFirmat");
+						// LOG.info("Obtenim la extensió a partir del nom de fitxerFirmat");
 
 						String extensionFichero = "."
 								+ FilenameUtils.getExtension(fitxerFirmat.getArxiuNom()).toLowerCase();
@@ -441,8 +440,8 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 						metadadesDoc.setFormat(getDocumentFormat(metadadesDoc.getExtensio()));
 					}
 
-					LOG.info("metadades Ext: => " + metadadesDoc.getExtensio().toString());
-					LOG.info("metadades For: => " + metadadesDoc.getFormat().toString());
+					// LOG.info("metadades Ext: => " + metadadesDoc.getExtensio().toString());
+					// LOG.info("metadades For: => " + metadadesDoc.getFormat().toString());
 
 					break;
 				case "TF04":
@@ -464,14 +463,13 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 
 					if (fitxerFirmat.getExtensio() != null) {
 
-						LOG.info("Obtenim la extensió a partir del fitxerFirmat: "
-								+ fitxerFirmat.getExtensio().toString());
+						// LOG.info("Obtenim la extensió a partir del fitxerFirmat: " + fitxerFirmat.getExtensio().toString());
 						metadadesDoc.setExtensio(DocumentExtensio.toEnum(fitxerFirmat.getExtensio().toString()));
 						metadadesDoc.setFormat(getDocumentFormat(metadadesDoc.getExtensio()));
 
 					} else {
 
-						LOG.info("Obtenim la extensió a partir del nom de fitxerFirmat");
+						// LOG.info("Obtenim la extensió a partir del nom de fitxerFirmat");
 
 						String extensionFichero = "."
 								+ FilenameUtils.getExtension(fitxerFirmat.getArxiuNom()).toLowerCase();
@@ -479,8 +477,8 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 						metadadesDoc.setFormat(getDocumentFormat(metadadesDoc.getExtensio()));
 					}
 
-					LOG.info("metadades Ext: => " + metadadesDoc.getExtensio().toString());
-					LOG.info("metadades For: => " + metadadesDoc.getFormat().toString());
+					// LOG.info("metadades Ext: => " + metadadesDoc.getExtensio().toString());
+					// LOG.info("metadades For: => " + metadadesDoc.getFormat().toString());
 
 					break;
 				case "TF05":
@@ -495,14 +493,13 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 
 					if (fitxerFirmat.getExtensio() != null) {
 
-						LOG.info("Obtenim la extensió a partir del fitxerFirmat: "
-								+ fitxerFirmat.getExtensio().toString());
+						// LOG.info("Obtenim la extensió a partir del fitxerFirmat: " + fitxerFirmat.getExtensio().toString());
 						metadadesDoc.setExtensio(DocumentExtensio.toEnum(fitxerFirmat.getExtensio().toString()));
 						metadadesDoc.setFormat(getDocumentFormat(metadadesDoc.getExtensio()));
 
 					} else {
 
-						LOG.info("Obtenim la extensió a partir del nom de fitxerFirmat");
+						// LOG.info("Obtenim la extensió a partir del nom de fitxerFirmat");
 
 						String extensionFichero = "."
 								+ FilenameUtils.getExtension(fitxerFirmat.getArxiuNom()).toLowerCase();
@@ -510,8 +507,8 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 						metadadesDoc.setFormat(getDocumentFormat(metadadesDoc.getExtensio()));
 					}
 
-					LOG.info("metadades Ext: => " + metadadesDoc.getExtensio().toString());
-					LOG.info("metadades For: => " + metadadesDoc.getFormat().toString());
+					// LOG.info("metadades Ext: => " + metadadesDoc.getExtensio().toString());
+					// LOG.info("metadades For: => " + metadadesDoc.getFormat().toString());
 					
 					break;
 				case "TF06":
@@ -548,6 +545,7 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 
 		document.setMetadades(metadadesDoc);
 
+		/*
 		if (Configuracio.isDesenvolupament()) {
 
 			LOG.info(" ==============  DOCUMENT A CREAR ================== ");
@@ -574,6 +572,7 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 			}
 
 		}
+		*/
 		
 		if (plugin == null) {
 			plugin = getArxiuPlugin();
@@ -916,6 +915,7 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 				// info.setPrintableUrl(printableUrl);
 				// info.setValidationFileUrl(validationFileUrl);
 
+				/*
 				if (Configuracio.isDesenvolupament()) {
 
 					LOG.info("============= INFOARXIUDTO ===========");
@@ -923,6 +923,7 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 					LOG.info(("true".equals(propietats.getProperty(PROPERTY_TANCAR_EXPEDIENT)))
 							? "Tancar expedientes => true"
 							: "Tancar expedientes => false");
+					
 					LOG.info("csv.validation.url >= " + propietats.getProperty(PROPERTY_CSV_VALIDATION));
 					LOG.info("csv.url >= " + propietats.getProperty(PROPERTY_CSV_URL) + detalls.getIdentificador());
 					LOG.info("csv => " + ((detalls.getExpedientMetadades() != null)
@@ -931,9 +932,11 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 					LOG.info("estat document => " + ((detalls.getEstat() != null)
 							? detalls.getEstat().name() + " -  " + detalls.getEstat().ordinal()
 							: "null"));
+					
 					LOG.info("InfoArxiuDto => " + info.toString());
 					LOG.info("______________________________________");
 				}
+				*/
 			}
 
 		} catch (Exception e) {
@@ -952,29 +955,29 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 				|| ValidateSignatureConstants.SIGNPROFILE_XL1.equals(signProfile)
 				|| ValidateSignatureConstants.SIGNPROFILE_XL2.equals(signProfile)
 				|| ValidateSignatureConstants.SIGNPROFILE_PADES_BASIC.equals(signProfile)) {
-			LOG.info("getPerfilFirma => " + FirmaPerfil.BES);
+			// LOG.info("getPerfilFirma => " + FirmaPerfil.BES);
 			return FirmaPerfil.BES;
 
 		} else if (ValidateSignatureConstants.SIGNPROFILE_EPES.equals(signProfile)) {
-			LOG.info("getPerfilFirma => " + FirmaPerfil.EPES);
+			// LOG.info("getPerfilFirma => " + FirmaPerfil.EPES);
 			return FirmaPerfil.EPES;
 		} else if (ValidateSignatureConstants.SIGNPROFILE_PADES_LTV.equals(signProfile)) {
-			LOG.info("getPerfilFirma => " + FirmaPerfil.LTV);
+			// LOG.info("getPerfilFirma => " + FirmaPerfil.LTV);
 			return FirmaPerfil.LTV;
 		} else if (ValidateSignatureConstants.SIGNPROFILE_T.equals(signProfile)) {
-			LOG.info("getPerfilFirma => " + FirmaPerfil.T);
+			// LOG.info("getPerfilFirma => " + FirmaPerfil.T);
 			return FirmaPerfil.T;
 		} else if (ValidateSignatureConstants.SIGNPROFILE_C.equals(signProfile)) {
-			LOG.info("getPerfilFirma => " + FirmaPerfil.C);
+			// LOG.info("getPerfilFirma => " + FirmaPerfil.C);
 			return FirmaPerfil.C;
 		} else if (ValidateSignatureConstants.SIGNPROFILE_X.equals(signProfile)) {
-			LOG.info("getPerfilFirma => " + FirmaPerfil.X);
+			// LOG.info("getPerfilFirma => " + FirmaPerfil.X);
 			return FirmaPerfil.X;
 		} else if (ValidateSignatureConstants.SIGNPROFILE_XL.equals(signProfile)) {
-			LOG.info("getPerfilFirma => " + FirmaPerfil.XL);
+			// LOG.info("getPerfilFirma => " + FirmaPerfil.XL);
 			return FirmaPerfil.XL;
 		} else if (ValidateSignatureConstants.SIGNPROFILE_A.equals(signProfile)) {
-			LOG.info("getPerfilFirma => " + FirmaPerfil.A);
+			// LOG.info("getPerfilFirma => " + FirmaPerfil.A);
 			return FirmaPerfil.A;
 		}
 		LOG.info("getPerfilFirma => NULL");
@@ -1320,10 +1323,10 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 
 		// per instanciar el plugin necessitam adaptar les propietats
 		Properties properties = new Properties();
-		properties.setProperty("plugin.arxiu.caib.base.url", config.getValue(PROPERTY_ENDPOINT, String.class));
-		properties.setProperty("plugin.arxiu.caib.usuari", config.getValue(PROPERTY_USERNAME, String.class));
-		properties.setProperty("plugin.arxiu.caib.contrasenya", config.getValue(PROPERTY_PASS, String.class));
-		properties.setProperty("plugin.arxiu.caib.aplicacio.codi", propietats.getProperty(PROPERTY_CODI_APLICACIO));
+		properties.setProperty("pluginsib.arxiu.caib.base.url", config.getValue(PROPERTY_ENDPOINT, String.class));
+		properties.setProperty("pluginsib.arxiu.caib.usuari", config.getValue(PROPERTY_USERNAME, String.class));
+		properties.setProperty("pluginsib.arxiu.caib.contrasenya", config.getValue(PROPERTY_PASS, String.class));
+		properties.setProperty("pluginsib.arxiu.caib.aplicacio.codi", propietats.getProperty(PROPERTY_CODI_APLICACIO));
 
 		return new ArxiuPluginCaib("", properties);
 	}

@@ -152,8 +152,10 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
 			// Generam el ENIDOC
 			resultatArxiu = pluginArxiu.getPlugin().generarEniDoc(idEni);
 
+			/*
 			if (Configuracio.isDesenvolupament())
 				LOG.info(resultatArxiu);
+	        */	
 
 			// Si document_eni => RETORNAM EL PDF TODO
 			if (isDescarregaPDF) {
@@ -208,8 +210,10 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
 					// Generam el ENIDOC
 					resultatArxiu = pluginArxiu.getPlugin().generarEniDoc(infoArxiu.getArxiuDocumentId());
 
+					/*
 					if (Configuracio.isDesenvolupament())
 						LOG.info(resultatArxiu);
+					*/
 
 					// Si document_eni => RETORNAM EL PDF
 					if (isDescarregaPDF && infoArxiu.getOriginalFileUrl() != null) {

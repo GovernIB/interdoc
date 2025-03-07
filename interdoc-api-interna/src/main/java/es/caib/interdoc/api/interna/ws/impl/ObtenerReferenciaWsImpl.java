@@ -521,7 +521,7 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 
 				// Generate Referencia
 				String referencia = (!isEnidoc) ? createReferencia() : obtenerReferenciaRequestInfo.getUuid();
-				log.info("Referencia generada: " + referencia);
+				// log.info("Referencia generada: " + referencia);
 
 				// Generate Hash
 				String hash = "";
