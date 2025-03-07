@@ -40,13 +40,13 @@ public class AplicacioDTO {
     private LocalDate dataCreacio;
 
     @NotNull
-    private EstatPublicacio estat;
+    private Estat estat;
 
 
     public AplicacioDTO() {
     }
 
-    public AplicacioDTO(Long id, String codiDir3, String nom, String usuari, LocalDate dataCreacio, EstatPublicacio estat) {
+    public AplicacioDTO(Long id, String codiDir3, String nom, String usuari, LocalDate dataCreacio, Estat estat) {
         super();
         this.id = id;
         this.codiDir3 = codiDir3;
@@ -57,7 +57,7 @@ public class AplicacioDTO {
     }
 
 
-    public AplicacioDTO(Long id, String codiDir3, String nom, String usuari, String clau, LocalDate dataCreacio, EstatPublicacio estat) {
+    public AplicacioDTO(Long id, String codiDir3, String nom, String usuari, String clau, LocalDate dataCreacio, Estat estat) {
         super();
         this.id = id;
         this.codiDir3 = codiDir3;
@@ -116,11 +116,11 @@ public class AplicacioDTO {
         this.dataCreacio = dataCreacio;
     }
 
-    public EstatPublicacio getEstat() {
+    public Estat getEstat() {
         return estat;
     }
 
-    public void setEstat(EstatPublicacio estat) {
+    public void setEstat(Estat estat) {
         this.estat = estat;
     }
 
