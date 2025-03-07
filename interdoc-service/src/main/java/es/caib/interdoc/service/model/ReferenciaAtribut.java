@@ -15,5 +15,6 @@ public enum ReferenciaAtribut implements Atribut {
     infoSignaturaId,
     infoArxiuId,
     fitxerId,
-    entitatId
+    entitatId,
+    numeroRegistre
 }

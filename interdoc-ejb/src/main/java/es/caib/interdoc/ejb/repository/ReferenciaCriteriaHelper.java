@@ -57,6 +57,8 @@ public class ReferenciaCriteriaHelper extends AbstractCriteriaHelper<Referencia,
             	return root.get(Referencia_.fitxerId);
             case entitatId:
             	return root.get(Referencia_.entitatId);
+            case numeroRegistre:
+            	return root.get(Referencia_.numeroRegistre);
             default:
                 throw new IllegalArgumentException("Valor no vàlid " + atribut);
         }

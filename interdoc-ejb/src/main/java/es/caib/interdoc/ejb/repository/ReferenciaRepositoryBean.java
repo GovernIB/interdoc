@@ -50,7 +50,7 @@ public class ReferenciaRepositoryBean extends AbstractCrudRepository<Referencia,
 				root.get(Referencia_.emisor), root.get(Referencia_.receptor), root.get(Referencia_.formatFirma),
 				root.get(Referencia_.dataCreacio), root.get(Referencia_.infoSignaturaId),
 				root.get(Referencia_.infoArxiuId), root.get(Referencia_.fitxerId), root.get(Referencia_.referencia),
-				root.get(Referencia_.entitatId)));
+				root.get(Referencia_.entitatId), root.get(Referencia_.numeroRegistre)));
 
 		ReferenciaCriteriaHelper referenciaCriteriaHelper = new ReferenciaCriteriaHelper(builder, root);
 		criteriaQuery.where(referenciaCriteriaHelper.getPredicates(filter));
