@@ -16,9 +16,9 @@ es.caib.interdoc.plugins.arxiu.csv.validation.url=https://proves.caib.es/concsv/
 es.caib.interdoc.plugins.arxiu.csv.url=https://proves.caib.es/concsv/rest/printable/uuid/', 'es.caib.interdoc.plugins.arxiu.ArxiuPluginImpl', CURRENT_TIMESTAMP, 1, 1, 1);
 
 INSERT INTO itd_plugin (pluginid, nom, propietats, classe, datacreacio, actiu, entitatid, tipus) VALUES (2, 'Firma', '# Properties Firma Simple
-es.caib.interdoc.plugins.firma.profilecades=PROFILE_CADES
-es.caib.interdoc.plugins.firma.profilepades=ENVIAFIB_PADES
-es.caib.interdoc.plugins.firma.profilexades=PROFILE_XADES
+es.caib.interdoc.pluginsib.firma.profilecades=CADES_ATACHED
+es.caib.interdoc.pluginsib.firma.profilepades=FIRMA_PDF_XADES_DETACHED
+es.caib.interdoc.pluginsib.firma.profilexades=FIRMA_PDF_XADES_DETACHED
 es.caib.interdoc.plugins.firma.administracionId=
 es.caib.interdoc.plugins.firma.nombre=
 es.caib.interdoc.plugins.firma.email=
