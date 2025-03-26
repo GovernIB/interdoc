@@ -24,6 +24,8 @@ public interface PluginRepository extends CrudRepository<Plugin, Long> {
                                                  List<Ordre<PluginAtribut>> ordenacio);
 
     List<Plugin> getAll();
+    
+    List<Plugin> getByTipus(Long tipus, Long entitatId);
 
     long countByFilter(Map<PluginAtribut, Object> filter);
     

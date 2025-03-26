@@ -1,6 +1,5 @@
 package es.caib.interdoc.persistence.model;
 
-import es.caib.interdoc.service.model.EstatPublicacio;
 import jdk.jfr.Name;
 
 import javax.persistence.*;

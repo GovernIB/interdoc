@@ -1,6 +1,6 @@
 package es.caib.interdoc.persistence.model;
 
-import es.caib.interdoc.service.model.EstatPublicacio;
+import es.caib.interdoc.service.model.Estat;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -58,7 +58,7 @@ public class PeticioATercer extends BaseEntity {
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "ESTAT", nullable = false)
-    private EstatPublicacio estat;
+    private Estat estat;
 
 
     public String getCsvId() {
@@ -141,11 +141,11 @@ public class PeticioATercer extends BaseEntity {
         this.dataCreacio = dataCreacio;
     }
 
-    public EstatPublicacio getEstat() {
+    public Estat getEstat() {
         return estat;
     }
 
-    public void setEstat(EstatPublicacio estat) {
+    public void setEstat(Estat estat) {
         this.estat = estat;
     }
 

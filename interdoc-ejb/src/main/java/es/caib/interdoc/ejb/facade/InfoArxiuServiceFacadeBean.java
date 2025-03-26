@@ -103,6 +103,12 @@ public class InfoArxiuServiceFacadeBean implements InfoArxiuServiceFacade {
     
     @Override
     @PermitAll
+    public List<String> getExpedientsObertsPerEntitat(Long entitatId) {
+    	return repository.getExpedientsObertsPerEntitat(entitatId);
+    }
+    
+    @Override
+    @PermitAll
 	public Boolean tancarExpedient(String expedientId, Long entitatId) {
 		return repository.tancarExpedient(expedientId, entitatId);
 	}

@@ -29,6 +29,8 @@ public interface InfoArxiuRepository extends CrudRepository<InfoArxiu, Long> {
     int aumentarReintents(String expedientId, Long entitatId, Long valor);
     
     HashMap<Long, List<String>> getExpedientsObertsPerEntitat(String estat, Long entitatId);
+    
+    List<String> getExpedientsObertsPerEntitat(Long entitatId);
 
     long countByFilter(Map<InfoArxiuAtribut, Object> filter);
 

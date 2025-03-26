@@ -35,16 +35,19 @@ public class PluginDTO {
     
     @NotNull
     private Long entitatId;
+    
+    @NotNull
+    private Long tipus;
 
     @NotNull
-    private EstatPublicacio actiu;
+    private Estat actiu;
 
     public PluginDTO() {
     }
         
 	public PluginDTO(Long id, @NotEmpty @Size(max = 50) String nom, @NotEmpty @Size(max = 255) String classe,
 			@NotEmpty String propietats, @NotNull @PastOrPresent LocalDate dataCreacio, @NotNull Long entitatId, 
-			@NotNull EstatPublicacio actiu) {
+			@NotNull Estat actiu) {
 		super();
 		this.id = id;
 		this.nom = nom;
@@ -57,7 +60,7 @@ public class PluginDTO {
     
     public PluginDTO(@NotEmpty @Size(max = 50) String nom, @NotEmpty @Size(max = 255) String classe,
 			@NotEmpty String propietats, @NotNull @PastOrPresent LocalDate dataCreacio, @NotNull Long entitatId, 
-			@NotNull EstatPublicacio actiu) {
+			@NotNull Estat actiu) {
 		super();
 		this.nom = nom;
 		this.classe = classe;
@@ -68,7 +71,20 @@ public class PluginDTO {
 	}
     
     public PluginDTO(@NotEmpty @Size(max = 50) String nom, @NotEmpty @Size(max = 255) String classe,
-			@NotEmpty String propietats, @NotNull @PastOrPresent LocalDate dataCreacio, @NotNull EstatPublicacio actiu) {
+			@NotEmpty String propietats, @NotNull @PastOrPresent LocalDate dataCreacio, @NotNull Long entitatId, 
+			@NotNull Long tipus, @NotNull Estat actiu) {
+		super();
+		this.nom = nom;
+		this.classe = classe;
+		this.propietats = propietats;
+		this.dataCreacio = dataCreacio;
+		this.entitatId = entitatId;
+		this.tipus = tipus;
+		this.actiu = actiu;
+	}
+    
+    public PluginDTO(@NotEmpty @Size(max = 50) String nom, @NotEmpty @Size(max = 255) String classe,
+			@NotEmpty String propietats, @NotNull @PastOrPresent LocalDate dataCreacio, @NotNull Estat actiu) {
 		super();
 		this.nom = nom;
 		this.classe = classe;
@@ -124,12 +140,20 @@ public class PluginDTO {
 	public void setEntitatId(Long entitatId) {
 		this.entitatId = entitatId;
 	}
+	
+	public Long getTipus() {
+		return tipus;
+	}
+	
+	public void setTipus(Long tipus) {
+		this.tipus = tipus;
+	}
 
-	public EstatPublicacio getActiu() {
+	public Estat getActiu() {
 		return actiu;
 	}
 
-	public void setActiu(EstatPublicacio actiu) {
+	public void setActiu(Estat actiu) {
 		this.actiu = actiu;
 	}
 

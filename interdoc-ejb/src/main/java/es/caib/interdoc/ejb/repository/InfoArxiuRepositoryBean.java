@@ -104,6 +104,7 @@ public class InfoArxiuRepositoryBean extends AbstractCrudRepository<InfoArxiu, L
 
 		// recoger los resultados de q e imprimirlos por pantalla
 		List<Object[]> results = q.getResultList();
+		
 		HashMap<Long, List<String>> expedientsPerEntitat = new HashMap<Long, List<String>>();
 		for (Object[] result : results) {
 			Long entitat = (Long) result[0];
@@ -120,6 +121,34 @@ public class InfoArxiuRepositoryBean extends AbstractCrudRepository<InfoArxiu, L
 
 		return expedientsPerEntitat;
 	}
+	
+	
+	@Override
+	public List<String> getExpedientsObertsPerEntitat(Long entitatId) {
+		
+		StringBuilder query = new StringBuilder(
+				"Select distinct r.entitatId, i.arxiuExpedientId from Referencia as r left outer join r.infoArxiu as i where i.estatExpedient = :estat and i.reintents < 10");
+		
+		if (entitatId > 0L)
+			query.append(" and r.entitatId = :entitatId");
+
+		Query q = entityManager.createQuery(query.toString());
+		q.setParameter("estat", InfoArxiuDTO.EXPEDIENT_OBERT);
+
+		if (entitatId > 0L)
+			q.setParameter("entitatId", entitatId);
+
+		List<Object[]> resultats = q.getResultList();
+		
+		List<String> expedientsPendentsTancar = new ArrayList<String>(resultats.size());
+		for (Object[] result : resultats) {
+			expedientsPendentsTancar.add((String) result[1]);
+		}
+		
+		return expedientsPendentsTancar;
+		
+	}
+	
 
 	@Override
 	public int aumentarReintents(String expedientId, Long entitatId, Long valor) {
@@ -136,6 +165,7 @@ public class InfoArxiuRepositoryBean extends AbstractCrudRepository<InfoArxiu, L
 		return q.executeUpdate();
 	}
 
+	
 	@Override
 	public Boolean tancarExpedient(String expedientId, Long entitatId) {
 

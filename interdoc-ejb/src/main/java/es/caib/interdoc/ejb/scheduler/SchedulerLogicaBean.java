@@ -1,6 +1,5 @@
 package es.caib.interdoc.ejb.scheduler;
 
-import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -16,8 +15,13 @@ import javax.ejb.TimerService;
 
 import org.apache.log4j.Logger;
 
+import es.caib.interdoc.service.facade.EntitatServiceFacade;
 import es.caib.interdoc.service.facade.InfoArxiuServiceFacade;
+import es.caib.interdoc.service.facade.PluginServiceFacade;
+import es.caib.interdoc.service.model.EntitatDTO;
+import es.caib.interdoc.service.model.PluginDTO;
 import es.caib.interdoc.commons.utils.Configuracio;
+import es.caib.interdoc.commons.utils.Constants;
 import es.caib.interdoc.plugins.arxiu.ArxiuController;
 
 
@@ -29,6 +33,12 @@ public class SchedulerLogicaBean implements SchedulerLogicaService{
 	
 	@EJB(mappedName = InfoArxiuServiceFacade.JNDI_NAME)
 	protected InfoArxiuServiceFacade infoArxiuService;
+	
+	@EJB(mappedName = EntitatServiceFacade.JNDI_NAME)
+	protected EntitatServiceFacade entitatService;
+	
+	@EJB(mappedName = PluginServiceFacade.JNDI_NAME)
+	protected PluginServiceFacade pluginService;
 	
 	@Resource
 	public TimerService timerService;
@@ -43,8 +53,8 @@ public class SchedulerLogicaBean implements SchedulerLogicaService{
 		
 		ScheduleExpression expression = new ScheduleExpression();
         expression.dayOfWeek("Sun,Mon,Tue,Wed,Thu,Fri,Sat");
-        expression.hour("17");
-        expression.minute("0");
+        expression.hour("*");
+        expression.minute("*/5");
         expression.second("0");
         expression.timezone("Europe/Madrid");
         
@@ -63,36 +73,49 @@ public class SchedulerLogicaBean implements SchedulerLogicaService{
 	@Timeout
 	public void execute(Timer timer) {
 		
-		HashMap<Long, List<String>> resultats = infoArxiuService.getExpedientsObertsPerEntitat("", 0L);
+		List<EntitatDTO> entitats = entitatService.getAll();
 		
-		for (Long entitatId : resultats.keySet()) {
-			List<String> expedients = resultats.get(entitatId);
+		entitats.forEach( entitat -> {
 			
-			ArxiuController arxiuController = new ArxiuController(entitatId);
+			log.info("====>  Execució scheduler tancar expedients per l'entitat " + entitat.getNom() + " amb Id " + entitat.getId());
 			
-			for (String expedientId : expedients) {
-				try {
+			List<String> expedients = infoArxiuService.getExpedientsObertsPerEntitat(entitat.getId());
+			log.info("Número d'expedients no tancats: " + expedients.size());
+			
+			// Comprobam si existeix un plugin d'arxiu per l'entitat
+			List<PluginDTO> plugins = pluginService.getByTipus(Constants.PLUGIN_ARXIU, entitat.getId());
+			if (plugins.size() > 0) {
+				
+				ArxiuController arxiuController = new ArxiuController(entitat.getId());
 					
-					boolean closed = false;
-					
-					if (arxiuController.getPlugin() != null) {
-						closed = arxiuController.getPlugin().tancarExpedient(expedientId);
+				for (String expedientId : expedients) {
+					try {
 						
-						if (closed) {
-							log.info("Expedient tancat: " + expedientId + " - actualitzam a la BD");
-							infoArxiuService.tancarExpedient(expedientId, entitatId);
-						} else {
-							log.info("Error al tancar expedient: " + expedientId + " - augmentam reintents");
-							infoArxiuService.aumentarReintents(expedientId, entitatId, 10L);
+						boolean closed = false;
+						
+						if (arxiuController.getPlugin() != null) {
+							
+							log.info("Tancant expedient: " + expedientId);
+							closed = arxiuController.getPlugin().tancarExpedient(expedientId);
+							
+							if (closed) {
+								log.info("Expedient tancat: " + expedientId + " - actualitzam a la BD");
+								infoArxiuService.tancarExpedient(expedientId, entitat.getId());
+							} else {
+								log.info("Error al tancar expedient: " + expedientId + " - augmentam reintents");
+								infoArxiuService.aumentarReintents(expedientId, entitat.getId(), 10L);
+							}
+							
 						}
-						
+					} catch (Exception e) {
+						log.info("Error al tancar expedient: " + expedientId);
+						e.printStackTrace();
 					}
-				} catch (Exception e) {
-					log.info("Error al tancar expedient: " + expedientId);
-					e.printStackTrace();
 				}
+			}else {
+				log.error("L'entitat " + entitat.getNom() + " amb ID " + entitat.getId() + " no té cap plugin de tipus ARXIU configurat" );
 			}
-		}
+		});
 		
 	}
 

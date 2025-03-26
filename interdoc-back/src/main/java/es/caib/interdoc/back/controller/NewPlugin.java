@@ -1,15 +1,22 @@
 package es.caib.interdoc.back.controller;
 
 import es.caib.interdoc.back.model.PluginModel;
+import es.caib.interdoc.service.facade.EntitatServiceFacade;
 import es.caib.interdoc.service.facade.PluginServiceFacade;
+import es.caib.interdoc.service.model.EntitatDTO;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -29,10 +36,20 @@ public class NewPlugin extends AbstractController implements Serializable {
 
     @EJB
     PluginServiceFacade pluginService;
+    
+    @EJB
+    private EntitatServiceFacade entitatService;
 
     @Inject
     private PluginModel plugin;
-
+    
+    private List<SelectItem> entitats = new ArrayList<SelectItem>();
+    
+    
+    public List<SelectItem> getEntitats() {
+    	return entitats;
+    }
+   
     // ACCIONS
 
     /**
@@ -43,8 +60,6 @@ public class NewPlugin extends AbstractController implements Serializable {
      */
     public String save() {
         LOG.debug("save");
-        
-        LOG.info(plugin.getValue().toString());
         
         // Feim una creació 
         pluginService.create(plugin.getValue());
@@ -58,5 +73,15 @@ public class NewPlugin extends AbstractController implements Serializable {
 
         // Redireccionam cap al llistat d'unitats orgàniques
         return "/listPlugin?faces-redirect=true";
+    }
+    
+    @PostConstruct
+    public void init() {
+    
+    	List<EntitatDTO> entitatsList = entitatService.getAll();
+    	
+    	if (entitatsList.size()>0) {
+    		entitatsList.forEach( e -> entitats.add(new SelectItem(e.getId(), e.getNom())));
+    	}
     }
 }

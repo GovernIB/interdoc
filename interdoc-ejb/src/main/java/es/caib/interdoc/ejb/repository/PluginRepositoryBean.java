@@ -6,6 +6,7 @@ import es.caib.interdoc.persistence.model.Plugin;
 import es.caib.interdoc.persistence.model.Plugin_;
 import es.caib.interdoc.service.model.PluginAtribut;
 import es.caib.interdoc.service.model.PluginDTO;
+import es.caib.interdoc.service.model.TipusPlugin;
 import es.caib.interdoc.service.model.Ordre;
 
 import javax.ejb.Local;
@@ -73,6 +74,14 @@ public class PluginRepositoryBean extends AbstractCrudRepository<Plugin, Long>
     public List<Plugin> getAll() {
         TypedQuery<Plugin> query = entityManager.createNamedQuery(Plugin.GET_ALL, Plugin.class);
         return query.getResultList();
+    }
+    
+    @Override
+    public List<Plugin> getByTipus(Long tipus, Long entitatId){
+    	TypedQuery<Plugin> query = entityManager.createNamedQuery(Plugin.GET_BY_TIPUS, Plugin.class);
+    	query.setParameter("tipus", tipus);
+    	query.setParameter("entitat", entitatId);
+    	return query.getResultList();
     }
 
     @Override

@@ -30,7 +30,7 @@ public class EntitatDTO {
 	private LocalDate dataCreacio;
 
 	@NotNull
-	private EstatPublicacio actiu;
+	private Estat actiu;
 
 	public Long getId() {
 		return id;
@@ -48,7 +48,7 @@ public class EntitatDTO {
 		return dataCreacio;
 	}
 
-	public EstatPublicacio getActiu() {
+	public Estat getActiu() {
 		return actiu;
 	}
 
@@ -68,7 +68,7 @@ public class EntitatDTO {
 		this.dataCreacio = dataCreacio;
 	}
 
-	public void setActiu(EstatPublicacio actiu) {
+	public void setActiu(Estat actiu) {
 		this.actiu = actiu;
 	}
 
@@ -90,7 +90,7 @@ public class EntitatDTO {
 	
 
 	public EntitatDTO(Long id, @NotEmpty @Size(max = 50) String nom, @NotNull String codiDir3, LocalDate dataCreacio,
-			@NotNull EstatPublicacio actiu) {
+			@NotNull Estat actiu) {
 		super();
 		this.id = id;
 		this.nom = nom;
@@ -99,7 +99,7 @@ public class EntitatDTO {
 		this.actiu = actiu;
 	}
 
-	public EntitatDTO(Long id, @NotEmpty @Size(max = 50) String nom, @NotNull String codiDir3, @NotNull EstatPublicacio actiu) {
+	public EntitatDTO(Long id, @NotEmpty @Size(max = 50) String nom, @NotNull String codiDir3, @NotNull Estat actiu) {
 		super();
 		this.id = id;
 		this.nom = nom;

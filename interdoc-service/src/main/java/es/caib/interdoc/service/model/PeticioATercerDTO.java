@@ -30,14 +30,14 @@ public class PeticioATercerDTO {
 
     private LocalDate dataCreacio;
 
-    private EstatPublicacio estat;
+    private Estat estat;
 
     public PeticioATercerDTO() {
 
     }
 
     public PeticioATercerDTO(Long peticioId, String csvId, String eniId, String codiDir3, boolean esRecuperacioOriginal, String documentEni,
-                             String nif, int tipusIdentificacio, String ip, EstatPublicacio estat, LocalDate dataCreacio) {
+                             String nif, int tipusIdentificacio, String ip, Estat estat, LocalDate dataCreacio) {
         super();
         this.id = peticioId;
         this.csvId = csvId;
@@ -52,7 +52,7 @@ public class PeticioATercerDTO {
     }
 
     public PeticioATercerDTO(Long peticioId, String csvId, String eniId, String codiDir3, boolean esRecuperacioOriginal, String documentEni,
-                             String nif, Integer tipusIdentificacio, String ip, LocalDate dataCreacio, EstatPublicacio estat) {
+                             String nif, Integer tipusIdentificacio, String ip, LocalDate dataCreacio, Estat estat) {
         super();
         this.id = peticioId;
         this.csvId = csvId;
@@ -139,11 +139,11 @@ public class PeticioATercerDTO {
         this.dataCreacio = dataCreacio;
     }
 
-    public EstatPublicacio getEstat() {
+    public Estat getEstat() {
         return estat;
     }
 
-    public void setEstat(EstatPublicacio estat) {
+    public void setEstat(Estat estat) {
         this.estat = estat;
     }
 

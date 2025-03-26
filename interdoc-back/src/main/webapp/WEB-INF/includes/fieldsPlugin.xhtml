@@ -51,8 +51,26 @@
             <p:outputLabel for="entitatid" value="#{labels.plugin_entitatid}" />
         </ui:define>
         <ui:define name="input">
-            <p:inputText id="entitatid" value="#{pluginModel.value.entitatId}" />
+            <p:selectOneMenu id="entitatid" value="#{pluginModel.value.entitatId}">
+                <f:selectItem itemLabel="#{labels.desplegable}" itemValue=""/>
+                <f:selectItems value="#{newPlugin.entitats}"/>
+            </p:selectOneMenu>
             <p:message for="entitatid" />
+        </ui:define>
+    </ui:decorate>
+    
+    <!-- Tipus -->
+    <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+        <ui:define name="label">
+            <p:outputLabel for="tipus" value="#{labels.plugin_tipus}" />
+        </ui:define>
+        <ui:define name="input">
+            <p:selectOneMenu id="tipus" value="#{pluginModel.value.tipus}">
+                <f:selectItem itemLabel="#{labels.desplegable}" itemValue=""/>
+                <f:selectItem itemLabel="#{labels.plugin_tipus_arxiu}" itemValue="#{constants.PLUGIN_ARXIU}"/>
+                <f:selectItem itemLabel="#{labels.plugin_tipus_firma}" itemValue="#{constants.PLUGIN_FIRMA}"/>
+            </p:selectOneMenu>
+            <p:message for="tipus" />
         </ui:define>
     </ui:decorate>
     

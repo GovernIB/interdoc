@@ -40,7 +40,7 @@ public interface PeticioATercerServiceFacade {
      * @param id
      * @param state
      */
-    void updateState(Long id, EstatPublicacio state);
+    void updateState(Long id, Estat state);
 
 
     /**

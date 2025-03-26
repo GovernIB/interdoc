@@ -68,6 +68,8 @@ public interface InfoArxiuServiceFacade {
     int aumentarReintents(String expedientId, Long entitatId, Long valor);
     
     HashMap<Long, List<String>> getExpedientsObertsPerEntitat(String estat, Long entitatId);
+    
+    List<String> getExpedientsObertsPerEntitat(Long entitatId);
 
     /**
      * Retorna una pàgina d'aplicacions que compleixen els filtres i les ordenacions indicades

@@ -38,7 +38,13 @@ public class PluginModel implements Serializable {
         if (value.getId() == null) {
             throw new IllegalArgumentException("id is null");
         }
+       
+        System.out.println("PluginModel:Id => " + value.getId());
         value = pluginService.findById(value.getId()).orElseThrow();
-        entitat = entitatService.findById(value.getEntitatId()).orElseThrow();
+        
+        System.out.println("PluginModel:load => entitatId: " + value.getEntitatId());
+        if (value.getEntitatId() != null) {
+        	entitat = entitatService.findById(value.getEntitatId()).orElseThrow();
+        }
     }
 }

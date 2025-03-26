@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
 
-import es.caib.interdoc.service.model.EstatPublicacio;
+import es.caib.interdoc.service.model.Estat;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -26,13 +26,15 @@ import java.util.Objects;
         }
 )
 @NamedQueries({
-        @NamedQuery(name = Plugin.GET_ALL, query = "select a from Plugin a")
+        @NamedQuery(name = Plugin.GET_ALL, query = "select a from Plugin a"),
+        @NamedQuery(name = Plugin.GET_BY_TIPUS, query = "select a from Plugin a where a.tipus = :tipus and a.entitatId = :entitat")
 })
 public class Plugin extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
     public static final String GET_ALL = "Plugin.GET_ALL";
+    public static final String GET_BY_TIPUS = "Plugin.GET_BY_TIPUS";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "plugin-sequence")
@@ -84,7 +86,7 @@ public class Plugin extends BaseEntity {
   
     @Column(name = "ACTIU", nullable = false)
     @NotNull
-    private EstatPublicacio actiu;
+    private Estat actiu;
 
     public Long getId() {
 		return id;
@@ -134,11 +136,11 @@ public class Plugin extends BaseEntity {
 		this.entitatId = entitatId;
 	}
 	
-	public EstatPublicacio getActiu() {
+	public Estat getActiu() {
 		return actiu;
 	}
 
-	public void setActiu(EstatPublicacio actiu) {
+	public void setActiu(Estat actiu) {
 		this.actiu = actiu;
 	}
 

@@ -56,7 +56,7 @@ public class PeticioATercerServiceFacadeBean implements PeticioATercerServiceFac
 
     @Override
     @RolesAllowed(Constants.ITD_ADMIN)
-    public void updateState(Long id, EstatPublicacio state) {
+    public void updateState(Long id, Estat state) {
         PeticioATercer peticio = repository.getReference(id);
         // TODO peticio == NULL
         if (peticio != null) {

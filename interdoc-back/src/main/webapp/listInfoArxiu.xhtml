@@ -11,7 +11,7 @@
 
         <ui:define name="metadata">
             <f:metadata>
-                <f:importConstants type="es.caib.interdoc.service.model.EstatPublicacio" />
+                <f:importConstants type="es.caib.interdoc.service.model.Estat" var="estats" />
             </f:metadata>
         </ui:define>
 
@@ -63,8 +63,8 @@
                         <f:facet name="filter">
                             <p:selectOneMenu onchange="PF('unitatsTable').filter()">
                                 <f:selectItem itemLabel="---" itemValue="#{null}"/>
-                                <f:selectItems value="#{EstatPublicacio.values()}" />
-                                <f:converter converterId="estatPublicacioConverter"/>
+                                <f:selectItems value="#{estats.values()}" />
+                                <f:converter converterId="estatConverter"/>
                             </p:selectOneMenu>
                         </f:facet>
                         <h:outputText value="#{aplicacio.estat}"/>
