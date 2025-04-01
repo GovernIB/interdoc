@@ -23,6 +23,8 @@ import es.caib.interdoc.service.model.PluginDTO;
 import es.caib.interdoc.commons.utils.Configuracio;
 import es.caib.interdoc.commons.utils.Constants;
 import es.caib.interdoc.plugins.arxiu.ArxiuController;
+import es.caib.interdoc.commons.config.PropertyFileConfigSource;
+
 
 
 @Startup
@@ -30,6 +32,14 @@ import es.caib.interdoc.plugins.arxiu.ArxiuController;
 public class SchedulerLogicaBean implements SchedulerLogicaService{
 	
 	protected static final Logger log = Logger.getLogger(SchedulerLogicaBean.class);
+	
+	
+	   private static final String PROPERTY_START_TIME = INTERDOC_SCHEDULER_PROPERTY + "starttime";
+       private static final String PROPERTY_END_TIME = INTERDOC_SCHEDULER_PROPERTY + "endtime";
+       private static final String PROPERTY_FREQUENCY = INTERDOC_SCHEDULER_PROPERTY + "frequency";
+       
+       private final int MINTIME_ARCHIVAT = 3;
+
 	
 	@EJB(mappedName = InfoArxiuServiceFacade.JNDI_NAME)
 	protected InfoArxiuServiceFacade infoArxiuService;
@@ -43,6 +53,8 @@ public class SchedulerLogicaBean implements SchedulerLogicaService{
 	@Resource
 	public TimerService timerService;
 	
+	
+	
 	public void setTimerService(TimerService timerService) {
 		this.timerService = timerService;
 	}
@@ -50,12 +62,36 @@ public class SchedulerLogicaBean implements SchedulerLogicaService{
 	
 	@PostConstruct
 	public void init() {
-		
+	    int startTime=-1, endTime=-2, frequency=-3;
+	    
+	    log.info("**************** Scheduler INIT ********");	    
+	    PropertyFileConfigSource prop = new PropertyFileConfigSource();
+	    if(!prop.getValue(PROPERTY_START_TIME).isBlank() && !prop.getValue(PROPERTY_END_TIME).isBlank()) {
+	        startTime = Integer.parseInt(prop.getValue(PROPERTY_START_TIME));
+	        endTime = Integer.parseInt(prop.getValue(PROPERTY_END_TIME));
+	    }
+	    if(!prop.getValue(PROPERTY_START_TIME).isBlank()) {
+	        frequency = Integer.parseInt(prop.getValue(PROPERTY_FREQUENCY));
+	    }
+	    
+	    
 		ScheduleExpression expression = new ScheduleExpression();
         expression.dayOfWeek("Sun,Mon,Tue,Wed,Thu,Fri,Sat");
-        expression.hour("*");
-        expression.minute("*/5");
-        expression.second("0");
+        
+        if(frequency >= MINTIME_ARCHIVAT) {
+            expression.minute("*/"+frequency);
+            expression.second("0");
+        }else {
+            expression.minute("*/"+MINTIME_ARCHIVAT);
+            expression.second("0");
+        }
+        
+        if( startTime >= 0 && startTime <= 24 && endTime >= 0 && endTime <= 24) {
+            expression.hour(startTime+"-"+endTime);
+        }else {
+            expression.hour("*");
+        }
+        
         expression.timezone("Europe/Madrid");
         
         if(Configuracio.isDesenvolupament())
