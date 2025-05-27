@@ -40,11 +40,11 @@
 			<artifactId>interdoc-service</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.fundaciobit.pluginsib.core.v3</groupId>
-			<artifactId>pluginsib-core</artifactId>
-			<version>3.0.0-SNAPSHOT</version>
-		</dependency>
+		<!--<dependency>
+            <groupId>es.caib.interdoc</groupId>
+            <artifactId>interdoc-ejb</artifactId>
+            <version>1.0.0</version>
+        </dependency>-->
 
 
 		<!-- plugin arxiu -->
@@ -57,7 +57,31 @@
 			<groupId>org.fundaciobit.pluginsib.arxiu</groupId>
 			<artifactId>pluginsib-arxiu-caib</artifactId>
 			<version>3.0.0-SNAPSHOT</version>
+			<exclusions>
+                <exclusion>
+                    <groupId>com.sun.jersey</groupId>
+                    <artifactId>jersey-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.sun.jersey</groupId>
+                    <artifactId>jersey-client</artifactId>
+                </exclusion>
+            </exclusions>
 		</dependency>
+		<!--S'afegeix ja que s'ha exclos del darrer plugin-->
+		<dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-core</artifactId>
+            <version>1.19.4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>1.19.4</version>
+        </dependency>
+		
+		
+		
 		<dependency>
 			<groupId>org.fundaciobit.pluginsib.validatesignature</groupId>
 			<artifactId>pluginsib-validatesignature-api</artifactId>

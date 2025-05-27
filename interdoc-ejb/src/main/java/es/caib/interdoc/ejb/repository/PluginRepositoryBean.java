@@ -22,6 +22,7 @@ import javax.persistence.criteria.Root;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -38,6 +39,7 @@ import java.util.Properties;
 public class PluginRepositoryBean extends AbstractCrudRepository<Plugin, Long>
         implements PluginRepository {
 
+    
     protected PluginRepositoryBean() {
         super(Plugin.class);
     }
@@ -227,5 +229,6 @@ public class PluginRepositoryBean extends AbstractCrudRepository<Plugin, Long>
         return q.getResultList();
     	
     }
+    
     
 }

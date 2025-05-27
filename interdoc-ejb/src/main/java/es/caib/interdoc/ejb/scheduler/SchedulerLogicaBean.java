@@ -17,12 +17,12 @@ import org.apache.log4j.Logger;
 
 import es.caib.interdoc.service.facade.EntitatServiceFacade;
 import es.caib.interdoc.service.facade.InfoArxiuServiceFacade;
-import es.caib.interdoc.service.facade.PluginServiceFacade;
 import es.caib.interdoc.service.model.EntitatDTO;
 import es.caib.interdoc.service.model.PluginDTO;
 import es.caib.interdoc.commons.utils.Configuracio;
 import es.caib.interdoc.commons.utils.Constants;
-import es.caib.interdoc.plugins.arxiu.ArxiuController;
+import es.caib.interdoc.ejb.facade.PluginArxiuServiceFacade;
+import es.caib.interdoc.plugins.arxiu.InterdocArxiuPlugin;
 import es.caib.interdoc.commons.config.PropertyFileConfigSource;
 
 
@@ -47,8 +47,8 @@ public class SchedulerLogicaBean implements SchedulerLogicaService{
 	@EJB(mappedName = EntitatServiceFacade.JNDI_NAME)
 	protected EntitatServiceFacade entitatService;
 	
-	@EJB(mappedName = PluginServiceFacade.JNDI_NAME)
-	protected PluginServiceFacade pluginService;
+	@EJB(mappedName = PluginArxiuServiceFacade.JNDI_NAME)
+	protected PluginArxiuServiceFacade pluginService;
 	
 	@Resource
 	public TimerService timerService;
@@ -107,7 +107,7 @@ public class SchedulerLogicaBean implements SchedulerLogicaService{
 	
 
 	@Timeout
-	public void execute(Timer timer) {
+	public void execute(Timer timer){
 		
 		List<EntitatDTO> entitats = entitatService.getAll();
 		
@@ -122,17 +122,25 @@ public class SchedulerLogicaBean implements SchedulerLogicaService{
 			List<PluginDTO> plugins = pluginService.getByTipus(Constants.PLUGIN_ARXIU, entitat.getId());
 			if (plugins.size() > 0) {
 				
-				ArxiuController arxiuController = new ArxiuController(entitat.getId());
+				//ArxiuController arxiuController = new ArxiuController(entitat.getId());
+				
+				InterdocArxiuPlugin plugin = null;
+                try {
+                    plugin = pluginService.getPlugin(entitat.getId());
+                } catch (Exception e) {
+                    log.error("ERROR: No s'ha pogut inicialitzar el Plugin de Arxiu.",e);
+                    e.printStackTrace();
+                }
 					
 				for (String expedientId : expedients) {
 					try {
 						
 						boolean closed = false;
 						
-						if (arxiuController.getPlugin() != null) {
+						if (plugin != null) {
 							
 							log.info("Tancant expedient: " + expedientId);
-							closed = arxiuController.getPlugin().tancarExpedient(expedientId);
+							closed = plugin.tancarExpedient(expedientId);
 							
 							if (closed) {
 								log.info("Expedient tancat: " + expedientId + " - actualitzam a la BD");

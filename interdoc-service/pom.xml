@@ -32,6 +32,16 @@
             <groupId>es.caib.interdoc</groupId>
             <scope>provided</scope>
         </dependency>
+        <!--<dependency>
+            <groupId>es.caib.interdoc</groupId>
+            <artifactId>interdoc-plugins-arxiu</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>es.caib.interdoc</groupId>
+            <artifactId>interdoc-plugins-apifirmasimple</artifactId>
+        </dependency>-->
+        
         <!-- Anotacions de documentació de openapi -->
         <dependency>
             <groupId>org.eclipse.microprofile.openapi</groupId>

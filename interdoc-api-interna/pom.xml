@@ -10,7 +10,6 @@
 	</parent>
 	<artifactId>interdoc-api-interna</artifactId>
 	<packaging>war</packaging>
-	<version>1.0.0</version>
 	<name>interdoc - API Rest - Interna</name>
 	<properties>
 		<auth.method>BASIC</auth.method>
@@ -55,7 +54,7 @@
 		</dependency>
 
 		<!-- plugin arxiu -->
-		<dependency>
+		<!--<dependency>
 			<groupId>es.caib.interdoc</groupId>
 			<artifactId>interdoc-plugins-arxiu</artifactId>
 			<version>1.0.0</version>
@@ -82,10 +81,10 @@
 					<artifactId>commons-io</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
+		</dependency>-->
 
 		<!-- plugin firma -->
-		<dependency>
+		<!--<dependency>
 			<groupId>es.caib.interdoc</groupId>
 			<artifactId>interdoc-plugins-apifirmasimple</artifactId>
 			<scope>provided</scope>
@@ -107,7 +106,7 @@
 					<artifactId>log4j</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
+		</dependency>-->
 
 		<!-- CXF -->
 		<dependency>
@@ -140,14 +139,12 @@
 		<dependency>
 			<groupId>org.fundaciobit.pluginsib.core.v3</groupId>
 			<artifactId>pluginsib-core</artifactId>
-			<version>3.0.0-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.jboss.ws</groupId>
 			<artifactId>jbossws-api</artifactId>
-			<version>3.0.0.Final</version>
 		</dependency>
 
 

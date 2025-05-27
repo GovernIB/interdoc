@@ -74,15 +74,7 @@ public interface PluginServiceFacade {
     Pagina<PluginDTO> findFiltered(int firstResult, int maxResult,
                                       Map<PluginAtribut, Object> filter, List<Ordre<PluginAtribut>> ordenacio);
     
-    /**
-     * Retorna un plugin determinat
-     *
-     * @param idEntidad
-   	 * @param tipusPlugin
-     * @return
-     * @throws Exception
-     */
-    Object getPlugin(Long idEntitat, Long tipusPlugin) throws Exception;
+    
     
     
     /**
@@ -94,6 +86,6 @@ public interface PluginServiceFacade {
      * @throws Exception
      */
     Properties getPropertiesPlugin(Long idEntitat, Long tipusPlugin) throws Exception;
-    
+        
     
 }

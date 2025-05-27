@@ -27,7 +27,9 @@ import org.slf4j.LoggerFactory;
 
 import es.caib.interdoc.commons.utils.Configuracio;
 import es.caib.interdoc.commons.utils.Utils;
+import es.caib.interdoc.ejb.facade.PluginArxiuServiceFacade;
 import es.caib.interdoc.plugins.arxiu.ArxiuController;
+import es.caib.interdoc.plugins.arxiu.InterdocArxiuPlugin;
 import es.caib.interdoc.service.facade.AccesServiceFacade;
 import es.caib.interdoc.service.facade.InfoArxiuServiceFacade;
 import es.caib.interdoc.service.facade.ReferenciaServiceFacade;
@@ -73,6 +75,9 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
 
 	@EJB(mappedName = AccesServiceFacade.JNDI_NAME)
 	protected AccesServiceFacade accesService;
+	
+	@EJB(mappedName = PluginArxiuServiceFacade.JNDI_NAME)
+	protected PluginArxiuServiceFacade pluginService;
 
 	@Override
 	public CSVQueryDocumentResponse csvQueryDocument(
@@ -147,10 +152,12 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
 				
 			entitatId = ref.getEntitatId();
 			
-			ArxiuController pluginArxiu = new ArxiuController(entitatId);
+			//ArxiuController pluginArxiu = new ArxiuController(entitatId);
+			
+			InterdocArxiuPlugin plugin = pluginService.getPlugin(entitatId);
 
 			// Generam el ENIDOC
-			resultatArxiu = pluginArxiu.getPlugin().generarEniDoc(idEni);
+			resultatArxiu = plugin.generarEniDoc(idEni);
 
 			/*
 			if (Configuracio.isDesenvolupament())
@@ -205,10 +212,11 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
 						LOG.info("infoArxiu.getOriginalFileUrl => " + infoArxiu.getOriginalFileUrl());
 					}
 		
-					ArxiuController pluginArxiu = new ArxiuController(entitatId);
+					//ArxiuController pluginArxiu = new ArxiuController(entitatId);
+  		            InterdocArxiuPlugin plugin = pluginService.getPlugin(entitatId);
 
 					// Generam el ENIDOC
-					resultatArxiu = pluginArxiu.getPlugin().generarEniDoc(infoArxiu.getArxiuDocumentId());
+					resultatArxiu = plugin.generarEniDoc(infoArxiu.getArxiuDocumentId());
 
 					/*
 					if (Configuracio.isDesenvolupament())
@@ -386,8 +394,10 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
 			String expedienteId = "092e59a9-063f-45bf-bb27-d21abc37cb63";
 			String documentoId = "9ae1da2c-64e5-4a26-910f-cd514b1fd3c4";
 
-			ArxiuController arxiu = new ArxiuController(entitatId);
-			resultatArxiu = arxiu.getPlugin().generarEniDoc(documentoId);
+			//ArxiuController arxiu = new ArxiuController(entitatId);
+			InterdocArxiuPlugin plugin = pluginService.getPlugin(entitatId);
+
+			resultatArxiu = plugin.generarEniDoc(documentoId);
 			LOG.info("Resultat arxiu => " + resultatArxiu);
 		} catch (Exception e) {
 			LOG.error("Error inicialització arxiu => " + e.getMessage());

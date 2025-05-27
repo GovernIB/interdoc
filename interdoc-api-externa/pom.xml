@@ -11,7 +11,6 @@
     <artifactId>interdoc-api-externa</artifactId>
     <packaging>war</packaging>
     <name>interdoc - API Rest - Externa</name>
-    <version>1.0.0</version>
 
     <properties>
         <auth.method>BASIC</auth.method>

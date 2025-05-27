@@ -113,6 +113,13 @@
 				<version>1.0.0</version>
 				<type>jar</type>
 			</dependency>
+
+            <dependency>
+				<groupId>es.caib.interdoc</groupId>
+				<artifactId>interdoc-plugins-arxiu</artifactId>
+				<version>1.0.0</version>
+				<type>jar</type>
+			</dependency>
 			
             <!-- Definició de les versions de les llibreries, especificacions i eines disponibles dins JBoss -->
             <dependency>

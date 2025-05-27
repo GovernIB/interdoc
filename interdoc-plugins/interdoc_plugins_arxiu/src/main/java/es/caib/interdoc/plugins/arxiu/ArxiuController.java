@@ -1,16 +1,7 @@
 package es.caib.interdoc.plugins.arxiu;
 
-import java.util.Properties;
-
-import javax.ejb.EJB;
-import javax.inject.Inject;
-import javax.naming.InitialContext;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import es.caib.interdoc.commons.utils.Constants;
-import es.caib.interdoc.service.facade.PluginServiceFacade;
 
 /**
  * 
@@ -22,27 +13,28 @@ import es.caib.interdoc.service.facade.PluginServiceFacade;
 public class ArxiuController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ArxiuController.class);
-
+/*
 	@Inject
 	private ArxiuPluginImpl plugin;
 	
-	@EJB(mappedName = PluginServiceFacade.JNDI_NAME)
-	private PluginServiceFacade pluginService;
+	@EJB(mappedName = PluginArxiuServiceFacade.JNDI_NAME)
+	private PluginArxiuServiceFacade pluginService;*/
 	
 	public ArxiuController() {
 		LOG.info("Inici del modul Arxiu amb constructor buit");
 		// setPlugin(new ArxiuPluginImpl());
 	}
 
-	public ArxiuController(Long entitatId) {
-		super();
+	//public ArxiuController(Long entitatId) {
+	    
+		/*super();
 		
 		LOG.info("Inici del modul Arxiu per la entitat : " + String.valueOf(entitatId));
 		
 		try {
 			
 			if (this.pluginService == null) {	
-				this.pluginService = (PluginServiceFacade) (new InitialContext()).lookup(PluginServiceFacade.JNDI_NAME);
+				this.pluginService = (PluginArxiuServiceFacade) (new InitialContext()).lookup(PluginArxiuServiceFacade.JNDI_NAME);
 			}
 				
 			if(plugin == null) {
@@ -58,13 +50,13 @@ public class ArxiuController {
 			LOG.error("error al cargar el plugin con pluginsib");
 			e.printStackTrace();
 		}
-	}
-	
+	}*/
+	/*
 	public PluginServiceFacade getPluginService() {
 		return pluginService;
 	}
 
-	public void setPluginService(PluginServiceFacade pluginService) {
+	public void setPluginService(PluginArxiuServiceFacade pluginService) {
 		this.pluginService = pluginService;
 	}
 
@@ -74,8 +66,8 @@ public class ArxiuController {
 
 	public ArxiuPluginImpl getPlugin() {
 		return this.plugin;
-	}
+	}*/
 	
-	
+	//}
 	
 }

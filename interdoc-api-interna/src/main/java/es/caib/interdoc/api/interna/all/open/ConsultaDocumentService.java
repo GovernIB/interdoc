@@ -1,5 +1,6 @@
 package es.caib.interdoc.api.interna.all.open;
 
+import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -14,14 +15,12 @@ import org.slf4j.LoggerFactory;
 
 import es.caib.interdoc.commons.utils.Configuracio;
 import es.caib.interdoc.commons.utils.Utils;
-import es.caib.interdoc.plugins.arxiu.ArxiuController;
+import es.caib.interdoc.ejb.facade.PluginArxiuServiceFacade;
+import es.caib.interdoc.plugins.arxiu.InterdocArxiuPlugin;
 import es.caib.pluginsib.arxiu.api.Document;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -38,6 +37,10 @@ import io.swagger.v3.oas.annotations.media.Content;
 @OpenAPIDefinition(tags = @Tag(name = "ConsultaDocumentService", description = "Servei JSON per consultar un document per UUID"))
 public class ConsultaDocumentService {
 
+    @EJB(mappedName = PluginArxiuServiceFacade.JNDI_NAME)
+    private PluginArxiuServiceFacade pluginService;
+    
+    
 	protected static Logger log = LoggerFactory.getLogger(ConsultaDocumentService.class);
 
 	@Path("/document")
@@ -74,14 +77,17 @@ public class ConsultaDocumentService {
 				return generateErrorResponse("Error: no ens arriba cap UUID ni fitxer. Al manco, ens ha d'arribar un d'ells.");		
 
 			
-			ArxiuController pluginArxiu = new ArxiuController(Long.parseLong(entitatId));
+			//ArxiuController pluginArxiu = new ArxiuController(Long.parseLong(entitatId));
+			
+			InterdocArxiuPlugin plugin = pluginService.getPlugin(Long.parseLong(entitatId));
+			
 			
 			if ("true".equalsIgnoreCase(enidoc)) {
 				
 				String enidocXml = "";
 				
-				if (pluginArxiu.getPlugin() != null)
-					enidocXml = pluginArxiu.getPlugin().generarEniDoc(uuid);
+				if (plugin != null)
+					enidocXml = plugin.generarEniDoc(uuid);
 				
 				if (enidocXml != null) {
 					
@@ -96,8 +102,8 @@ public class ConsultaDocumentService {
 				
 				Document doc = null;
 				
-				if (pluginArxiu.getPlugin() != null)
-					doc = pluginArxiu.getPlugin().descarregarDocument(uuid);
+				if (plugin != null)
+					doc = plugin.descarregarDocument(uuid);
 				
 				if (doc != null) {
 					log.info("--------- RECUPERAR DOCUMENT AMB UUID " + uuid + " -----------");

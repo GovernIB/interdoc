@@ -77,7 +77,7 @@
 			<version>1.0.0</version>
 			<type>war</type>
 		</dependency>
-		<dependency>
+		<!--<dependency>
 			<groupId>es.caib.interdoc</groupId>
 			<artifactId>interdoc-plugins-arxiu</artifactId>
 			<version>1.0.0</version>
@@ -123,7 +123,7 @@
     <groupId>com.sun.jersey</groupId>
     <artifactId>jersey-client</artifactId>
     <version>1.19.4</version>
-</dependency>
+</dependency>-->
 		
 
 	</dependencies>

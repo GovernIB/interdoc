@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -46,11 +47,15 @@ import java.util.Properties;
 @Local(PluginServiceFacade.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 public class PluginServiceFacadeBean implements PluginServiceFacade {
+    
+	protected final Logger log = LoggerFactory.getLogger(getClass());
 	
-	private final Logger log = LoggerFactory.getLogger(PluginServiceFacadeBean.class);
+    protected final Map<Long, Object> pluginsCache = new HashMap<Long, Object>();
 
+
+	
     @Inject
-    private PluginRepository repository;
+    protected PluginRepository repository;
 
     @Inject
     private PluginConverter converter;
@@ -66,13 +71,18 @@ public class PluginServiceFacadeBean implements PluginServiceFacade {
     @Override
     @RolesAllowed(Constants.ITD_ADMIN)
     public void update(PluginDTO dto) throws RecursNoTrobatException {
-    	Plugin plugin = repository.getReference(dto.getId());
-        converter.updateFromDTO(plugin, dto);
+        if(dto != null) {
+            deleteOfCache(dto.getId());
+            Plugin plugin = repository.getReference(dto.getId());
+            converter.updateFromDTO(plugin, dto);
+        }
     }
 
     @Override
     @RolesAllowed(Constants.ITD_ADMIN)
     public void delete(Long id) throws RecursNoTrobatException {
+        log.info("***** Accedit a delete()");
+        deleteOfCache(id);
     	Plugin plugin = repository.getReference(id);
         repository.delete(plugin);
     }
@@ -80,7 +90,7 @@ public class PluginServiceFacadeBean implements PluginServiceFacade {
     @Override
     @RolesAllowed({Constants.ITD_USER, Constants.ITD_ADMIN})
     public Optional<PluginDTO> findById(Long id) {
-    	Plugin plugin = repository.findById(id);
+        Plugin plugin = repository.findById(id);
     	PluginDTO dto = converter.toDTO(plugin);
         return Optional.ofNullable(dto);
     }
@@ -99,7 +109,6 @@ public class PluginServiceFacadeBean implements PluginServiceFacade {
     @Override
     @PermitAll
     public List<PluginDTO> getByTipus(Long tipus, Long entitatId){
-    	
     	List<PluginDTO> llistaPlugins = new ArrayList<PluginDTO>();
     	
     	List<Plugin> plugins = repository.getByTipus(tipus, entitatId);
@@ -107,7 +116,6 @@ public class PluginServiceFacadeBean implements PluginServiceFacade {
     		llistaPlugins.add(converter.toDTO(p));
     	}
     	return llistaPlugins;
-    	
     }
     
 
@@ -122,24 +130,7 @@ public class PluginServiceFacadeBean implements PluginServiceFacade {
         return new Pagina<>(items, total);
     }
 
-	@Override
-    @PermitAll
-	public Object getPlugin(Long idEntitat, Long tipusPlugin) throws Exception {
-
-		try {
-			
-            List<Plugin> plugins = repository.findByEntitatTipus(idEntitat, tipusPlugin);
-
-            if (plugins.size() > 0) {
-                return carregarPlugin(plugins.get(0));
-            }
-            
-        } catch (Exception e) {
-            throw new I18NException(e, "error.desconegut", e.getMessage());
-        }
-
-        return null;
-	}
+	
 
 	@Override
 	@PermitAll
@@ -147,7 +138,6 @@ public class PluginServiceFacadeBean implements PluginServiceFacade {
 		
 		try {
             List<Plugin> plugins;
-
             plugins = repository.findByEntitatTipus(idEntitat, tipusPlugin);
 
             if (plugins.size() > 0) {
@@ -156,29 +146,10 @@ public class PluginServiceFacadeBean implements PluginServiceFacade {
         } catch (Exception e) {
             throw new I18NException(e, "error.desconegut", e.getMessage());
         }
-		
 		return null;
 	}
     
-    private Object carregarPlugin(Plugin plugin) throws Exception {
-    	
-    	 String BASE_PACKAGE = Constants.INTERDOC_PROPERTY_BASE;
-    	 
-    	// Si no existe el plugin, retornamos null
-         if (plugin == null) {
-             return null;
-         }
-         
-         String className = plugin.getClasse().trim();
-         
-         Properties prop = new Properties();
-         
-         if (plugin.getPropietats() != null && plugin.getPropietats().trim().length() > 0) {
-        	 prop.load(new StringReader(plugin.getPropietats()));
-         }
-         
-         return org.fundaciobit.pluginsib.core.v3.utils.PluginsManager.instancePluginByClassName(className, BASE_PACKAGE, prop);
-    }
+    
     
     private Properties carregarPropietats(Plugin plugin) throws Exception {
     	
@@ -194,6 +165,19 @@ public class PluginServiceFacadeBean implements PluginServiceFacade {
     	
     	return prop;
     }
+    
+    
+    public boolean deleteOfCache(Long pluginID) {
+        log.info("***** Accedit a deleteOfCache()");
+        synchronized (pluginsCache) {
+            Object p = pluginsCache.remove(pluginID);
+            return p != null;
+          }
+    }
+
+    
+    
+    
     
     
 }

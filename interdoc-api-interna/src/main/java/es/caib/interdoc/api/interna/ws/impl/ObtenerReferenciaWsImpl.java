@@ -5,7 +5,10 @@ import es.caib.interdoc.commons.utils.Constants;
 import es.caib.interdoc.commons.utils.MarshallUtil;
 import es.caib.interdoc.commons.utils.Utils;
 import es.caib.interdoc.commons.utils.Version;
+import es.caib.interdoc.ejb.facade.PluginArxiuServiceFacade;
+import es.caib.interdoc.ejb.facade.PluginFirmaServiceFacade;
 import es.caib.interdoc.plugins.apifirmasimple.FirmaSimpleController;
+import es.caib.interdoc.plugins.apifirmasimple.InterdocFirmaPlugin;
 import es.caib.interdoc.plugins.arxiu.ArxiuController;
 import es.caib.interdoc.plugins.arxiu.DocumentInfo;
 import es.caib.interdoc.plugins.arxiu.Extensio;
@@ -23,6 +26,7 @@ import es.caib.interdoc.service.model.InfoSignaturaDTO;
 import es.caib.interdoc.service.model.ReferenciaDTO;
 import es.caib.interdoc.service.model.ReferenciaXMLDTO;
 import es.caib.interdoc.plugins.arxiu.Fitxer;
+import es.caib.interdoc.plugins.arxiu.InterdocArxiuPlugin;
 import es.caib.interdoc.api.interna.ws.exception.InterdocException;
 import es.caib.interdoc.api.interna.ws.model.ObtenerReferenciaRequestInfo;
 import es.caib.interdoc.api.interna.ws.resposta.EmisorBean;
@@ -108,6 +112,12 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 
 	@EJB(mappedName = EntitatServiceFacade.JNDI_NAME)
 	protected EntitatServiceFacade entitatService;
+	
+	@EJB(mappedName = PluginArxiuServiceFacade.JNDI_NAME)
+    private PluginArxiuServiceFacade pluginArxiuService;
+	
+	@EJB(mappedName = PluginFirmaServiceFacade.JNDI_NAME)
+    private PluginFirmaServiceFacade pluginFirmaService;
 
 	@Inject
 	protected Version version;
@@ -115,8 +125,8 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 	// @Inject
 	// protected FirmaSimpleController firma;
 
-	@Inject
-	protected ArxiuController arxiu;
+	//@Inject
+	//protected ArxiuController arxiu;
 
 	public void setBaseWsUrl(String url) {
 		this.baseWsUrl = url;
@@ -334,10 +344,12 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 
 					try {
 
-						FirmaSimpleController firmaPlugin = new FirmaSimpleController(entitatId);
-						if (firmaPlugin.getPlugin() != null) {
+						//FirmaSimpleController firmaPlugin = new FirmaSimpleController(entitatId);
+						
+					    InterdocFirmaPlugin firmaPlugin = pluginFirmaService.getPlugin(entitatId);
+						if (firmaPlugin != null) {
 
-							infoSignatura = firmaPlugin.getPlugin().firmarDocument(fitxerDto);
+							infoSignatura = firmaPlugin.firmarDocument(fitxerDto);
 							if (infoSignatura != null) {
 								infoSignaturaId = infoSignaturaService.create(infoSignatura);
 								infoSignatura.setId(infoSignaturaId);
@@ -467,14 +479,15 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 					// log.info( " ----------------------------------------------------------------");
 
 					try {
-						arxiu = new ArxiuController(entitatId);
+						//arxiu = new ArxiuController(entitatId);
+						InterdocArxiuPlugin plugin = pluginArxiuService.getPlugin(entitatId);
 
-						if (arxiu.getPlugin() != null) {
+						if (plugin != null) {
 							
-							identificadorExpedient = (Utils.isEmpty(numeroExpedient)) ? arxiu.getPlugin().crearExpedient(documentInfo) : numeroExpedient;
+							identificadorExpedient = (Utils.isEmpty(numeroExpedient)) ? plugin.crearExpedient(documentInfo) : numeroExpedient;
 							log.info("Identificador expedient => " + identificadorExpedient);
 							
-							identificadorDocument = arxiu.getPlugin().crearDocument(documentInfo, identificadorExpedient);
+							identificadorDocument = plugin.crearDocument(documentInfo, identificadorExpedient);
 
 							if (Configuracio.isDesenvolupament())
 								log.info("numeroExpedient == null ??? " + ((numeroExpedient == null) ? "true" : "false") );
@@ -482,7 +495,7 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 										+ identificadorDocument);
 
 							// Recollim les dades d'arxiu per guardar-les al nostre sistema
-							InfoArxiuDTO resultat = arxiu.getPlugin().consultarDocument(identificadorDocument,
+							InfoArxiuDTO resultat = plugin.consultarDocument(identificadorDocument,
 									identificadorExpedient);
 
 							if (resultat != null)
@@ -490,7 +503,7 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 
 							if (infoArxiuId > 0) {
 								// Tancam el expedient dins Arxiu
-								boolean updated = arxiu.getPlugin().tancarExpedientIfProperty(identificadorExpedient);
+								boolean updated = plugin.tancarExpedientIfProperty(identificadorExpedient);
 								
 								if (updated) {
 									// Actualitzam l'estatExpedient

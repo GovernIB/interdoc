@@ -1,0 +1,1327 @@
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] Interdoc                                                           [pom]
+[INFO] Interdoc - COMMONS                                                 [jar]
+[INFO] Interdoc - SERVICE                                                 [jar]
+[INFO] Interdoc - PERSISTENCE                                             [jar]
+[INFO] Interdoc - Plugins                                                 [pom]
+[INFO] Interdoc - Plugin - Arxiu                                          [jar]
+[INFO] Interdoc - Plugin - API Firma Simple                               [jar]
+[INFO] Interdoc - EJB                                                     [ejb]
+[INFO] interdoc - API Rest - Interna                                      [war]
+[INFO] interdoc - API Rest - Externa                                      [war]
+[INFO] Interdoc - WS                                                      [pom]
+[INFO] Interdoc - WS - API                                                [jar]
+[INFO] Interdoc - BACK                                                    [war]
+[INFO] Interdoc - EAR                                                     [ear]
+[INFO] 
+[INFO] ---------------------< es.caib.interdoc:interdoc >----------------------
+[INFO] Building Interdoc 1.0.0                                           [1/14]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:3.1.2:tree (default-cli) @ interdoc ---
+[INFO] es.caib.interdoc:interdoc:pom:1.0.0
+[INFO] 
+[INFO] -----------------< es.caib.interdoc:interdoc-commons >------------------
+[INFO] Building Interdoc - COMMONS 1.0.0                                 [2/14]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:3.1.2:tree (default-cli) @ interdoc-commons ---
+[INFO] es.caib.interdoc:interdoc-commons:jar:1.0.0
+[INFO] +- org.jboss.spec:jboss-javaee-8.0:pom:1.0.1.Final-redhat-00003:provided
+[INFO] |  +- javax.activation:activation:jar:1.1.1.redhat-5:provided
+[INFO] |  +- javax.enterprise:cdi-api:jar:2.0.0.SP1-redhat-00001:provided
+[INFO] |  +- javax.inject:javax.inject:jar:1.0.0.redhat-6:provided
+[INFO] |  +- javax.json:javax.json-api:jar:1.1.2.redhat-1:provided
+[INFO] |  +- javax.json.bind:javax.json.bind-api:jar:1.0.0.redhat-1:provided
+[INFO] |  +- javax.jws:jsr181-api:jar:1.0.0.MR1-redhat-8:provided
+[INFO] |  +- com.sun.mail:javax.mail:jar:1.6.1.redhat-1:provided
+[INFO] |  +- javax.persistence:javax.persistence-api:jar:2.2.0.redhat-1:provided
+[INFO] |  +- javax.security.enterprise:javax.security.enterprise-api:jar:1.0.0.redhat-1:provided
+[INFO] |  +- javax.validation:validation-api:jar:2.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.annotation:jboss-annotations-api_1.3_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.batch:jboss-batch-api_1.0_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.ejb:jboss-ejb-api_3.2_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.el:jboss-el-api_3.0_spec:jar:1.0.12.Final-redhat-00001:provided
+[INFO] |  +- org.jboss.spec.javax.enterprise.concurrent:jboss-concurrency-api_1.0_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.faces:jboss-jsf-api_2.3_spec:jar:2.3.5.SP1-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.interceptor:jboss-interceptors-api_1.2_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.management.j2ee:jboss-j2eemgmt-api_1.1_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.resource:jboss-connector-api_1.7_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.rmi:jboss-rmi-api_1.0_spec:jar:1.0.6.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.security.jacc:jboss-jacc-api_1.5_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.security.auth.message:jboss-jaspi-api_1.1_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.jms:jboss-jms-api_2.0_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.servlet:jboss-servlet-api_4.0_spec:jar:1.0.0.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.servlet.jsp:jboss-jsp-api_2.3_spec:jar:1.0.3.Final-redhat-1:provided
+[INFO] |  +- org.apache.taglibs:taglibs-standard-spec:jar:1.2.6.RC1-redhat-1:provided
+[INFO] |  +- org.apache.taglibs:taglibs-standard-impl:jar:1.2.6.RC1-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.transaction:jboss-transaction-api_1.2_spec:jar:1.1.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.ws.rs:jboss-jaxrs-api_2.1_spec:jar:1.0.1.Final-redhat-00001:provided
+[INFO] |  +- org.jboss.spec.javax.websocket:jboss-websocket-api_1.1_spec:jar:1.1.3.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.xml.bind:jboss-jaxb-api_2.3_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.xml.soap:jboss-saaj-api_1.3_spec:jar:1.0.6.Final-redhat-1:provided
+[INFO] |  \- org.jboss.spec.javax.xml.ws:jboss-jaxws-api_2.3_spec:jar:1.0.0.Final-redhat-1:provided
+[INFO] +- org.slf4j:slf4j-api:jar:1.7.22.redhat-2:provided
+[INFO] +- org.eclipse.microprofile.config:microprofile-config-api:jar:1.3:provided
+[INFO] |  \- org.osgi:org.osgi.annotation.versioning:jar:1.0.0:provided
+[INFO] +- junit:junit:jar:4.13.1:test
+[INFO] |  \- org.hamcrest:hamcrest-core:jar:1.3:test
+[INFO] \- org.slf4j:slf4j-jdk14:jar:1.7.22:test
+[INFO] 
+[INFO] -----------------< es.caib.interdoc:interdoc-service >------------------
+[INFO] Building Interdoc - SERVICE 1.0.0                                 [3/14]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:3.1.2:tree (default-cli) @ interdoc-service ---
+[INFO] es.caib.interdoc:interdoc-service:jar:1.0.0
+[INFO] +- org.jboss.spec:jboss-javaee-8.0:pom:1.0.1.Final-redhat-00003:provided
+[INFO] |  +- javax.activation:activation:jar:1.1.1.redhat-5:provided
+[INFO] |  +- javax.enterprise:cdi-api:jar:2.0.0.SP1-redhat-00001:provided
+[INFO] |  +- javax.inject:javax.inject:jar:1.0.0.redhat-6:provided
+[INFO] |  +- javax.json:javax.json-api:jar:1.1.2.redhat-1:provided
+[INFO] |  +- javax.json.bind:javax.json.bind-api:jar:1.0.0.redhat-1:provided
+[INFO] |  +- javax.jws:jsr181-api:jar:1.0.0.MR1-redhat-8:provided
+[INFO] |  +- com.sun.mail:javax.mail:jar:1.6.1.redhat-1:provided
+[INFO] |  +- javax.persistence:javax.persistence-api:jar:2.2.0.redhat-1:provided
+[INFO] |  +- javax.security.enterprise:javax.security.enterprise-api:jar:1.0.0.redhat-1:provided
+[INFO] |  +- javax.validation:validation-api:jar:2.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.annotation:jboss-annotations-api_1.3_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.batch:jboss-batch-api_1.0_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.ejb:jboss-ejb-api_3.2_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.el:jboss-el-api_3.0_spec:jar:1.0.12.Final-redhat-00001:provided
+[INFO] |  +- org.jboss.spec.javax.enterprise.concurrent:jboss-concurrency-api_1.0_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.faces:jboss-jsf-api_2.3_spec:jar:2.3.5.SP1-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.interceptor:jboss-interceptors-api_1.2_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.management.j2ee:jboss-j2eemgmt-api_1.1_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.resource:jboss-connector-api_1.7_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.rmi:jboss-rmi-api_1.0_spec:jar:1.0.6.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.security.jacc:jboss-jacc-api_1.5_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.security.auth.message:jboss-jaspi-api_1.1_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.jms:jboss-jms-api_2.0_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.servlet:jboss-servlet-api_4.0_spec:jar:1.0.0.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.servlet.jsp:jboss-jsp-api_2.3_spec:jar:1.0.3.Final-redhat-1:provided
+[INFO] |  +- org.apache.taglibs:taglibs-standard-spec:jar:1.2.6.RC1-redhat-1:provided
+[INFO] |  +- org.apache.taglibs:taglibs-standard-impl:jar:1.2.6.RC1-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.transaction:jboss-transaction-api_1.2_spec:jar:1.1.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.ws.rs:jboss-jaxrs-api_2.1_spec:jar:1.0.1.Final-redhat-00001:provided
+[INFO] |  +- org.jboss.spec.javax.websocket:jboss-websocket-api_1.1_spec:jar:1.1.3.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.xml.bind:jboss-jaxb-api_2.3_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.xml.soap:jboss-saaj-api_1.3_spec:jar:1.0.6.Final-redhat-1:provided
+[INFO] |  \- org.jboss.spec.javax.xml.ws:jboss-jaxws-api_2.3_spec:jar:1.0.0.Final-redhat-1:provided
+[INFO] +- org.slf4j:slf4j-api:jar:1.7.22.redhat-2:provided
+[INFO] +- es.caib.interdoc:interdoc-commons:jar:1.0.0:provided
+[INFO] \- org.eclipse.microprofile.openapi:microprofile-openapi-api:jar:1.1.2:provided
+[INFO]    \- org.osgi:org.osgi.annotation.versioning:jar:1.0.0:provided
+[INFO] 
+[INFO] ---------------< es.caib.interdoc:interdoc-persistence >----------------
+[INFO] Building Interdoc - PERSISTENCE 1.0.0                             [4/14]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:3.1.2:tree (default-cli) @ interdoc-persistence ---
+[INFO] es.caib.interdoc:interdoc-persistence:jar:1.0.0
+[INFO] +- org.jboss.spec:jboss-javaee-8.0:pom:1.0.1.Final-redhat-00003:provided
+[INFO] |  +- javax.activation:activation:jar:1.1.1.redhat-5:provided
+[INFO] |  +- javax.enterprise:cdi-api:jar:2.0.0.SP1-redhat-00001:provided
+[INFO] |  +- javax.inject:javax.inject:jar:1.0.0.redhat-6:provided
+[INFO] |  +- javax.json:javax.json-api:jar:1.1.2.redhat-1:provided
+[INFO] |  +- javax.json.bind:javax.json.bind-api:jar:1.0.0.redhat-1:provided
+[INFO] |  +- javax.jws:jsr181-api:jar:1.0.0.MR1-redhat-8:provided
+[INFO] |  +- com.sun.mail:javax.mail:jar:1.6.1.redhat-1:provided
+[INFO] |  +- javax.persistence:javax.persistence-api:jar:2.2.0.redhat-1:provided
+[INFO] |  +- javax.security.enterprise:javax.security.enterprise-api:jar:1.0.0.redhat-1:provided
+[INFO] |  +- javax.validation:validation-api:jar:2.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.annotation:jboss-annotations-api_1.3_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.batch:jboss-batch-api_1.0_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.ejb:jboss-ejb-api_3.2_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.el:jboss-el-api_3.0_spec:jar:1.0.12.Final-redhat-00001:provided
+[INFO] |  +- org.jboss.spec.javax.enterprise.concurrent:jboss-concurrency-api_1.0_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.faces:jboss-jsf-api_2.3_spec:jar:2.3.5.SP1-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.interceptor:jboss-interceptors-api_1.2_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.management.j2ee:jboss-j2eemgmt-api_1.1_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.resource:jboss-connector-api_1.7_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.rmi:jboss-rmi-api_1.0_spec:jar:1.0.6.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.security.jacc:jboss-jacc-api_1.5_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.security.auth.message:jboss-jaspi-api_1.1_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.jms:jboss-jms-api_2.0_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.servlet:jboss-servlet-api_4.0_spec:jar:1.0.0.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.servlet.jsp:jboss-jsp-api_2.3_spec:jar:1.0.3.Final-redhat-1:provided
+[INFO] |  +- org.apache.taglibs:taglibs-standard-spec:jar:1.2.6.RC1-redhat-1:provided
+[INFO] |  +- org.apache.taglibs:taglibs-standard-impl:jar:1.2.6.RC1-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.transaction:jboss-transaction-api_1.2_spec:jar:1.1.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.ws.rs:jboss-jaxrs-api_2.1_spec:jar:1.0.1.Final-redhat-00001:provided
+[INFO] |  +- org.jboss.spec.javax.websocket:jboss-websocket-api_1.1_spec:jar:1.1.3.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.xml.bind:jboss-jaxb-api_2.3_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.xml.soap:jboss-saaj-api_1.3_spec:jar:1.0.6.Final-redhat-1:provided
+[INFO] |  \- org.jboss.spec.javax.xml.ws:jboss-jaxws-api_2.3_spec:jar:1.0.0.Final-redhat-1:provided
+[INFO] +- org.slf4j:slf4j-api:jar:1.7.22.redhat-2:provided
+[INFO] +- es.caib.interdoc:interdoc-commons:jar:1.0.0:provided
+[INFO] +- es.caib.interdoc:interdoc-service:jar:1.0.0:provided
+[INFO] +- org.hibernate:hibernate-core:jar:5.3.7.Final-redhat-00001:provided
+[INFO] |  +- org.jboss.logging:jboss-logging:jar:3.3.2.Final-redhat-00001:provided
+[INFO] |  +- org.javassist:javassist:jar:3.23.1.GA-redhat-00001:provided
+[INFO] |  +- net.bytebuddy:byte-buddy:jar:1.8.17.redhat-00001:test
+[INFO] |  +- antlr:antlr:jar:2.7.7.redhat-7:provided
+[INFO] |  +- org.jboss:jandex:jar:2.0.5.Final-redhat-1:provided
+[INFO] |  +- com.fasterxml:classmate:jar:1.3.4.redhat-1:provided
+[INFO] |  +- javax.activation:javax.activation-api:jar:1.2.0:provided
+[INFO] |  +- org.dom4j:dom4j:jar:2.1.1:provided
+[INFO] |  \- org.hibernate.common:hibernate-commons-annotations:jar:5.0.4.Final-redhat-00001:provided
+[INFO] +- com.oracle.database.jdbc:ojdbc8:jar:21.9.0.0:provided
+[INFO] +- org.hibernate:hibernate-jpamodelgen:jar:5.3.7.Final-redhat-00001:provided
+[INFO] +- junit:junit:jar:4.13.1:test
+[INFO] |  \- org.hamcrest:hamcrest-core:jar:1.3:test
+[INFO] +- org.jboss.arquillian.junit:arquillian-junit-container:jar:1.6.0.Final:test
+[INFO] |  +- org.jboss.arquillian.junit:arquillian-junit-core:jar:1.6.0.Final:test
+[INFO] |  +- org.jboss.arquillian.test:arquillian-test-api:jar:1.6.0.Final:test
+[INFO] |  +- org.jboss.arquillian.test:arquillian-test-spi:jar:1.6.0.Final:test
+[INFO] |  |  \- org.jboss.arquillian.core:arquillian-core-spi:jar:1.6.0.Final:test
+[INFO] |  +- org.jboss.arquillian.container:arquillian-container-test-api:jar:1.6.0.Final:test
+[INFO] |  |  +- org.jboss.shrinkwrap:shrinkwrap-api:jar:1.2.6:test
+[INFO] |  |  \- org.jboss.shrinkwrap.descriptors:shrinkwrap-descriptors-api-base:jar:2.0.0:test
+[INFO] |  +- org.jboss.arquillian.container:arquillian-container-test-spi:jar:1.6.0.Final:test
+[INFO] |  |  \- org.jboss.arquillian.container:arquillian-container-spi:jar:1.6.0.Final:test
+[INFO] |  +- org.jboss.arquillian.core:arquillian-core-impl-base:jar:1.6.0.Final:test
+[INFO] |  +- org.jboss.arquillian.test:arquillian-test-impl-base:jar:1.6.0.Final:test
+[INFO] |  +- org.jboss.arquillian.container:arquillian-container-impl-base:jar:1.6.0.Final:test
+[INFO] |  |  +- org.jboss.arquillian.config:arquillian-config-api:jar:1.6.0.Final:test
+[INFO] |  |  +- org.jboss.arquillian.config:arquillian-config-impl-base:jar:1.6.0.Final:test
+[INFO] |  |  |  \- org.jboss.arquillian.config:arquillian-config-spi:jar:1.6.0.Final:test
+[INFO] |  |  \- org.jboss.shrinkwrap.descriptors:shrinkwrap-descriptors-spi:jar:2.0.0:test
+[INFO] |  +- org.jboss.arquillian.container:arquillian-container-test-impl-base:jar:1.6.0.Final:test
+[INFO] |  \- org.jboss.shrinkwrap:shrinkwrap-impl-base:jar:1.2.6:test
+[INFO] |     \- org.jboss.shrinkwrap:shrinkwrap-spi:jar:1.2.6:test
+[INFO] \- org.wildfly.arquillian:wildfly-arquillian-container-managed:jar:3.0.1.Final:test
+[INFO]    +- org.wildfly.arquillian:wildfly-arquillian-common:jar:3.0.1.Final:test
+[INFO]    |  +- org.jboss.arquillian.testenricher:arquillian-testenricher-cdi:jar:1.6.0.Final:test
+[INFO]    |  +- org.jboss.arquillian.testenricher:arquillian-testenricher-ejb:jar:1.6.0.Final:test
+[INFO]    |  +- org.jboss.arquillian.testenricher:arquillian-testenricher-initialcontext:jar:1.6.0.Final:test
+[INFO]    |  +- org.jboss.arquillian.testenricher:arquillian-testenricher-resource:jar:1.6.0.Final:test
+[INFO]    |  +- org.jboss.arquillian.protocol:arquillian-protocol-servlet:jar:1.6.0.Final:test
+[INFO]    |  +- org.wildfly.arquillian:wildfly-arquillian-testenricher-msc:jar:3.0.1.Final:test
+[INFO]    |  |  \- org.wildfly.core:wildfly-server:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     +- org.wildfly.core:wildfly-controller:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     |  +- org.wildfly.core:wildfly-core-security:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     |  |  \- org.wildfly.core:wildfly-core-security-api:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     |  +- org.jboss.logmanager:jboss-logmanager:jar:2.1.5.Final-redhat-00001:test
+[INFO]    |  |     |  +- org.jboss:staxmapper:jar:1.3.0.Final-redhat-1:test
+[INFO]    |  |     |  +- org.projectodd.vdx:vdx-wildfly:jar:1.1.6.redhat-1:test
+[INFO]    |  |     |  |  \- org.projectodd.vdx:vdx-core:jar:1.1.6.redhat-1:test
+[INFO]    |  |     |  \- org.eclipse.jgit:org.eclipse.jgit:jar:5.0.2.201807311906-r-redhat-00001:test
+[INFO]    |  |     |     +- com.jcraft:jzlib:jar:1.1.1.redhat-00001:test
+[INFO]    |  |     |     \- com.googlecode.javaewah:JavaEWAH:jar:1.1.6.redhat-00001:test
+[INFO]    |  |     +- org.wildfly.core:wildfly-core-management-client:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     +- org.wildfly.core:wildfly-domain-http-interface:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     |  \- org.wildfly.security.elytron-web:undertow-server:jar:1.2.3.Final-redhat-00001:test
+[INFO]    |  |     +- org.wildfly.core:wildfly-deployment-repository:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     +- org.wildfly.core:wildfly-platform-mbean:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     +- org.wildfly.core:wildfly-process-controller:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     +- org.wildfly.core:wildfly-network:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     +- org.wildfly.core:wildfly-version:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     +- org.jboss.invocation:jboss-invocation:jar:1.5.1.Final-redhat-1:test
+[INFO]    |  |     +- org.jboss.modules:jboss-modules:jar:1.8.6.Final-redhat-00001:test
+[INFO]    |  |     +- org.jboss.stdio:jboss-stdio:jar:1.0.2.GA-redhat-2:test
+[INFO]    |  |     +- org.jboss:jboss-vfs:jar:3.2.14.Final-redhat-00001:test
+[INFO]    |  |     +- io.undertow:undertow-core:jar:2.0.15.Final-redhat-00001:test
+[INFO]    |  |     \- com.jcraft:jsch:jar:0.1.54.redhat-00001:test
+[INFO]    |  +- org.wildfly.core:wildfly-controller-client:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |  +- org.wildfly.core:wildfly-protocol:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |  \- org.jboss:jboss-dmr:jar:1.5.0.Final-redhat-1:test
+[INFO]    |  +- org.wildfly.plugins:wildfly-plugin-core:jar:2.0.2.Final:test
+[INFO]    |  +- org.jboss.shrinkwrap.descriptors:shrinkwrap-descriptors-impl-base:jar:2.0.0:test
+[INFO]    |  \- org.wildfly.common:wildfly-common:jar:1.4.0.Final-redhat-1:test
+[INFO]    +- org.wildfly.arquillian:wildfly-arquillian-protocol-jmx:jar:3.0.1.Final:test
+[INFO]    |  +- org.wildfly.security:wildfly-elytron:jar:1.6.1.Final-redhat-00001:test
+[INFO]    |  +- org.jboss.arquillian.protocol:arquillian-protocol-jmx:jar:1.6.0.Final:test
+[INFO]    |  \- org.wildfly.core:wildfly-jmx:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |     +- org.jboss.msc:jboss-msc:jar:1.4.5.Final-redhat-00001:test
+[INFO]    |     \- org.wildfly.core:wildfly-remoting:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |        +- org.wildfly.core:wildfly-domain-management:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |        |  \- org.picketbox:picketbox:jar:5.0.3.Final-redhat-3:test
+[INFO]    |        \- org.wildfly.core:wildfly-io:jar:6.0.11.Final-redhat-00001:test
+[INFO]    +- org.jboss.xnio:xnio-api:jar:3.6.5.Final-redhat-00001:test
+[INFO]    |  +- org.wildfly.client:wildfly-client-config:jar:1.0.1.Final-redhat-00001:test
+[INFO]    |  \- org.jboss.threads:jboss-threads:jar:2.3.2.Final-redhat-1:test
+[INFO]    +- org.jboss.xnio:xnio-nio:jar:3.6.5.Final-redhat-00001:test
+[INFO]    +- org.jboss.marshalling:jboss-marshalling:jar:2.0.6.Final-redhat-00001:test
+[INFO]    +- org.jboss.marshalling:jboss-marshalling-river:jar:2.0.6.Final-redhat-00001:test
+[INFO]    +- org.jboss.remoting:jboss-remoting:jar:5.0.8.Final-redhat-1:test
+[INFO]    +- org.jboss.remotingjmx:remoting-jmx:jar:3.0.0.Final-redhat-1:test
+[INFO]    +- org.wildfly.core:wildfly-launcher:jar:6.0.11.Final-redhat-00001:test
+[INFO]    \- org.jboss.arquillian.core:arquillian-core-api:jar:1.6.0.Final:test
+[INFO] 
+[INFO] -----------------< es.caib.interdoc:interdoc-plugins >------------------
+[INFO] Building Interdoc - Plugins 1.0.0                                 [5/14]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:3.1.2:tree (default-cli) @ interdoc-plugins ---
+[INFO] es.caib.interdoc:interdoc-plugins:pom:1.0.0
+[INFO] 
+[INFO] --------------< es.caib.interdoc:interdoc-plugins-arxiu >---------------
+[INFO] Building Interdoc - Plugin - Arxiu 1.0.0                          [6/14]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:3.1.2:tree (default-cli) @ interdoc-plugins-arxiu ---
+[INFO] es.caib.interdoc:interdoc-plugins-arxiu:jar:1.0.0
+[INFO] +- org.jboss.spec:jboss-javaee-8.0:pom:1.0.1.Final-redhat-00003:provided
+[INFO] |  +- javax.activation:activation:jar:1.1.1.redhat-5:provided
+[INFO] |  +- javax.enterprise:cdi-api:jar:2.0.0.SP1-redhat-00001:provided
+[INFO] |  +- javax.inject:javax.inject:jar:1.0.0.redhat-6:provided
+[INFO] |  +- javax.json:javax.json-api:jar:1.1.2.redhat-1:provided
+[INFO] |  +- javax.json.bind:javax.json.bind-api:jar:1.0.0.redhat-1:provided
+[INFO] |  +- javax.jws:jsr181-api:jar:1.0.0.MR1-redhat-8:provided
+[INFO] |  +- com.sun.mail:javax.mail:jar:1.6.1.redhat-1:provided
+[INFO] |  +- javax.persistence:javax.persistence-api:jar:2.2.0.redhat-1:provided
+[INFO] |  +- javax.security.enterprise:javax.security.enterprise-api:jar:1.0.0.redhat-1:provided
+[INFO] |  +- javax.validation:validation-api:jar:2.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.annotation:jboss-annotations-api_1.3_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.batch:jboss-batch-api_1.0_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.ejb:jboss-ejb-api_3.2_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.el:jboss-el-api_3.0_spec:jar:1.0.12.Final-redhat-00001:provided
+[INFO] |  +- org.jboss.spec.javax.enterprise.concurrent:jboss-concurrency-api_1.0_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.faces:jboss-jsf-api_2.3_spec:jar:2.3.5.SP1-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.interceptor:jboss-interceptors-api_1.2_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.management.j2ee:jboss-j2eemgmt-api_1.1_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.resource:jboss-connector-api_1.7_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.rmi:jboss-rmi-api_1.0_spec:jar:1.0.6.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.security.jacc:jboss-jacc-api_1.5_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.security.auth.message:jboss-jaspi-api_1.1_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.jms:jboss-jms-api_2.0_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.servlet:jboss-servlet-api_4.0_spec:jar:1.0.0.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.servlet.jsp:jboss-jsp-api_2.3_spec:jar:1.0.3.Final-redhat-1:provided
+[INFO] |  +- org.apache.taglibs:taglibs-standard-spec:jar:1.2.6.RC1-redhat-1:provided
+[INFO] |  +- org.apache.taglibs:taglibs-standard-impl:jar:1.2.6.RC1-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.transaction:jboss-transaction-api_1.2_spec:jar:1.1.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.ws.rs:jboss-jaxrs-api_2.1_spec:jar:1.0.1.Final-redhat-00001:provided
+[INFO] |  +- org.jboss.spec.javax.websocket:jboss-websocket-api_1.1_spec:jar:1.1.3.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.xml.bind:jboss-jaxb-api_2.3_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.xml.soap:jboss-saaj-api_1.3_spec:jar:1.0.6.Final-redhat-1:provided
+[INFO] |  \- org.jboss.spec.javax.xml.ws:jboss-jaxws-api_2.3_spec:jar:1.0.0.Final-redhat-1:provided
+[INFO] +- org.slf4j:slf4j-api:jar:1.7.22.redhat-2:provided
+[INFO] +- es.caib.interdoc:interdoc-commons:jar:1.0.0:provided
+[INFO] +- es.caib.interdoc:interdoc-service:jar:1.0.0:provided
+[INFO] +- org.fundaciobit.pluginsib.arxiu:pluginsib-arxiu-api:jar:3.0.0-SNAPSHOT:compile
+[INFO] |  +- org.freemarker:freemarker:jar:2.3.32:compile
+[INFO] |  +- org.fundaciobit.pluginsib.core.v3:pluginsib-core:jar:3.0.0-SNAPSHOT:compile
+[INFO] |  \- org.jboss.logging:jboss-logging:jar:3.3.2.Final-redhat-00001:compile
+[INFO] +- org.fundaciobit.pluginsib.arxiu:pluginsib-arxiu-caib:jar:3.0.0-SNAPSHOT:compile
+[INFO] |  +- es.caib.arxiudigital:arxiudigital-apirest:jar:1.0.8:compile
+[INFO] |  |  +- com.fasterxml.jackson.core:jackson-databind:jar:2.9.5.redhat-2:compile
+[INFO] |  |  |  +- com.fasterxml.jackson.core:jackson-annotations:jar:2.9.5.redhat-2:compile
+[INFO] |  |  |  \- com.fasterxml.jackson.core:jackson-core:jar:2.9.5.redhat-2:compile
+[INFO] |  |  \- log4j:log4j:jar:1.2.17:compile
+[INFO] |  +- commons-codec:commons-codec:jar:1.10.0.redhat-5:compile
+[INFO] |  \- commons-io:commons-io:jar:2.5.0.redhat-3:compile
+[INFO] +- com.sun.jersey:jersey-core:jar:1.19.4:compile
+[INFO] |  \- javax.ws.rs:jsr311-api:jar:1.1.1:compile
+[INFO] +- com.sun.jersey:jersey-client:jar:1.19.4:compile
+[INFO] +- org.fundaciobit.pluginsib.validatesignature:pluginsib-validatesignature-api:jar:3.0.0-SNAPSHOT:compile
+[INFO] |  \- org.fundaciobit.pluginsib.validatecertificate:pluginsib-validatecertificate-api:jar:3.0.0-SNAPSHOT:compile
+[INFO] +- org.eclipse.microprofile.config:microprofile-config-api:jar:1.3:compile
+[INFO] |  \- org.osgi:org.osgi.annotation.versioning:jar:1.0.0:compile
+[INFO] +- org.jboss.ejb3:jboss-ejb3-api:jar:3.1.0:compile
+[INFO] |  +- jboss.jbossws:jboss-jaxrpc:jar:2.0.3.GA:compile
+[INFO] |  \- org.jboss.javaee:jboss-transaction-api:jar:1.0.1.CR2:compile
+[INFO] \- org.jboss.ejb3:jboss-ejb3-ext-api:jar:2.2.0.Final-redhat-1:compile
+[INFO] 
+[INFO] ----------< es.caib.interdoc:interdoc-plugins-apifirmasimple >----------
+[INFO] Building Interdoc - Plugin - API Firma Simple 1.0.0               [7/14]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:3.1.2:tree (default-cli) @ interdoc-plugins-apifirmasimple ---
+[INFO] es.caib.interdoc:interdoc-plugins-apifirmasimple:jar:1.0.0
+[INFO] +- org.jboss.spec:jboss-javaee-8.0:pom:1.0.1.Final-redhat-00003:provided
+[INFO] |  +- javax.activation:activation:jar:1.1.1.redhat-5:provided
+[INFO] |  +- javax.enterprise:cdi-api:jar:2.0.0.SP1-redhat-00001:provided
+[INFO] |  +- javax.inject:javax.inject:jar:1.0.0.redhat-6:provided
+[INFO] |  +- javax.json:javax.json-api:jar:1.1.2.redhat-1:provided
+[INFO] |  +- javax.json.bind:javax.json.bind-api:jar:1.0.0.redhat-1:provided
+[INFO] |  +- javax.jws:jsr181-api:jar:1.0.0.MR1-redhat-8:provided
+[INFO] |  +- com.sun.mail:javax.mail:jar:1.6.1.redhat-1:provided
+[INFO] |  +- javax.persistence:javax.persistence-api:jar:2.2.0.redhat-1:provided
+[INFO] |  +- javax.security.enterprise:javax.security.enterprise-api:jar:1.0.0.redhat-1:provided
+[INFO] |  +- javax.validation:validation-api:jar:2.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.annotation:jboss-annotations-api_1.3_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.batch:jboss-batch-api_1.0_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.ejb:jboss-ejb-api_3.2_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.el:jboss-el-api_3.0_spec:jar:1.0.12.Final-redhat-00001:provided
+[INFO] |  +- org.jboss.spec.javax.enterprise.concurrent:jboss-concurrency-api_1.0_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.faces:jboss-jsf-api_2.3_spec:jar:2.3.5.SP1-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.interceptor:jboss-interceptors-api_1.2_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.management.j2ee:jboss-j2eemgmt-api_1.1_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.resource:jboss-connector-api_1.7_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.rmi:jboss-rmi-api_1.0_spec:jar:1.0.6.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.security.jacc:jboss-jacc-api_1.5_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.security.auth.message:jboss-jaspi-api_1.1_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.jms:jboss-jms-api_2.0_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.servlet:jboss-servlet-api_4.0_spec:jar:1.0.0.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.servlet.jsp:jboss-jsp-api_2.3_spec:jar:1.0.3.Final-redhat-1:provided
+[INFO] |  +- org.apache.taglibs:taglibs-standard-spec:jar:1.2.6.RC1-redhat-1:provided
+[INFO] |  +- org.apache.taglibs:taglibs-standard-impl:jar:1.2.6.RC1-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.transaction:jboss-transaction-api_1.2_spec:jar:1.1.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.ws.rs:jboss-jaxrs-api_2.1_spec:jar:1.0.1.Final-redhat-00001:provided
+[INFO] |  +- org.jboss.spec.javax.websocket:jboss-websocket-api_1.1_spec:jar:1.1.3.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.xml.bind:jboss-jaxb-api_2.3_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.xml.soap:jboss-saaj-api_1.3_spec:jar:1.0.6.Final-redhat-1:provided
+[INFO] |  \- org.jboss.spec.javax.xml.ws:jboss-jaxws-api_2.3_spec:jar:1.0.0.Final-redhat-1:provided
+[INFO] +- org.slf4j:slf4j-api:jar:1.7.22.redhat-2:provided
+[INFO] +- es.caib.interdoc:interdoc-commons:jar:1.0.0:compile
+[INFO] +- es.caib.interdoc:interdoc-service:jar:1.0.0:compile
+[INFO] +- org.fundaciobit.apisib.apifirmasimple:apifirmasimple-api:jar:1.0.3:compile
+[INFO] |  \- org.fundaciobit.apisib:apisib-core:jar:1.0.0:compile
+[INFO] +- org.fundaciobit.apisib.apifirmasimple:apifirmasimple-jersey:jar:1.0.3:compile
+[INFO] +- log4j:log4j:jar:1.2.17:compile
+[INFO] +- org.fundaciobit.pluginsib.core.v3:pluginsib-core:jar:3.0.0-SNAPSHOT:provided
+[INFO] |  \- org.jboss.logging:jboss-logging:jar:3.3.2.Final-redhat-00001:compile
+[INFO] +- org.fundaciobit.apisib.jerseycore:apisib-jerseycore:jar:1.0.2:compile
+[INFO] |  +- com.sun.jersey:jersey-json:jar:1.19.4:compile
+[INFO] |  |  +- org.codehaus.jettison:jettison:jar:1.3.8.redhat-1:compile
+[INFO] |  |  +- org.codehaus.jackson:jackson-core-asl:jar:1.9.13.redhat-4:compile
+[INFO] |  |  +- org.codehaus.jackson:jackson-mapper-asl:jar:1.9.13.redhat-4:compile
+[INFO] |  |  +- org.codehaus.jackson:jackson-jaxrs:jar:1.9.13.redhat-4:compile
+[INFO] |  |  +- org.codehaus.jackson:jackson-xc:jar:1.9.13.redhat-4:compile
+[INFO] |  |  \- com.sun.jersey:jersey-core:jar:1.19.4:compile
+[INFO] |  |     \- javax.ws.rs:jsr311-api:jar:1.1.1:compile
+[INFO] |  \- com.sun.jersey.contribs:jersey-apache-client4:jar:1.19.4:compile
+[INFO] |     +- org.apache.httpcomponents:httpclient:jar:4.5.2.redhat-2:compile
+[INFO] |     |  +- org.apache.httpcomponents:httpcore:jar:4.4.4.redhat-2:compile
+[INFO] |     |  \- commons-codec:commons-codec:jar:1.10.0.redhat-5:compile
+[INFO] |     \- com.sun.jersey:jersey-client:jar:1.19.4:compile
+[INFO] +- commons-logging:commons-logging:jar:1.2:compile
+[INFO] +- org.eclipse.microprofile.config:microprofile-config-api:jar:1.3:compile
+[INFO] |  \- org.osgi:org.osgi.annotation.versioning:jar:1.0.0:compile
+[INFO] \- org.fundaciobit.pluginsib.arxiu:pluginsib-arxiu-api:jar:3.0.0-SNAPSHOT:compile
+[INFO]    \- org.freemarker:freemarker:jar:2.3.32:compile
+[INFO] 
+[INFO] -------------------< es.caib.interdoc:interdoc-ejb >--------------------
+[INFO] Building Interdoc - EJB 1.0.0                                     [8/14]
+[INFO] --------------------------------[ ejb ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:3.1.2:tree (default-cli) @ interdoc-ejb ---
+[INFO] es.caib.interdoc:interdoc-ejb:ejb:1.0.0
+[INFO] +- org.jboss.spec:jboss-javaee-8.0:pom:1.0.1.Final-redhat-00003:provided
+[INFO] |  +- javax.activation:activation:jar:1.1.1.redhat-5:provided
+[INFO] |  +- javax.enterprise:cdi-api:jar:2.0.0.SP1-redhat-00001:provided
+[INFO] |  +- javax.inject:javax.inject:jar:1.0.0.redhat-6:provided
+[INFO] |  +- javax.json:javax.json-api:jar:1.1.2.redhat-1:provided
+[INFO] |  +- javax.json.bind:javax.json.bind-api:jar:1.0.0.redhat-1:provided
+[INFO] |  +- javax.jws:jsr181-api:jar:1.0.0.MR1-redhat-8:provided
+[INFO] |  +- com.sun.mail:javax.mail:jar:1.6.1.redhat-1:provided
+[INFO] |  +- javax.persistence:javax.persistence-api:jar:2.2.0.redhat-1:provided
+[INFO] |  +- javax.security.enterprise:javax.security.enterprise-api:jar:1.0.0.redhat-1:provided
+[INFO] |  +- javax.validation:validation-api:jar:2.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.annotation:jboss-annotations-api_1.3_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.batch:jboss-batch-api_1.0_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.ejb:jboss-ejb-api_3.2_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.el:jboss-el-api_3.0_spec:jar:1.0.12.Final-redhat-00001:provided
+[INFO] |  +- org.jboss.spec.javax.enterprise.concurrent:jboss-concurrency-api_1.0_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.faces:jboss-jsf-api_2.3_spec:jar:2.3.5.SP1-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.interceptor:jboss-interceptors-api_1.2_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.management.j2ee:jboss-j2eemgmt-api_1.1_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.resource:jboss-connector-api_1.7_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.rmi:jboss-rmi-api_1.0_spec:jar:1.0.6.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.security.jacc:jboss-jacc-api_1.5_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.security.auth.message:jboss-jaspi-api_1.1_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.jms:jboss-jms-api_2.0_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.servlet:jboss-servlet-api_4.0_spec:jar:1.0.0.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.servlet.jsp:jboss-jsp-api_2.3_spec:jar:1.0.3.Final-redhat-1:provided
+[INFO] |  +- org.apache.taglibs:taglibs-standard-spec:jar:1.2.6.RC1-redhat-1:provided
+[INFO] |  +- org.apache.taglibs:taglibs-standard-impl:jar:1.2.6.RC1-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.transaction:jboss-transaction-api_1.2_spec:jar:1.1.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.ws.rs:jboss-jaxrs-api_2.1_spec:jar:1.0.1.Final-redhat-00001:provided
+[INFO] |  +- org.jboss.spec.javax.websocket:jboss-websocket-api_1.1_spec:jar:1.1.3.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.xml.bind:jboss-jaxb-api_2.3_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.xml.soap:jboss-saaj-api_1.3_spec:jar:1.0.6.Final-redhat-1:provided
+[INFO] |  \- org.jboss.spec.javax.xml.ws:jboss-jaxws-api_2.3_spec:jar:1.0.0.Final-redhat-1:provided
+[INFO] +- org.slf4j:slf4j-api:jar:1.7.22.redhat-2:provided
+[INFO] +- es.caib.interdoc:interdoc-commons:jar:1.0.0:provided
+[INFO] +- es.caib.interdoc:interdoc-service:jar:1.0.0:provided
+[INFO] +- es.caib.interdoc:interdoc-persistence:jar:1.0.0:provided
+[INFO] +- org.fundaciobit.pluginsib.core.v3:pluginsib-core:jar:3.0.0-SNAPSHOT:provided
+[INFO] |  \- org.jboss.logging:jboss-logging:jar:3.3.2.Final-redhat-00001:compile
+[INFO] +- org.mapstruct:mapstruct:jar:1.4.1.Final:provided
+[INFO] +- junit:junit:jar:4.13.1:test
+[INFO] |  \- org.hamcrest:hamcrest-core:jar:1.3:test
+[INFO] +- org.mockito:mockito-core:jar:2.21.0:test
+[INFO] |  +- net.bytebuddy:byte-buddy-agent:jar:1.8.15:test
+[INFO] |  \- org.objenesis:objenesis:jar:2.6:test
+[INFO] +- net.bytebuddy:byte-buddy:jar:1.8.17.redhat-00001:test
+[INFO] +- org.jboss.arquillian.junit:arquillian-junit-container:jar:1.6.0.Final:test
+[INFO] |  +- org.jboss.arquillian.junit:arquillian-junit-core:jar:1.6.0.Final:test
+[INFO] |  +- org.jboss.arquillian.test:arquillian-test-api:jar:1.6.0.Final:test
+[INFO] |  +- org.jboss.arquillian.test:arquillian-test-spi:jar:1.6.0.Final:test
+[INFO] |  |  \- org.jboss.arquillian.core:arquillian-core-spi:jar:1.6.0.Final:test
+[INFO] |  +- org.jboss.arquillian.container:arquillian-container-test-api:jar:1.6.0.Final:test
+[INFO] |  |  +- org.jboss.shrinkwrap:shrinkwrap-api:jar:1.2.6:test
+[INFO] |  |  \- org.jboss.shrinkwrap.descriptors:shrinkwrap-descriptors-api-base:jar:2.0.0:test
+[INFO] |  +- org.jboss.arquillian.container:arquillian-container-test-spi:jar:1.6.0.Final:test
+[INFO] |  |  \- org.jboss.arquillian.container:arquillian-container-spi:jar:1.6.0.Final:test
+[INFO] |  +- org.jboss.arquillian.core:arquillian-core-impl-base:jar:1.6.0.Final:test
+[INFO] |  +- org.jboss.arquillian.test:arquillian-test-impl-base:jar:1.6.0.Final:test
+[INFO] |  +- org.jboss.arquillian.container:arquillian-container-impl-base:jar:1.6.0.Final:test
+[INFO] |  |  +- org.jboss.arquillian.config:arquillian-config-api:jar:1.6.0.Final:test
+[INFO] |  |  +- org.jboss.arquillian.config:arquillian-config-impl-base:jar:1.6.0.Final:test
+[INFO] |  |  |  \- org.jboss.arquillian.config:arquillian-config-spi:jar:1.6.0.Final:test
+[INFO] |  |  \- org.jboss.shrinkwrap.descriptors:shrinkwrap-descriptors-spi:jar:2.0.0:test
+[INFO] |  +- org.jboss.arquillian.container:arquillian-container-test-impl-base:jar:1.6.0.Final:test
+[INFO] |  \- org.jboss.shrinkwrap:shrinkwrap-impl-base:jar:1.2.6:test
+[INFO] |     \- org.jboss.shrinkwrap:shrinkwrap-spi:jar:1.2.6:test
+[INFO] +- es.caib.interdoc:interdoc-plugins-arxiu:jar:1.0.0:compile
+[INFO] |  +- org.fundaciobit.pluginsib.arxiu:pluginsib-arxiu-api:jar:3.0.0-SNAPSHOT:compile
+[INFO] |  |  \- org.freemarker:freemarker:jar:2.3.32:compile
+[INFO] |  +- org.fundaciobit.pluginsib.arxiu:pluginsib-arxiu-caib:jar:3.0.0-SNAPSHOT:compile
+[INFO] |  |  +- es.caib.arxiudigital:arxiudigital-apirest:jar:1.0.8:compile
+[INFO] |  |  |  \- com.fasterxml.jackson.core:jackson-databind:jar:2.9.5.redhat-2:compile
+[INFO] |  |  |     +- com.fasterxml.jackson.core:jackson-annotations:jar:2.9.5.redhat-2:compile
+[INFO] |  |  |     \- com.fasterxml.jackson.core:jackson-core:jar:2.9.5.redhat-2:compile
+[INFO] |  |  +- commons-codec:commons-codec:jar:1.10.0.redhat-5:compile
+[INFO] |  |  \- commons-io:commons-io:jar:2.5.0.redhat-3:compile
+[INFO] |  +- com.sun.jersey:jersey-core:jar:1.19.4:compile
+[INFO] |  |  \- javax.ws.rs:jsr311-api:jar:1.1.1:compile
+[INFO] |  +- com.sun.jersey:jersey-client:jar:1.19.4:compile
+[INFO] |  +- org.fundaciobit.pluginsib.validatesignature:pluginsib-validatesignature-api:jar:3.0.0-SNAPSHOT:compile
+[INFO] |  |  \- org.fundaciobit.pluginsib.validatecertificate:pluginsib-validatecertificate-api:jar:3.0.0-SNAPSHOT:compile
+[INFO] |  +- org.eclipse.microprofile.config:microprofile-config-api:jar:1.3:compile
+[INFO] |  |  \- org.osgi:org.osgi.annotation.versioning:jar:1.0.0:compile
+[INFO] |  +- org.jboss.ejb3:jboss-ejb3-api:jar:3.1.0:compile
+[INFO] |  |  +- jboss.jbossws:jboss-jaxrpc:jar:2.0.3.GA:compile
+[INFO] |  |  \- org.jboss.javaee:jboss-transaction-api:jar:1.0.1.CR2:compile
+[INFO] |  \- org.jboss.ejb3:jboss-ejb3-ext-api:jar:2.2.0.Final-redhat-1:compile
+[INFO] +- es.caib.interdoc:interdoc-plugins-apifirmasimple:jar:1.0.0:compile
+[INFO] |  +- org.fundaciobit.apisib.apifirmasimple:apifirmasimple-api:jar:1.0.3:compile
+[INFO] |  |  \- org.fundaciobit.apisib:apisib-core:jar:1.0.0:compile
+[INFO] |  +- org.fundaciobit.apisib.apifirmasimple:apifirmasimple-jersey:jar:1.0.3:compile
+[INFO] |  +- log4j:log4j:jar:1.2.17:compile
+[INFO] |  +- org.fundaciobit.apisib.jerseycore:apisib-jerseycore:jar:1.0.2:compile
+[INFO] |  |  +- com.sun.jersey:jersey-json:jar:1.19.4:compile
+[INFO] |  |  |  +- org.codehaus.jettison:jettison:jar:1.3.8.redhat-1:compile
+[INFO] |  |  |  +- org.codehaus.jackson:jackson-core-asl:jar:1.9.13.redhat-4:compile
+[INFO] |  |  |  +- org.codehaus.jackson:jackson-mapper-asl:jar:1.9.13.redhat-4:compile
+[INFO] |  |  |  +- org.codehaus.jackson:jackson-jaxrs:jar:1.9.13.redhat-4:compile
+[INFO] |  |  |  \- org.codehaus.jackson:jackson-xc:jar:1.9.13.redhat-4:compile
+[INFO] |  |  \- com.sun.jersey.contribs:jersey-apache-client4:jar:1.19.4:compile
+[INFO] |  |     \- org.apache.httpcomponents:httpclient:jar:4.5.2.redhat-2:compile
+[INFO] |  |        \- org.apache.httpcomponents:httpcore:jar:4.4.4.redhat-2:compile
+[INFO] |  \- commons-logging:commons-logging:jar:1.2:compile
+[INFO] \- org.wildfly.arquillian:wildfly-arquillian-container-managed:jar:3.0.1.Final:test
+[INFO]    +- org.wildfly.arquillian:wildfly-arquillian-common:jar:3.0.1.Final:test
+[INFO]    |  +- org.jboss.arquillian.testenricher:arquillian-testenricher-cdi:jar:1.6.0.Final:test
+[INFO]    |  +- org.jboss.arquillian.testenricher:arquillian-testenricher-ejb:jar:1.6.0.Final:test
+[INFO]    |  +- org.jboss.arquillian.testenricher:arquillian-testenricher-initialcontext:jar:1.6.0.Final:test
+[INFO]    |  +- org.jboss.arquillian.testenricher:arquillian-testenricher-resource:jar:1.6.0.Final:test
+[INFO]    |  +- org.jboss.arquillian.protocol:arquillian-protocol-servlet:jar:1.6.0.Final:test
+[INFO]    |  +- org.wildfly.arquillian:wildfly-arquillian-testenricher-msc:jar:3.0.1.Final:test
+[INFO]    |  |  \- org.wildfly.core:wildfly-server:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     +- org.wildfly.core:wildfly-controller:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     |  +- org.wildfly.core:wildfly-core-security:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     |  |  \- org.wildfly.core:wildfly-core-security-api:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     |  +- org.jboss.logmanager:jboss-logmanager:jar:2.1.5.Final-redhat-00001:test
+[INFO]    |  |     |  +- org.jboss:staxmapper:jar:1.3.0.Final-redhat-1:test
+[INFO]    |  |     |  +- org.projectodd.vdx:vdx-wildfly:jar:1.1.6.redhat-1:test
+[INFO]    |  |     |  |  \- org.projectodd.vdx:vdx-core:jar:1.1.6.redhat-1:test
+[INFO]    |  |     |  \- org.eclipse.jgit:org.eclipse.jgit:jar:5.0.2.201807311906-r-redhat-00001:test
+[INFO]    |  |     |     +- com.jcraft:jzlib:jar:1.1.1.redhat-00001:test
+[INFO]    |  |     |     \- com.googlecode.javaewah:JavaEWAH:jar:1.1.6.redhat-00001:test
+[INFO]    |  |     +- org.wildfly.core:wildfly-core-management-client:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     +- org.wildfly.core:wildfly-domain-http-interface:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     |  \- org.wildfly.security.elytron-web:undertow-server:jar:1.2.3.Final-redhat-00001:test
+[INFO]    |  |     +- org.wildfly.core:wildfly-deployment-repository:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     +- org.wildfly.core:wildfly-platform-mbean:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     +- org.wildfly.core:wildfly-process-controller:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     +- org.wildfly.core:wildfly-network:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     +- org.wildfly.core:wildfly-version:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     +- org.jboss:jandex:jar:2.0.5.Final-redhat-1:test
+[INFO]    |  |     +- org.jboss.invocation:jboss-invocation:jar:1.5.1.Final-redhat-1:test
+[INFO]    |  |     +- org.jboss.modules:jboss-modules:jar:1.8.6.Final-redhat-00001:test
+[INFO]    |  |     +- org.jboss.stdio:jboss-stdio:jar:1.0.2.GA-redhat-2:test
+[INFO]    |  |     +- org.jboss:jboss-vfs:jar:3.2.14.Final-redhat-00001:test
+[INFO]    |  |     +- io.undertow:undertow-core:jar:2.0.15.Final-redhat-00001:test
+[INFO]    |  |     \- com.jcraft:jsch:jar:0.1.54.redhat-00001:test
+[INFO]    |  +- org.wildfly.core:wildfly-controller-client:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |  +- org.wildfly.core:wildfly-protocol:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |  \- org.jboss:jboss-dmr:jar:1.5.0.Final-redhat-1:test
+[INFO]    |  +- org.wildfly.plugins:wildfly-plugin-core:jar:2.0.2.Final:test
+[INFO]    |  +- org.jboss.shrinkwrap.descriptors:shrinkwrap-descriptors-impl-base:jar:2.0.0:test
+[INFO]    |  \- org.wildfly.common:wildfly-common:jar:1.4.0.Final-redhat-1:test
+[INFO]    +- org.wildfly.arquillian:wildfly-arquillian-protocol-jmx:jar:3.0.1.Final:test
+[INFO]    |  +- org.wildfly.security:wildfly-elytron:jar:1.6.1.Final-redhat-00001:test
+[INFO]    |  +- org.jboss.arquillian.protocol:arquillian-protocol-jmx:jar:1.6.0.Final:test
+[INFO]    |  \- org.wildfly.core:wildfly-jmx:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |     +- org.jboss.msc:jboss-msc:jar:1.4.5.Final-redhat-00001:test
+[INFO]    |     \- org.wildfly.core:wildfly-remoting:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |        +- org.wildfly.core:wildfly-domain-management:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |        |  \- org.picketbox:picketbox:jar:5.0.3.Final-redhat-3:test
+[INFO]    |        \- org.wildfly.core:wildfly-io:jar:6.0.11.Final-redhat-00001:test
+[INFO]    +- org.jboss.xnio:xnio-api:jar:3.6.5.Final-redhat-00001:test
+[INFO]    |  +- org.wildfly.client:wildfly-client-config:jar:1.0.1.Final-redhat-00001:test
+[INFO]    |  \- org.jboss.threads:jboss-threads:jar:2.3.2.Final-redhat-1:test
+[INFO]    +- org.jboss.xnio:xnio-nio:jar:3.6.5.Final-redhat-00001:test
+[INFO]    +- org.jboss.marshalling:jboss-marshalling:jar:2.0.6.Final-redhat-00001:test
+[INFO]    +- org.jboss.marshalling:jboss-marshalling-river:jar:2.0.6.Final-redhat-00001:test
+[INFO]    +- org.jboss.remoting:jboss-remoting:jar:5.0.8.Final-redhat-1:test
+[INFO]    +- org.jboss.remotingjmx:remoting-jmx:jar:3.0.0.Final-redhat-1:test
+[INFO]    +- org.wildfly.core:wildfly-launcher:jar:6.0.11.Final-redhat-00001:test
+[INFO]    \- org.jboss.arquillian.core:arquillian-core-api:jar:1.6.0.Final:test
+[INFO] 
+[INFO] ---------------< es.caib.interdoc:interdoc-api-interna >----------------
+[INFO] Building interdoc - API Rest - Interna 1.0.0                      [9/14]
+[INFO] --------------------------------[ war ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:3.1.2:tree (default-cli) @ interdoc-api-interna ---
+[INFO] es.caib.interdoc:interdoc-api-interna:war:1.0.0
+[INFO] +- org.jboss.spec:jboss-javaee-8.0:pom:1.0.1.Final-redhat-00003:provided
+[INFO] |  +- javax.activation:activation:jar:1.1.1.redhat-5:provided
+[INFO] |  +- javax.enterprise:cdi-api:jar:2.0.0.SP1-redhat-00001:provided
+[INFO] |  +- javax.inject:javax.inject:jar:1.0.0.redhat-6:provided
+[INFO] |  +- javax.json:javax.json-api:jar:1.1.2.redhat-1:provided
+[INFO] |  +- javax.json.bind:javax.json.bind-api:jar:1.0.0.redhat-1:provided
+[INFO] |  +- javax.jws:jsr181-api:jar:1.0.0.MR1-redhat-8:provided
+[INFO] |  +- com.sun.mail:javax.mail:jar:1.6.1.redhat-1:provided
+[INFO] |  +- javax.persistence:javax.persistence-api:jar:2.2.0.redhat-1:provided
+[INFO] |  +- javax.security.enterprise:javax.security.enterprise-api:jar:1.0.0.redhat-1:provided
+[INFO] |  +- javax.validation:validation-api:jar:2.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.annotation:jboss-annotations-api_1.3_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.batch:jboss-batch-api_1.0_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.ejb:jboss-ejb-api_3.2_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.el:jboss-el-api_3.0_spec:jar:1.0.12.Final-redhat-00001:provided
+[INFO] |  +- org.jboss.spec.javax.enterprise.concurrent:jboss-concurrency-api_1.0_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.faces:jboss-jsf-api_2.3_spec:jar:2.3.5.SP1-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.interceptor:jboss-interceptors-api_1.2_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.management.j2ee:jboss-j2eemgmt-api_1.1_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.resource:jboss-connector-api_1.7_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.rmi:jboss-rmi-api_1.0_spec:jar:1.0.6.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.security.jacc:jboss-jacc-api_1.5_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.security.auth.message:jboss-jaspi-api_1.1_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.jms:jboss-jms-api_2.0_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.servlet:jboss-servlet-api_4.0_spec:jar:1.0.0.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.servlet.jsp:jboss-jsp-api_2.3_spec:jar:1.0.3.Final-redhat-1:provided
+[INFO] |  +- org.apache.taglibs:taglibs-standard-spec:jar:1.2.6.RC1-redhat-1:provided
+[INFO] |  +- org.apache.taglibs:taglibs-standard-impl:jar:1.2.6.RC1-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.transaction:jboss-transaction-api_1.2_spec:jar:1.1.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.ws.rs:jboss-jaxrs-api_2.1_spec:jar:1.0.1.Final-redhat-00001:provided
+[INFO] |  +- org.jboss.spec.javax.websocket:jboss-websocket-api_1.1_spec:jar:1.1.3.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.xml.bind:jboss-jaxb-api_2.3_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.xml.soap:jboss-saaj-api_1.3_spec:jar:1.0.6.Final-redhat-1:provided
+[INFO] |  \- org.jboss.spec.javax.xml.ws:jboss-jaxws-api_2.3_spec:jar:1.0.0.Final-redhat-1:provided
+[INFO] +- log4j:log4j:jar:1.2.17:compile
+[INFO] +- es.caib.interdoc:interdoc-commons:jar:1.0.0:provided
+[INFO] +- es.caib.interdoc:interdoc-persistence:jar:1.0.0:provided
+[INFO] +- es.caib.interdoc:interdoc-ejb:jar:1.0.0:provided
+[INFO] |  +- es.caib.interdoc:interdoc-plugins-arxiu:jar:1.0.0:provided
+[INFO] |  |  +- org.fundaciobit.pluginsib.arxiu:pluginsib-arxiu-api:jar:3.0.0-SNAPSHOT:provided
+[INFO] |  |  |  \- org.freemarker:freemarker:jar:2.3.32:provided
+[INFO] |  |  +- org.fundaciobit.pluginsib.arxiu:pluginsib-arxiu-caib:jar:3.0.0-SNAPSHOT:provided
+[INFO] |  |  |  \- es.caib.arxiudigital:arxiudigital-apirest:jar:1.0.8:provided
+[INFO] |  |  |     \- com.fasterxml.jackson.core:jackson-databind:jar:2.9.5.redhat-2:provided
+[INFO] |  |  |        \- com.fasterxml.jackson.core:jackson-core:jar:2.9.5.redhat-2:provided
+[INFO] |  |  +- com.sun.jersey:jersey-core:jar:1.19.4:provided
+[INFO] |  |  |  \- javax.ws.rs:jsr311-api:jar:1.1.1:provided
+[INFO] |  |  +- com.sun.jersey:jersey-client:jar:1.19.4:provided
+[INFO] |  |  +- org.fundaciobit.pluginsib.validatesignature:pluginsib-validatesignature-api:jar:3.0.0-SNAPSHOT:provided
+[INFO] |  |  |  \- org.fundaciobit.pluginsib.validatecertificate:pluginsib-validatecertificate-api:jar:3.0.0-SNAPSHOT:provided
+[INFO] |  |  +- org.eclipse.microprofile.config:microprofile-config-api:jar:1.3:provided
+[INFO] |  |  |  \- org.osgi:org.osgi.annotation.versioning:jar:1.0.0:provided
+[INFO] |  |  +- org.jboss.ejb3:jboss-ejb3-api:jar:3.1.0:provided
+[INFO] |  |  |  +- jboss.jbossws:jboss-jaxrpc:jar:2.0.3.GA:provided
+[INFO] |  |  |  \- org.jboss.javaee:jboss-transaction-api:jar:1.0.1.CR2:provided
+[INFO] |  |  \- org.jboss.ejb3:jboss-ejb3-ext-api:jar:2.2.0.Final-redhat-1:provided
+[INFO] |  \- es.caib.interdoc:interdoc-plugins-apifirmasimple:jar:1.0.0:provided
+[INFO] |     +- org.fundaciobit.apisib.apifirmasimple:apifirmasimple-api:jar:1.0.3:provided
+[INFO] |     |  \- org.fundaciobit.apisib:apisib-core:jar:1.0.0:provided
+[INFO] |     +- org.fundaciobit.apisib.apifirmasimple:apifirmasimple-jersey:jar:1.0.3:provided
+[INFO] |     +- org.fundaciobit.apisib.jerseycore:apisib-jerseycore:jar:1.0.2:provided
+[INFO] |     |  +- com.sun.jersey:jersey-json:jar:1.19.4:provided
+[INFO] |     |  |  +- org.codehaus.jettison:jettison:jar:1.3.8.redhat-1:provided
+[INFO] |     |  |  +- org.codehaus.jackson:jackson-core-asl:jar:1.9.13.redhat-4:provided
+[INFO] |     |  |  +- org.codehaus.jackson:jackson-mapper-asl:jar:1.9.13.redhat-4:provided
+[INFO] |     |  |  +- org.codehaus.jackson:jackson-jaxrs:jar:1.9.13.redhat-4:provided
+[INFO] |     |  |  \- org.codehaus.jackson:jackson-xc:jar:1.9.13.redhat-4:provided
+[INFO] |     |  \- com.sun.jersey.contribs:jersey-apache-client4:jar:1.19.4:provided
+[INFO] |     \- commons-logging:commons-logging:jar:1.2:provided
+[INFO] +- es.caib.interdoc:interdoc-service:jar:1.0.0:provided
+[INFO] +- org.apache.cxf:cxf-rt-frontend-jaxws:jar:3.2.5.redhat-00001:provided
+[INFO] |  +- xml-resolver:xml-resolver:jar:1.2.0.redhat-12:provided
+[INFO] |  +- org.ow2.asm:asm:jar:6.2.1.redhat-00001:provided
+[INFO] |  +- org.apache.cxf:cxf-rt-bindings-xml:jar:3.2.5.redhat-00001:provided
+[INFO] |  +- org.apache.cxf:cxf-rt-frontend-simple:jar:3.2.5.redhat-00001:provided
+[INFO] |  \- org.apache.cxf:cxf-rt-ws-addr:jar:3.2.5.redhat-00001:provided
+[INFO] |     \- org.apache.cxf:cxf-rt-ws-policy:jar:3.2.5.redhat-00001:provided
+[INFO] +- org.apache.cxf:cxf-core:jar:3.2.5.redhat-00001:provided
+[INFO] |  +- com.fasterxml.woodstox:woodstox-core:jar:5.0.3.redhat-1:provided
+[INFO] |  |  \- org.codehaus.woodstox:stax2-api:jar:3.1.4.redhat-2:provided
+[INFO] |  \- org.apache.ws.xmlschema:xmlschema-core:jar:2.2.1.redhat-2:provided
+[INFO] +- org.apache.cxf:cxf-rt-bindings-soap:jar:3.2.5.redhat-00001:provided
+[INFO] |  +- org.apache.cxf:cxf-rt-wsdl:jar:3.2.5.redhat-00001:provided
+[INFO] |  |  \- wsdl4j:wsdl4j:jar:1.6.3.redhat-2:provided
+[INFO] |  \- org.apache.cxf:cxf-rt-databinding-jaxb:jar:3.2.5.redhat-00001:provided
+[INFO] +- org.apache.cxf:cxf-rt-transports-http:jar:3.2.5.redhat-00001:provided
+[INFO] +- org.apache.cxf:cxf-rt-ws-security:jar:3.2.5.redhat-00001:provided
+[INFO] |  +- org.apache.cxf:cxf-rt-security-saml:jar:3.2.5.redhat-00001:provided
+[INFO] |  |  \- org.apache.cxf:cxf-rt-security:jar:3.2.5.redhat-00001:provided
+[INFO] |  +- net.sf.ehcache:ehcache:jar:2.10.5:provided
+[INFO] |  |  \- org.slf4j:slf4j-api:jar:1.7.22.redhat-2:provided
+[INFO] |  +- org.apache.wss4j:wss4j-ws-security-dom:jar:2.2.2.redhat-00002:provided
+[INFO] |  |  \- org.apache.wss4j:wss4j-ws-security-common:jar:2.2.2.redhat-00002:provided
+[INFO] |  |     +- org.apache.santuario:xmlsec:jar:2.1.2.redhat-00001:provided
+[INFO] |  |     +- org.opensaml:opensaml-saml-impl:jar:3.3.0.redhat-1:provided
+[INFO] |  |     |  +- org.opensaml:opensaml-profile-api:jar:3.3.0.redhat-1:provided
+[INFO] |  |     |  |  \- org.opensaml:opensaml-core:jar:3.3.0.redhat-1:provided
+[INFO] |  |     |  |     \- io.dropwizard.metrics:metrics-core:jar:3.1.2:provided
+[INFO] |  |     |  +- org.opensaml:opensaml-saml-api:jar:3.3.0.redhat-1:provided
+[INFO] |  |     |  |  +- org.opensaml:opensaml-xmlsec-api:jar:3.3.0.redhat-1:provided
+[INFO] |  |     |  |  \- org.opensaml:opensaml-soap-api:jar:3.3.0.redhat-1:provided
+[INFO] |  |     |  +- org.opensaml:opensaml-security-impl:jar:3.3.0.redhat-1:provided
+[INFO] |  |     |  |  \- org.opensaml:opensaml-security-api:jar:3.3.0.redhat-1:provided
+[INFO] |  |     |  |     +- org.cryptacular:cryptacular:jar:1.2.0.redhat-1:provided
+[INFO] |  |     |  |     \- org.bouncycastle:bcprov-jdk15on:jar:1.60.0.redhat-00001:provided
+[INFO] |  |     |  +- org.opensaml:opensaml-xmlsec-impl:jar:3.3.0.redhat-1:provided
+[INFO] |  |     |  \- net.shibboleth.utilities:java-support:jar:7.1.1.redhat-2:provided
+[INFO] |  |     |     +- com.google.guava:guava:jar:25.0.0.redhat-1:provided
+[INFO] |  |     |     |  +- org.checkerframework:checker-compat-qual:jar:2.0.0:provided
+[INFO] |  |     |     |  +- com.google.errorprone:error_prone_annotations:jar:2.1.3:provided
+[INFO] |  |     |     |  +- com.google.j2objc:j2objc-annotations:jar:1.1:provided
+[INFO] |  |     |     |  \- org.codehaus.mojo:animal-sniffer-annotations:jar:1.14:provided
+[INFO] |  |     |     \- joda-time:joda-time:jar:2.9.7.redhat-1:provided
+[INFO] |  |     +- org.opensaml:opensaml-xacml-impl:jar:3.3.0.redhat-1:provided
+[INFO] |  |     |  \- org.opensaml:opensaml-xacml-api:jar:3.3.0.redhat-1:provided
+[INFO] |  |     +- org.opensaml:opensaml-xacml-saml-impl:jar:3.3.0.redhat-1:provided
+[INFO] |  |     |  \- org.opensaml:opensaml-xacml-saml-api:jar:3.3.0.redhat-1:provided
+[INFO] |  |     +- org.jasypt:jasypt:jar:1.9.2.redhat-1:provided
+[INFO] |  |     \- org.apache.geronimo.javamail:geronimo-javamail_1.4_mail:jar:1.8.4:provided
+[INFO] |  +- org.apache.wss4j:wss4j-policy:jar:2.2.2.redhat-00002:provided
+[INFO] |  |  \- org.apache.neethi:neethi:jar:3.1.1.redhat-1:provided
+[INFO] |  |     \- org.codehaus.woodstox:woodstox-core-asl:jar:4.4.1:provided
+[INFO] |  |        \- javax.xml.stream:stax-api:jar:1.0-2:provided
+[INFO] |  +- org.apache.wss4j:wss4j-ws-security-stax:jar:2.2.2.redhat-00002:provided
+[INFO] |  |  \- org.apache.wss4j:wss4j-bindings:jar:2.2.2.redhat-00002:provided
+[INFO] |  \- org.apache.wss4j:wss4j-ws-security-policy-stax:jar:2.2.2.redhat-00002:provided
+[INFO] +- org.fundaciobit.pluginsib.core.v3:pluginsib-core:jar:3.0.0-SNAPSHOT:provided
+[INFO] |  \- org.jboss.logging:jboss-logging:jar:3.3.2.Final-redhat-00001:provided
+[INFO] +- org.jboss.ws:jbossws-api:jar:1.1.2.Final-redhat-00001:compile
+[INFO] +- commons-io:commons-io:jar:2.5.0.redhat-3:provided
+[INFO] +- com.google.code.gson:gson:jar:2.8.2.redhat-5:compile
+[INFO] +- io.swagger.core.v3:swagger-annotations:jar:2.1.13:compile
+[INFO] +- com.fasterxml.jackson.core:jackson-annotations:jar:2.9.5.redhat-2:provided
+[INFO] +- junit:junit:jar:4.13.1:test
+[INFO] |  \- org.hamcrest:hamcrest-core:jar:1.3:test
+[INFO] +- org.jboss.resteasy:resteasy-client:jar:3.6.1.SP2-redhat-00001:test
+[INFO] |  +- org.jboss.resteasy:resteasy-jaxrs:jar:3.6.1.SP2-redhat-00001:test
+[INFO] |  |  +- org.reactivestreams:reactive-streams:jar:1.0.2.redhat-1:test
+[INFO] |  |  +- org.jboss.spec.javax.annotation:jboss-annotations-api_1.2_spec:jar:1.0.0.Final:test
+[INFO] |  |  \- net.jcip:jcip-annotations:jar:1.0.0.redhat-8:test
+[INFO] |  \- org.apache.httpcomponents:httpclient:jar:4.5.2.redhat-2:provided
+[INFO] |     +- org.apache.httpcomponents:httpcore:jar:4.4.4.redhat-2:provided
+[INFO] |     \- commons-codec:commons-codec:jar:1.10.0.redhat-5:provided
+[INFO] +- org.jboss.resteasy:resteasy-json-binding-provider:jar:3.6.1.SP2-redhat-00001:test
+[INFO] |  +- org.glassfish:javax.json:jar:1.1.2.redhat-1:test
+[INFO] |  \- org.eclipse:yasson:jar:1.0.1.redhat-1:test
+[INFO] +- org.jboss.logging:commons-logging-jboss-logging:jar:1.0.0.Final-redhat-1:test
+[INFO] +- org.jboss.arquillian.junit:arquillian-junit-container:jar:1.6.0.Final:test
+[INFO] |  +- org.jboss.arquillian.junit:arquillian-junit-core:jar:1.6.0.Final:test
+[INFO] |  +- org.jboss.arquillian.test:arquillian-test-api:jar:1.6.0.Final:test
+[INFO] |  +- org.jboss.arquillian.test:arquillian-test-spi:jar:1.6.0.Final:test
+[INFO] |  |  \- org.jboss.arquillian.core:arquillian-core-spi:jar:1.6.0.Final:test
+[INFO] |  +- org.jboss.arquillian.container:arquillian-container-test-api:jar:1.6.0.Final:test
+[INFO] |  |  +- org.jboss.shrinkwrap:shrinkwrap-api:jar:1.2.6:test
+[INFO] |  |  \- org.jboss.shrinkwrap.descriptors:shrinkwrap-descriptors-api-base:jar:2.0.0:test
+[INFO] |  +- org.jboss.arquillian.container:arquillian-container-test-spi:jar:1.6.0.Final:test
+[INFO] |  |  \- org.jboss.arquillian.container:arquillian-container-spi:jar:1.6.0.Final:test
+[INFO] |  +- org.jboss.arquillian.core:arquillian-core-impl-base:jar:1.6.0.Final:test
+[INFO] |  +- org.jboss.arquillian.test:arquillian-test-impl-base:jar:1.6.0.Final:test
+[INFO] |  +- org.jboss.arquillian.container:arquillian-container-impl-base:jar:1.6.0.Final:test
+[INFO] |  |  +- org.jboss.arquillian.config:arquillian-config-api:jar:1.6.0.Final:test
+[INFO] |  |  +- org.jboss.arquillian.config:arquillian-config-impl-base:jar:1.6.0.Final:test
+[INFO] |  |  |  \- org.jboss.arquillian.config:arquillian-config-spi:jar:1.6.0.Final:test
+[INFO] |  |  \- org.jboss.shrinkwrap.descriptors:shrinkwrap-descriptors-spi:jar:2.0.0:test
+[INFO] |  +- org.jboss.arquillian.container:arquillian-container-test-impl-base:jar:1.6.0.Final:test
+[INFO] |  \- org.jboss.shrinkwrap:shrinkwrap-impl-base:jar:1.2.6:test
+[INFO] |     \- org.jboss.shrinkwrap:shrinkwrap-spi:jar:1.2.6:test
+[INFO] \- org.wildfly.arquillian:wildfly-arquillian-container-managed:jar:3.0.1.Final:test
+[INFO]    +- org.wildfly.arquillian:wildfly-arquillian-common:jar:3.0.1.Final:test
+[INFO]    |  +- org.jboss.arquillian.testenricher:arquillian-testenricher-cdi:jar:1.6.0.Final:test
+[INFO]    |  +- org.jboss.arquillian.testenricher:arquillian-testenricher-ejb:jar:1.6.0.Final:test
+[INFO]    |  +- org.jboss.arquillian.testenricher:arquillian-testenricher-initialcontext:jar:1.6.0.Final:test
+[INFO]    |  +- org.jboss.arquillian.testenricher:arquillian-testenricher-resource:jar:1.6.0.Final:test
+[INFO]    |  +- org.jboss.arquillian.protocol:arquillian-protocol-servlet:jar:1.6.0.Final:test
+[INFO]    |  +- org.wildfly.arquillian:wildfly-arquillian-testenricher-msc:jar:3.0.1.Final:test
+[INFO]    |  |  \- org.wildfly.core:wildfly-server:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     +- org.wildfly.core:wildfly-controller:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     |  +- org.wildfly.core:wildfly-core-security:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     |  |  \- org.wildfly.core:wildfly-core-security-api:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     |  +- org.jboss.logmanager:jboss-logmanager:jar:2.1.5.Final-redhat-00001:test
+[INFO]    |  |     |  +- org.jboss:staxmapper:jar:1.3.0.Final-redhat-1:test
+[INFO]    |  |     |  +- org.projectodd.vdx:vdx-wildfly:jar:1.1.6.redhat-1:test
+[INFO]    |  |     |  |  \- org.projectodd.vdx:vdx-core:jar:1.1.6.redhat-1:test
+[INFO]    |  |     |  \- org.eclipse.jgit:org.eclipse.jgit:jar:5.0.2.201807311906-r-redhat-00001:test
+[INFO]    |  |     |     +- com.jcraft:jzlib:jar:1.1.1.redhat-00001:test
+[INFO]    |  |     |     \- com.googlecode.javaewah:JavaEWAH:jar:1.1.6.redhat-00001:test
+[INFO]    |  |     +- org.wildfly.core:wildfly-core-management-client:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     +- org.wildfly.core:wildfly-domain-http-interface:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     |  \- org.wildfly.security.elytron-web:undertow-server:jar:1.2.3.Final-redhat-00001:test
+[INFO]    |  |     +- org.wildfly.core:wildfly-deployment-repository:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     +- org.wildfly.core:wildfly-platform-mbean:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     +- org.wildfly.core:wildfly-process-controller:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     +- org.wildfly.core:wildfly-network:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     +- org.wildfly.core:wildfly-version:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     +- org.jboss:jandex:jar:2.0.5.Final-redhat-1:test
+[INFO]    |  |     +- org.jboss.invocation:jboss-invocation:jar:1.5.1.Final-redhat-1:test
+[INFO]    |  |     +- org.jboss.modules:jboss-modules:jar:1.8.6.Final-redhat-00001:test
+[INFO]    |  |     +- org.jboss.stdio:jboss-stdio:jar:1.0.2.GA-redhat-2:test
+[INFO]    |  |     +- org.jboss:jboss-vfs:jar:3.2.14.Final-redhat-00001:test
+[INFO]    |  |     +- io.undertow:undertow-core:jar:2.0.15.Final-redhat-00001:test
+[INFO]    |  |     \- com.jcraft:jsch:jar:0.1.54.redhat-00001:test
+[INFO]    |  +- org.wildfly.core:wildfly-controller-client:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |  +- org.wildfly.core:wildfly-protocol:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |  \- org.jboss:jboss-dmr:jar:1.5.0.Final-redhat-1:test
+[INFO]    |  +- org.wildfly.plugins:wildfly-plugin-core:jar:2.0.2.Final:test
+[INFO]    |  +- org.jboss.shrinkwrap.descriptors:shrinkwrap-descriptors-impl-base:jar:2.0.0:test
+[INFO]    |  \- org.wildfly.common:wildfly-common:jar:1.4.0.Final-redhat-1:test
+[INFO]    +- org.wildfly.arquillian:wildfly-arquillian-protocol-jmx:jar:3.0.1.Final:test
+[INFO]    |  +- org.wildfly.security:wildfly-elytron:jar:1.6.1.Final-redhat-00001:test
+[INFO]    |  +- org.jboss.arquillian.protocol:arquillian-protocol-jmx:jar:1.6.0.Final:test
+[INFO]    |  \- org.wildfly.core:wildfly-jmx:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |     +- org.jboss.msc:jboss-msc:jar:1.4.5.Final-redhat-00001:test
+[INFO]    |     \- org.wildfly.core:wildfly-remoting:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |        +- org.wildfly.core:wildfly-domain-management:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |        |  \- org.picketbox:picketbox:jar:5.0.3.Final-redhat-3:test
+[INFO]    |        \- org.wildfly.core:wildfly-io:jar:6.0.11.Final-redhat-00001:test
+[INFO]    +- org.jboss.xnio:xnio-api:jar:3.6.5.Final-redhat-00001:test
+[INFO]    |  +- org.wildfly.client:wildfly-client-config:jar:1.0.1.Final-redhat-00001:test
+[INFO]    |  \- org.jboss.threads:jboss-threads:jar:2.3.2.Final-redhat-1:test
+[INFO]    +- org.jboss.xnio:xnio-nio:jar:3.6.5.Final-redhat-00001:test
+[INFO]    +- org.jboss.marshalling:jboss-marshalling:jar:2.0.6.Final-redhat-00001:test
+[INFO]    +- org.jboss.marshalling:jboss-marshalling-river:jar:2.0.6.Final-redhat-00001:test
+[INFO]    +- org.jboss.remoting:jboss-remoting:jar:5.0.8.Final-redhat-1:test
+[INFO]    +- org.jboss.remotingjmx:remoting-jmx:jar:3.0.0.Final-redhat-1:test
+[INFO]    +- org.wildfly.core:wildfly-launcher:jar:6.0.11.Final-redhat-00001:test
+[INFO]    \- org.jboss.arquillian.core:arquillian-core-api:jar:1.6.0.Final:test
+[INFO] 
+[INFO] ---------------< es.caib.interdoc:interdoc-api-externa >----------------
+[INFO] Building interdoc - API Rest - Externa 1.0.0                     [10/14]
+[INFO] --------------------------------[ war ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:3.1.2:tree (default-cli) @ interdoc-api-externa ---
+[INFO] es.caib.interdoc:interdoc-api-externa:war:1.0.0
+[INFO] +- org.jboss.spec:jboss-javaee-8.0:pom:1.0.1.Final-redhat-00003:provided
+[INFO] |  +- javax.activation:activation:jar:1.1.1.redhat-5:provided
+[INFO] |  +- javax.enterprise:cdi-api:jar:2.0.0.SP1-redhat-00001:provided
+[INFO] |  +- javax.inject:javax.inject:jar:1.0.0.redhat-6:provided
+[INFO] |  +- javax.json:javax.json-api:jar:1.1.2.redhat-1:provided
+[INFO] |  +- javax.json.bind:javax.json.bind-api:jar:1.0.0.redhat-1:provided
+[INFO] |  +- javax.jws:jsr181-api:jar:1.0.0.MR1-redhat-8:provided
+[INFO] |  +- com.sun.mail:javax.mail:jar:1.6.1.redhat-1:provided
+[INFO] |  +- javax.persistence:javax.persistence-api:jar:2.2.0.redhat-1:provided
+[INFO] |  +- javax.security.enterprise:javax.security.enterprise-api:jar:1.0.0.redhat-1:provided
+[INFO] |  +- javax.validation:validation-api:jar:2.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.annotation:jboss-annotations-api_1.3_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.batch:jboss-batch-api_1.0_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.ejb:jboss-ejb-api_3.2_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.el:jboss-el-api_3.0_spec:jar:1.0.12.Final-redhat-00001:provided
+[INFO] |  +- org.jboss.spec.javax.enterprise.concurrent:jboss-concurrency-api_1.0_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.faces:jboss-jsf-api_2.3_spec:jar:2.3.5.SP1-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.interceptor:jboss-interceptors-api_1.2_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.management.j2ee:jboss-j2eemgmt-api_1.1_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.resource:jboss-connector-api_1.7_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.rmi:jboss-rmi-api_1.0_spec:jar:1.0.6.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.security.jacc:jboss-jacc-api_1.5_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.security.auth.message:jboss-jaspi-api_1.1_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.jms:jboss-jms-api_2.0_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.servlet:jboss-servlet-api_4.0_spec:jar:1.0.0.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.servlet.jsp:jboss-jsp-api_2.3_spec:jar:1.0.3.Final-redhat-1:provided
+[INFO] |  +- org.apache.taglibs:taglibs-standard-spec:jar:1.2.6.RC1-redhat-1:provided
+[INFO] |  +- org.apache.taglibs:taglibs-standard-impl:jar:1.2.6.RC1-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.transaction:jboss-transaction-api_1.2_spec:jar:1.1.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.ws.rs:jboss-jaxrs-api_2.1_spec:jar:1.0.1.Final-redhat-00001:provided
+[INFO] |  +- org.jboss.spec.javax.websocket:jboss-websocket-api_1.1_spec:jar:1.1.3.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.xml.bind:jboss-jaxb-api_2.3_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.xml.soap:jboss-saaj-api_1.3_spec:jar:1.0.6.Final-redhat-1:provided
+[INFO] |  \- org.jboss.spec.javax.xml.ws:jboss-jaxws-api_2.3_spec:jar:1.0.0.Final-redhat-1:provided
+[INFO] +- org.slf4j:slf4j-api:jar:1.7.22.redhat-2:provided
+[INFO] +- es.caib.interdoc:interdoc-commons:jar:1.0.0:provided
+[INFO] +- es.caib.interdoc:interdoc-persistence:jar:1.0.0:provided
+[INFO] +- es.caib.interdoc:interdoc-ejb:jar:1.0.0:provided
+[INFO] |  +- es.caib.interdoc:interdoc-plugins-arxiu:jar:1.0.0:provided
+[INFO] |  |  +- org.fundaciobit.pluginsib.arxiu:pluginsib-arxiu-api:jar:3.0.0-SNAPSHOT:provided
+[INFO] |  |  |  +- org.freemarker:freemarker:jar:2.3.32:provided
+[INFO] |  |  |  \- org.fundaciobit.pluginsib.core.v3:pluginsib-core:jar:3.0.0-SNAPSHOT:provided
+[INFO] |  |  +- org.fundaciobit.pluginsib.arxiu:pluginsib-arxiu-caib:jar:3.0.0-SNAPSHOT:provided
+[INFO] |  |  |  \- es.caib.arxiudigital:arxiudigital-apirest:jar:1.0.8:provided
+[INFO] |  |  |     \- com.fasterxml.jackson.core:jackson-databind:jar:2.9.5.redhat-2:provided
+[INFO] |  |  |        +- com.fasterxml.jackson.core:jackson-annotations:jar:2.9.5.redhat-2:provided
+[INFO] |  |  |        \- com.fasterxml.jackson.core:jackson-core:jar:2.9.5.redhat-2:provided
+[INFO] |  |  +- com.sun.jersey:jersey-core:jar:1.19.4:provided
+[INFO] |  |  |  \- javax.ws.rs:jsr311-api:jar:1.1.1:provided
+[INFO] |  |  +- com.sun.jersey:jersey-client:jar:1.19.4:provided
+[INFO] |  |  +- org.fundaciobit.pluginsib.validatesignature:pluginsib-validatesignature-api:jar:3.0.0-SNAPSHOT:provided
+[INFO] |  |  |  \- org.fundaciobit.pluginsib.validatecertificate:pluginsib-validatecertificate-api:jar:3.0.0-SNAPSHOT:provided
+[INFO] |  |  +- org.eclipse.microprofile.config:microprofile-config-api:jar:1.3:provided
+[INFO] |  |  |  \- org.osgi:org.osgi.annotation.versioning:jar:1.0.0:provided
+[INFO] |  |  +- org.jboss.ejb3:jboss-ejb3-api:jar:3.1.0:provided
+[INFO] |  |  |  +- jboss.jbossws:jboss-jaxrpc:jar:2.0.3.GA:provided
+[INFO] |  |  |  \- org.jboss.javaee:jboss-transaction-api:jar:1.0.1.CR2:provided
+[INFO] |  |  \- org.jboss.ejb3:jboss-ejb3-ext-api:jar:2.2.0.Final-redhat-1:provided
+[INFO] |  \- es.caib.interdoc:interdoc-plugins-apifirmasimple:jar:1.0.0:provided
+[INFO] |     +- org.fundaciobit.apisib.apifirmasimple:apifirmasimple-api:jar:1.0.3:provided
+[INFO] |     |  \- org.fundaciobit.apisib:apisib-core:jar:1.0.0:provided
+[INFO] |     +- org.fundaciobit.apisib.apifirmasimple:apifirmasimple-jersey:jar:1.0.3:provided
+[INFO] |     +- log4j:log4j:jar:1.2.17:provided
+[INFO] |     +- org.fundaciobit.apisib.jerseycore:apisib-jerseycore:jar:1.0.2:provided
+[INFO] |     |  +- com.sun.jersey:jersey-json:jar:1.19.4:provided
+[INFO] |     |  |  +- org.codehaus.jettison:jettison:jar:1.3.8.redhat-1:provided
+[INFO] |     |  |  +- org.codehaus.jackson:jackson-core-asl:jar:1.9.13.redhat-4:provided
+[INFO] |     |  |  +- org.codehaus.jackson:jackson-mapper-asl:jar:1.9.13.redhat-4:provided
+[INFO] |     |  |  +- org.codehaus.jackson:jackson-jaxrs:jar:1.9.13.redhat-4:provided
+[INFO] |     |  |  \- org.codehaus.jackson:jackson-xc:jar:1.9.13.redhat-4:provided
+[INFO] |     |  \- com.sun.jersey.contribs:jersey-apache-client4:jar:1.19.4:provided
+[INFO] |     \- commons-logging:commons-logging:jar:1.2:provided
+[INFO] +- es.caib.interdoc:interdoc-service:jar:1.0.0:provided
+[INFO] +- com.google.code.gson:gson:jar:2.8.2.redhat-5:compile
+[INFO] +- io.swagger.core.v3:swagger-annotations:jar:2.1.13:compile
+[INFO] +- junit:junit:jar:4.13.1:test
+[INFO] |  \- org.hamcrest:hamcrest-core:jar:1.3:test
+[INFO] +- org.jboss.resteasy:resteasy-client:jar:3.6.1.SP2-redhat-00001:test
+[INFO] |  +- org.jboss.resteasy:resteasy-jaxrs:jar:3.6.1.SP2-redhat-00001:test
+[INFO] |  |  +- org.reactivestreams:reactive-streams:jar:1.0.2.redhat-1:test
+[INFO] |  |  +- org.jboss.spec.javax.annotation:jboss-annotations-api_1.2_spec:jar:1.0.0.Final:test
+[INFO] |  |  +- commons-io:commons-io:jar:2.5.0.redhat-3:provided
+[INFO] |  |  \- net.jcip:jcip-annotations:jar:1.0.0.redhat-8:test
+[INFO] |  +- org.jboss.logging:jboss-logging:jar:3.3.2.Final-redhat-00001:provided
+[INFO] |  \- org.apache.httpcomponents:httpclient:jar:4.5.2.redhat-2:provided
+[INFO] |     +- org.apache.httpcomponents:httpcore:jar:4.4.4.redhat-2:provided
+[INFO] |     \- commons-codec:commons-codec:jar:1.10.0.redhat-5:provided
+[INFO] +- org.jboss.resteasy:resteasy-json-binding-provider:jar:3.6.1.SP2-redhat-00001:test
+[INFO] |  +- org.glassfish:javax.json:jar:1.1.2.redhat-1:test
+[INFO] |  \- org.eclipse:yasson:jar:1.0.1.redhat-1:test
+[INFO] +- org.jboss.logging:commons-logging-jboss-logging:jar:1.0.0.Final-redhat-1:test
+[INFO] +- org.jboss.arquillian.junit:arquillian-junit-container:jar:1.6.0.Final:test
+[INFO] |  +- org.jboss.arquillian.junit:arquillian-junit-core:jar:1.6.0.Final:test
+[INFO] |  +- org.jboss.arquillian.test:arquillian-test-api:jar:1.6.0.Final:test
+[INFO] |  +- org.jboss.arquillian.test:arquillian-test-spi:jar:1.6.0.Final:test
+[INFO] |  |  \- org.jboss.arquillian.core:arquillian-core-spi:jar:1.6.0.Final:test
+[INFO] |  +- org.jboss.arquillian.container:arquillian-container-test-api:jar:1.6.0.Final:test
+[INFO] |  |  +- org.jboss.shrinkwrap:shrinkwrap-api:jar:1.2.6:test
+[INFO] |  |  \- org.jboss.shrinkwrap.descriptors:shrinkwrap-descriptors-api-base:jar:2.0.0:test
+[INFO] |  +- org.jboss.arquillian.container:arquillian-container-test-spi:jar:1.6.0.Final:test
+[INFO] |  |  \- org.jboss.arquillian.container:arquillian-container-spi:jar:1.6.0.Final:test
+[INFO] |  +- org.jboss.arquillian.core:arquillian-core-impl-base:jar:1.6.0.Final:test
+[INFO] |  +- org.jboss.arquillian.test:arquillian-test-impl-base:jar:1.6.0.Final:test
+[INFO] |  +- org.jboss.arquillian.container:arquillian-container-impl-base:jar:1.6.0.Final:test
+[INFO] |  |  +- org.jboss.arquillian.config:arquillian-config-api:jar:1.6.0.Final:test
+[INFO] |  |  +- org.jboss.arquillian.config:arquillian-config-impl-base:jar:1.6.0.Final:test
+[INFO] |  |  |  \- org.jboss.arquillian.config:arquillian-config-spi:jar:1.6.0.Final:test
+[INFO] |  |  \- org.jboss.shrinkwrap.descriptors:shrinkwrap-descriptors-spi:jar:2.0.0:test
+[INFO] |  +- org.jboss.arquillian.container:arquillian-container-test-impl-base:jar:1.6.0.Final:test
+[INFO] |  \- org.jboss.shrinkwrap:shrinkwrap-impl-base:jar:1.2.6:test
+[INFO] |     \- org.jboss.shrinkwrap:shrinkwrap-spi:jar:1.2.6:test
+[INFO] \- org.wildfly.arquillian:wildfly-arquillian-container-managed:jar:3.0.1.Final:test
+[INFO]    +- org.wildfly.arquillian:wildfly-arquillian-common:jar:3.0.1.Final:test
+[INFO]    |  +- org.jboss.arquillian.testenricher:arquillian-testenricher-cdi:jar:1.6.0.Final:test
+[INFO]    |  +- org.jboss.arquillian.testenricher:arquillian-testenricher-ejb:jar:1.6.0.Final:test
+[INFO]    |  +- org.jboss.arquillian.testenricher:arquillian-testenricher-initialcontext:jar:1.6.0.Final:test
+[INFO]    |  +- org.jboss.arquillian.testenricher:arquillian-testenricher-resource:jar:1.6.0.Final:test
+[INFO]    |  +- org.jboss.arquillian.protocol:arquillian-protocol-servlet:jar:1.6.0.Final:test
+[INFO]    |  +- org.wildfly.arquillian:wildfly-arquillian-testenricher-msc:jar:3.0.1.Final:test
+[INFO]    |  |  \- org.wildfly.core:wildfly-server:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     +- org.wildfly.core:wildfly-controller:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     |  +- org.wildfly.core:wildfly-core-security:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     |  |  \- org.wildfly.core:wildfly-core-security-api:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     |  +- org.jboss.logmanager:jboss-logmanager:jar:2.1.5.Final-redhat-00001:test
+[INFO]    |  |     |  +- org.jboss:staxmapper:jar:1.3.0.Final-redhat-1:test
+[INFO]    |  |     |  +- org.projectodd.vdx:vdx-wildfly:jar:1.1.6.redhat-1:test
+[INFO]    |  |     |  |  \- org.projectodd.vdx:vdx-core:jar:1.1.6.redhat-1:test
+[INFO]    |  |     |  \- org.eclipse.jgit:org.eclipse.jgit:jar:5.0.2.201807311906-r-redhat-00001:test
+[INFO]    |  |     |     +- com.jcraft:jzlib:jar:1.1.1.redhat-00001:test
+[INFO]    |  |     |     \- com.googlecode.javaewah:JavaEWAH:jar:1.1.6.redhat-00001:test
+[INFO]    |  |     +- org.wildfly.core:wildfly-core-management-client:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     +- org.wildfly.core:wildfly-domain-http-interface:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     |  \- org.wildfly.security.elytron-web:undertow-server:jar:1.2.3.Final-redhat-00001:test
+[INFO]    |  |     +- org.wildfly.core:wildfly-deployment-repository:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     +- org.wildfly.core:wildfly-platform-mbean:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     +- org.wildfly.core:wildfly-process-controller:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     +- org.wildfly.core:wildfly-network:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     +- org.wildfly.core:wildfly-version:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |     +- org.jboss:jandex:jar:2.0.5.Final-redhat-1:test
+[INFO]    |  |     +- org.jboss.invocation:jboss-invocation:jar:1.5.1.Final-redhat-1:test
+[INFO]    |  |     +- org.jboss.modules:jboss-modules:jar:1.8.6.Final-redhat-00001:test
+[INFO]    |  |     +- org.jboss.stdio:jboss-stdio:jar:1.0.2.GA-redhat-2:test
+[INFO]    |  |     +- org.jboss:jboss-vfs:jar:3.2.14.Final-redhat-00001:test
+[INFO]    |  |     +- io.undertow:undertow-core:jar:2.0.15.Final-redhat-00001:test
+[INFO]    |  |     \- com.jcraft:jsch:jar:0.1.54.redhat-00001:test
+[INFO]    |  +- org.wildfly.core:wildfly-controller-client:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |  +- org.wildfly.core:wildfly-protocol:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |  |  \- org.jboss:jboss-dmr:jar:1.5.0.Final-redhat-1:test
+[INFO]    |  +- org.wildfly.plugins:wildfly-plugin-core:jar:2.0.2.Final:test
+[INFO]    |  +- org.jboss.shrinkwrap.descriptors:shrinkwrap-descriptors-impl-base:jar:2.0.0:test
+[INFO]    |  \- org.wildfly.common:wildfly-common:jar:1.4.0.Final-redhat-1:test
+[INFO]    +- org.wildfly.arquillian:wildfly-arquillian-protocol-jmx:jar:3.0.1.Final:test
+[INFO]    |  +- org.wildfly.security:wildfly-elytron:jar:1.6.1.Final-redhat-00001:test
+[INFO]    |  +- org.jboss.arquillian.protocol:arquillian-protocol-jmx:jar:1.6.0.Final:test
+[INFO]    |  \- org.wildfly.core:wildfly-jmx:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |     +- org.jboss.msc:jboss-msc:jar:1.4.5.Final-redhat-00001:test
+[INFO]    |     \- org.wildfly.core:wildfly-remoting:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |        +- org.wildfly.core:wildfly-domain-management:jar:6.0.11.Final-redhat-00001:test
+[INFO]    |        |  \- org.picketbox:picketbox:jar:5.0.3.Final-redhat-3:test
+[INFO]    |        \- org.wildfly.core:wildfly-io:jar:6.0.11.Final-redhat-00001:test
+[INFO]    +- org.jboss.xnio:xnio-api:jar:3.6.5.Final-redhat-00001:test
+[INFO]    |  +- org.wildfly.client:wildfly-client-config:jar:1.0.1.Final-redhat-00001:test
+[INFO]    |  \- org.jboss.threads:jboss-threads:jar:2.3.2.Final-redhat-1:test
+[INFO]    +- org.jboss.xnio:xnio-nio:jar:3.6.5.Final-redhat-00001:test
+[INFO]    +- org.jboss.marshalling:jboss-marshalling:jar:2.0.6.Final-redhat-00001:test
+[INFO]    +- org.jboss.marshalling:jboss-marshalling-river:jar:2.0.6.Final-redhat-00001:test
+[INFO]    +- org.jboss.remoting:jboss-remoting:jar:5.0.8.Final-redhat-1:test
+[INFO]    +- org.jboss.remotingjmx:remoting-jmx:jar:3.0.0.Final-redhat-1:test
+[INFO]    +- org.wildfly.core:wildfly-launcher:jar:6.0.11.Final-redhat-00001:test
+[INFO]    \- org.jboss.arquillian.core:arquillian-core-api:jar:1.6.0.Final:test
+[INFO] 
+[INFO] --------------------< es.caib.interdoc:interdoc-ws >--------------------
+[INFO] Building Interdoc - WS 1.0.0                                     [11/14]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:3.1.2:tree (default-cli) @ interdoc-ws ---
+[INFO] es.caib.interdoc:interdoc-ws:pom:1.0.0
+[INFO] 
+[INFO] ------------------< es.caib.interdoc:interdoc-ws-api >------------------
+[INFO] Building Interdoc - WS - API 1.0.0                               [12/14]
+[INFO] --------------------------------[ jar ]---------------------------------
+[WARNING] The POM for com.sun.xml.bind:jaxb-xjc:jar:2.2.11 is invalid, transitive dependencies (if any) will not be available, enable debug logging for more details
+[WARNING] The POM for com.sun.xml.bind:jaxb-core:jar:2.2.11 is invalid, transitive dependencies (if any) will not be available, enable debug logging for more details
+[WARNING] The POM for com.sun.xml.bind:jaxb-impl:jar:2.2.11 is invalid, transitive dependencies (if any) will not be available, enable debug logging for more details
+[INFO] 
+[INFO] --- maven-dependency-plugin:3.1.2:tree (default-cli) @ interdoc-ws-api ---
+[INFO] es.caib.interdoc:interdoc-ws-api:jar:1.0.0
+[INFO] +- org.jboss.spec:jboss-javaee-8.0:pom:1.0.1.Final-redhat-00003:provided
+[INFO] |  +- javax.activation:activation:jar:1.1.1.redhat-5:provided
+[INFO] |  +- javax.enterprise:cdi-api:jar:2.0.0.SP1-redhat-00001:provided
+[INFO] |  +- javax.inject:javax.inject:jar:1.0.0.redhat-6:provided
+[INFO] |  +- javax.json:javax.json-api:jar:1.1.2.redhat-1:provided
+[INFO] |  +- javax.json.bind:javax.json.bind-api:jar:1.0.0.redhat-1:provided
+[INFO] |  +- javax.jws:jsr181-api:jar:1.0.0.MR1-redhat-8:provided
+[INFO] |  +- com.sun.mail:javax.mail:jar:1.6.1.redhat-1:provided
+[INFO] |  +- javax.persistence:javax.persistence-api:jar:2.2.0.redhat-1:provided
+[INFO] |  +- javax.security.enterprise:javax.security.enterprise-api:jar:1.0.0.redhat-1:provided
+[INFO] |  +- javax.validation:validation-api:jar:2.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.annotation:jboss-annotations-api_1.3_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.batch:jboss-batch-api_1.0_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.ejb:jboss-ejb-api_3.2_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.el:jboss-el-api_3.0_spec:jar:1.0.12.Final-redhat-00001:provided
+[INFO] |  +- org.jboss.spec.javax.enterprise.concurrent:jboss-concurrency-api_1.0_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.faces:jboss-jsf-api_2.3_spec:jar:2.3.5.SP1-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.interceptor:jboss-interceptors-api_1.2_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.management.j2ee:jboss-j2eemgmt-api_1.1_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.resource:jboss-connector-api_1.7_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.rmi:jboss-rmi-api_1.0_spec:jar:1.0.6.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.security.jacc:jboss-jacc-api_1.5_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.security.auth.message:jboss-jaspi-api_1.1_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.jms:jboss-jms-api_2.0_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.servlet:jboss-servlet-api_4.0_spec:jar:1.0.0.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.servlet.jsp:jboss-jsp-api_2.3_spec:jar:1.0.3.Final-redhat-1:provided
+[INFO] |  +- org.apache.taglibs:taglibs-standard-spec:jar:1.2.6.RC1-redhat-1:provided
+[INFO] |  +- org.apache.taglibs:taglibs-standard-impl:jar:1.2.6.RC1-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.transaction:jboss-transaction-api_1.2_spec:jar:1.1.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.ws.rs:jboss-jaxrs-api_2.1_spec:jar:1.0.1.Final-redhat-00001:provided
+[INFO] |  +- org.jboss.spec.javax.websocket:jboss-websocket-api_1.1_spec:jar:1.1.3.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.xml.bind:jboss-jaxb-api_2.3_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.xml.soap:jboss-saaj-api_1.3_spec:jar:1.0.6.Final-redhat-1:provided
+[INFO] |  \- org.jboss.spec.javax.xml.ws:jboss-jaxws-api_2.3_spec:jar:1.0.0.Final-redhat-1:provided
+[INFO] +- org.slf4j:slf4j-api:jar:1.7.22.redhat-2:provided
+[INFO] +- javax.xml.bind:jaxb-api:jar:2.3.0:provided
+[INFO] +- org.jboss.ws.cxf:jbossws-cxf-client:jar:5.2.4.Final-redhat-00001:provided
+[INFO] |  +- org.jboss.modules:jboss-modules:jar:1.8.6.Final-redhat-00001:provided
+[INFO] |  +- org.jboss.ws:jbossws-api:jar:1.1.2.Final-redhat-00001:provided
+[INFO] |  +- org.jboss.ws:jbossws-common:jar:3.2.2.Final-redhat-00001:provided
+[INFO] |  |  \- jboss.jaxbintros:jboss-jaxb-intros:jar:1.0.2.GA-redhat-8:provided
+[INFO] |  |     +- commons-beanutils:commons-beanutils:jar:1.9.3.redhat-1:provided
+[INFO] |  |     \- org.jboss.spec.javax.xml.bind:jboss-jaxb-api_2.2_spec:jar:1.0.4.Final:provided
+[INFO] |  +- org.jboss.ws:jbossws-common-tools:jar:1.3.2.Final-redhat-00001:provided
+[INFO] |  +- org.jboss.ws:jbossws-spi:jar:3.2.3.Final-redhat-00001:provided
+[INFO] |  +- org.jboss.ws.cxf:jbossws-cxf-factories:jar:5.2.4.Final-redhat-00001:provided
+[INFO] |  +- org.jboss.ws.cxf:jbossws-cxf-transports-udp:jar:5.2.4.Final-redhat-00001:provided
+[INFO] |  |  \- org.jboss.spec.javax.annotation:jboss-annotations-api_1.2_spec:jar:1.0.2.Final:provided
+[INFO] |  +- org.jboss.ws.cxf:jbossws-cxf-transports-undertow:jar:5.2.4.Final-redhat-00001:provided
+[INFO] |  |  \- org.jboss.ws.projects:jaxws-undertow-httpspi:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  |     +- org.jboss.spec.javax.xml.ws:jboss-jaxws-api_2.2_spec:jar:2.0.2.Final:provided
+[INFO] |  |     \- io.undertow:undertow-core:jar:2.0.15.Final-redhat-00001:provided
+[INFO] |  |        +- org.jboss.xnio:xnio-api:jar:3.6.5.Final-redhat-00001:provided
+[INFO] |  |        |  +- org.wildfly.common:wildfly-common:jar:1.4.0.Final-redhat-1:provided
+[INFO] |  |        |  +- org.wildfly.client:wildfly-client-config:jar:1.0.1.Final-redhat-00001:provided
+[INFO] |  |        |  \- org.jboss.threads:jboss-threads:jar:2.3.2.Final-redhat-1:provided
+[INFO] |  |        \- org.jboss.xnio:xnio-nio:jar:3.6.5.Final-redhat-00001:provided
+[INFO] |  +- org.apache.cxf:cxf-rt-features-logging:jar:3.2.5.redhat-00001:provided
+[INFO] |  |  \- org.apache.cxf:cxf-core:jar:3.2.5.redhat-00001:provided
+[INFO] |  |     \- org.apache.ws.xmlschema:xmlschema-core:jar:2.2.1.redhat-2:provided
+[INFO] |  +- org.apache.cxf:cxf-rt-bindings-soap:jar:3.2.5.redhat-00001:provided
+[INFO] |  |  \- org.apache.cxf:cxf-rt-databinding-jaxb:jar:3.2.5.redhat-00001:provided
+[INFO] |  +- org.apache.cxf:cxf-rt-bindings-coloc:jar:3.2.5.redhat-00001:provided
+[INFO] |  +- org.apache.cxf:cxf-rt-frontend-jaxws:jar:3.2.5.redhat-00001:provided
+[INFO] |  |  +- xml-resolver:xml-resolver:jar:1.2.0.redhat-12:provided
+[INFO] |  |  +- org.apache.cxf:cxf-rt-bindings-xml:jar:3.2.5.redhat-00001:provided
+[INFO] |  |  +- org.apache.cxf:cxf-rt-frontend-simple:jar:3.2.5.redhat-00001:provided
+[INFO] |  |  \- org.apache.cxf:cxf-rt-ws-addr:jar:3.2.5.redhat-00001:provided
+[INFO] |  +- org.apache.cxf:cxf-rt-transports-http:jar:3.2.5.redhat-00001:provided
+[INFO] |  +- org.apache.cxf:cxf-rt-transports-http-hc:jar:3.2.5.redhat-00001:provided
+[INFO] |  |  +- org.apache.httpcomponents:httpcore-nio:jar:4.4.4.redhat-2:provided
+[INFO] |  |  |  \- org.apache.httpcomponents:httpcore:jar:4.4.4.redhat-2:provided
+[INFO] |  |  \- org.apache.httpcomponents:httpasyncclient:jar:4.1.3.redhat-2:provided
+[INFO] |  |     \- org.apache.httpcomponents:httpclient:jar:4.5.2.redhat-2:provided
+[INFO] |  +- org.apache.cxf:cxf-rt-transports-jms:jar:3.2.5.redhat-00001:provided
+[INFO] |  +- org.apache.cxf:cxf-rt-transports-local:jar:3.2.5.redhat-00001:provided
+[INFO] |  +- org.apache.cxf:cxf-rt-ws-mex:jar:3.2.5.redhat-00001:provided
+[INFO] |  +- org.apache.cxf:cxf-rt-ws-rm:jar:3.2.5.redhat-00001:provided
+[INFO] |  |  \- org.apache.cxf:cxf-rt-management:jar:3.2.5.redhat-00001:provided
+[INFO] |  +- org.apache.cxf:cxf-rt-ws-policy:jar:3.2.5.redhat-00001:provided
+[INFO] |  |  +- wsdl4j:wsdl4j:jar:1.6.3.redhat-2:provided
+[INFO] |  |  \- org.apache.neethi:neethi:jar:3.1.1.redhat-1:provided
+[INFO] |  +- org.apache.cxf:cxf-rt-ws-security:jar:3.2.5.redhat-00001:provided
+[INFO] |  |  +- org.apache.cxf:cxf-rt-security-saml:jar:3.2.5.redhat-00001:provided
+[INFO] |  |  |  \- org.apache.cxf:cxf-rt-security:jar:3.2.5.redhat-00001:provided
+[INFO] |  |  +- org.apache.wss4j:wss4j-ws-security-dom:jar:2.2.2.redhat-00002:provided
+[INFO] |  |  |  \- org.apache.wss4j:wss4j-ws-security-common:jar:2.2.2.redhat-00002:provided
+[INFO] |  |  |     +- org.opensaml:opensaml-saml-impl:jar:3.3.0.redhat-1:provided
+[INFO] |  |  |     |  +- org.opensaml:opensaml-profile-api:jar:3.3.0.redhat-1:provided
+[INFO] |  |  |     |  |  \- org.opensaml:opensaml-core:jar:3.3.0.redhat-1:provided
+[INFO] |  |  |     |  |     \- io.dropwizard.metrics:metrics-core:jar:3.1.2:provided
+[INFO] |  |  |     |  +- org.opensaml:opensaml-saml-api:jar:3.3.0.redhat-1:provided
+[INFO] |  |  |     |  |  +- org.opensaml:opensaml-xmlsec-api:jar:3.3.0.redhat-1:provided
+[INFO] |  |  |     |  |  \- org.opensaml:opensaml-soap-api:jar:3.3.0.redhat-1:provided
+[INFO] |  |  |     |  +- org.opensaml:opensaml-security-impl:jar:3.3.0.redhat-1:provided
+[INFO] |  |  |     |  |  \- org.opensaml:opensaml-security-api:jar:3.3.0.redhat-1:provided
+[INFO] |  |  |     |  |     +- org.cryptacular:cryptacular:jar:1.2.0.redhat-1:provided
+[INFO] |  |  |     |  |     \- org.bouncycastle:bcprov-jdk15on:jar:1.60.0.redhat-00001:provided
+[INFO] |  |  |     |  +- org.opensaml:opensaml-xmlsec-impl:jar:3.3.0.redhat-1:provided
+[INFO] |  |  |     |  \- net.shibboleth.utilities:java-support:jar:7.1.1.redhat-2:provided
+[INFO] |  |  |     |     +- com.google.guava:guava:jar:25.0.0.redhat-1:provided
+[INFO] |  |  |     |     |  +- org.checkerframework:checker-compat-qual:jar:2.0.0:provided
+[INFO] |  |  |     |     |  +- com.google.errorprone:error_prone_annotations:jar:2.1.3:provided
+[INFO] |  |  |     |     |  +- com.google.j2objc:j2objc-annotations:jar:1.1:provided
+[INFO] |  |  |     |     |  \- org.codehaus.mojo:animal-sniffer-annotations:jar:1.14:provided
+[INFO] |  |  |     |     \- joda-time:joda-time:jar:2.9.7.redhat-1:provided
+[INFO] |  |  |     +- org.opensaml:opensaml-xacml-impl:jar:3.3.0.redhat-1:provided
+[INFO] |  |  |     |  \- org.opensaml:opensaml-xacml-api:jar:3.3.0.redhat-1:provided
+[INFO] |  |  |     +- org.opensaml:opensaml-xacml-saml-impl:jar:3.3.0.redhat-1:provided
+[INFO] |  |  |     |  \- org.opensaml:opensaml-xacml-saml-api:jar:3.3.0.redhat-1:provided
+[INFO] |  |  |     +- org.jasypt:jasypt:jar:1.9.2.redhat-1:provided
+[INFO] |  |  |     \- org.apache.geronimo.javamail:geronimo-javamail_1.4_mail:jar:1.8.4:provided
+[INFO] |  |  +- org.apache.wss4j:wss4j-policy:jar:2.2.2.redhat-00002:provided
+[INFO] |  |  +- org.apache.wss4j:wss4j-ws-security-stax:jar:2.2.2.redhat-00002:provided
+[INFO] |  |  |  \- org.apache.wss4j:wss4j-bindings:jar:2.2.2.redhat-00002:provided
+[INFO] |  |  \- org.apache.wss4j:wss4j-ws-security-policy-stax:jar:2.2.2.redhat-00002:provided
+[INFO] |  +- org.apache.cxf:cxf-rt-wsdl:jar:3.2.5.redhat-00001:provided
+[INFO] |  +- org.apache.cxf:cxf-tools-java2ws:jar:3.2.5.redhat-00001:provided
+[INFO] |  |  +- org.apache.cxf:cxf-tools-common:jar:3.2.5.redhat-00001:provided
+[INFO] |  |  \- org.apache.cxf:cxf-rt-databinding-aegis:jar:3.2.5.redhat-00001:provided
+[INFO] |  +- org.apache.cxf:cxf-tools-wsdlto-core:jar:3.2.5.redhat-00001:provided
+[INFO] |  |  \- org.apache.cxf:cxf-tools-validator:jar:3.2.5.redhat-00001:provided
+[INFO] |  +- org.apache.cxf:cxf-tools-wsdlto-databinding-jaxb:jar:3.2.5.redhat-00001:provided
+[INFO] |  +- org.apache.cxf:cxf-tools-wsdlto-frontend-jaxws:jar:3.2.5.redhat-00001:provided
+[INFO] |  |  \- org.apache.commons:commons-text:jar:1.2:provided
+[INFO] |  +- org.apache.cxf.services.ws-discovery:cxf-services-ws-discovery-api:jar:3.2.5.redhat-00001:provided
+[INFO] |  +- org.apache.cxf.xjcplugins:cxf-xjc-boolean:jar:3.2.2.redhat-00001:provided
+[INFO] |  |  +- javax.annotation:javax.annotation-api:jar:1.3.1:provided
+[INFO] |  |  \- javax.xml.ws:jaxws-api:jar:2.3.0:provided
+[INFO] |  |     \- javax.xml.soap:javax.xml.soap-api:jar:1.4.0:provided
+[INFO] |  +- org.apache.cxf.xjcplugins:cxf-xjc-bug986:jar:3.2.2.redhat-00001:provided
+[INFO] |  +- org.apache.cxf.xjcplugins:cxf-xjc-dv:jar:3.2.2.redhat-00001:provided
+[INFO] |  +- org.apache.cxf.xjcplugins:cxf-xjc-ts:jar:3.2.2.redhat-00001:provided
+[INFO] |  +- org.apache.cxf.xjc-utils:cxf-xjc-runtime:jar:3.2.2.redhat-00001:provided
+[INFO] |  +- org.apache.velocity:velocity-engine-core:jar:2.0.0.redhat-1:provided
+[INFO] |  +- commons-collections:commons-collections:jar:3.2.2.redhat-2:provided
+[INFO] |  +- org.apache.commons:commons-lang3:jar:3.6.0.redhat-1:provided
+[INFO] |  +- javax.xml.stream:stax-api:jar:1.0-2:provided
+[INFO] |  +- com.sun.xml.fastinfoset:FastInfoset:jar:1.2.13.redhat-1:provided
+[INFO] |  +- org.apache.santuario:xmlsec:jar:2.1.2.redhat-00001:provided
+[INFO] |  |  \- commons-codec:commons-codec:jar:1.10.0.redhat-5:provided
+[INFO] |  +- com.fasterxml.woodstox:woodstox-core:jar:5.0.3.redhat-1:provided
+[INFO] |  |  \- org.codehaus.woodstox:stax2-api:jar:3.1.4.redhat-2:provided
+[INFO] |  +- org.ow2.asm:asm:jar:6.2.1.redhat-00001:provided
+[INFO] |  +- org.jboss.spec.javax.servlet:jboss-servlet-api_3.1_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.glassfish.jaxb:jaxb-runtime:jar:2.3.1.redhat-00001:provided
+[INFO] |  |  +- org.glassfish.jaxb:txw2:jar:2.3.1.redhat-00001:provided
+[INFO] |  |  +- com.sun.istack:istack-commons-runtime:jar:3.0.5.redhat-1:provided
+[INFO] |  |  +- org.jvnet.staxex:stax-ex:jar:1.8:provided
+[INFO] |  |  \- javax.activation:javax.activation-api:jar:1.2.0:provided
+[INFO] |  +- org.glassfish.jaxb:jaxb-xjc:jar:2.3.1.redhat-00001:provided
+[INFO] |  |  +- org.glassfish.jaxb:xsom:jar:2.3.1.redhat-00001:provided
+[INFO] |  |  +- com.sun.xml.dtd-parser:dtd-parser:jar:1.4.0.redhat-00001:provided
+[INFO] |  |  +- com.sun.istack:istack-commons-tools:jar:3.0.5.redhat-1:provided
+[INFO] |  |  |  \- org.apache.ant:ant:jar:1.7.0:provided
+[INFO] |  |  |     \- org.apache.ant:ant-launcher:jar:1.7.0:provided
+[INFO] |  |  \- com.sun.xml.bind.external:relaxng-datatype:jar:2.3.1.redhat-00001:provided
+[INFO] |  +- org.glassfish.jaxb:codemodel:jar:2.3.1.redhat-00001:provided
+[INFO] |  +- com.sun.xml.bind.external:rngom:jar:2.3.1.redhat-00001:provided
+[INFO] |  +- com.sun.xml.messaging.saaj:saaj-impl:jar:1.3.16.SP1-redhat-6:provided
+[INFO] |  |  +- org.jvnet.mimepull:mimepull:jar:1.7:provided
+[INFO] |  |  \- xerces:xercesImpl:jar:2.12.0.SP02-redhat-00001:provided
+[INFO] |  +- log4j:log4j:jar:1.2.17:provided
+[INFO] |  +- org.slf4j:slf4j-log4j12:jar:1.7.25:provided
+[INFO] |  \- org.jboss.logging:jboss-logging:jar:3.3.2.Final-redhat-00001:provided
+[INFO] \- commons-io:commons-io:jar:2.11.0:compile
+[INFO] 
+[INFO] -------------------< es.caib.interdoc:interdoc-back >-------------------
+[INFO] Building Interdoc - BACK 1.0.0                                   [13/14]
+[INFO] --------------------------------[ war ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:3.1.2:tree (default-cli) @ interdoc-back ---
+[INFO] es.caib.interdoc:interdoc-back:war:1.0.0
+[INFO] +- org.jboss.spec:jboss-javaee-8.0:pom:1.0.1.Final-redhat-00003:provided
+[INFO] |  +- javax.activation:activation:jar:1.1.1.redhat-5:provided
+[INFO] |  +- javax.enterprise:cdi-api:jar:2.0.0.SP1-redhat-00001:provided
+[INFO] |  +- javax.inject:javax.inject:jar:1.0.0.redhat-6:provided
+[INFO] |  +- javax.json:javax.json-api:jar:1.1.2.redhat-1:provided
+[INFO] |  +- javax.json.bind:javax.json.bind-api:jar:1.0.0.redhat-1:provided
+[INFO] |  +- javax.jws:jsr181-api:jar:1.0.0.MR1-redhat-8:provided
+[INFO] |  +- com.sun.mail:javax.mail:jar:1.6.1.redhat-1:provided
+[INFO] |  +- javax.persistence:javax.persistence-api:jar:2.2.0.redhat-1:provided
+[INFO] |  +- javax.security.enterprise:javax.security.enterprise-api:jar:1.0.0.redhat-1:provided
+[INFO] |  +- javax.validation:validation-api:jar:2.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.annotation:jboss-annotations-api_1.3_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.batch:jboss-batch-api_1.0_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.ejb:jboss-ejb-api_3.2_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.el:jboss-el-api_3.0_spec:jar:1.0.12.Final-redhat-00001:provided
+[INFO] |  +- org.jboss.spec.javax.enterprise.concurrent:jboss-concurrency-api_1.0_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.faces:jboss-jsf-api_2.3_spec:jar:2.3.5.SP1-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.interceptor:jboss-interceptors-api_1.2_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.management.j2ee:jboss-j2eemgmt-api_1.1_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.resource:jboss-connector-api_1.7_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.rmi:jboss-rmi-api_1.0_spec:jar:1.0.6.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.security.jacc:jboss-jacc-api_1.5_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.security.auth.message:jboss-jaspi-api_1.1_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.jms:jboss-jms-api_2.0_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.servlet:jboss-servlet-api_4.0_spec:jar:1.0.0.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.servlet.jsp:jboss-jsp-api_2.3_spec:jar:1.0.3.Final-redhat-1:provided
+[INFO] |  +- org.apache.taglibs:taglibs-standard-spec:jar:1.2.6.RC1-redhat-1:provided
+[INFO] |  +- org.apache.taglibs:taglibs-standard-impl:jar:1.2.6.RC1-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.transaction:jboss-transaction-api_1.2_spec:jar:1.1.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.ws.rs:jboss-jaxrs-api_2.1_spec:jar:1.0.1.Final-redhat-00001:provided
+[INFO] |  +- org.jboss.spec.javax.websocket:jboss-websocket-api_1.1_spec:jar:1.1.3.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.xml.bind:jboss-jaxb-api_2.3_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.xml.soap:jboss-saaj-api_1.3_spec:jar:1.0.6.Final-redhat-1:provided
+[INFO] |  \- org.jboss.spec.javax.xml.ws:jboss-jaxws-api_2.3_spec:jar:1.0.0.Final-redhat-1:provided
+[INFO] +- org.slf4j:slf4j-api:jar:1.7.22.redhat-2:provided
+[INFO] +- org.eclipse.microprofile.config:microprofile-config-api:jar:1.3:provided
+[INFO] |  \- org.osgi:org.osgi.annotation.versioning:jar:1.0.0:provided
+[INFO] +- es.caib.interdoc:interdoc-commons:jar:1.0.0:provided
+[INFO] +- es.caib.interdoc:interdoc-service:jar:1.0.0:provided
+[INFO] +- es.caib.interdoc:interdoc-ws-api:jar:1.0.0:compile
+[INFO] +- org.keycloak:keycloak-core:jar:6.0.1:provided
+[INFO] |  +- org.keycloak:keycloak-common:jar:6.0.1:provided
+[INFO] |  +- org.bouncycastle:bcprov-jdk15on:jar:1.60.0.redhat-00001:provided
+[INFO] |  +- org.bouncycastle:bcpkix-jdk15on:jar:1.60.0.redhat-00001:provided
+[INFO] |  +- com.fasterxml.jackson.core:jackson-core:jar:2.9.5.redhat-2:provided
+[INFO] |  \- com.fasterxml.jackson.core:jackson-databind:jar:2.9.5.redhat-2:provided
+[INFO] |     \- com.fasterxml.jackson.core:jackson-annotations:jar:2.9.5.redhat-2:provided
+[INFO] +- org.primefaces:primefaces:jar:10.0.0:compile
+[INFO] +- commons-fileupload:commons-fileupload:jar:1.2.2:compile
+[INFO] \- commons-io:commons-io:jar:2.5.0.redhat-3:compile
+[INFO] 
+[INFO] -------------------< es.caib.interdoc:interdoc-ear >--------------------
+[INFO] Building Interdoc - EAR 1.0.0                                    [14/14]
+[INFO] --------------------------------[ ear ]---------------------------------
+[WARNING] The artifact org.codehaus.cargo:cargo-maven2-plugin:jar:1.9.0 has been relocated to org.codehaus.cargo:cargo-maven3-plugin:jar:1.9.0: As Maven 2.x is end of life since November 2009, the Maven 2 / Maven 3 plugin of Codehaus Cargo has been retired and superceeded by a Maven 3 only plugin. Read more on: https://codehaus-cargo.github.io/cargo/Maven+3+Plugin.html
+[INFO] 
+[INFO] --- maven-dependency-plugin:3.1.2:tree (default-cli) @ interdoc-ear ---
+[INFO] es.caib.interdoc:interdoc-ear:ear:1.0.0
+[INFO] +- org.jboss.spec:jboss-javaee-8.0:pom:1.0.1.Final-redhat-00003:provided
+[INFO] |  +- javax.activation:activation:jar:1.1.1.redhat-5:provided
+[INFO] |  +- javax.enterprise:cdi-api:jar:2.0.0.SP1-redhat-00001:provided
+[INFO] |  +- javax.inject:javax.inject:jar:1.0.0.redhat-6:provided
+[INFO] |  +- javax.json:javax.json-api:jar:1.1.2.redhat-1:provided
+[INFO] |  +- javax.json.bind:javax.json.bind-api:jar:1.0.0.redhat-1:provided
+[INFO] |  +- javax.jws:jsr181-api:jar:1.0.0.MR1-redhat-8:provided
+[INFO] |  +- com.sun.mail:javax.mail:jar:1.6.1.redhat-1:provided
+[INFO] |  +- javax.persistence:javax.persistence-api:jar:2.2.0.redhat-1:provided
+[INFO] |  +- javax.security.enterprise:javax.security.enterprise-api:jar:1.0.0.redhat-1:provided
+[INFO] |  +- javax.validation:validation-api:jar:2.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.annotation:jboss-annotations-api_1.3_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.batch:jboss-batch-api_1.0_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.ejb:jboss-ejb-api_3.2_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.el:jboss-el-api_3.0_spec:jar:1.0.12.Final-redhat-00001:provided
+[INFO] |  +- org.jboss.spec.javax.enterprise.concurrent:jboss-concurrency-api_1.0_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.faces:jboss-jsf-api_2.3_spec:jar:2.3.5.SP1-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.interceptor:jboss-interceptors-api_1.2_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.management.j2ee:jboss-j2eemgmt-api_1.1_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.resource:jboss-connector-api_1.7_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.rmi:jboss-rmi-api_1.0_spec:jar:1.0.6.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.security.jacc:jboss-jacc-api_1.5_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.security.auth.message:jboss-jaspi-api_1.1_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.jms:jboss-jms-api_2.0_spec:jar:1.0.2.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.servlet:jboss-servlet-api_4.0_spec:jar:1.0.0.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.servlet.jsp:jboss-jsp-api_2.3_spec:jar:1.0.3.Final-redhat-1:provided
+[INFO] |  +- org.apache.taglibs:taglibs-standard-spec:jar:1.2.6.RC1-redhat-1:provided
+[INFO] |  +- org.apache.taglibs:taglibs-standard-impl:jar:1.2.6.RC1-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.transaction:jboss-transaction-api_1.2_spec:jar:1.1.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.ws.rs:jboss-jaxrs-api_2.1_spec:jar:1.0.1.Final-redhat-00001:provided
+[INFO] |  +- org.jboss.spec.javax.websocket:jboss-websocket-api_1.1_spec:jar:1.1.3.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.xml.bind:jboss-jaxb-api_2.3_spec:jar:1.0.1.Final-redhat-1:provided
+[INFO] |  +- org.jboss.spec.javax.xml.soap:jboss-saaj-api_1.3_spec:jar:1.0.6.Final-redhat-1:provided
+[INFO] |  \- org.jboss.spec.javax.xml.ws:jboss-jaxws-api_2.3_spec:jar:1.0.0.Final-redhat-1:provided
+[INFO] +- org.slf4j:slf4j-api:jar:1.7.22.redhat-2:provided
+[INFO] +- es.caib.interdoc:interdoc-ejb:ejb:1.0.0:compile
+[INFO] +- es.caib.interdoc:interdoc-back:war:1.0.0:compile
+[INFO] +- es.caib.interdoc:interdoc-service:jar:1.0.0:compile
+[INFO] +- es.caib.interdoc:interdoc-persistence:jar:1.0.0:compile
+[INFO] +- es.caib.interdoc:interdoc-commons:jar:1.0.0:compile
+[INFO] +- es.caib.interdoc:interdoc-api-interna:war:1.0.0:compile
+[INFO] +- es.caib.interdoc:interdoc-api-externa:war:1.0.0:compile
+[INFO] +- es.caib.interdoc:interdoc-plugins-arxiu:jar:1.0.0:compile
+[INFO] |  +- org.fundaciobit.pluginsib.arxiu:pluginsib-arxiu-api:jar:3.0.0-SNAPSHOT:compile
+[INFO] |  |  \- org.freemarker:freemarker:jar:2.3.32:compile
+[INFO] |  +- org.fundaciobit.pluginsib.arxiu:pluginsib-arxiu-caib:jar:3.0.0-SNAPSHOT:compile
+[INFO] |  |  +- es.caib.arxiudigital:arxiudigital-apirest:jar:1.0.8:compile
+[INFO] |  |  |  \- com.fasterxml.jackson.core:jackson-databind:jar:2.9.5.redhat-2:compile
+[INFO] |  |  |     +- com.fasterxml.jackson.core:jackson-annotations:jar:2.9.5.redhat-2:compile
+[INFO] |  |  |     \- com.fasterxml.jackson.core:jackson-core:jar:2.9.5.redhat-2:compile
+[INFO] |  |  +- commons-codec:commons-codec:jar:1.10.0.redhat-5:compile
+[INFO] |  |  \- commons-io:commons-io:jar:2.5.0.redhat-3:compile
+[INFO] |  +- org.fundaciobit.pluginsib.validatesignature:pluginsib-validatesignature-api:jar:3.0.0-SNAPSHOT:compile
+[INFO] |  |  \- org.fundaciobit.pluginsib.validatecertificate:pluginsib-validatecertificate-api:jar:3.0.0-SNAPSHOT:compile
+[INFO] |  +- org.eclipse.microprofile.config:microprofile-config-api:jar:1.3:compile
+[INFO] |  |  \- org.osgi:org.osgi.annotation.versioning:jar:1.0.0:compile
+[INFO] |  +- org.jboss.ejb3:jboss-ejb3-api:jar:3.1.0:compile
+[INFO] |  |  +- jboss.jbossws:jboss-jaxrpc:jar:2.0.3.GA:compile
+[INFO] |  |  \- org.jboss.javaee:jboss-transaction-api:jar:1.0.1.CR2:compile
+[INFO] |  \- org.jboss.ejb3:jboss-ejb3-ext-api:jar:2.2.0.Final-redhat-1:compile
+[INFO] +- es.caib.interdoc:interdoc-plugins-apifirmasimple:jar:1.0.0:compile
+[INFO] |  +- org.fundaciobit.apisib.apifirmasimple:apifirmasimple-api:jar:1.0.3:compile
+[INFO] |  |  \- org.fundaciobit.apisib:apisib-core:jar:1.0.0:compile
+[INFO] |  +- org.fundaciobit.apisib.apifirmasimple:apifirmasimple-jersey:jar:1.0.3:compile
+[INFO] |  +- org.fundaciobit.apisib.jerseycore:apisib-jerseycore:jar:1.0.2:compile
+[INFO] |  |  +- com.sun.jersey:jersey-json:jar:1.19.4:compile
+[INFO] |  |  |  +- org.codehaus.jettison:jettison:jar:1.3.8.redhat-1:compile
+[INFO] |  |  |  +- org.codehaus.jackson:jackson-core-asl:jar:1.9.13.redhat-4:compile
+[INFO] |  |  |  +- org.codehaus.jackson:jackson-mapper-asl:jar:1.9.13.redhat-4:compile
+[INFO] |  |  |  +- org.codehaus.jackson:jackson-jaxrs:jar:1.9.13.redhat-4:compile
+[INFO] |  |  |  \- org.codehaus.jackson:jackson-xc:jar:1.9.13.redhat-4:compile
+[INFO] |  |  \- com.sun.jersey.contribs:jersey-apache-client4:jar:1.19.4:compile
+[INFO] |  |     \- org.apache.httpcomponents:httpclient:jar:4.5.2.redhat-2:compile
+[INFO] |  |        \- org.apache.httpcomponents:httpcore:jar:4.4.4.redhat-2:compile
+[INFO] |  \- commons-logging:commons-logging:jar:1.2:compile
+[INFO] +- org.fundaciobit.pluginsib.core.v3:pluginsib-core:jar:3.0.0-SNAPSHOT:compile
+[INFO] |  \- org.jboss.logging:jboss-logging:jar:3.3.2.Final-redhat-00001:compile
+[INFO] \- com.sun.jersey:jersey-client:jar:1.19.4:compile
+[INFO]    \- com.sun.jersey:jersey-core:jar:1.19.4:compile
+[INFO]       \- javax.ws.rs:jsr311-api:jar:1.1.1:compile
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for Interdoc 1.0.0:
+[INFO] 
+[INFO] Interdoc ........................................... SUCCESS [  1.876 s]
+[INFO] Interdoc - COMMONS ................................. SUCCESS [  0.458 s]
+[INFO] Interdoc - SERVICE ................................. SUCCESS [  0.125 s]
+[INFO] Interdoc - PERSISTENCE ............................. SUCCESS [  0.899 s]
+[INFO] Interdoc - Plugins ................................. SUCCESS [  0.007 s]
+[INFO] Interdoc - Plugin - Arxiu .......................... SUCCESS [  0.601 s]
+[INFO] Interdoc - Plugin - API Firma Simple ............... SUCCESS [  0.185 s]
+[INFO] Interdoc - EJB ..................................... SUCCESS [  0.334 s]
+[INFO] interdoc - API Rest - Interna ...................... SUCCESS [  1.502 s]
+[INFO] interdoc - API Rest - Externa ...................... SUCCESS [  0.324 s]
+[INFO] Interdoc - WS ...................................... SUCCESS [  0.005 s]
+[INFO] Interdoc - WS - API ................................ SUCCESS [  1.257 s]
+[INFO] Interdoc - BACK .................................... SUCCESS [  0.159 s]
+[INFO] Interdoc - EAR ..................................... SUCCESS [  0.298 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  8.682 s
+[INFO] Finished at: 2025-05-23T13:44:14+02:00
+[INFO] ------------------------------------------------------------------------

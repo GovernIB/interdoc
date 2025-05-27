@@ -10,30 +10,28 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import es.caib.interdoc.commons.utils.Constants;
-import es.caib.interdoc.service.exception.PluginNoTrobatException;
-import es.caib.interdoc.service.facade.PluginServiceFacade;
 
 public class FirmaSimpleController {
 
 	private final Logger LOG = LoggerFactory.getLogger(FirmaSimpleController.class);
 
-	@EJB(mappedName = PluginServiceFacade.JNDI_NAME)
-	private PluginServiceFacade pluginService;
+/*	@EJB(mappedName = PluginServiceFacade.JNDI_NAME)
+	private PluginFirmaServiceFacade pluginService;*/
 
-	@Inject
-	private FirmaPluginImpl plugin;
+/*	@Inject
+	private FirmaPluginImpl plugin;*/
 
 	public FirmaSimpleController() {
 		LOG.info("Inici del mòdul Firma : constructor buit");
 		// setPlugin(new FirmaPluginImpl());
 	}
 
-	public FirmaSimpleController(Long entitatId) throws Exception, PluginNoTrobatException {
+/*	public FirmaSimpleController(Long entitatId) throws Exception, PluginNoTrobatException {
 		super();
 		LOG.info("Inici del mòdul Firma per la entitat => " + String.valueOf(entitatId));
 
 		if (this.pluginService == null)
-			this.pluginService = (PluginServiceFacade) (new InitialContext()).lookup(PluginServiceFacade.JNDI_NAME);
+			this.pluginService = (PluginFirmaServiceFacade) (new InitialContext()).lookup(PluginServiceFacade.JNDI_NAME);
 
 		if (plugin == null) {
 
@@ -51,7 +49,7 @@ public class FirmaSimpleController {
 
 		}
 	}
-
+	
 	public FirmaPluginImpl getPlugin() {
 		return this.plugin;
 	}
@@ -66,5 +64,5 @@ public class FirmaSimpleController {
 
 	public void setPluginService(PluginServiceFacade pluginService) {
 		this.pluginService = pluginService;
-	}
+	}*/
 }

@@ -3,7 +3,7 @@
 echo off
 cat help.txt
 
-env mvn -DskipTests $@ install 
+env mvn -DskipTests $@ clean install 
 
 if [ $? == 0 ]; then
   if [ "INTERDOC_DEPLOY_DIR" == "" ];  then
