@@ -6,7 +6,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Dades referents a una referencia.
@@ -49,7 +49,7 @@ public class ReferenciaDTO {
 
 	@NotNull
 	@PastOrPresent
-	private LocalDate dataCreacio;
+	private LocalDateTime dataCreacio;
 
 	private Long infoSignaturaId;
 
@@ -66,7 +66,7 @@ public class ReferenciaDTO {
 	}
 
 	public ReferenciaDTO(Long id, String csvId, String uuId, String direccio, String hash, String emisor,
-			String receptor, String urlVisible, String formatFirma, LocalDate dataCreacio) {
+			String receptor, String urlVisible, String formatFirma, LocalDateTime dataCreacio) {
 		this.id = id;
 		this.csvId = csvId;
 		this.uuId = uuId;
@@ -80,7 +80,7 @@ public class ReferenciaDTO {
 	}
 
 	public ReferenciaDTO(Long id, String csvId, String uuId, String direccio, String emisor, String receptor,
-			String formatFirma, LocalDate dataCreacio) {
+			String formatFirma, LocalDateTime dataCreacio) {
 		this.id = id;
 		this.csvId = csvId;
 		this.uuId = uuId;
@@ -92,7 +92,7 @@ public class ReferenciaDTO {
 	}
 
 	public ReferenciaDTO(Long id, String csvId, String uuId, String direccio, String emisor, String receptor,
-			String formatFirma, LocalDate dataCreacio, Long infoSignaturaId, Long infoArxiuId, Long fitxerId,
+			String formatFirma, LocalDateTime dataCreacio, Long infoSignaturaId, Long infoArxiuId, Long fitxerId,
 			String referencia, Long entitatId) {
 		this.id = id;
 		this.csvId = csvId;
@@ -110,7 +110,7 @@ public class ReferenciaDTO {
 	}
 	
 	public ReferenciaDTO(Long id, String csvId, String uuId, String direccio, String emisor, String receptor,
-			String formatFirma, LocalDate dataCreacio, Long infoSignaturaId, Long infoArxiuId, Long fitxerId,
+			String formatFirma, LocalDateTime dataCreacio, Long infoSignaturaId, Long infoArxiuId, Long fitxerId,
 			String referencia, Long entitatId, String numeroRegistre) {
 		this.id = id;
 		this.csvId = csvId;
@@ -129,7 +129,7 @@ public class ReferenciaDTO {
 	}
 
 	public ReferenciaDTO(long id, String csvId, String uuId, String referencia, String direccio, String hash,
-			String emisor, String receptor, String urlVisible, LocalDate dataCreacio, long infoSignaturaId,
+			String emisor, String receptor, String urlVisible, LocalDateTime dataCreacio, long infoSignaturaId,
 			long infoArxiuId, long entitatId, String formatFirma, long fitxerId, String numeroRegistre) {
 		super();
 		this.id = id;
@@ -154,7 +154,7 @@ public class ReferenciaDTO {
 			@NotNull @Size(max = 255) String direccio, @Size(max = 255) String hash,
 			@NotEmpty @Size(max = 50) String emisor, @NotEmpty @Size(max = 50) String receptor,
 			@NotEmpty @Size(max = 255) String urlVisible, String formatFirma,
-			@NotNull @PastOrPresent LocalDate dataCreacio, Long infoSignaturaId, Long infoArxiuId, Long entitatId,
+			@NotNull @PastOrPresent LocalDateTime dataCreacio, Long infoSignaturaId, Long infoArxiuId, Long entitatId,
 			Long fitxerId, String numeroRegistre) {
 		super();
 		this.id = id;
@@ -247,11 +247,11 @@ public class ReferenciaDTO {
 		this.formatFirma = formatFirma;
 	}
 
-	public LocalDate getDataCreacio() {
+	public LocalDateTime getDataCreacio() {
 		return dataCreacio;
 	}
 
-	public void setDataCreacio(LocalDate dataCreacio) {
+	public void setDataCreacio(LocalDateTime dataCreacio) {
 		this.dataCreacio = dataCreacio;
 	}
 

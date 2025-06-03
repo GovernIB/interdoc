@@ -4,6 +4,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Dades referents a un resultat obtingut despres de cridar al servei de ObtenerReferencia. 
@@ -24,13 +25,13 @@ public class ReferenciaXMLDTO {
 
     @NotNull
     @PastOrPresent
-    private LocalDate dataCreacio;
+    private LocalDateTime dataCreacio;
 
 
     public ReferenciaXMLDTO() {
     }
 
-    public ReferenciaXMLDTO(Long id, String resultat, Long referenciaId, LocalDate dataCreacio) {
+    public ReferenciaXMLDTO(Long id, String resultat, Long referenciaId, LocalDateTime dataCreacio) {
         this.id = id;
         this.resultat = resultat;
         this.referenciaId = referenciaId;
@@ -61,11 +62,11 @@ public class ReferenciaXMLDTO {
         this.referenciaId = referenciaId;
     }
 
-    public LocalDate getDataCreacio() {
+    public LocalDateTime getDataCreacio() {
         return dataCreacio;
     }
 
-    public void setDataCreacio(LocalDate dataCreacio) {
+    public void setDataCreacio(LocalDateTime dataCreacio) {
         this.dataCreacio = dataCreacio;
     }
 

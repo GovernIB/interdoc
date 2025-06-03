@@ -53,6 +53,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -557,7 +558,7 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 				else
 					nuevaReferenciaDto.setUuId(referencia);
 
-				nuevaReferenciaDto.setDataCreacio(LocalDate.now());
+				nuevaReferenciaDto.setDataCreacio(LocalDateTime.now());
 
 				if (getBaseWsUrl() == null) {
 					setBaseWsUrl(Configuracio.getBaseWsUrl());
@@ -601,7 +602,7 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 				ReferenciaXMLDTO referenciaXMLDto = new ReferenciaXMLDTO();
 				referenciaXMLDto.setReferenciaId(referenciaDB);
 				referenciaXMLDto.setResultat(respostaXML);
-				referenciaXMLDto.setDataCreacio(LocalDate.now());
+				referenciaXMLDto.setDataCreacio(LocalDateTime.now());
 				referenciaXMLDto.setId(null);
 				referenciaXMLService.create(referenciaXMLDto);
 

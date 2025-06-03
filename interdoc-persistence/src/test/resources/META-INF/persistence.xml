@@ -46,7 +46,7 @@
 				value="target/drop.sql" />
 
 			<!-- Propietats específiques de Hibernate https://docs.jboss.org/hibernate/orm/5.3/userguide/html_single/Hibernate_User_Guide.html#configurations -->
-			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.show_sql" value="false" />
 			<property name="hibernate.format_sql" value="true" />
 			<property name="hibernate.hbm2ddl.delimiter" value=";" />
 

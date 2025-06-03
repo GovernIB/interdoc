@@ -73,12 +73,14 @@ public abstract class PluginCacheServiceFacadeBean<P> extends PluginServiceFacad
     
     
     public void addPluginToCache(Long pluginID, P pluginInstance) {
+        log.info("CACHE: addPluginToCache() Id="+pluginID);
         synchronized (pluginsCache) {
           pluginsCache.put(pluginID, pluginInstance);  
         }
     }
 
    public P getPluginFromCache(Long pluginID) {
+       log.info("CACHE: getPluginFromCache() Id="+pluginID);
         synchronized (pluginsCache) {
           return  (P) pluginsCache.get(pluginID);  
         }
@@ -86,6 +88,7 @@ public abstract class PluginCacheServiceFacadeBean<P> extends PluginServiceFacad
    
     
     public void clearCache() {
+      log.info("CACHE: clearCache()");
       synchronized (pluginsCache) {
         pluginsCache.clear();
       }
