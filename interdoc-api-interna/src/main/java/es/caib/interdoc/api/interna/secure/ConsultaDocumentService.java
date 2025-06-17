@@ -1,4 +1,4 @@
-package es.caib.interdoc.api.interna.all.open;
+package es.caib.interdoc.api.interna.secure;
 
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
@@ -20,7 +20,10 @@ import es.caib.interdoc.plugins.arxiu.InterdocArxiuPlugin;
 import es.caib.pluginsib.arxiu.api.Document;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -31,25 +34,61 @@ import io.swagger.v3.oas.annotations.media.Content;
  * Servei de consulta de documents
  * 
  */
-@Path("/consulta")
+@Path("/secure/consulta")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@OpenAPIDefinition(tags = @Tag(name = "ConsultaDocumentService", description = "Servei JSON per consultar un document per UUID"))
+@OpenAPIDefinition(tags = @Tag(name = ConsultaDocumentService.TAG_NAME, description = "Servei JSON per consultar un document per UUID"))
+@SecurityScheme(type = SecuritySchemeType.HTTP, name = ConsultaDocumentService.SECURITY_NAME, scheme = "basic")
+@ApiResponses(
+        value = {
+                @ApiResponse(
+                        responseCode = "400",
+                        description = "Paràmetres incorrectes",
+                        content = @Content(
+                                mediaType = MediaType.APPLICATION_JSON
+                                /*schema = @Schema(implementation = RestExceptionInfo.class)*/)),
+                @ApiResponse(
+                        responseCode = "401",
+                        description = "No Autenticat",
+                        content = { @Content(
+                                mediaType = MediaType.APPLICATION_JSON
+                                /*schema = @Schema(implementation = RestExceptionInfo.class)*/) }),
+                @ApiResponse(
+                        responseCode = "403",
+                        description = "No autoritzat",
+                        content = { @Content(
+                                mediaType = MediaType.APPLICATION_JSON
+                                /*schema = @Schema(implementation = RestExceptionInfo.class)*/) }),
+                @ApiResponse(
+                        responseCode = "500",
+                        description = "Error no controlat",
+                        content = {
+                                @Content(
+                                        mediaType = MediaType.APPLICATION_JSON
+                                        /*schema = @Schema(implementation = RestExceptionInfo.class)*/) })
+                })
 public class ConsultaDocumentService {
+    
+    protected static final String TAG_NAME = "ConsultaDocumentService";
+    
+    protected static final String SECURITY_NAME = "BasicAuth";
+    
+    protected static Logger log = LoggerFactory.getLogger(ConsultaDocumentService.class);
+    
+    
 
     @EJB(mappedName = PluginArxiuServiceFacade.JNDI_NAME)
     private PluginArxiuServiceFacade pluginService;
     
-    
-	protected static Logger log = LoggerFactory.getLogger(ConsultaDocumentService.class);
 
-	@Path("/document")
+	@Path("/consultaDocument")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Operation(tags = "Document", operationId = "Consulta document per UUID", summary = "Consulta de document", method = "get")
+	@Operation(tags = "Document", operationId = "consultaDocument", summary = "Consulta document per UUID")
+	@SecurityRequirement(name = ConsultaDocumentService.SECURITY_NAME)
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "404", description = "Paràmetres incorrectes", content = @Content(mediaType = MediaType.APPLICATION_JSON)),
+			//@ApiResponse(responseCode = "404", description = "Paràmetres incorrectes", content = @Content(mediaType = MediaType.APPLICATION_JSON)),
 			@ApiResponse(responseCode = "200", description = "Document UUID", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = String.class))) })
 	public Response consultaDocument(
 

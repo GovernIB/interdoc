@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
@@ -78,7 +79,7 @@ public class Referencia extends BaseEntity {
     @Column(name = "DATACREACIO", nullable = false)
     @NotNull
     @PastOrPresent
-    private LocalDate dataCreacio;
+    private LocalDateTime dataCreacio;
     
     @Column(name = "INFOSIGNATURAID", nullable = true, length = 19)
     private Long infoSignaturaId;
@@ -175,11 +176,11 @@ public class Referencia extends BaseEntity {
         this.formatFirma = formatFirma;
     }
 
-    public LocalDate getDataCreacio() {
+    public LocalDateTime getDataCreacio() {
         return dataCreacio;
     }
 
-    public void setDataCreacio(LocalDate dataCreacio) {
+    public void setDataCreacio(LocalDateTime dataCreacio) {
         this.dataCreacio = dataCreacio;
     }
 
@@ -252,7 +253,7 @@ public class Referencia extends BaseEntity {
 			@Size(max = 255) String referencia, @NotEmpty @Size(max = 255) String direccio,
 			@Size(max = 255) String hash, @Size(max = 50) String emisor, @Size(max = 50) String receptor,
 			@Size(max = 255) String urlVisible, @Size(max = 5) String formatFirma,
-			@NotNull @PastOrPresent LocalDate dataCreacio, Long infoSignaturaId, Long infoArxiuId, Long fitxerId,
+			@NotNull @PastOrPresent LocalDateTime dataCreacio, Long infoSignaturaId, Long infoArxiuId, Long fitxerId,
 			Long entitatId, String numeroRegistre) {
 		super();
 		this.id = id;
