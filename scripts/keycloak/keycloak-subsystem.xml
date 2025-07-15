@@ -13,5 +13,27 @@
         <verify-token-audience>true</verify-token-audience>
     </secure-deployment>
     <!-- BACK END -->
-
+    <secure-deployment name="interdoc-api-interna.war">
+        <realm>GOIB</realm>
+        <resource>goib-ws</resource>
+        <use-resource-role-mappings>true</use-resource-role-mappings>
+        <bearer-only>true</bearer-only>
+        <enable-basic-auth>true</enable-basic-auth>
+        <principal-attribute>preferred_username</principal-attribute>
+        <credential name="secret">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</credential>
+   </secure-deployment>
+   <secure-deployment name="interdoc-api-externa.war">
+        <realm>GOIB</realm>
+        <resource>goib-ws</resource>
+        <use-resource-role-mappings>true</use-resource-role-mappings>
+        <bearer-only>true</bearer-only>
+        <enable-basic-auth>true</enable-basic-auth>
+        <principal-attribute>preferred_username</principal-attribute>
+        <credential name="secret">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</credential>
+   </secure-deployment> 
+<security-domain name="keycloak">
+    <authentication>
+        <login-module code="org.keycloak.adapters.jboss.KeycloakLoginModule" flag="required"/>
+    </authentication>
+</security-domain>
 </subsystem>
