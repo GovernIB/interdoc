@@ -14,8 +14,8 @@
             <module name="org.apache.xerces" />
             <module name="org.apache.santuario.xmlsec" export="true"/>
             <module name="org.bouncycastle" export="true"/>
-			
-			<module name="org.apache.commons.codec" export="TRUE"/>
+
+            <module name="org.apache.commons.codec" export="TRUE"/>
             <module name="org.apache.commons.io" export="TRUE"/>
             <module name="org.apache.httpcomponents.core" export="TRUE"/>
             <module name="com.fasterxml.jackson.core.jackson-annotations" export="TRUE"/>
@@ -27,6 +27,26 @@
             <module name="org.codehaus.jackson.jackson-xc" export="TRUE"/>
             <module name="org.jboss.ejb3" export="TRUE"/>
             <module name="org.codehaus.jettison" export="TRUE"/>
+            <module name="org.apache.log4j" export="TRUE"/>
+            <module name="org.jboss.logging" export="TRUE"/>
+            <module name="javax.ws.rs.api" export="TRUE"/>
+            <module name="org.apache.log4j" export="TRUE"/>
         </dependencies>
     </deployment>
+    <sub-deployment name="interdoc-api-externa.war">
+        <dependencies>
+            <module name="com.google.code.gson" export="TRUE"/>
+        </dependencies>
+    </sub-deployment>
+    <sub-deployment name="interdoc-api-interna.war">
+        <dependencies>
+            <module name="com.google.code.gson" export="TRUE"/>
+            <module name="org.jboss.ws.api" export="TRUE"/>
+        </dependencies>
+    </sub-deployment>
+    <sub-deployment name="interdoc-back.war">
+        <dependencies>
+            <module name="org.apache.commons.io" export="TRUE"/>
+        </dependencies>
+    </sub-deployment>
 </jboss-deployment-structure>

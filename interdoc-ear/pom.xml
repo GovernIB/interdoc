@@ -218,6 +218,11 @@
                          **/jboss-ejb3-ext-api-*redhat*.jar,
                         <!-- Requereix afegir mòdul 'org.codehaus.jettison' a jboss-deployment-structure.xml -->
                          **/jettison-*redhat*.jar,
+                        <!-- Requereix afegir mòdul org.apache.log4j a jboss-deployment-structure.xml -->
+                        **/log4j-*.jar,
+                        <!-- Requereix afegir mòdul 'org.jboss.logging' a jboss-deployment-structure.xml -->
+                        **/jboss-logging*redhat*.jar,
+                        **/jsr311-api-1.1.1.jar
                     </packagingExcludes>
 				</configuration>
 			</plugin>
