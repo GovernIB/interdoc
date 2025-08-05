@@ -5,7 +5,7 @@
     <parent>
         <artifactId>interdoc</artifactId>
         <groupId>es.caib.interdoc</groupId>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
     </parent>
 
     <artifactId>interdoc-api-externa</artifactId>
@@ -46,7 +46,7 @@
         <dependency>
             <groupId>es.caib.interdoc</groupId>
             <artifactId>interdoc-ejb</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

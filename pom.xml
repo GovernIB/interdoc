@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>es.caib.interdoc</groupId>
     <artifactId>interdoc</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <packaging>pom</packaging>
     <name>Interdoc</name>
     <description>Interdoc Java EE 8 i JBOSS 7.2</description>
@@ -64,40 +64,40 @@
             <dependency>
                 <groupId>es.caib.interdoc</groupId>
                 <artifactId>interdoc-commons</artifactId>
-                <version>1.0.0</version>
+                <version>1.0.1</version>
             </dependency>
             <dependency>
                 <groupId>es.caib.interdoc</groupId>
                 <artifactId>interdoc-service</artifactId>
-                <version>1.0.0</version>
+                <version>1.0.1</version>
             </dependency>
             <dependency>
                 <groupId>es.caib.interdoc</groupId>
                 <artifactId>interdoc-persistence</artifactId>
-                <version>1.0.0</version>
+                <version>1.0.1</version>
             </dependency>
             <dependency>
                 <groupId>es.caib.interdoc</groupId>
                 <artifactId>interdoc-ejb</artifactId>
-                <version>1.0.0</version>
+                <version>1.0.1</version>
                 <type>ejb</type>
             </dependency>
             <dependency>
                 <groupId>es.caib.interdoc</groupId>
                 <artifactId>interdoc-back</artifactId>
-                <version>1.0.0</version>
+                <version>1.0.1</version>
                 <type>war</type>
             </dependency>
             <dependency>
                 <groupId>es.caib.interdoc</groupId>
                 <artifactId>interdoc-api-interna</artifactId>
-                <version>1.0.0</version>
+                <version>1.0.1</version>
                 <type>war</type>
             </dependency>
 			<dependency>
                 <groupId>es.caib.interdoc</groupId>
                 <artifactId>interdoc-api-externa</artifactId>
-                <version>1.0.0</version>
+                <version>1.0.1</version>
                 <type>war</type>
             </dependency>
 			
@@ -110,14 +110,14 @@
 			<dependency>
 				<groupId>es.caib.interdoc</groupId>
 				<artifactId>interdoc-plugins-apifirmasimple</artifactId>
-				<version>1.0.0</version>
+				<version>1.0.1</version>
 				<type>jar</type>
 			</dependency>
 
             <dependency>
 				<groupId>es.caib.interdoc</groupId>
 				<artifactId>interdoc-plugins-arxiu</artifactId>
-				<version>1.0.0</version>
+				<version>1.0.1</version>
 				<type>jar</type>
 			</dependency>
 			
