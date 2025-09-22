@@ -8,6 +8,7 @@ import es.caib.interdoc.service.facade.InfoSignaturaServiceFacade;
 import es.caib.interdoc.service.facade.ReferenciaServiceFacade;
 import es.caib.interdoc.service.facade.ReferenciaXMLServiceFacade;
 import es.caib.interdoc.service.facade.TrazaServiceFacade;
+import es.caib.interdoc.service.facade.UsuariServiceFacade;
 import es.caib.interdoc.service.facade.MetadadaServiceFacade;
 import es.caib.interdoc.service.model.AccesDTO;
 import es.caib.interdoc.service.model.EntitatDTO;
@@ -18,6 +19,7 @@ import es.caib.interdoc.service.model.MetadadaDTO;
 import es.caib.interdoc.service.model.ReferenciaDTO;
 import es.caib.interdoc.service.model.ReferenciaXMLDTO;
 import es.caib.interdoc.service.model.TrazaDTO;
+import es.caib.interdoc.service.model.UsuariDTO;
 
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
@@ -63,6 +65,9 @@ public class DetallReferenciaModel implements Serializable {
 	private EntitatServiceFacade entitatService;
 	
 	@EJB
+    private UsuariServiceFacade usuariService;
+	
+	@EJB
 	private ReferenciaXMLServiceFacade referenciaXMLService;
 
 	private ReferenciaDTO referencia = new ReferenciaDTO();
@@ -72,6 +77,8 @@ public class DetallReferenciaModel implements Serializable {
 	private InfoArxiuDTO infoArxiu = new InfoArxiuDTO();
 	
 	private EntitatDTO entitat = new EntitatDTO();
+	
+	private UsuariDTO usuari = new UsuariDTO();
 	
 	private FitxerDTO fitxer = new FitxerDTO();
 	
@@ -109,6 +116,10 @@ public class DetallReferenciaModel implements Serializable {
 
 	public EntitatDTO getEntitat() {
 		return entitat;
+	}
+	
+	public UsuariDTO getUsuari() {
+	    return usuari;
 	}
 
 	public void setEntitat(EntitatDTO entitat) {

@@ -1,0 +1,110 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+<ui:composition>
+
+    <!-- AplicacioId -->
+    <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+            <p:inputText id="id" value="#{usuariModel.value.id}" type="hidden"/>
+    </ui:decorate>
+
+    <!-- Usuari ID -->
+    <!-- <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+        <ui:define name="label">
+            <p:outputLabel for="usuariId" value="#{labels.usuari_id}"/>
+        </ui:define>
+        <ui:define name="input">
+            <p:inputText id="usuariId"/>
+            <p:message for="usuariId"/>
+        </ui:define>
+    </ui:decorate>
+     -->
+    
+    <!-- Username -->
+    <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+        <ui:define name="label">
+            <p:outputLabel for="username" value="#{labels.usuari_username}"/>
+        </ui:define>
+        <ui:define name="input">
+            <p:inputText id="username"/>
+            <p:message for="username"/>
+        </ui:define>
+    </ui:decorate>
+    
+    
+    <!-- Nom -->
+    <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+        <ui:define name="label">
+            <p:outputLabel for="nom" value="#{labels.usuari_nom}"/>
+        </ui:define>
+        <ui:define name="input">
+            <p:inputText id="nom"/>
+            <p:message for="nom"/>
+        </ui:define>
+    </ui:decorate>
+    
+    
+        <!-- Llinatge 1 -->
+    <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+        <ui:define name="label">
+            <p:outputLabel for="llinatge1" value="#{labels.usuari_llinatge1}"/>
+        </ui:define>
+        <ui:define name="input">
+            <p:inputText id="llinatge1"/>
+            <p:message for="llinatge1"/>
+        </ui:define>
+    </ui:decorate>
+    
+    
+     <!-- Llinatge 2 -->
+    <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+        <ui:define name="label">
+            <p:outputLabel for="llinatge2" value="#{labels.usuari_llinatge2}"/>
+        </ui:define>
+        <ui:define name="input">
+            <p:inputText id="llinatge2"/>
+            <p:message for="llinatge2"/>
+        </ui:define>
+    </ui:decorate>
+    
+    
+    <!-- NIF -->
+    <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+        <ui:define name="label">
+            <p:outputLabel for="nif" value="#{labels.usuari_nif}"/>
+        </ui:define>
+        <ui:define name="input">
+            <p:inputText id="nif"/>
+            <p:message for="nif"/>
+        </ui:define>
+    </ui:decorate>
+    
+    
+    <!-- Email -->
+    <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+        <ui:define name="label">
+            <p:outputLabel for="email" value="#{labels.usuari_email}"/>
+        </ui:define>
+        <ui:define name="input">
+            <p:inputText id="email"/>
+            <p:message for="email"/>
+        </ui:define>
+    </ui:decorate>
+    
+    
+    <!-- Darrera Entitat -->
+    <!-- <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+        <ui:define name="label">
+            <p:outputLabel for="darreraEntitat" value="#{labels.usuari_email}"/>
+        </ui:define>
+        <ui:define name="input">
+            <p:inputText id="darreraEntitat"/>
+            <p:message for="darreraEntitat"/>
+        </ui:define>
+    </ui:decorate> -->
+
+</ui:composition>
+</html>

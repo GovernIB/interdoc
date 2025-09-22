@@ -39,6 +39,7 @@
 		<dependency>
 			<groupId>es.caib.interdoc</groupId>
 			<artifactId>interdoc-persistence</artifactId>
+			<version>1.0.1</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>

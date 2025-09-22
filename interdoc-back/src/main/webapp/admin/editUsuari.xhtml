@@ -1,0 +1,49 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<!--
+Pàgina per edició d'unitats orgàniques.
+-->
+<ui:composition template="/WEB-INF/templates/layout.xhtml">
+
+    <ui:define name="metadata">
+        <f:metadata>
+            <f:viewParam id="usuariId" name="usuariId" value="#{usuariModel.value.usuariId}" />
+            <f:viewAction action="#{usuariModel.load}" />
+            <f:importConstants type="es.caib.interdoc.service.model.Estat" var="estats"/>
+        </f:metadata>
+    </ui:define>
+
+    <ui:define name="pageTitle">
+        #{labels.editUsuari_title}
+    </ui:define>
+
+    <ui:define name="breadcrumb">
+        <p:menuitem value="#{labels.listUsuari_link}" outcome="/listUsuari"/>
+        <p:menuitem value="#{labels.editUsuari_link}" outcome="/admin/editUsuari" includeViewParams="true"/>
+    </ui:define>
+
+    <ui:define name="content">
+
+        <h:form id="form">
+
+            <ui:include src="/WEB-INF/includes/fieldsUsuari.xhtml">
+                <ui:param name="edit" value="true" />
+            </ui:include>
+
+            <ui:decorate template="/WEB-INF/decorations/buttons.xhtml">
+                <ui:define name="buttons">
+                    <p:commandButton id="updateButton" action="#{editUsuari.update}"
+                                     value="#{labels.button_guardar}"
+                                     process="@form" update="@form"/>
+                    <p:button value="#{labels.button_tornar}" outcome="/listUsuari"
+                              styleClass="float-right"/>
+                </ui:define>
+            </ui:decorate>
+        </h:form>
+
+    </ui:define>
+</ui:composition>
+</html>

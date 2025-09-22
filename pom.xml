@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>es.caib.interdoc</groupId>
     <artifactId>interdoc</artifactId>
@@ -17,9 +17,9 @@
     <properties>
         <!-- Propietats que afecten els plugins -->
         <maven.compiler.release>11</maven.compiler.release>
-		<maven.compiler.target>11</maven.compiler.target>
-		<maven.compiler.source>11</maven.compiler.source>
-		<maven.test.skip>true</maven.test.skip>
+        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.test.skip>true</maven.test.skip>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!-- Versions de JBoss -->
@@ -59,7 +59,7 @@
     </properties>
     <dependencyManagement>
         <dependencies>
-		
+
             <!-- Dependències internes -->
             <dependency>
                 <groupId>es.caib.interdoc</groupId>
@@ -71,11 +71,11 @@
                 <artifactId>interdoc-service</artifactId>
                 <version>1.0.1</version>
             </dependency>
-            <dependency>
+            <!--<dependency>
                 <groupId>es.caib.interdoc</groupId>
                 <artifactId>interdoc-persistence</artifactId>
                 <version>1.0.1</version>
-            </dependency>
+            </dependency>-->
             <dependency>
                 <groupId>es.caib.interdoc</groupId>
                 <artifactId>interdoc-ejb</artifactId>
@@ -94,33 +94,33 @@
                 <version>1.0.1</version>
                 <type>war</type>
             </dependency>
-			<dependency>
+            <dependency>
                 <groupId>es.caib.interdoc</groupId>
                 <artifactId>interdoc-api-externa</artifactId>
                 <version>1.0.1</version>
                 <type>war</type>
             </dependency>
-			
-			<dependency>
-				<groupId>org.fundaciobit.pluginsib.core.v3</groupId>
-				<artifactId>pluginsib-core</artifactId>
-				<version>3.0.0-SNAPSHOT</version>
-			</dependency>
-			
-			<dependency>
-				<groupId>es.caib.interdoc</groupId>
-				<artifactId>interdoc-plugins-apifirmasimple</artifactId>
-				<version>1.0.1</version>
-				<type>jar</type>
-			</dependency>
 
+            <dependency>
+                <groupId>org.fundaciobit.pluginsib.core.v3</groupId>
+                <artifactId>pluginsib-core</artifactId>
+                <version>3.0.0-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>es.caib.interdoc</groupId>
+                <artifactId>interdoc-plugins-apifirmasimple</artifactId>
+                <version>1.0.1</version>
+                <type>jar</type>
+            </dependency>
+            <!--
             <dependency>
 				<groupId>es.caib.interdoc</groupId>
 				<artifactId>interdoc-plugins-arxiu</artifactId>
 				<version>1.0.1</version>
 				<type>jar</type>
 			</dependency>
-			
+-->
             <!-- Definició de les versions de les llibreries, especificacions i eines disponibles dins JBoss -->
             <dependency>
                 <groupId>org.jboss.bom</groupId>
@@ -241,7 +241,10 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.1</version>
+                    <version>3.9.0</version>
+                    <configuration>
+                        <forceJavacCompilerUse>true</forceJavacCompilerUse>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
@@ -367,39 +370,39 @@
                     <rulesUri>file:///${session.executionRootDirectory}/version-ruleset.xml</rulesUri>
                 </configuration>
             </plugin>
-			
+
             <!-- Gestió de requisits del build -->
-			<!-- Veure: https://maven.apache.org/enforcer/enforcer-rules/index.html -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-enforcer-plugin</artifactId>
-				<version>3.0.0-M3</version>
-				<configuration>
-					<rules>
-						<!-- Fixam mínim Maven 3.6 i Java 11 -->
-						<requireMavenVersion>
-							<version>3.6.1</version>
-						</requireMavenVersion>
-						<requireJavaVersion>
-							<version>11</version>
-						</requireJavaVersion>
-						<!-- Per detectar problemes de dependències -->
-						<banDuplicatePomDependencyVersions/>
-						<dependencyConvergence/>
-						<!-- Evita tenir versions diferents en els diferents mòduls
+            <!-- Veure: https://maven.apache.org/enforcer/enforcer-rules/index.html -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.0.0-M3</version>
+                <configuration>
+                    <rules>
+                        <!-- Fixam mínim Maven 3.6 i Java 11 -->
+                        <requireMavenVersion>
+                            <version>3.6.1</version>
+                        </requireMavenVersion>
+                        <requireJavaVersion>
+                            <version>11</version>
+                        </requireJavaVersion>
+                        <!-- Per detectar problemes de dependències -->
+                        <banDuplicatePomDependencyVersions/>
+                        <dependencyConvergence/>
+                        <!-- Evita tenir versions diferents en els diferents mòduls
 						<reactorModuleConvergence/>
 						-->
-					</rules>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>enforce</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			
+                    </rules>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
     <profiles>
@@ -418,8 +421,8 @@
                 <webXml.loginConfig.authMethod>BASIC</webXml.loginConfig.authMethod>
             </properties>
         </profile>
-        
-		<!-- profile>
+
+        <!-- profile>
             <id>api-externa-client</id>
             <activation>
                 <file>
@@ -442,15 +445,15 @@
             </modules>
         </profile -->
     </profiles>
-	
-	<distributionManagement>
-		<repository>
-		  <id>github_governib_maven</id>
-		  <name>GitHub GovernIB Maven Repository</name>
-		  <url>file://${project.build.directory}/mvn-repo</url>
-		</repository>
-	</distributionManagement>
-	
+
+    <distributionManagement>
+        <repository>
+            <id>github_governib_maven</id>
+            <name>GitHub GovernIB Maven Repository</name>
+            <url>file://${project.build.directory}/mvn-repo</url>
+        </repository>
+    </distributionManagement>
+
     <repositories>
         <repository>
             <id>maven-nuxeo</id>
@@ -537,14 +540,14 @@
         <module>interdoc-commons</module>
         <module>interdoc-persistence</module>
         <module>interdoc-ejb</module>
-        <module>interdoc-service</module>  
+        <module>interdoc-service</module>
         <module>interdoc-plugins</module>
-		<module>interdoc-api-interna</module>
-		<module>interdoc-api-externa</module>
-		<module>interdoc-ws</module>
+        <module>interdoc-api-interna</module>
+        <module>interdoc-api-externa</module>
+        <module>interdoc-ws</module>
         <module>interdoc-back</module>
-		<!-- module>interdoc-api-interna-client</module -->
-		<!-- module>interdoc-api-externa-client</module -->
-		<module>interdoc-ear</module>
+        <!-- module>interdoc-api-interna-client</module -->
+        <!-- module>interdoc-api-externa-client</module -->
+        <module>interdoc-ear</module>
     </modules>
 </project>
