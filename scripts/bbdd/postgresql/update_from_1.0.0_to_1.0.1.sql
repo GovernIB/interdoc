@@ -152,5 +152,11 @@ CREATE INDEX itd_usuent_usuariid_fk_i
   ON itd_usuarientitat
   USING btree
   (usuariid);
+  
+  
+INSERT INTO itd_idioma (idiomaid, nom, suportat, ordre)
+VALUES
+    ('ca', 'Català', TRUE, 0),
+    ('es', 'Castellano', TRUE, 1);
 
 

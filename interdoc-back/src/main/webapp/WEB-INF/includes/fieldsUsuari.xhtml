@@ -29,10 +29,34 @@
             <p:outputLabel for="username" value="#{labels.usuari_username}"/>
         </ui:define>
         <ui:define name="input">
-            <p:inputText id="username"/>
+            <p:inputText id="username" value="#{usuariModel.value.username}"/>
             <p:message for="username"/>
         </ui:define>
     </ui:decorate>
+    
+    <!-- idiomaId -->
+    <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+    <ui:define name="label">
+        <p:outputLabel for="idiomaId" value="#{labels.usuari_idiomaid}"/>
+    </ui:define>
+    <ui:define name="input">  
+        <p:selectOneMenu id="idiomaId" value="#{usuariModel.value.idiomaId}">
+            <f:selectItem itemLabel="Català" itemValue="ca" />
+            <!-- <f:selectItem itemLabel="Español" itemValue="es" /> -->
+        </p:selectOneMenu>
+        <p:message for="idiomaId"/>
+    </ui:define>
+</ui:decorate>    
+    
+    <!-- <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+        <ui:define name="label">
+            <p:outputLabel for="idiomaId" value="#{labels.usuari_idiomaid}"/>
+        </ui:define>
+        <ui:define name="input">  
+            <p:inputText id="idiomaId" value="#{usuariModel.value.idiomaId}"/>
+            <p:message for="idiomaId"/>
+        </ui:define>
+    </ui:decorate> -->
     
     
     <!-- Nom -->
@@ -41,7 +65,7 @@
             <p:outputLabel for="nom" value="#{labels.usuari_nom}"/>
         </ui:define>
         <ui:define name="input">
-            <p:inputText id="nom"/>
+            <p:inputText id="nom" value="#{usuariModel.value.nom}"/>
             <p:message for="nom"/>
         </ui:define>
     </ui:decorate>
@@ -53,7 +77,7 @@
             <p:outputLabel for="llinatge1" value="#{labels.usuari_llinatge1}"/>
         </ui:define>
         <ui:define name="input">
-            <p:inputText id="llinatge1"/>
+            <p:inputText id="llinatge1" value="#{usuariModel.value.llinatge1}"/>
             <p:message for="llinatge1"/>
         </ui:define>
     </ui:decorate>
@@ -65,7 +89,7 @@
             <p:outputLabel for="llinatge2" value="#{labels.usuari_llinatge2}"/>
         </ui:define>
         <ui:define name="input">
-            <p:inputText id="llinatge2"/>
+            <p:inputText id="llinatge2" value="#{usuariModel.value.llinatge2}"/>
             <p:message for="llinatge2"/>
         </ui:define>
     </ui:decorate>
@@ -77,7 +101,7 @@
             <p:outputLabel for="nif" value="#{labels.usuari_nif}"/>
         </ui:define>
         <ui:define name="input">
-            <p:inputText id="nif"/>
+            <p:inputText id="nif" value="#{usuariModel.value.nif}"/>
             <p:message for="nif"/>
         </ui:define>
     </ui:decorate>
@@ -89,7 +113,7 @@
             <p:outputLabel for="email" value="#{labels.usuari_email}"/>
         </ui:define>
         <ui:define name="input">
-            <p:inputText id="email"/>
+            <p:inputText id="email" value="#{usuariModel.value.email}"/>
             <p:message for="email"/>
         </ui:define>
     </ui:decorate>
