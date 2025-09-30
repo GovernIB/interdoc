@@ -152,10 +152,11 @@ public class UsuariDTO {
     Long usuariId, @NotEmpty @Size(max = 255)
     String username,
     Long darreraEntitat,
-    @NotEmpty @Size(max = 5)    String idiomaId, @NotEmpty @Size(max = 255)
-    String nom, @NotEmpty @Size(max = 255)
-    String llinatge1, String llinatge2, @Size(max = 255)
-    String email, 
+    @NotEmpty @Size(max = 5) String idiomaId,
+    @NotEmpty @Size(max = 255) String nom,
+    @NotEmpty @Size(max = 255) String llinatge1,
+    String llinatge2,
+    @Size(max = 255) String email, 
     @NotEmpty @Size(max = 255) String nif) {
         super();
         this.usuariId = usuariId;

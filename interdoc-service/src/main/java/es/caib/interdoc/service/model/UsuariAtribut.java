@@ -4,6 +4,7 @@ public enum UsuariAtribut implements Atribut {
     usuariId,
     username,
     idiomaId,
+    darreraEntitat,
     nom,
     llinatge1,
     llinatge2,

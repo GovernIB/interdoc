@@ -42,22 +42,11 @@
     <ui:define name="input">  
         <p:selectOneMenu id="idiomaId" value="#{usuariModel.value.idiomaId}">
             <f:selectItem itemLabel="Català" itemValue="ca" />
-            <!-- <f:selectItem itemLabel="Español" itemValue="es" /> -->
+            <f:selectItem itemLabel="Español" itemValue="es" />
         </p:selectOneMenu>
         <p:message for="idiomaId"/>
     </ui:define>
 </ui:decorate>    
-    
-    <!-- <ui:decorate template="/WEB-INF/decorations/field.xhtml">
-        <ui:define name="label">
-            <p:outputLabel for="idiomaId" value="#{labels.usuari_idiomaid}"/>
-        </ui:define>
-        <ui:define name="input">  
-            <p:inputText id="idiomaId" value="#{usuariModel.value.idiomaId}"/>
-            <p:message for="idiomaId"/>
-        </ui:define>
-    </ui:decorate> -->
-    
     
     <!-- Nom -->
     <ui:decorate template="/WEB-INF/decorations/field.xhtml">
@@ -120,15 +109,17 @@
     
     
     <!-- Darrera Entitat -->
-    <!-- <ui:decorate template="/WEB-INF/decorations/field.xhtml">
-        <ui:define name="label">
-            <p:outputLabel for="darreraEntitat" value="#{labels.usuari_email}"/>
-        </ui:define>
-        <ui:define name="input">
-            <p:inputText id="darreraEntitat"/>
-            <p:message for="darreraEntitat"/>
-        </ui:define>
-    </ui:decorate> -->
+    <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+    <ui:define name="label">
+        <p:outputLabel for="darreraEntitat" value="#{labels.usuari_darreraentitat}"/>
+    </ui:define>
+    <ui:define name="input">
+        <p:inputText id="darreraEntitat" 
+                     value="#{usuariModel.value.darreraEntitat}" 
+                     readonly="true"/>
+        <p:message for="darreraEntitat"/>
+    </ui:define>
+</ui:decorate>
 
 </ui:composition>
 </html>
