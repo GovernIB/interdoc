@@ -3,6 +3,7 @@ package es.caib.interdoc.back.controller;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -16,6 +17,7 @@ import es.caib.interdoc.service.facade.UsuariServiceFacade;
 
 @Named
 @ViewScoped
+@RolesAllowed("ITD_ADMIN")
 public class NewUsuari extends AbstractController implements Serializable{
 
     private static final long serialVersionUID = -4092311228270716322L;

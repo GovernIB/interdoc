@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import es.caib.interdoc.back.model.UsuariModel;
 import es.caib.interdoc.service.facade.UsuariServiceFacade;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -22,6 +23,7 @@ import java.util.ResourceBundle;
  */
 @Named
 @ViewScoped
+@RolesAllowed("ITD_ADMIN")
 public class EditUsuari extends AbstractController implements Serializable {
 
     private static final long serialVersionUID = -4092311228270716321L;

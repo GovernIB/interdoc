@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
@@ -29,6 +30,7 @@ import java.util.ResourceBundle;
  */
 @Named
 @ViewScoped
+@RolesAllowed("ITD_ADMIN")
 public class ListUsuari extends AbstractController implements Serializable {
 
     private static final long serialVersionUID = -6015369276336087696L;
