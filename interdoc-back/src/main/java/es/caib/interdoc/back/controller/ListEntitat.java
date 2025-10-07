@@ -95,4 +95,9 @@ public class ListEntitat extends AbstractController implements Serializable {
         addGlobalMessage(labelsBundle.getString("msg.eliminaciocorrecta"));
 
     }
+
+    public List<EntitatDTO> getAllEntitats() {
+        // Si tienes un servicio ya inyectado, úsalo
+        return entitatService.getAll(); 
+    }
 }
