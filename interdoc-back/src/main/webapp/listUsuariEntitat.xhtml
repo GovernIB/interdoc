@@ -1,0 +1,81 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+<!--
+    Pàgina amb el llistat d'usuaris.
+    -->
+<ui:composition template="/WEB-INF/templates/layout.xhtml">
+
+    <ui:define name="metadata">
+        <f:metadata>
+            <f:importConstants type="es.caib.interdoc.service.model.Estat" var="estats" />
+        </f:metadata>
+    </ui:define>
+
+    <ui:define name="pageTitle">#{labels.listUsuariEntitat_title}</ui:define>
+
+    <ui:define name="breadcrumb">
+        <p:menuitem value="#{labels.listUsuariEntitat_link}" outcome="/listUsuariEntitat" />
+    </ui:define>
+
+    <ui:define name="content">
+        <p>
+            <h:form>
+                <p:dataTable id="dataTable" value="#{listUsuariEntitat.lazyModel}" var="usuariEntitat" sortMode="multiple"
+                    paginator="true" lazy="true" filterDelay="300" widgetVar="unitatsTable" rows="10"
+                    rowsPerPageTemplate="10,20,50,100" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+                    paginatorTemplate="{RowsPerPageLabel} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport}
+                             {NextPageLink} {LastPageLink}"
+                    currentPageReportTemplate="#{labels.dataTable_currentPageReport}"
+                    emptyMessage="#{labels.dataTable_emptyMessage}">
+                    <f:facet name="{RowsPerPageLabel}">
+                        #{labels.dataTable_rowsPerPage}
+                    </f:facet>
+                    <!--  p:column sortBy="#{entitat.id}">
+                        <f:facet name="header">#{labels.entitat_id}</f:facet>
+                        <h:outputText value="#{entitat.id}"/>
+                    </p:column -->
+
+                    <p:column filterBy="#{usuariEntitat.usuarientitatid}" sortBy="#{usuariEntitat.usuarientitatid}">
+                        <f:facet name="header">#{labels.usuariEntitat_usuariEntitatId}</f:facet>
+                        <h:outputText value="#{usuariEntitat.username}" />
+                    </p:column>
+                    <p:column filterBy="#{usuariEntitat.usuariid}" sortBy="#{usuariEntitat.usuariid}">
+                        <f:facet name="header">#{labels.usuariEntitat_usuariId}</f:facet>
+                        <h:outputText value="#{usuariEntitat.usuariid}" />
+                    </p:column>
+                    
+                    <p:column filterBy="#{usuariEntitat.entitatid}" sortBy="#{usuariEntitat.entitatid}">
+                        <f:facet name="header">#{labels.usuariEntitat_entitatId}</f:facet>
+                        <h:outputText value="#{usuarientitat_entitatid}" />
+                    </p:column>
+                    <p:column filterBy="#{usuariEntitat.actiu}" sortBy="#{usuariEntitat.actiu}">
+                        <f:facet name="header">#{labels.usuariEntitat_actiu}</f:facet>
+                        <h:outputText value="#{usuariEntitat.actiu}" />
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header"></f:facet>
+                        <p:menuButton value="#{labels.button_opcions}">
+                            <c:if test="#{security.admin}">
+                                <p:menuitem value="#{labels.button_editar}" outcome="/admin/editUsuariEntitat">
+                                    <f:param name="usuariEntitatId" value="#{usuariEntitat.usuariEntitatId}" />
+                                </p:menuitem>
+                                <p:menuitem value="#{labels.button_eliminar}" action="#{listUsuari.delete(usuariEntitat.usuariEntitatId)}"
+                                    update="messages @form">
+                                    <p:confirm message="#{labels.confirm_eliminar}" />
+                                </p:menuitem>
+                            </c:if>
+                        </p:menuButton>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </p>
+        <c:if test="#{security.admin}">
+            <p>
+                <p:button value="#{labels.newUsuariEntitat_link}" outcome="/admin/newUsuariEntitat" />
+            </p>
+        </c:if>
+    </ui:define>
+</ui:composition>
+</html>

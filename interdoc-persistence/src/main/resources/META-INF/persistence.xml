@@ -24,7 +24,8 @@
         <class>es.caib.interdoc.persistence.model.ReferenciaXML</class>
         <class>es.caib.interdoc.persistence.model.Traza</class>
         <class>es.caib.interdoc.persistence.model.Usuari</class>
-     
+        <class>es.caib.interdoc.persistence.model.UsuariEntitat</class>
+
         <!-- Activar cache només per aquelles entitats on volguem expressament -->
         <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
         <!-- Sempre activar la validació de les propietats -->

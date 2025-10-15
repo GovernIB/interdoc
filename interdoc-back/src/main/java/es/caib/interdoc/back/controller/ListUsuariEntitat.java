@@ -1,11 +1,12 @@
 package es.caib.interdoc.back.controller;
 
 import es.caib.interdoc.back.utils.PFUtils;
-import es.caib.interdoc.service.facade.UsuariServiceFacade;
+import es.caib.interdoc.service.facade.UsuariEntitatServiceFacade;
 import es.caib.interdoc.service.model.Ordre;
 import es.caib.interdoc.service.model.Pagina;
-import es.caib.interdoc.service.model.UsuariAtribut;
-import es.caib.interdoc.service.model.UsuariDTO;
+import es.caib.interdoc.service.model.UsuariEntitatAtribut;
+import es.caib.interdoc.service.model.UsuariEntitatDTO;
+
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
@@ -23,7 +24,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
- * Controlador pels llistats de aplicacions. El definim a l'scope de view perquè a nivell de request es
+ * Controlador pels llistats de usuaris-entitat. El definim a l'scope de view perquè a nivell de request es
  * reconstruiria per cada petició AJAX, com ara amb la paginació. Amb view es manté mentre no es canvii de vista.
  *
  * @author areus
@@ -31,21 +32,21 @@ import java.util.ResourceBundle;
 @Named
 @ViewScoped
 @RolesAllowed("ITD_ADMIN")
-public class ListUsuari extends AbstractController implements Serializable {
+public class ListUsuariEntitat extends AbstractController implements Serializable {
 
     private static final long serialVersionUID = -6015369276336087696L;
 
-    private static final Logger LOG = LoggerFactory.getLogger(ListUsuari.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ListUsuariEntitat.class);
 
     @EJB
-    private UsuariServiceFacade usuariService;
+    private UsuariEntitatServiceFacade usuariEntitatService;
 
     /**
      * Model de dades emprat pel compoment dataTable de primefaces.
      */
-    private LazyDataModel<UsuariDTO> lazyModel;
+    private LazyDataModel<UsuariEntitatDTO> lazyModel;
 
-    public LazyDataModel<UsuariDTO> getLazyModel() {
+    public LazyDataModel<UsuariEntitatDTO> getLazyModel() {
         return lazyModel;
     }
 
@@ -56,7 +57,7 @@ public class ListUsuari extends AbstractController implements Serializable {
     public void init() {
         LOG.debug("init");
 
-        lazyModel = new LazyDataModel<UsuariDTO>() {
+        lazyModel = new LazyDataModel<UsuariEntitatDTO>() {
 
             private static final long serialVersionUID = 1L;
 
@@ -66,15 +67,15 @@ public class ListUsuari extends AbstractController implements Serializable {
             */
 
             @Override
-            public List<UsuariDTO> load(int first, int pageSize, Map<String, SortMeta> sortBy,
+            public List<UsuariEntitatDTO> load(int first, int pageSize, Map<String, SortMeta> sortBy,
                                            Map<String, FilterMeta> filterBy) {
                 LOG.info("load: " + first + " - "  + pageSize);
             	LOG.info("filterBy: {}", filterBy);
 
-                Map<UsuariAtribut, Object> filter = PFUtils.filterMetaToFilter(UsuariAtribut.class, filterBy);
-                List<Ordre<UsuariAtribut>> ordenacions = PFUtils.sortMetaToOrdre(UsuariAtribut.class, sortBy);
+                Map<UsuariEntitatAtribut, Object> filter = PFUtils.filterMetaToFilter(UsuariEntitatAtribut.class, filterBy);
+                List<Ordre<UsuariEntitatAtribut>> ordenacions = PFUtils.sortMetaToOrdre(UsuariEntitatAtribut.class, sortBy);
 
-                Pagina<UsuariDTO> pagina = usuariService
+                Pagina<UsuariEntitatDTO> pagina = usuariEntitatService
                         .findFiltered(first, pageSize, filter, ordenacions);
 
                 setRowCount((int) pagina.getTotal());
@@ -96,7 +97,7 @@ public class ListUsuari extends AbstractController implements Serializable {
         // Obtenir el resource bundle d'etiquetes definit a faces-config.xml
         ResourceBundle labelsBundle = getBundle("labels");
 
-        usuariService.delete(id);
+        usuariEntitatService.delete(id);
         addGlobalMessage(labelsBundle.getString("msg.eliminaciocorrecta"));
 
     }

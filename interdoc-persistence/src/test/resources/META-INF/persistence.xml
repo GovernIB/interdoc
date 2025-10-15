@@ -26,6 +26,8 @@
 		<class>es.caib.interdoc.persistence.model.Referencia</class>
 		<class>es.caib.interdoc.persistence.model.ReferenciaXML</class>
 		<class>es.caib.interdoc.persistence.model.Traza</class>
+		<class>es.caib.interdoc.persistence.model.Usuari</class>
+		<class>es.caib.interdoc.persistence.model.UsuariEntitat</class>
 
 		<!-- Desactivar cache -->
 		<shared-cache-mode>NONE</shared-cache-mode>

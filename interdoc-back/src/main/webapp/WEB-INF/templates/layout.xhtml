@@ -62,7 +62,7 @@ Plantilla.
 
                                     <!-- Iteramos sobre las entidades -->
                                     <p:repeat value="#{listEntitat.allEntitats}" var="entitat">
-                                        <p:link styleClass="dropdown-item mobil" outcome="admin/editEntitat">
+                                        <p:link styleClass="dropdown-item mobil" outcome="/admin/editEntitat">
                                             <f:param name="entitatId" value="#{entitat.id}" />
                                             <span class="mb-0 botoCurt">#{entitat.nom}</span>
                                         </p:link>
@@ -99,6 +99,13 @@ Plantilla.
                                         title="#{labels.usuari_menu_link}"
                                         rendered="#{request.isUserInRole('ITD_ADMIN')}">
                                         <span class="mb-0 botoCurt">#{labels.listUsuari_link}</span>
+                                    </p:link>
+                                    
+                                    <!--  Usuaris Entitat  -->
+                                    <p:link styleClass="dropdown-item mobil" outcome="/listUsuariEntitat"
+                                        title="#{labels.usuariEntitat_menu_link}"
+                                        rendered="#{request.isUserInRole('ITD_ADMIN')}">
+                                        <span class="mb-0 botoCurt">#{labels.listUsuariEntitat_link}</span>
                                     </p:link>
 
                                     <!--  Entidades  -->

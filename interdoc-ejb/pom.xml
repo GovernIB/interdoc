@@ -41,7 +41,6 @@
             <groupId>es.caib.interdoc</groupId>
             <artifactId>interdoc-persistence</artifactId>
 			<version>1.0.1</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.fundaciobit.pluginsib.core.v3</groupId>
