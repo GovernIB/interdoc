@@ -31,24 +31,17 @@
                     <f:facet name="{RowsPerPageLabel}">
                         #{labels.dataTable_rowsPerPage}
                     </f:facet>
-                    <!--  p:column sortBy="#{entitat.id}">
-                        <f:facet name="header">#{labels.entitat_id}</f:facet>
-                        <h:outputText value="#{entitat.id}"/>
-                    </p:column -->
-
-                    <p:column filterBy="#{usuariEntitat.usuarientitatid}" sortBy="#{usuariEntitat.usuarientitatid}">
-                        <f:facet name="header">#{labels.usuariEntitat_usuariEntitatId}</f:facet>
+                                        
+                    <p:column filterBy="#{usuariEntitat.username}" sortBy="#{usuariEntitat.username}">
+                        <f:facet name="header">#{labels.usuariEntitat_username}</f:facet>
                         <h:outputText value="#{usuariEntitat.username}" />
                     </p:column>
-                    <p:column filterBy="#{usuariEntitat.usuariid}" sortBy="#{usuariEntitat.usuariid}">
-                        <f:facet name="header">#{labels.usuariEntitat_usuariId}</f:facet>
-                        <h:outputText value="#{usuariEntitat.usuariid}" />
+                    
+                    <p:column filterBy="#{usuariEntitat.entitatNom}" sortBy="#{entitat.entitatNom}">
+                        <f:facet name="header">#{labels.usuariEntitat_entitatNom}</f:facet>
+                        <h:outputText value="#{usuariEntitat.entitatNom}" />
                     </p:column>
                     
-                    <p:column filterBy="#{usuariEntitat.entitatid}" sortBy="#{usuariEntitat.entitatid}">
-                        <f:facet name="header">#{labels.usuariEntitat_entitatId}</f:facet>
-                        <h:outputText value="#{usuarientitat_entitatid}" />
-                    </p:column>
                     <p:column filterBy="#{usuariEntitat.actiu}" sortBy="#{usuariEntitat.actiu}">
                         <f:facet name="header">#{labels.usuariEntitat_actiu}</f:facet>
                         <h:outputText value="#{usuariEntitat.actiu}" />
@@ -61,7 +54,7 @@
                                 <p:menuitem value="#{labels.button_editar}" outcome="/admin/editUsuariEntitat">
                                     <f:param name="usuariEntitatId" value="#{usuariEntitat.usuariEntitatId}" />
                                 </p:menuitem>
-                                <p:menuitem value="#{labels.button_eliminar}" action="#{listUsuari.delete(usuariEntitat.usuariEntitatId)}"
+                                <p:menuitem value="#{labels.button_eliminar}" action="#{listUsuariEntitat.delete(usuariEntitat.usuariEntitatId)}"
                                     update="messages @form">
                                     <p:confirm message="#{labels.confirm_eliminar}" />
                                 </p:menuitem>

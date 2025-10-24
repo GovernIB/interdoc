@@ -21,6 +21,9 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +44,7 @@ import java.util.Optional;
 @Local(UsuariServiceFacade.class)
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 public class UsuariServiceFacadeBean implements UsuariServiceFacade {
-
+    
 	@Inject
 	private UsuariRepository repository;
 
@@ -81,7 +84,8 @@ public class UsuariServiceFacadeBean implements UsuariServiceFacade {
 	@Override
 	@PermitAll
 	public Optional<UsuariDTO> findByUsername(String username) {
-		return Optional.ofNullable(repository.findByUsername(username));
+	    UsuariDTO usuari = repository.findByUsername(username);
+	    return Optional.ofNullable(usuari);
 	}
 
 	@Override

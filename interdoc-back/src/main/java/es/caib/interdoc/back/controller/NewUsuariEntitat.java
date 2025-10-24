@@ -13,7 +13,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import es.caib.interdoc.back.model.UsuariEntitatModel;
+import es.caib.interdoc.service.facade.EntitatServiceFacade;
 import es.caib.interdoc.service.facade.UsuariEntitatServiceFacade;
+import es.caib.interdoc.service.facade.UsuariServiceFacade;
+import es.caib.interdoc.service.model.UsuariDTO;
+import es.caib.interdoc.service.model.UsuariEntitatDTO;
 
 @Named
 @ViewScoped
@@ -28,6 +32,11 @@ public class NewUsuariEntitat extends AbstractController implements Serializable
     @EJB
     UsuariEntitatServiceFacade usuariEntitatService;
     
+    @EJB
+    private UsuariServiceFacade usuariService;
+    @EJB
+    private EntitatServiceFacade entitatService;    
+    
     @Inject
     private UsuariEntitatModel usuariEntitat;
     
@@ -38,11 +47,43 @@ public class NewUsuariEntitat extends AbstractController implements Serializable
      *
      * @return navegació cap al llistat d'unitats orgàniques.
      */
-    public String save() {
-        LOG.debug("save");
+    
+    
+ // Converteix el model a DTO
+    public UsuariEntitatDTO modelToDTO(UsuariEntitatModel model) {
+        UsuariEntitatDTO dto = new UsuariEntitatDTO();
+
+        dto.setActiu(model.isActiu());
+        String username = model.getUsername();
+
+        UsuariDTO usuariDTO = usuariService.findByUsername(username).orElseThrow();
+        dto.setUsuariId(usuariDTO.getUsuariId());
+
+        dto.setEntitatId(entitatService.findByNom(model.getEntitatNom()).get().getId());
+        return dto;
+    }
+    
+    
+    public UsuariEntitatModel dtoToModel(UsuariEntitatDTO dto) {
+        UsuariEntitatModel model = new UsuariEntitatModel();
         
-        // Feim una creació 
-        usuariEntitatService.create(usuariEntitat.getValue());
+        model.setUsuariId(dto.getUsuariId());
+        model.setEntitatId(dto.getEntitatId());
+        model.setActiu(dto.isActiu());
+        
+        model.setUsername(usuariService.findById(dto.getUsuariId()).get().getUsername());
+        model.setEntitatNom(entitatService.findById(dto.getEntitatId()).get().getNom());
+        
+        return model;
+    }
+    
+    
+    public String save() {
+        
+        UsuariEntitatDTO usuariEntitatDTO =modelToDTO(usuariEntitat);
+        
+        // Feim una creació a BBDD
+        usuariEntitatService.create(usuariEntitatDTO);
 
         ResourceBundle labelsBundle = getBundle("labels");
         addGlobalMessage(labelsBundle.getString("msg.creaciocorrecta"));

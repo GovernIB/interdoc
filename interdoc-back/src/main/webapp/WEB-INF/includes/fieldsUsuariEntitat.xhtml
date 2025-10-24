@@ -3,52 +3,29 @@
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 <ui:composition>
 
-    <!-- AplicacioId -->
+    <!-- UsuariEntitatId -->
     <ui:decorate template="/WEB-INF/decorations/field.xhtml">
-        <p:inputText id="id" value="#{usuariEntitatModel.value.id}" type="hidden" />
+        <p:inputText id="id" value="#{usuariEntitatModel.usuariEntitatId}" type="hidden" />
     </ui:decorate>
 
-    <!-- Usuari ID -->
-    <!-- <ui:decorate template="/WEB-INF/decorations/field.xhtml">
-        <ui:define name="label">
-            <p:outputLabel for="usuariId" value="#{labels.usuari_id}"/>
-        </ui:define>
-        <ui:define name="input">
-            <p:inputText id="usuariId"/>
-            <p:message for="usuariId"/>
-        </ui:define>
-    </ui:decorate>
-     -->
-
-    <!-- UsuariID -->
-    <!-- <ui:decorate template="/WEB-INF/decorations/field.xhtml">
-        <ui:define name="label">
-            <p:outputLabel for="usuariId" value="#{labels.usuariEntitat_usuariId}" />
-        </ui:define>
-        <ui:define name="input">
-            <p:inputText id="usuariId" value="#{usuariEntitatModel.value.usuariId}" />
-            <p:message for="usuariId" />
-        </ui:define>
-    </ui:decorate> -->
-    
     <ui:decorate template="/WEB-INF/decorations/field.xhtml">
         <ui:define name="label">
-            <p:outputLabel for="usuariId" value="#{labels.usuariEntitat_usuariId}" />
+            <p:outputLabel for="username" value="#{labels.usuariEntitat_username}" />
         </ui:define>
         <ui:define name="input">
-            <p:inputText id="usuariId" value="#{usuariEntitatModel.value.usuariId}" />
-            <p:message for="usuariId" />
+            <p:inputText id="username" value="#{usuariEntitatModel.username}" />
+            <p:message for="username" />
         </ui:define>
     </ui:decorate>
 
     <!-- entitatId -->
     <ui:decorate template="/WEB-INF/decorations/field.xhtml">
         <ui:define name="label">
-            <p:outputLabel for="entitatId" value="#{labels.usuariEntitat_entitatId}" />
+            <p:outputLabel for="entitatNom" value="#{labels.usuariEntitat_entitatNom}" />
         </ui:define>
         <ui:define name="input">
-            <p:inputText id="entitatId" value="#{usuariEntitatModel.value.entitatId}" />
-            <p:message for="entitatId" />
+            <p:inputText id="entitatNom" value="#{usuariEntitatModel.entitatNom}" />
+            <p:message for="entitatNom" />
         </ui:define>
     </ui:decorate>
 
@@ -58,7 +35,7 @@
             <p:outputLabel for="actiu" value="#{labels.usuariEntitat_actiu}" />
         </ui:define>
         <ui:define name="input">
-            <p:selectBooleanCheckbox id="actiu" value="#{usuariEntitatModel.value.actiu}" />
+            <p:selectBooleanCheckbox id="actiu" value="#{usuariEntitatModel.actiu}" />
             <p:message for="actiu" />
         </ui:define>
     </ui:decorate>

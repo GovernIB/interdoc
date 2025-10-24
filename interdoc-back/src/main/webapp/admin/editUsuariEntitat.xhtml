@@ -10,7 +10,7 @@ Pàgina per edició d'unitats orgàniques.
 
     <ui:define name="metadata">
         <f:metadata>
-            <f:viewParam id="usuariEntitatId" name="usuariEntitatId" value="#{usuariEntitatModel.value.usuariEntitatId}" />
+            <f:viewParam id="usuariEntitatId" name="usuariEntitatId" value="#{usuariEntitatModel.usuariEntitatId}" />
             <f:viewAction action="#{usuariEntitatModel.load}"/>
             <f:importConstants type="es.caib.interdoc.service.model.Estat" var="estats"/>
         </f:metadata>

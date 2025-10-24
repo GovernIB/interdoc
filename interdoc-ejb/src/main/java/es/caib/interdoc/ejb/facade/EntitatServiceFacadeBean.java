@@ -83,6 +83,12 @@ public class EntitatServiceFacadeBean implements EntitatServiceFacade {
 	public Optional<EntitatDTO> findByCodiDir3(String codi) {
 		return Optional.ofNullable(repository.findByCodiDir3(codi));
 	}
+	
+	@Override
+    @PermitAll
+    public Optional<EntitatDTO> findByNom(String nom) {
+        return Optional.ofNullable(repository.findByNom(nom));
+    }
 
 	@Override
 	@PermitAll

@@ -22,6 +22,8 @@ public interface EntitatRepository extends CrudRepository<Entitat, Long> {
 
     EntitatDTO findByCodiDir3(String codi);
     
+    EntitatDTO findByNom(String nom);
+    
     List<Entitat> getAll();
 
     long countByFilter(Map<EntitatAtribut, Object> filter);

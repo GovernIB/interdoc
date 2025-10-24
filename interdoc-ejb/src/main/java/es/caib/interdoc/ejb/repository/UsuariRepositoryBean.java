@@ -30,6 +30,7 @@ import java.util.Optional;
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class UsuariRepositoryBean extends AbstractCrudRepository<Usuari, Long> implements UsuariRepository {
 
+    
 	protected UsuariRepositoryBean() {
 		super(Usuari.class);
 	}
@@ -56,19 +57,20 @@ public class UsuariRepositoryBean extends AbstractCrudRepository<Usuari, Long> i
 	}
 
 	@Override
-	public UsuariDTO findByUsername(String codi) {
-
+	public UsuariDTO findByUsername(String username) {
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<UsuariDTO> criteriaQuery = builder.createQuery(UsuariDTO.class);
 		Root<Usuari> root = criteriaQuery.from(Usuari.class);
 
-		criteriaQuery.select(builder.construct(UsuariDTO.class, root.get(Usuari_.usuariId), root.get(Usuari_.username)));
+		criteriaQuery.select(builder.construct(UsuariDTO.class, root.get(Usuari_.usuariId), root.get(Usuari_.usuariId), root.get(Usuari_.username),
+                root.get(Usuari_.nom), root.get(Usuari_.llinatge1), root.get(Usuari_.llinatge2), root.get(Usuari_.email), root.get(Usuari_.nif)));
 
 		// TODO afegir la columna de ACTIU
 
 		UsuariCriteriaHelper usuariCriteriaHelper = new UsuariCriteriaHelper(builder, root);
-		criteriaQuery.where(usuariCriteriaHelper.getPredicate(UsuariAtribut.username, codi));
-
+		criteriaQuery.where(usuariCriteriaHelper.getPredicate(UsuariAtribut.username, username));
+		
+		
 		TypedQuery<UsuariDTO> query = entityManager.createQuery(criteriaQuery);
 		List<UsuariDTO> resultats = query.getResultList();
 		if (resultats.size() > 0)

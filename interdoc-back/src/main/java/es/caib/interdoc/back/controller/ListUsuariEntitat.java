@@ -1,9 +1,14 @@
 package es.caib.interdoc.back.controller;
 
+import es.caib.interdoc.back.model.UsuariEntitatModel;
 import es.caib.interdoc.back.utils.PFUtils;
+import es.caib.interdoc.service.facade.EntitatServiceFacade;
 import es.caib.interdoc.service.facade.UsuariEntitatServiceFacade;
+import es.caib.interdoc.service.facade.UsuariServiceFacade;
+import es.caib.interdoc.service.model.EntitatDTO;
 import es.caib.interdoc.service.model.Ordre;
 import es.caib.interdoc.service.model.Pagina;
+import es.caib.interdoc.service.model.UsuariDTO;
 import es.caib.interdoc.service.model.UsuariEntitatAtribut;
 import es.caib.interdoc.service.model.UsuariEntitatDTO;
 
@@ -19,6 +24,7 @@ import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -41,12 +47,17 @@ public class ListUsuariEntitat extends AbstractController implements Serializabl
     @EJB
     private UsuariEntitatServiceFacade usuariEntitatService;
 
+    @EJB
+    private UsuariServiceFacade usuariService;
+    @EJB
+    private EntitatServiceFacade entitatService;
+
     /**
      * Model de dades emprat pel compoment dataTable de primefaces.
      */
-    private LazyDataModel<UsuariEntitatDTO> lazyModel;
+    private LazyDataModel<UsuariEntitatModel> lazyModel;
 
-    public LazyDataModel<UsuariEntitatDTO> getLazyModel() {
+    public LazyDataModel<UsuariEntitatModel> getLazyModel() {
         return lazyModel;
     }
 
@@ -57,7 +68,7 @@ public class ListUsuariEntitat extends AbstractController implements Serializabl
     public void init() {
         LOG.debug("init");
 
-        lazyModel = new LazyDataModel<UsuariEntitatDTO>() {
+        lazyModel = new LazyDataModel<UsuariEntitatModel>() {
 
             private static final long serialVersionUID = 1L;
 
@@ -67,21 +78,64 @@ public class ListUsuariEntitat extends AbstractController implements Serializabl
             */
 
             @Override
-            public List<UsuariEntitatDTO> load(int first, int pageSize, Map<String, SortMeta> sortBy,
-                                           Map<String, FilterMeta> filterBy) {
-                LOG.info("load: " + first + " - "  + pageSize);
-            	LOG.info("filterBy: {}", filterBy);
+            public List<UsuariEntitatModel> load(int first, int pageSize, Map<String, SortMeta> sortBy,
+                    Map<String, FilterMeta> filterBy) {
+                LOG.info("load: " + first + " - " + pageSize);
+                LOG.info("filterBy: {}", filterBy);
 
-                Map<UsuariEntitatAtribut, Object> filter = PFUtils.filterMetaToFilter(UsuariEntitatAtribut.class, filterBy);
-                List<Ordre<UsuariEntitatAtribut>> ordenacions = PFUtils.sortMetaToOrdre(UsuariEntitatAtribut.class, sortBy);
+                Map<UsuariEntitatAtribut, Object> filter = PFUtils.filterMetaToFilter(UsuariEntitatAtribut.class,
+                        filterBy);
+                List<Ordre<UsuariEntitatAtribut>> ordenacions = PFUtils.sortMetaToOrdre(UsuariEntitatAtribut.class,
+                        sortBy);
 
-                Pagina<UsuariEntitatDTO> pagina = usuariEntitatService
-                        .findFiltered(first, pageSize, filter, ordenacions);
+                Pagina<UsuariEntitatDTO> paginaDTO = usuariEntitatService.findFiltered(first, pageSize, filter,
+                        ordenacions);
+                List<UsuariEntitatModel> usuariEntitatItems = new ArrayList<UsuariEntitatModel>();
 
-                setRowCount((int) pagina.getTotal());
-                return pagina.getItems();
+                for (UsuariEntitatDTO dto : paginaDTO.getItems()) {
+                    LOG.info("DTO abans de passar a model: {}", dto);
+                    UsuariEntitatModel model = dtoToModel(dto);
+                    usuariEntitatItems.add(model);
+                }
+
+                this.setRowCount((int) paginaDTO.getTotal()); // <-- molt important
+
+                return usuariEntitatItems;
             }
         };
+    }
+
+ // Converteix el model a DTO
+    public UsuariEntitatDTO modelToDTO(UsuariEntitatModel model) {
+        UsuariEntitatDTO dto = new UsuariEntitatDTO();
+
+        if (model.getUsuariEntitatId() != null) {
+            dto = new UsuariEntitatDTO();
+            dto.setUsuariEntitatId(model.getUsuariEntitatId());
+            dto.setActiu(model.isActiu());
+            dto.setUsuariId(model.getUsuariId());
+            dto.setEntitatId(model.getEntitatId());
+        }else {
+            UsuariDTO usuariDTO = usuariService.findByUsername(model.getUsername()).orElseThrow();
+            dto.setUsuariId(usuariDTO.getUsuariId());
+            
+            EntitatDTO entitatDTO = entitatService.findByNom(model.getEntitatNom()).orElseThrow();
+            dto.setEntitatId(entitatDTO.getId());
+        }
+        return dto;
+    }
+
+    public UsuariEntitatModel dtoToModel(UsuariEntitatDTO dto) {
+        UsuariEntitatModel model = new UsuariEntitatModel();
+        model.setUsuariEntitatId(dto.getUsuariEntitatId());
+        model.setUsuariId(dto.getUsuariId());
+        model.setEntitatId(dto.getEntitatId());
+        model.setActiu(dto.isActiu());
+        
+        model.setUsername(usuariService.findById(dto.getUsuariId()).get().getUsername());
+        model.setEntitatNom(entitatService.findById(dto.getEntitatId()).get().getNom());
+        
+        return model;
     }
 
     // ACCIONS

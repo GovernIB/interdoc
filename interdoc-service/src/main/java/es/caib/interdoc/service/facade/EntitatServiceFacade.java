@@ -59,6 +59,14 @@ public interface EntitatServiceFacade {
      * @return un opcional amb les dades de la entitat indicada o buid si no existeix.
      */
     Optional<EntitatDTO> findByCodiDir3(String codi);
+    
+    /**
+     * Retorna un opcional amb la entitat indicada seu nom.
+     *
+     * @param nom de la entitat a cercar
+     * @return un opcional amb les dades de la entitat indicada o buid si no existeix.
+     */
+    Optional<EntitatDTO> findByNom(String nom);
 
     /**
      * Retorna tots els registres d'aplicacions

@@ -168,5 +168,23 @@ public class UsuariDTO {
         this.email = email;
         this.nif = nif;
     }
+    
+    public UsuariDTO(long usuariId,
+            long darreraEntitat,
+            String username,
+            String nom,
+            String llinatge1,
+            String llinatge2,
+            String email,
+            String nif) {
+this.usuariId = usuariId;
+this.darreraEntitat = darreraEntitat;
+this.username = username;
+this.nom = nom;
+this.llinatge1 = llinatge1;
+this.llinatge2 = llinatge2;
+this.email = email;
+this.nif = nif;
+}
 
 }
