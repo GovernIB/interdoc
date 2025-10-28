@@ -160,3 +160,6 @@ VALUES
     ('es', 'Castellano', TRUE, 1);
 
 
+ALTER TABLE itd_entitat
+ADD COLUMN propietats text;
+
