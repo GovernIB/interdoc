@@ -86,19 +86,25 @@ public class ListReferencia extends AbstractController implements Serializable {
                 // Dins JSF emprarem noms que coincideixin amb els valors de l'enumeració AtributUnitat
                 Map<ReferenciaAtribut, Object> filter = PFUtils.filterMetaToFilter(ReferenciaAtribut.class, filterBy);
                 
+                // Comprovacio de que l'usuari té entitat assignada
                 Long entitatIdSessio = userLocale != null ? userLocale.getEntitatId() : null;
+                Map<ReferenciaAtribut, Object> filterAmbEntitat = new java.util.HashMap<>(filter);
+                
+                // Afegim el filtre per entitat
                 if (entitatIdSessio != null) {
-                    filter.put(ReferenciaAtribut.entitatId, entitatIdSessio);
+                    filterAmbEntitat.put(ReferenciaAtribut.entitatId, entitatIdSessio);
                 } else {
-                    LOG.warn("No hi ha entitatId a la sessió; no s'aplica filtre d'entitat");
+                    // Si l'usuari no te entitat assignada, s'ha de gestionar.
+                    // Si es super-administrador, redirigir a la pagina d'inici.
+                    // Si es administrador de entitat mostrar pagina d'error.
+                    LOG.warn("L'usuari no té entitat. Consulti amb l'administrador perque l'hi assigni una entitat.");
                 }
                 
-                
                 List<Ordre<ReferenciaAtribut>> ordenacions = PFUtils.sortMetaToOrdre(ReferenciaAtribut.class, sortBy);
-
+                
                 Pagina<ReferenciaDTO> pagina = referenciaService
-                        .findFiltered(first, pageSize, filter, ordenacions);
-
+                        .findFiltered(first, pageSize, filterAmbEntitat, ordenacions);
+                
                 setRowCount((int) pagina.getTotal());
                 return pagina.getItems();
             }

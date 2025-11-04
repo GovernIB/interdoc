@@ -94,8 +94,15 @@ public class UserLocale implements Serializable {
         this.entitatId = usuari.getDarreraEntitat();
         
         if (this.entitatId == null) {
-            LOG.warn("L'usuari {} no té darrera entitat informada", this.username);
-            this.entitatNom = null;
+            UsuariEntitatDTO defaultUsuariEntitat = usuariEntitatService.findByUsuariId(usuariId).orElse(null);
+            if(defaultUsuariEntitat!=null) {
+                   this.entitatId = defaultUsuariEntitat.getEntitatId();
+                   this.entitatNom = entitatService.findById(this.entitatId).map(EntitatDTO::getNom).orElse(null);
+            }else {
+                this.entitatNom = null;
+                LOG.warn("L'usuari {} no té darrera entitat informada", this.username);
+            }
+            
             return;
         }
         

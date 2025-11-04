@@ -52,9 +52,8 @@ public class EntitatSelector implements Serializable {
                 
                 userLocale.setEntitatId(entitat.getId());
                 userLocale.setEntitatNom(entitat.getNom());
-
             }
         }
-        return "/interdocback/listReferencia.xhtml?faces-redirect=true";
+        return "/listReferencia?faces-redirect=true";
     }
 }
