@@ -50,26 +50,28 @@ Plantilla.
 
                             <!-- Dropdown per seleccionar entitat -->
 
+                            <!--  -->
                             <li class="nav-item dropdown colorVerd"><a class="nav-link dropdown mobil"
                                 title="#{labels.entitat_label}" href="#" id="entitatsDropdown" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false"> <span
                                     class="oi oi-caret-bottom float-right flechaSubmenu" title="" aria-hidden="true"></span>
-                                    <span class="mb-0 float-right botoCurt">#{labels.entitat_label}</span> <span
-                                    class="bi bi-building" title="#{labels.entitat_label}" aria-hidden="true"></span>
-                            </a> <!-- Menú desplegable -->
+                                    <span class="mb-0 float-right botoCurt"> #{empty userLocale.entitatNom ?
+                                        labels.entitat_label : userLocale.entitatNom} </span> <span class="bi bi-building"
+                                    title="#{labels.entitat_label}" aria-hidden="true"></span>
+                            </a>
                                 <div class="dropdown-menu dropdown-menu-right marg0 minW0"
                                     aria-labelledby="entitatsDropdown">
 
-                                    <!-- Iteramos sobre las entidades -->
                                     <p:repeat value="#{listEntitat.allEntitats}" var="entitat">
-                                        <p:link styleClass="dropdown-item mobil" outcome="/admin/editEntitat">
-                                            <f:param name="entitatId" value="#{entitat.id}" />
+                                        <p:commandLink styleClass="dropdown-item mobil"
+                                            action="#{entitatSelector.applySelection}" process="@this" update="@none"
+                                            ajax="false">
+                                            <f:setPropertyActionListener target="#{entitatSelector.selectedEntitatId}"
+                                                value="#{entitat.id}" />
                                             <span class="mb-0 botoCurt">#{entitat.nom}</span>
-                                        </p:link>
+                                        </p:commandLink>
                                     </p:repeat>
-
                                 </div></li>
-
 
 
                             <!-- Referències -->
@@ -100,7 +102,7 @@ Plantilla.
                                         rendered="#{request.isUserInRole('ITD_ADMIN')}">
                                         <span class="mb-0 botoCurt">#{labels.listUsuari_link}</span>
                                     </p:link>
-                                    
+
                                     <!--  Usuaris Entitat  -->
                                     <p:link styleClass="dropdown-item mobil" outcome="/listUsuariEntitat"
                                         title="#{labels.usuariEntitat_menu_link}"

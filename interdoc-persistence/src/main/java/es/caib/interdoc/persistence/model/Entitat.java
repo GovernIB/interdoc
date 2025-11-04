@@ -55,7 +55,6 @@ public class Entitat extends BaseEntity {
     private Estat actiu;
     
     @Column(name = "PROPIETATS", nullable = true)
-    @NotNull
     private String properties;
     
     public String getProperties() {

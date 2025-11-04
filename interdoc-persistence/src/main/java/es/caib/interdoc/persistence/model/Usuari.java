@@ -118,6 +118,14 @@ public class Usuari extends BaseEntity {
         this.nif=nif;
     }
     
+    public Long getDarreraEntitat() {
+        return darreraEntitat;
+    }
+    
+    public void setDarreraEntitat(Long darreraEntitat) {
+        this.darreraEntitat = darreraEntitat;
+    }
+    
     
     
     @Override
@@ -138,7 +146,7 @@ public class Usuari extends BaseEntity {
     @Override
     public String toString() {
         return "Usuari [usuariId=" + usuariId + ", idiomaId=" + idiomaId + ", nom=" + nom + ", llinatge1=" + llinatge1 +", llinatge2=" + llinatge2 +", email=" + email
-                + ", nif=" + nif + "]";
+                + ", nif=" + nif + "darreraEntitat ="+darreraEntitat+ "]";
     }
 
 }

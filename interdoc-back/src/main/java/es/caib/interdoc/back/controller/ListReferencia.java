@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
@@ -48,6 +49,9 @@ public class ListReferencia extends AbstractController implements Serializable {
     
     @EJB
     private InfoArxiuServiceFacade infoArxiuService;
+    
+    @Inject
+    private UserLocale userLocale;
 
     /**
      * Model de dades emprat pel compoment dataTable de primefaces.
@@ -81,6 +85,15 @@ public class ListReferencia extends AbstractController implements Serializable {
 
                 // Dins JSF emprarem noms que coincideixin amb els valors de l'enumeració AtributUnitat
                 Map<ReferenciaAtribut, Object> filter = PFUtils.filterMetaToFilter(ReferenciaAtribut.class, filterBy);
+                
+                Long entitatIdSessio = userLocale != null ? userLocale.getEntitatId() : null;
+                if (entitatIdSessio != null) {
+                    filter.put(ReferenciaAtribut.entitatId, entitatIdSessio);
+                } else {
+                    LOG.warn("No hi ha entitatId a la sessió; no s'aplica filtre d'entitat");
+                }
+                
+                
                 List<Ordre<ReferenciaAtribut>> ordenacions = PFUtils.sortMetaToOrdre(ReferenciaAtribut.class, sortBy);
 
                 Pagina<ReferenciaDTO> pagina = referenciaService

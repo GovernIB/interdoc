@@ -22,7 +22,7 @@ public class UsuariEntitatDTO {
     private Long usuariId;
     @NotNull
     private Long entitatId;
-    @NotNull
+    
     private boolean actiu;
 
     public Long getUsuariEntitatId() {
@@ -58,6 +58,13 @@ public class UsuariEntitatDTO {
 
     public UsuariEntitatDTO() {
     }
+    
+    public UsuariEntitatDTO(Long usuariId, Long entitatId) {
+        super();
+        this.usuariId = usuariId;
+        this.entitatId = entitatId;
+    }
+    
 
     public UsuariEntitatDTO(Long usuariEntitatId, Long usuariId, Long entitatId, boolean actiu) {
         super();

@@ -87,6 +87,18 @@ public class UsuariServiceFacadeBean implements UsuariServiceFacade {
 	    UsuariDTO usuari = repository.findByUsername(username);
 	    return Optional.ofNullable(usuari);
 	}
+	
+	
+	@Override
+	@PermitAll
+    public void setDarreraEntitat(Long usuariId, Long entitatId) {
+	    Usuari usuari = repository.getReference(usuariId);
+        if (usuari != null) {
+            usuari.setDarreraEntitat(entitatId);
+            repository.update(usuari);
+        }
+    }
+	
 
 	@Override
 	@PermitAll

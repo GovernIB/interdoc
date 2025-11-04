@@ -43,6 +43,14 @@ public interface UsuariServiceFacade {
      * @throws RecursNoTrobatException si la entitat amb identificador id no existeix.
      */
     void delete(Long id) throws RecursNoTrobatException;
+    
+    /**
+     * Actualitza el valor de la darrera entitat seleccionada per l'usuari.
+     *
+     * @param id identificador de la entitat seleccionada
+     * @throws RecursNoTrobatException si la entitat amb identificador id no existeix.
+     */
+    void setDarreraEntitat(Long usuariId, Long entitatId) throws RecursNoTrobatException;
 
     /**
      * Retorna un opcional amb la entitat indicada per l'identificador.
