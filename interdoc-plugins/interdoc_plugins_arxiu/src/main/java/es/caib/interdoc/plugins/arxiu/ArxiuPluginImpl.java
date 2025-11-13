@@ -100,19 +100,14 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 
 	@Override
 	public void carregarPropertiesFile() {
+        LOG.info("**********-- CARREGANT PROPERTIES FILE --");
+
 		try {
 			Config config = ConfigProvider.getConfig();
 			propietats.put(PROPERTY_SERIE_DOCUMENTAL, config.getValue(PROPERTY_SERIE_DOCUMENTAL, String.class));
 			propietats.put(PROPERTY_CLASIFICACIO, config.getValue(PROPERTY_CLASIFICACIO, String.class));
 			propietats.put(PROPERTY_CODI_APLICACIO, config.getValue(PROPERTY_CODI_APLICACIO, String.class));
-
-			/*
-			if (Configuracio.isDesenvolupament()) {
-				LOG.debug("------------ PROPIEDADES ARXIU FILE -------------------");
-				propietats.stringPropertyNames().forEach(x -> LOG.info(x + " => " + propietats.getProperty(x)));
-				LOG.debug("---------------------------------------------------");
-			}
-			*/
+			
 		} catch (Exception e) {
 			LOG.error("S'ha produit un error alhora de carregar les propietats. ");
 			e.printStackTrace();
@@ -121,17 +116,8 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 
 	@Override
 	public void carregarProperties(Properties props) {
+        LOG.info("**********-- CARREGANT PROPERTIES PROPS --");
 		setPropietats(props);
-		/*
-		 * if (Configuracio.isDesenvolupament()) try {
-		 * LOG.info("------------ PROPIETATS ARXIU DB -------------------");
-		 * propietats.stringPropertyNames().forEach(x -> LOG.info(x + " => " +
-		 * propietats.getProperty(x)));
-		 * LOG.info("---------------------------------------------------"); } catch
-		 * (Exception e) {
-		 * LOG.error("S'ha produit un error alhora de carregar les propietats");
-		 * e.printStackTrace(); }
-		 */
 	}
 
 	@Override

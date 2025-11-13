@@ -54,18 +54,6 @@ public class Entitat extends BaseEntity {
     @NotNull
     private Estat actiu;
     
-    @Column(name = "PROPIETATS", nullable = true)
-    private String properties;
-    
-    public String getProperties() {
-        return properties;
-    }
-    
-    public void setProperties(String properties) {
-        this.properties = properties;
-    }
-    
-    
     public Long getId() {
         return id;
     }

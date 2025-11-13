@@ -159,7 +159,19 @@ VALUES
     ('ca', 'Català', TRUE, 0),
     ('es', 'Castellano', TRUE, 1);
 
+CREATE SEQUENCE itd_pluginentitat_seq
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 1018
+  CACHE 1;
+ALTER TABLE itd_pluginentitat_seq
+  OWNER TO interdoc;
 
-ALTER TABLE itd_entitat
-ADD COLUMN propietats text;
 
+-- Afegir Foregin Key als Plugins cap a Entitat
+ALTER TABLE itd_plugin
+  ADD COLUMN entitatid bigint NOT NULL DEFAULT 1,
+  ADD CONSTRAINT fk_itd_plugin_entitat
+    FOREIGN KEY (entitatid)
+    REFERENCES itd_entitat(entitatid);

@@ -52,8 +52,6 @@ public class UserLocale implements Serializable {
     UsuariEntitatServiceFacade usuariEntitatService;
     
     
-    
-    
  // Mètodes
 
     /**
@@ -79,10 +77,10 @@ public class UserLocale implements Serializable {
             return;
         }
         
+        // Obtenim l'usuari autenticat del context
         this.username = context.getExternalContext().getUserPrincipal().getName();
-        LOG.info("Usuari autenticat: {}", username);
         
-        
+        // Obtenim les dades de l'usuari autenticat.
         UsuariDTO usuari = usuariService.findByUsername(username).orElse(null);
         if (usuari == null) {
             LOG.warn("No s'ha trobat UsuariDTO per username {}", username);
@@ -93,36 +91,53 @@ public class UserLocale implements Serializable {
         this.username  = usuari.getUsername();
         this.entitatId = usuari.getDarreraEntitat();
         
+        //Si no hi ha entitat seleccionada, s'assigna una entitat qualsevol de les de l'usuari.
         if (this.entitatId == null) {
             UsuariEntitatDTO defaultUsuariEntitat = usuariEntitatService.findByUsuariId(usuariId).orElse(null);
+            
+            
             if(defaultUsuariEntitat!=null) {
                    this.entitatId = defaultUsuariEntitat.getEntitatId();
                    this.entitatNom = entitatService.findById(this.entitatId).map(EntitatDTO::getNom).orElse(null);
             }else {
-                this.entitatNom = null;
-                LOG.warn("L'usuari {} no té darrera entitat informada", this.username);
-            }
-            
-            return;
-        }
-        
-        EntitatDTO entitat = entitatService.findById(entitatId).orElse(null);
-        if (entitat != null) {
-            this.entitatNom = entitat.getNom();
-        } else {
-            UsuariEntitatDTO usuariEntitat = usuariEntitatService.findByUsuariId(usuariId).orElse(null);
-            if(usuariEntitat!= null) {
-                EntitatDTO entitat2 = entitatService.findById(usuariEntitat.getEntitatId()).orElse(null);
-                if (entitat2 != null) {
-                    this.entitatNom = entitat2.getNom();
-                    this.entitatId = entitat2.getId();
+                //Si no hi ha entitat seleccionada, miram si el rol es superadmin.
+                //Si es superadmin, entra sense entitat.
+                if (context.getExternalContext().isUserInRole("ITD_ADMIN")) {
+                    LOG.info("L'usuari {} és superadmin. Entrant sense entitat.", this.username);
+                    this.entitatNom = null;
                     return;
+                }else {
+                    this.entitatNom = null;
+                    LOG.warn("L'usuari {} no té entitat assignada.", this.username);
+                    throw new IllegalStateException("L'usuari no té entitat assignada.");
                 }
             }
+            return;
             
-            LOG.warn("No s'ha trobat cap entitat amb id {}", this.entitatId);
-            this.entitatNom = null; // o un valor per defecte
-        }
+        }else{
+            //Si l'usuari te darreraEntitat assignada, l'utilitzam.
+            EntitatDTO entitat = entitatService.findById(entitatId).orElse(null);
+           
+            if (entitat != null) {
+                
+                this.entitatNom = entitat.getNom();
+
+            } else {
+
+                UsuariEntitatDTO usuariEntitat = usuariEntitatService.findByUsuariId(usuariId).orElse(null);
+                if(usuariEntitat!= null) {
+                    EntitatDTO entitat2 = entitatService.findById(usuariEntitat.getEntitatId()).orElse(null);
+                    if (entitat2 != null) {
+                        this.entitatNom = entitat2.getNom();
+                        this.entitatId = entitat2.getId();
+                        return;
+                    }
+                }
+                
+                LOG.warn("No s'ha trobat cap entitat amb id {}", this.entitatId);
+                this.entitatNom = null; // o un valor per defecte
+            }
+            }
         }
         
     

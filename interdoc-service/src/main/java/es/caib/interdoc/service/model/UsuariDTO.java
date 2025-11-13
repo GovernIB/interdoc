@@ -161,6 +161,7 @@ public class UsuariDTO {
         super();
         this.usuariId = usuariId;
         this.username = username;
+        this.darreraEntitat = darreraEntitat;
         this.idiomaId = idiomaId;
         this.nom = nom;
         this.llinatge1 = llinatge1;

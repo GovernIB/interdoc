@@ -43,17 +43,6 @@
         </ui:define>
     </ui:decorate>
 
-    <!-- Properties -->
-    <ui:decorate template="/WEB-INF/decorations/field.xhtml">
-        <ui:define name="label">
-            <p:outputLabel for="properties" value="#{labels.entitat_properties}" />
-        </ui:define>
-        <ui:define name="input">
-            <p:inputTextarea id="properties" value="#{entitatModel.value.properties}" rows="6" autoResize="true"
-                placeholder="clau:valor" />
-            <p:message for="properties" />
-        </ui:define>
-    </ui:decorate>
 
     <!-- DataCreacio -->
     <ui:decorate template="/WEB-INF/decorations/field.xhtml">

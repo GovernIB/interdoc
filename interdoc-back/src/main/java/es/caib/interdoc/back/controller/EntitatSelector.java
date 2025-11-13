@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import es.caib.interdoc.service.facade.EntitatServiceFacade;
 import es.caib.interdoc.service.facade.UsuariServiceFacade;
 import es.caib.interdoc.service.model.EntitatDTO;
+import es.caib.interdoc.service.model.UsuariDTO;
 
 @Named
 @RequestScoped
@@ -41,14 +42,14 @@ public class EntitatSelector implements Serializable {
         
         Long entitatId = this.getSelectedEntitatId();
         Long usuariId = userLocale.getUsuariId();
-
         
         if (entitatId != null && usuariId != null) {
-            
             EntitatDTO entitat = entitatService.findById(entitatId).orElse(null);
             if (entitat != null) {
-
-                usuariService.setDarreraEntitat(usuariId, entitatId);
+                UsuariDTO usuari = usuariService.findById(usuariId).orElse(null);
+                
+                usuari.setDarreraEntitat(entitatId);
+                usuariService.update(usuari);
                 
                 userLocale.setEntitatId(entitat.getId());
                 userLocale.setEntitatNom(entitat.getNom());

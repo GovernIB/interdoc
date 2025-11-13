@@ -30,7 +30,6 @@ public class EntitatDTO {
 	private LocalDate dataCreacio;
 	
 	
-	private String properties;
 
 	@NotNull
 	private Estat actiu;
@@ -75,20 +74,6 @@ public class EntitatDTO {
 		this.actiu = actiu;
 	}
 	
-    public String getProperties() {
-        return properties;
-    }
-    
-    public void setProperties(String properties) {
-        this.properties = properties;
-    }
-
-	@Override
-	public String toString() {
-		return "EntitatDTO [id=" + id + ", nom=" + nom + ", codiDir3=" + codiDir3 + ", dataCreacio=" + dataCreacio
-				+ ", actiu=" + actiu + "Properties= "+ properties + "]";
-	}
-
 	public EntitatDTO() {
 	}
 	
@@ -117,14 +102,5 @@ public class EntitatDTO {
 		this.codiDir3 = codiDir3;
 		this.actiu = actiu;
 	}
-	
-	public EntitatDTO(Long id, @NotEmpty @Size(max = 50) String nom, @NotNull String codiDir3, @NotNull Estat actiu, String properties) {
-        super();
-        this.id = id;
-        this.nom = nom;
-        this.codiDir3 = codiDir3;
-        this.actiu = actiu;
-        this.properties = properties;
-    }
 
 }
