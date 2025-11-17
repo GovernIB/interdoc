@@ -74,13 +74,41 @@ Plantilla.
                                 </div></li>
 
 
-                            <!-- Referències -->
-                            <li class="nav-item colorVerd"><p:link styleClass="nav-link mobil"
-                                    outcome="/listReferencia" title="#{labels.referencia_menu_link}">
-                                    <span class="oi oi-briefcase" title="#{labels.referencia_menu_title}"
-                                        aria-hidden="true"></span>
-                                    <span class="mb-0 float-right botoCurt">#{labels.listReferencies_link}</span>
-                                </p:link></li>
+
+
+
+                            <!-- Rols -->
+                            <li class="nav-item dropdown colorVerd"><a class="nav-link dropdown mobil"
+                                title="#{labels.rols_link}" href="#" id="rolsDropdown" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false"> <span
+                                    class="oi oi-caret-bottom float-right flechaSubmenu" aria-hidden="true"></span> <!-- Etiqueta del rol seleccionat -->
+                                    <span class="mb-0 float-right botoCurt"> #{empty
+                                        roleSelector.currentRoleLabel ? labels.rols_seleccio_link :
+                                        roleSelector.currentRoleLabel} </span> <span class="oi oi-people" aria-hidden="true"></span>
+                            </a>
+
+                                <div class="dropdown-menu dropdown-menu-right marg0 minW0"
+                                    aria-labelledby="rolsDropdown">
+
+                                    <!-- Super Administrador (només si té rol ITD_ADMIN) -->
+                                    <p:commandLink styleClass="dropdown-item mobil"
+                                        action="#{roleSelector.applySelection}" process="@this" update="@none"
+                                        ajax="false" rendered="#{request.isUserInRole('ITD_ADMIN')}">
+                                        <f:setPropertyActionListener target="#{roleSelector.selectedRole}"
+                                            value="SUPER_ADMIN" />
+                                        <span class="mb-0 botoCurt">#{labels.usuari_administrador}</span>
+                                    </p:commandLink>
+
+                                    <!-- Administrador d'Entitat (si té rol ITD_USER però no ITD_ADMIN) -->
+                                    <p:commandLink styleClass="dropdown-item mobil"
+                                        action="#{roleSelector.applySelection}" process="@this" update="@none"
+                                        ajax="false" rendered="#{request.isUserInRole('ITD_USER')}">
+                                        <f:setPropertyActionListener target="#{roleSelector.selectedRole}"
+                                            value="ADMIN_ENTITAT" />
+                                        <span class="mb-0 botoCurt">#{labels.usuari_administrador_entitat}</span>
+                                    </p:commandLink>
+                                </div></li>
+
 
 
 
@@ -94,7 +122,12 @@ Plantilla.
                             </a>
                                 <div class="dropdown-menu dropdown-menu-right marg0 minW0"
                                     aria-labelledby="configuracion">
-
+                                    
+                                    <!--  Referencies  -->
+                                    <p:link styleClass="dropdown-item mobil" outcome="/listReferencia"
+                                        title="#{labels.referencia_menu_link}">
+                                        <span class="mb-0 botoCurt"> #{labels.listReferencies_link} </span>
+                                    </p:link>
 
                                     <!--  Usuarios  -->
                                     <p:link styleClass="dropdown-item mobil" outcome="/listUsuari"
