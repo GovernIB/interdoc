@@ -9,6 +9,8 @@
     <ui:define name="metadata">
         <f:metadata>
             <f:importConstants type="es.caib.interdoc.service.model.Estat" var="estats" />
+            <!-- Guard per verificar accés a pàgina restringida -->
+            <f:event type="preRenderView" listener="#{userLocale.requireSuperAdmin()}" />
         </f:metadata>
     </ui:define>
 

@@ -13,6 +13,8 @@ Pàgina per edició d'unitats orgàniques.
             <f:viewParam id="usuariId" name="usuariId" value="#{usuariModel.value.usuariId}" />
             <f:viewAction action="#{usuariModel.load}" />
             <f:importConstants type="es.caib.interdoc.service.model.Estat" var="estats"/>
+            <!-- Guard per verificar accés a pàgina restringida -->
+            <f:event type="preRenderView" listener="#{userLocale.requireSuperAdmin()}" />
         </f:metadata>
     </ui:define>
 

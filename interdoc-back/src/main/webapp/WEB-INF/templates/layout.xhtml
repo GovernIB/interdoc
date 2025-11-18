@@ -77,14 +77,14 @@ Plantilla.
 
 
 
-                            <!-- Rols -->
+                            <!-- Dropdown per seleccionar Rols -->
                             <li class="nav-item dropdown colorVerd"><a class="nav-link dropdown mobil"
                                 title="#{labels.rols_link}" href="#" id="rolsDropdown" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false"> <span
                                     class="oi oi-caret-bottom float-right flechaSubmenu" aria-hidden="true"></span> <!-- Etiqueta del rol seleccionat -->
                                     <span class="mb-0 float-right botoCurt"> #{empty
-                                        roleSelector.currentRoleLabel ? labels.rols_seleccio_link :
-                                        roleSelector.currentRoleLabel} </span> <span class="oi oi-people" aria-hidden="true"></span>
+                                        userLocale.currentRoleLabel ? labels.rols_seleccio_link :
+                                        userLocale.currentRoleLabel} </span> <span class="oi oi-people" aria-hidden="true"></span>
                             </a>
 
                                 <div class="dropdown-menu dropdown-menu-right marg0 minW0"
@@ -92,18 +92,18 @@ Plantilla.
 
                                     <!-- Super Administrador (només si té rol ITD_ADMIN) -->
                                     <p:commandLink styleClass="dropdown-item mobil"
-                                        action="#{roleSelector.applySelection}" process="@this" update="@none"
-                                        ajax="false" rendered="#{request.isUserInRole('ITD_ADMIN')}">
-                                        <f:setPropertyActionListener target="#{roleSelector.selectedRole}"
+                                        action="#{userLocale.applyRoleSelection}" process="@this" update="@none"
+                                        ajax="false" rendered="#{userLocale.canSelectSuperAdmin()}">
+                                        <f:setPropertyActionListener target="#{userLocale.selectedRole}"
                                             value="SUPER_ADMIN" />
                                         <span class="mb-0 botoCurt">#{labels.usuari_administrador}</span>
                                     </p:commandLink>
 
-                                    <!-- Administrador d'Entitat (si té rol ITD_USER però no ITD_ADMIN) -->
+                                    <!-- Administrador d'Entitat (sempre visible per usuaris amb ITD_USER) -->
                                     <p:commandLink styleClass="dropdown-item mobil"
-                                        action="#{roleSelector.applySelection}" process="@this" update="@none"
-                                        ajax="false" rendered="#{request.isUserInRole('ITD_USER')}">
-                                        <f:setPropertyActionListener target="#{roleSelector.selectedRole}"
+                                        action="#{userLocale.applyRoleSelection}" process="@this" update="@none"
+                                        ajax="false" rendered="#{userLocale.canSelectAdminEntitat()}">
+                                        <f:setPropertyActionListener target="#{userLocale.selectedRole}"
                                             value="ADMIN_ENTITAT" />
                                         <span class="mb-0 botoCurt">#{labels.usuari_administrador_entitat}</span>
                                     </p:commandLink>
@@ -132,21 +132,21 @@ Plantilla.
                                     <!--  Usuarios  -->
                                     <p:link styleClass="dropdown-item mobil" outcome="/listUsuari"
                                         title="#{labels.usuari_menu_link}"
-                                        rendered="#{request.isUserInRole('ITD_ADMIN')}">
+                                        rendered="#{userLocale.isSuperAdmin()}">
                                         <span class="mb-0 botoCurt">#{labels.listUsuari_link}</span>
                                     </p:link>
 
                                     <!--  Usuaris Entitat  -->
                                     <p:link styleClass="dropdown-item mobil" outcome="/listUsuariEntitat"
                                         title="#{labels.usuariEntitat_menu_link}"
-                                        rendered="#{request.isUserInRole('ITD_ADMIN')}">
+                                        rendered="#{userLocale.isSuperAdmin()}">
                                         <span class="mb-0 botoCurt">#{labels.listUsuariEntitat_link}</span>
                                     </p:link>
 
                                     <!--  Entidades  -->
                                     <p:link styleClass="dropdown-item mobil" outcome="/listEntitat"
                                         title="#{labels.entitat_menu_link}"
-                                        rendered="#{request.isUserInRole('ITD_ADMIN')}">
+                                        rendered="#{userLocale.isSuperAdmin()}">
                                         <span class="mb-0 botoCurt">#{labels.listEntitat_link}</span>
                                     </p:link>
 
