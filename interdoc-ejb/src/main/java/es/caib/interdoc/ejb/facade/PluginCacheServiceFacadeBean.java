@@ -7,17 +7,24 @@ import java.util.Map;
 import java.util.Properties;
 
 import javax.annotation.security.PermitAll;
+import javax.ejb.Local;
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+
 import es.caib.interdoc.commons.i18n.I18NException;
 import es.caib.interdoc.commons.utils.Constants;
+import es.caib.interdoc.ejb.interceptor.ExceptionTranslate;
+import es.caib.interdoc.ejb.interceptor.Logged;
 import es.caib.interdoc.persistence.model.Plugin;
 import es.caib.interdoc.service.facade.PluginCacheServiceFacade;
 
 
-/*@Logged
+@Logged
 @ExceptionTranslate
 @Stateless
-@Local(PluginArxiuFacade.class)
-@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)*/
+@Local(PluginArxiuServiceFacade.class)
+@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 public abstract class PluginCacheServiceFacadeBean<P> extends PluginServiceFacadeBean implements PluginCacheServiceFacade<P>{
     
     @Override

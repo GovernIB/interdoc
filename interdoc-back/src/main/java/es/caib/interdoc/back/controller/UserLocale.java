@@ -44,6 +44,11 @@ public class UserLocale implements Serializable {
     private Long entitatId;
     private String entitatNom;
     
+    private String nom;
+    private String llinatge1;
+    private String llinatge2;
+    private String currentUserFullName;
+    
     /**
      * Rol seleccionat actualment per l'usuari.
      * Pot ser "SUPER_ADMIN" o "ADMIN_ENTITAT".
@@ -101,6 +106,24 @@ public class UserLocale implements Serializable {
         this.usuariId  = usuari.getUsuariId();
         this.username  = usuari.getUsername();
         this.entitatId = usuari.getDarreraEntitat();
+        this.nom = usuari.getNom();
+        this.llinatge1 = usuari.getLlinatge1();
+        this.llinatge2 = usuari.getLlinatge2();
+        
+        // Construir nom complet
+        StringBuilder fullName = new StringBuilder();
+        if (this.nom != null && !this.nom.trim().isEmpty()) {
+            fullName.append(this.nom.trim());
+        }
+        if (this.llinatge1 != null && !this.llinatge1.trim().isEmpty()) {
+            if (fullName.length() > 0) fullName.append(" ");
+            fullName.append(this.llinatge1.trim());
+        }
+        if (this.llinatge2 != null && !this.llinatge2.trim().isEmpty()) {
+            if (fullName.length() > 0) fullName.append(" ");
+            fullName.append(this.llinatge2.trim());
+        }
+        this.currentUserFullName = fullName.length() > 0 ? fullName.toString() : this.username;
         
         //Si no hi ha entitat seleccionada, s'assigna una entitat qualsevol de les de l'usuari.
         if (this.entitatId == null) {
@@ -312,6 +335,38 @@ public class UserLocale implements Serializable {
      */
     public boolean canSelectAdminEntitat() {
         return security.isUser();
+    }
+    
+    public String getNom() {
+        return nom;
+    }
+    
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+    
+    public String getLlinatge1() {
+        return llinatge1;
+    }
+    
+    public void setLlinatge1(String llinatge1) {
+        this.llinatge1 = llinatge1;
+    }
+    
+    public String getLlinatge2() {
+        return llinatge2;
+    }
+    
+    public void setLlinatge2(String llinatge2) {
+        this.llinatge2 = llinatge2;
+    }
+    
+    public String getCurrentUserFullName() {
+        return currentUserFullName;
+    }
+    
+    public void setCurrentUserFullName(String currentUserFullName) {
+        this.currentUserFullName = currentUserFullName;
     }
     
     /**
