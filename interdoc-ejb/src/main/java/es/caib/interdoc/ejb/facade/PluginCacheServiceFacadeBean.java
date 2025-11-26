@@ -2,8 +2,6 @@ package es.caib.interdoc.ejb.facade;
 
 import java.io.StringReader;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 import javax.annotation.security.PermitAll;
@@ -34,19 +32,21 @@ public abstract class PluginCacheServiceFacadeBean<P> extends PluginServiceFacad
         try {
             //log.info("***** Accedit a getPlugin()");
 
-            List<Plugin> plugins = repository.findByEntitatTipus(idEntitat, getTipusPlugin());
+            Plugin activePlugin = repository.findActiveByEntitatTipus(idEntitat, getTipusPlugin());
 
-            if (plugins.size() > 0) {
-                long pluginId = plugins.get(0).getId();
-                P p = getPluginFromCache(plugins.get(0).getId());
-                if(p==null) {
-                    p = (P) carregarPlugin(plugins.get(0));
+            if (activePlugin != null) {
+                long pluginId = activePlugin.getId();
+                P p = getPluginFromCache(pluginId);
+                if(p == null) {
+                    p = (P) carregarPlugin(activePlugin);
                     addPluginToCache(pluginId, p);
-                    return carregarPlugin(plugins.get(0));
                 }
                 return p;
             }
             
+        } catch (I18NException e) {
+            // Re-llançar excepcions d'I18N (com l'error de múltiples plugins actius)
+            throw e;
         } catch (Exception e) {
             throw new I18NException(e, "error.desconegut", e.getMessage());
         }
@@ -58,6 +58,7 @@ public abstract class PluginCacheServiceFacadeBean<P> extends PluginServiceFacad
     protected abstract Long getTipusPlugin();
     
     
+    @SuppressWarnings("unchecked")
     private P carregarPlugin(Plugin plugin) throws Exception {
         
         String BASE_PACKAGE = Constants.INTERDOC_PROPERTY_BASE;
@@ -86,6 +87,7 @@ public abstract class PluginCacheServiceFacadeBean<P> extends PluginServiceFacad
         }
     }
 
+   @SuppressWarnings("unchecked")
    public P getPluginFromCache(Long pluginID) {
        log.info("CACHE: getPluginFromCache() Id="+pluginID);
         synchronized (pluginsCache) {

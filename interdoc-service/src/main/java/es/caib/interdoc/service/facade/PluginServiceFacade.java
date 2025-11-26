@@ -1,5 +1,6 @@
 package es.caib.interdoc.service.facade;
 
+import es.caib.interdoc.commons.i18n.I18NException;
 import es.caib.interdoc.service.exception.RecursNoTrobatException;
 import es.caib.interdoc.service.model.PluginAtribut;
 import es.caib.interdoc.service.model.PluginDTO;
@@ -25,17 +26,18 @@ public interface PluginServiceFacade {
      *
      * @param dto dades de la aplicació.
      * @return l'identificador de la nova aplicació.
-     * @throws AplicacioDuplicadaException si ja existeix una aplicacio amb el mateix codiDir3
+     * @throws I18NException si ja existeix un plugin actiu del mateix tipus per aquesta entitat
      */
-    Long create(PluginDTO dto);
+    Long create(PluginDTO dto) throws I18NException;
 
     /**
      * Actualitza les dades d'una aplicació a la base de dades. El codiDir3 no es sobreescriu.
      *
      * @param dto noves dades de la aplicació.
      * @throws RecursNoTrobatException si la aplicació amb identificador dto.id no existeix.
+     * @throws I18NException si s'intenta activar un plugin quan ja n'hi ha un altre actiu del mateix tipus per aquesta entitat
      */
-    void update(PluginDTO dto) throws RecursNoTrobatException;
+    void update(PluginDTO dto) throws RecursNoTrobatException, I18NException;
 
     /**
      * Esborra una aplicació de la base de dades.

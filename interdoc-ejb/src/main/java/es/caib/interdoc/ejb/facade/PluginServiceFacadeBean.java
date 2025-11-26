@@ -62,7 +62,23 @@ public class PluginServiceFacadeBean implements PluginServiceFacade {
 
     @Override
     @RolesAllowed(Constants.ITD_ADMIN)
-    public Long create(PluginDTO dto){
+    public Long create(PluginDTO dto) throws I18NException {
+        // Validar que si s'està creant com actiu, no hi ha un altre plugin actiu del mateix tipus i entitat
+        if (dto.getActiu() == es.caib.interdoc.service.model.Estat.ACTIU) {
+            try {
+                Plugin existingActive = repository.findActiveByEntitatTipus(dto.getEntitatId(), dto.getTipus());
+                if (existingActive != null) {
+                    throw new I18NException(
+                        "error.plugin.ja_existeix_actiu",
+                        "Ja existeix un altre plugin actiu d'aquest tipus per aquesta entitat. Desactiva'l primer."
+                    );
+                }
+            } catch (I18NException e) {
+                // Re-llançar l'excepció d'I18N
+                throw e;
+            }
+        }
+        
         Plugin plugin = converter.toEntity(dto);
         repository.create(plugin);
         return plugin.getId();
@@ -70,10 +86,27 @@ public class PluginServiceFacadeBean implements PluginServiceFacade {
 
     @Override
     @RolesAllowed(Constants.ITD_ADMIN)
-    public void update(PluginDTO dto) throws RecursNoTrobatException {
+    public void update(PluginDTO dto) throws RecursNoTrobatException, I18NException {
         if(dto != null) {
             deleteOfCache(dto.getId());
             Plugin plugin = repository.getReference(dto.getId());
+            
+            // Validar que si s'està activant, no hi ha un altre plugin actiu del mateix tipus i entitat
+            if (dto.getActiu() == es.caib.interdoc.service.model.Estat.ACTIU) {
+                try {
+                    Plugin existingActive = repository.findActiveByEntitatTipus(dto.getEntitatId(), dto.getTipus());
+                    if (existingActive != null && !existingActive.getId().equals(dto.getId())) {
+                        throw new I18NException(
+                            "error.plugin.ja_existeix_actiu",
+                            "Ja existeix un altre plugin actiu d'aquest tipus per aquesta entitat. Desactiva'l primer."
+                        );
+                    }
+                } catch (I18NException e) {
+                    // Re-llançar l'excepció d'I18N
+                    throw e;
+                }
+            }
+            
             converter.updateFromDTO(plugin, dto);
         }
     }

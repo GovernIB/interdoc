@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -44,16 +45,24 @@ public class EditPlugin extends AbstractController implements Serializable {
     public String update() {
         LOG.debug("update");
 
-        pluginService.update(plugin.getValue());
-            
-        ResourceBundle labelsBundle = getBundle("labels");
-        addGlobalMessage(labelsBundle.getString("msg.actualitzaciocorrecta"));
+        try {
+            pluginService.update(plugin.getValue());
+                
+            ResourceBundle labelsBundle = getBundle("labels");
+            addGlobalMessage(labelsBundle.getString("msg.actualitzaciocorrecta"));
 
-        // Els missatges no aguanten una redirecció ja que no es la mateixa petició
-        // Així asseguram que es guardin fins la visualització
-        keepMessages();
+            // Els missatges no aguanten una redirecció ja que no es la mateixa petició
+            // Així asseguram que es guardin fins la visualització
+            keepMessages();
 
-        // Redireccionam cap al llistat d'aplicacions'
-        return "/listPlugin?faces-redirect=true";
+            // Redireccionam cap al llistat d'aplicacions'
+            return "/listPlugin?faces-redirect=true";
+        } catch (Exception e) {
+            LOG.error("Error actualitzant el plugin", e);
+            ResourceBundle labelsBundle = getBundle("labels");
+            getContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+                e.getMessage() != null ? e.getMessage() : labelsBundle.getString("error.desconegut"), null));
+            return null;
+        }
     }
 }

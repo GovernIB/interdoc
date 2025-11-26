@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -61,18 +62,26 @@ public class NewPlugin extends AbstractController implements Serializable {
     public String save() {
         LOG.debug("save");
         
-        // Feim una creació 
-        pluginService.create(plugin.getValue());
+        try {
+            // Feim una creació 
+            pluginService.create(plugin.getValue());
 
-        ResourceBundle labelsBundle = getBundle("labels");
-        addGlobalMessage(labelsBundle.getString("msg.creaciocorrecta"));
-        
-        // Els missatges no aguanten una redirecció ja que no es la mateixa petició
-        // Així asseguram que es guardin fins la visualització
-        keepMessages();
+            ResourceBundle labelsBundle = getBundle("labels");
+            addGlobalMessage(labelsBundle.getString("msg.creaciocorrecta"));
+            
+            // Els missatges no aguanten una redirecció ja que no es la mateixa petició
+            // Així asseguram que es guardin fins la visualització
+            keepMessages();
 
-        // Redireccionam cap al llistat d'unitats orgàniques
-        return "/listPlugin?faces-redirect=true";
+            // Redireccionam cap al llistat d'unitats orgàniques
+            return "/listPlugin?faces-redirect=true";
+        } catch (Exception e) {
+            LOG.error("Error creant el plugin", e);
+            ResourceBundle labelsBundle = getBundle("labels");
+            getContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+                e.getMessage() != null ? e.getMessage() : labelsBundle.getString("error.desconegut"), null));
+            return null;
+        }
     }
     
     @PostConstruct

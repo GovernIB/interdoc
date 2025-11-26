@@ -230,5 +230,44 @@ public class PluginRepositoryBean extends AbstractCrudRepository<Plugin, Long>
     	
     }
     
+    @Override
+    @SuppressWarnings("unchecked")
+    public Plugin findActiveByEntitatTipus(Long entitatId, Long tipusId) throws I18NException {
+        String entitatQuery;
+
+        if (entitatId != null) {
+            entitatQuery = "p.entitatId = :idEntidad";
+        } else {
+            entitatQuery = "p.entitatId is null";
+        }
+
+        Query q = entityManager.createQuery(
+            "Select p from Plugin as p where " + entitatQuery + 
+            " and p.tipus = :tipo and p.actiu = :actiu order by p.id"
+        );
+
+        if (entitatId != null) {
+            q.setParameter("idEntidad", entitatId);
+        }
+        q.setParameter("tipo", tipusId);
+        q.setParameter("actiu", es.caib.interdoc.service.model.Estat.ACTIU);
+        q.setHint("org.hibernate.readOnly", true);
+
+        List<Plugin> activePlugins = q.getResultList();
+        
+        if (activePlugins.isEmpty()) {
+            return null;
+        }
+        
+        if (activePlugins.size() > 1) {
+            throw new I18NException(
+                "error.plugin.multiple_actius",
+                "Hi ha múltiples plugins actius del mateix tipus per aquesta entitat. Només n'hi pot haver un."
+            );
+        }
+        
+        return activePlugins.get(0);
+    }
+    
     
 }

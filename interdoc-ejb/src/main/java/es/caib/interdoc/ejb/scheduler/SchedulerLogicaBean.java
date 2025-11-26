@@ -18,9 +18,7 @@ import org.apache.log4j.Logger;
 import es.caib.interdoc.service.facade.EntitatServiceFacade;
 import es.caib.interdoc.service.facade.InfoArxiuServiceFacade;
 import es.caib.interdoc.service.model.EntitatDTO;
-import es.caib.interdoc.service.model.PluginDTO;
 import es.caib.interdoc.commons.utils.Configuracio;
-import es.caib.interdoc.commons.utils.Constants;
 import es.caib.interdoc.ejb.facade.PluginArxiuServiceFacade;
 import es.caib.interdoc.plugins.arxiu.InterdocArxiuPlugin;
 import es.caib.interdoc.commons.config.PropertyFileConfigSource;
@@ -74,6 +72,34 @@ public class SchedulerLogicaBean implements SchedulerLogicaService{
 	        frequency = Integer.parseInt(prop.getValue(PROPERTY_FREQUENCY));
 	    }
 	    
+	    // Pre-inicialitzar tots els plugins d'arxiu actius per a cada entitat
+	    log.info("Pre-inicialitzant plugins d'arxiu per a totes les entitats...");
+	    try {
+	        List<EntitatDTO> entitats = entitatService.getAll();
+	        int pluginsInicialitzats = 0;
+	        int pluginsNoDisponibles = 0;
+	        
+	        for (EntitatDTO entitat : entitats) {
+	            try {
+	                InterdocArxiuPlugin plugin = pluginService.getPlugin(entitat.getId());
+	                if (plugin != null) {
+	                    log.info("Plugin d'arxiu inicialitzat per l'entitat: " + entitat.getNom() + " (ID: " + entitat.getId() + ")");
+	                    pluginsInicialitzats++;
+	                } else {
+	                    log.warn("No s'ha trobat plugin d'arxiu ACTIU per l'entitat: " + entitat.getNom() + " (ID: " + entitat.getId() + ")");
+	                    pluginsNoDisponibles++;
+	                }
+	            } catch (Exception e) {
+	                log.error("Error inicialitzant plugin d'arxiu per l'entitat: " + entitat.getNom() + " (ID: " + entitat.getId() + ")", e);
+	                pluginsNoDisponibles++;
+	            }
+	        }
+	        
+	        log.info("Resum inicialització plugins: " + pluginsInicialitzats + " inicialitzats correctament, " + 
+	                 pluginsNoDisponibles + " no disponibles o amb errors.");
+	    } catch (Exception e) {
+	        log.error("Error durant la pre-inicialització dels plugins d'arxiu", e);
+	    }
 	    
 		ScheduleExpression expression = new ScheduleExpression();
         expression.dayOfWeek("Sun,Mon,Tue,Wed,Thu,Fri,Sat");
@@ -109,58 +135,76 @@ public class SchedulerLogicaBean implements SchedulerLogicaService{
 	@Timeout
 	public void execute(Timer timer){
 		
+		log.info("====> Inici execució scheduler tancar expedients");
 		List<EntitatDTO> entitats = entitatService.getAll();
+		log.info("Total entitats a processar: " + entitats.size());
 		
 		entitats.forEach( entitat -> {
 			
-			log.info("====>  Execució scheduler tancar expedients per l'entitat " + entitat.getNom() + " amb Id " + entitat.getId());
+			log.info("====> Processant entitat: " + entitat.getNom() + " (ID: " + entitat.getId() + ")");
 			
+			// Obtenir expedients NOMÉS d'aquesta entitat específica
 			List<String> expedients = infoArxiuService.getExpedientsObertsPerEntitat(entitat.getId());
-			log.info("Número d'expedients no tancats: " + expedients.size());
+			log.info("Número d'expedients oberts per l'entitat " + entitat.getNom() + ": " + expedients.size());
 			
-			// Comprobam si existeix un plugin d'arxiu per l'entitat
-			List<PluginDTO> plugins = pluginService.getByTipus(Constants.PLUGIN_ARXIU, entitat.getId());
-			if (plugins.size() > 0) {
+			if (expedients.isEmpty()) {
+				log.info("No hi ha expedients oberts per tancar a l'entitat " + entitat.getNom());
+				return;
+			}
+			
+			// Obtenir el plugin d'arxiu ACTIU específic d'aquesta entitat
+			InterdocArxiuPlugin plugin = null;
+			try {
+				plugin = pluginService.getPlugin(entitat.getId());
 				
-				//ArxiuController arxiuController = new ArxiuController(entitat.getId());
+				if (plugin == null) {
+					log.warn("L'entitat " + entitat.getNom() + " (ID: " + entitat.getId() + ") no té cap plugin d'Arxiu ACTIU configurat. Expedients pendents: " + expedients.size());
+					return;
+				}
 				
-				InterdocArxiuPlugin plugin = null;
-                try {
-                    plugin = pluginService.getPlugin(entitat.getId());
-                } catch (Exception e) {
-                    log.error("ERROR: No s'ha pogut inicialitzar el Plugin de Arxiu.",e);
-                    e.printStackTrace();
-                }
+				log.info("Plugin d'arxiu carregat correctament per l'entitat " + entitat.getNom() + ": " + plugin.getClass().getName());
+				
+			} catch (Exception e) {
+				log.error("ERROR: No s'ha pogut inicialitzar el Plugin d'Arxiu per l'entitat " + entitat.getNom() + " (ID: " + entitat.getId() + ")", e);
+				return;
+			}
+			
+			// Processar cada expedient AMB EL PLUGIN DE LA SEVA ENTITAT
+			int expedientsTancats = 0;
+			int expedientsError = 0;
+			
+			for (String expedientId : expedients) {
+				try {
+					log.info("Processant expedient: " + expedientId + " de l'entitat: " + entitat.getNom() + " (ID: " + entitat.getId() + ")");
 					
-				for (String expedientId : expedients) {
+					boolean closed = plugin.tancarExpedient(expedientId);
+					
+					if (closed) {
+						log.info("✓ Expedient tancat correctament: " + expedientId + " (Entitat: " + entitat.getNom() + ") - actualitzant BD");
+						infoArxiuService.tancarExpedient(expedientId, entitat.getId());
+						expedientsTancats++;
+					} else {
+						log.warn("✗ No s'ha pogut tancar l'expedient: " + expedientId + " (Entitat: " + entitat.getNom() + ") - augmentant reintents");
+						infoArxiuService.aumentarReintents(expedientId, entitat.getId(), 10L);
+						expedientsError++;
+					}
+					
+				} catch (Exception e) {
+					log.error("✗ Error processant expedient: " + expedientId + " (Entitat: " + entitat.getNom() + ")", e);
+					expedientsError++;
 					try {
-						
-						boolean closed = false;
-						
-						if (plugin != null) {
-							
-							log.info("Tancant expedient: " + expedientId);
-							closed = plugin.tancarExpedient(expedientId);
-							
-							if (closed) {
-								log.info("Expedient tancat: " + expedientId + " - actualitzam a la BD");
-								infoArxiuService.tancarExpedient(expedientId, entitat.getId());
-							} else {
-								log.info("Error al tancar expedient: " + expedientId + " - augmentam reintents");
-								infoArxiuService.aumentarReintents(expedientId, entitat.getId(), 10L);
-							}
-							
-						}
-					} catch (Exception e) {
-						log.info("Error al tancar expedient: " + expedientId);
-						e.printStackTrace();
+						infoArxiuService.aumentarReintents(expedientId, entitat.getId(), 10L);
+					} catch (Exception ex) {
+						log.error("Error augmentant reintents per expedient: " + expedientId, ex);
 					}
 				}
-			}else {
-				log.error("L'entitat " + entitat.getNom() + " amb ID " + entitat.getId() + " no té cap plugin de tipus ARXIU configurat" );
 			}
+			
+			log.info("====> Resum entitat " + entitat.getNom() + ": " + expedientsTancats + " expedients tancats, " + expedientsError + " amb errors");
+			
 		});
 		
+		log.info("====> Fi execució scheduler tancar expedients");
 	}
 
 }

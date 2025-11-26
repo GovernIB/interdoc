@@ -39,5 +39,7 @@ public interface PluginRepository extends CrudRepository<Plugin, Long> {
     List<Object> getPlugins(Long tipoPlugin) throws I18NException;
     
     List<Plugin> findByEntitatTipus(Long entitatId, Long tipusId) throws I18NException;
+    
+    Plugin findActiveByEntitatTipus(Long entitatId, Long tipusId) throws I18NException;
 
 }
