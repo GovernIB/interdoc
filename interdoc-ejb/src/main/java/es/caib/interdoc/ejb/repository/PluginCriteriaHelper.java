@@ -1,7 +1,6 @@
 package es.caib.interdoc.ejb.repository;
 
 import es.caib.interdoc.persistence.model.Plugin;
-import es.caib.interdoc.persistence.model.Plugin_;
 import es.caib.interdoc.service.model.PluginAtribut;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -29,17 +28,19 @@ public class PluginCriteriaHelper extends AbstractCriteriaHelper<Plugin, PluginA
         // TODO revisar substituió dels noms dels camps per algo més dinàmic
         switch (atribut) {
             case id:
-                return root.get(Plugin_.id);
+                return root.get("id");
             case nom:
-                return root.get(Plugin_.nom);
+                return root.get("nom");
             case classe:
-            	return root.get(Plugin_.classe);
+            	return root.get("classe");
             case propietats:
-                return root.get(Plugin_.propietats);
+                return root.get("propietats");
             case dataCreacio:
-                return root.get(Plugin_.dataCreacio);
+                return root.get("dataCreacio");
             case actiu:
-                return root.get(Plugin_.actiu);
+                return root.get("actiu");
+            case entitatId:
+                return root.get("entitatId");
             default:
                 throw new IllegalArgumentException("Valor no vàlid " + atribut);
         }

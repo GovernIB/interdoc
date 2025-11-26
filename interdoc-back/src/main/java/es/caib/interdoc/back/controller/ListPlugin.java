@@ -13,8 +13,11 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -38,6 +41,9 @@ public class ListPlugin extends AbstractController implements Serializable {
     
     @EJB
     private EntitatServiceFacade entitatService;
+    
+    @Inject
+    private UserLocale userLocale;
 
     /**
      * Model de dades emprat pel compoment dataTable de primefaces.
@@ -69,12 +75,31 @@ public class ListPlugin extends AbstractController implements Serializable {
                                            Map<String, FilterMeta> filterBy) {
                 LOG.info("filterBy: {}", filterBy);
 
+                // Obtenir l'entitat seleccionada per l'usuari
+                Long entitatIdSeleccionada = userLocale.getEntitatId();
+                
+                // Si no hi ha entitat seleccionada, retornar llista buida
+                if (entitatIdSeleccionada == null) {
+                    LOG.info("No hi ha entitat seleccionada. Retornant llista buida de plugins.");
+                    setRowCount(0);
+                    return Collections.emptyList();
+                }
+                
+                LOG.info("Filtrant plugins per l'entitat seleccionada: ID=" + entitatIdSeleccionada);
+
                 // Dins JSF emprarem noms que coincideixin amb els valors de l'enumeració AtributUnitat
                 Map<PluginAtribut, Object> filter = PFUtils.filterMetaToFilter(PluginAtribut.class, filterBy);
+                
+                // Crear un nou HashMap mutable i copiar els filtres existents
+                Map<PluginAtribut, Object> mutableFilter = new HashMap<>(filter);
+                
+                // Afegir el filtre per entitatId
+                mutableFilter.put(PluginAtribut.entitatId, entitatIdSeleccionada);
+                
                 List<Ordre<PluginAtribut>> ordenacions = PFUtils.sortMetaToOrdre(PluginAtribut.class, sortBy);
                 
                 Pagina<PluginDTO> pagina = pluginService
-                        .findFiltered(first, pageSize, filter, ordenacions);
+                        .findFiltered(first, pageSize, mutableFilter, ordenacions);
                 
                 setRowCount((int) pagina.getTotal());
                 
