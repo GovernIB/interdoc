@@ -97,6 +97,12 @@
                 <artifactId>maven-ejb-plugin</artifactId>
                 <configuration>
                     <ejbVersion>3.2</ejbVersion>
+                    <archive>
+                        <manifestEntries>
+                            <!-- Assegurar que el EJB jar pugui accedir als jars del lib/ del EAR -->
+                            <Class-Path>lib/interdoc-persistence-1.0.1.jar lib/interdoc-service-1.0.1.jar lib/interdoc-commons-1.0.1.jar</Class-Path>
+                        </manifestEntries>
+                    </archive>
                 </configuration>
             </plugin>
             <plugin>

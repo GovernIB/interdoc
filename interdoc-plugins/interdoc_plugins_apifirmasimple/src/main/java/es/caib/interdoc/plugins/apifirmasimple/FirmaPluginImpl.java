@@ -392,7 +392,6 @@ public class FirmaPluginImpl extends AbstractPluginProperties implements Interdo
 		}
 
 		return new ApiFirmaEnServidorSimpleJersey(endPoint, username, password);
-
 	}
 
 }

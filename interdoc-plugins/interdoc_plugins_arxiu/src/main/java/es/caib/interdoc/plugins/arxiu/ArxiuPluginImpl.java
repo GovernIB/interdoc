@@ -101,9 +101,11 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 	@Override
 	public void carregarPropertiesFile() {
         LOG.info("**********-- CARREGANT PROPERTIES FILE --");
+        LOG.warn("carregarPropertiesFile() està deprecat. Utilitzar carregarProperties(Properties) en el seu lloc.");
 
 		try {
 			Config config = ConfigProvider.getConfig();
+			propietats = new Properties();
 			propietats.put(PROPERTY_SERIE_DOCUMENTAL, config.getValue(PROPERTY_SERIE_DOCUMENTAL, String.class));
 			propietats.put(PROPERTY_CLASIFICACIO, config.getValue(PROPERTY_CLASIFICACIO, String.class));
 			propietats.put(PROPERTY_CODI_APLICACIO, config.getValue(PROPERTY_CODI_APLICACIO, String.class));
