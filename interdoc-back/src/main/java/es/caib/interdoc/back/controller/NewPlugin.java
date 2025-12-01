@@ -11,13 +11,11 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
-import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 /**
@@ -44,12 +42,10 @@ public class NewPlugin extends AbstractController implements Serializable {
     @Inject
     private PluginModel plugin;
     
-    private List<SelectItem> entitats = new ArrayList<SelectItem>();
+    @Inject
+    private UserLocale userLocale;
     
-    
-    public List<SelectItem> getEntitats() {
-    	return entitats;
-    }
+    private String entitatNom;
    
     // ACCIONS
 
@@ -86,11 +82,30 @@ public class NewPlugin extends AbstractController implements Serializable {
     
     @PostConstruct
     public void init() {
+        Long entitatIdSeleccionada = userLocale.getEntitatId();
+        
+        if (entitatIdSeleccionada == null) {
+            LOG.warn("No hi ha cap entitat seleccionada per l'usuari");
+            ResourceBundle labelsBundle = getBundle("labels");
+            getContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, 
+                labelsBundle.getString("msg.plugin_entitat_requerida"), null));
+            return;
+        }
+        
+        // Assignar l'entitat seleccionada al plugin
+        plugin.getValue().setEntitatId(entitatIdSeleccionada);
+        
+        // Assignar la data actual al plugin
+        plugin.getValue().setDataCreacio(LocalDate.now());
+        
+        // Obtenir el nom de l'entitat per mostrar-lo
+        EntitatDTO entitat = entitatService.findById(entitatIdSeleccionada).orElse(null);
+        if (entitat != null) {
+            entitatNom = entitat.getNom();
+        }
+    }
     
-    	List<EntitatDTO> entitatsList = entitatService.getAll();
-    	
-    	if (entitatsList.size()>0) {
-    		entitatsList.forEach( e -> entitats.add(new SelectItem(e.getId(), e.getNom())));
-    	}
+    public String getEntitatNom() {
+        return entitatNom;
     }
 }

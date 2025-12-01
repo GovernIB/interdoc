@@ -1,10 +1,13 @@
 package es.caib.interdoc.back.controller;
 
 import es.caib.interdoc.back.model.PluginModel;
+import es.caib.interdoc.service.facade.EntitatServiceFacade;
 import es.caib.interdoc.service.facade.PluginServiceFacade;
+import es.caib.interdoc.service.model.EntitatDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.view.ViewScoped;
@@ -30,9 +33,14 @@ public class EditPlugin extends AbstractController implements Serializable {
 
     @EJB
     PluginServiceFacade pluginService;
+    
+    @EJB
+    private EntitatServiceFacade entitatService;
 
     @Inject
     private PluginModel plugin;
+    
+    private String entitatNom;
 
     // ACCIONS
     
@@ -64,5 +72,21 @@ public class EditPlugin extends AbstractController implements Serializable {
                 e.getMessage() != null ? e.getMessage() : labelsBundle.getString("error.desconegut"), null));
             return null;
         }
+    }
+    
+    @PostConstruct
+    public void init() {
+        // Obtenir el nom de l'entitat per mostrar-lo
+        Long entitatId = plugin.getValue().getEntitatId();
+        if (entitatId != null) {
+            EntitatDTO entitat = entitatService.findById(entitatId).orElse(null);
+            if (entitat != null) {
+                entitatNom = entitat.getNom();
+            }
+        }
+    }
+    
+    public String getEntitatNom() {
+        return entitatNom;
     }
 }

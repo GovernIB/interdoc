@@ -26,7 +26,6 @@ public class PluginDTO {
     @Size(max = 255)
     private String classe;
 
-    @NotEmpty
     private String propietats;
 
     @NotNull
@@ -46,7 +45,7 @@ public class PluginDTO {
     }
         
 	public PluginDTO(Long id, @NotEmpty @Size(max = 50) String nom, @NotEmpty @Size(max = 255) String classe,
-			@NotEmpty String propietats, @NotNull @PastOrPresent LocalDate dataCreacio, @NotNull Long entitatId, 
+			String propietats, @NotNull @PastOrPresent LocalDate dataCreacio, @NotNull Long entitatId, 
 			@NotNull Estat actiu) {
 		super();
 		this.id = id;
@@ -59,7 +58,7 @@ public class PluginDTO {
 	}
     
     public PluginDTO(@NotEmpty @Size(max = 50) String nom, @NotEmpty @Size(max = 255) String classe,
-			@NotEmpty String propietats, @NotNull @PastOrPresent LocalDate dataCreacio, @NotNull Long entitatId, 
+			String propietats, @NotNull @PastOrPresent LocalDate dataCreacio, @NotNull Long entitatId, 
 			@NotNull Estat actiu) {
 		super();
 		this.nom = nom;
@@ -71,7 +70,7 @@ public class PluginDTO {
 	}
     
     public PluginDTO(@NotEmpty @Size(max = 50) String nom, @NotEmpty @Size(max = 255) String classe,
-			@NotEmpty String propietats, @NotNull @PastOrPresent LocalDate dataCreacio, @NotNull Long entitatId, 
+			String propietats, @NotNull @PastOrPresent LocalDate dataCreacio, @NotNull Long entitatId, 
 			@NotNull Long tipus, @NotNull Estat actiu) {
 		super();
 		this.nom = nom;
@@ -84,7 +83,7 @@ public class PluginDTO {
 	}
     
     public PluginDTO(@NotEmpty @Size(max = 50) String nom, @NotEmpty @Size(max = 255) String classe,
-			@NotEmpty String propietats, @NotNull @PastOrPresent LocalDate dataCreacio, @NotNull Estat actiu) {
+			String propietats, @NotNull @PastOrPresent LocalDate dataCreacio, @NotNull Estat actiu) {
 		super();
 		this.nom = nom;
 		this.classe = classe;

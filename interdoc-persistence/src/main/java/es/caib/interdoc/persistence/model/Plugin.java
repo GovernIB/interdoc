@@ -62,7 +62,7 @@ public class Plugin extends BaseEntity {
      * Camp de propietats
      */
 
-    @Column(name = "PROPIETATS", nullable = false)
+    @Column(name = "PROPIETATS", nullable = true)
     private String propietats;
 
     /**

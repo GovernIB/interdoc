@@ -51,10 +51,9 @@
             <p:outputLabel for="entitatid" value="#{labels.plugin_entitatid}" />
         </ui:define>
         <ui:define name="input">
-            <p:selectOneMenu id="entitatid" value="#{pluginModel.value.entitatId}">
-                <f:selectItem itemLabel="#{labels.desplegable}" itemValue=""/>
-                <f:selectItems value="#{newPlugin.entitats}"/>
-            </p:selectOneMenu>
+            <p:inputText id="entitatid" value="#{edit ? editPlugin.entitatNom : newPlugin.entitatNom}" 
+                         readonly="true" disabled="true" styleClass="ui-state-disabled"/>
+            <p:inputText value="#{pluginModel.value.entitatId}" type="hidden" />
             <p:message for="entitatid" />
         </ui:define>
     </ui:decorate>
@@ -66,7 +65,7 @@
         </ui:define>
         <ui:define name="input">
             <p:selectOneMenu id="tipus" value="#{pluginModel.value.tipus}">
-                <f:selectItem itemLabel="#{labels.desplegable}" itemValue=""/>
+                <f:selectItem itemLabel="#{labels.desplegable}" itemValue="#{null}" noSelectionOption="true"/>
                 <f:selectItem itemLabel="#{labels.plugin_tipus_arxiu}" itemValue="#{constants.PLUGIN_ARXIU}"/>
                 <f:selectItem itemLabel="#{labels.plugin_tipus_firma}" itemValue="#{constants.PLUGIN_FIRMA}"/>
             </p:selectOneMenu>
@@ -94,9 +93,11 @@
 			<p:outputLabel for="dataCreacio" value="#{labels.plugin_dataCreacio}" />
 		</ui:define>
 		<ui:define name="input">
-			<p:datePicker id="dataCreacio"
-				value="#{pluginModel.value.dataCreacio}" pattern="dd-MM-yyyy"
-				readonly="#{edit}" disabled="#{edit}" />
+			<p:inputText id="dataCreacio"
+				value="#{pluginModel.value.dataCreacio}" 
+				readonly="true" disabled="true" styleClass="ui-state-disabled">
+				<f:convertDateTime pattern="dd-MM-yyyy" type="localDate" />
+			</p:inputText>
 			<p:message for="dataCreacio" />
 		</ui:define>
 	</ui:decorate>
