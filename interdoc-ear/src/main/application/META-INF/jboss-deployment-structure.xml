@@ -49,4 +49,9 @@
             <module name="org.apache.commons.io" export="TRUE"/>
         </dependencies>
     </sub-deployment>
+    <sub-deployment name="interdoc-ejb.jar">
+        <dependencies>
+            <module name="deployment.interdoc.ear" export="true"/>
+        </dependencies>
+    </sub-deployment>
 </jboss-deployment-structure>
