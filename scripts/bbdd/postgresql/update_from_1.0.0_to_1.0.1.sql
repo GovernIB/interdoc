@@ -41,10 +41,7 @@ CREATE INDEX itd_idioma_pk_i
   (idiomaid COLLATE pg_catalog."default");
 
 
-ALTER TABLE itd_usuari
-  ADD CONSTRAINT itd_usuari_idioma_idi_fk FOREIGN KEY (idiomaid)
-      REFERENCES itd_idioma (idiomaid) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION;
+
 
 
 
@@ -102,6 +99,10 @@ CREATE INDEX itd_usuari_idiomaid_fk_i
   USING btree
   (idiomaid COLLATE pg_catalog."default");
 
+ALTER TABLE itd_usuari
+  ADD CONSTRAINT itd_usuari_idioma_idi_fk FOREIGN KEY (idiomaid)
+      REFERENCES itd_idioma (idiomaid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 
 -- Taula UsuariEntitat --
@@ -170,8 +171,18 @@ ALTER TABLE itd_pluginentitat_seq
 
 
 -- Afegir Foregin Key als Plugins cap a Entitat
-ALTER TABLE itd_plugin
-  ADD COLUMN entitatid bigint NOT NULL DEFAULT 1,
-  ADD CONSTRAINT fk_itd_plugin_entitat
-    FOREIGN KEY (entitatid)
-    REFERENCES itd_entitat(entitatid);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 
+        FROM information_schema.columns 
+        WHERE table_name = 'itd_plugin' 
+        AND column_name = 'entitatid'
+    ) THEN
+        ALTER TABLE itd_plugin
+          ADD COLUMN entitatid bigint NOT NULL DEFAULT 1,
+          ADD CONSTRAINT fk_itd_plugin_entitat
+            FOREIGN KEY (entitatid)
+            REFERENCES itd_entitat(entitatid);
+    END IF;
+END $$;
