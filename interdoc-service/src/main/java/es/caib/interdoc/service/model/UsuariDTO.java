@@ -88,13 +88,11 @@ public class UsuariDTO {
         this.usuariId = usuariId;
     }
 
-    public void setUsername(@NotEmpty @Size(max = 255)
-    String username) {
+    public void setUsername(@NotEmpty @Size(max = 255) String username) {
         this.username = username;
     }
 
-    public void setIdiomaId(@NotEmpty @Size(max = 5)
-    String idiomaId) {
+    public void setIdiomaId(@NotEmpty @Size(max = 5) String idiomaId) {
         this.idiomaId = idiomaId;
     }
 
@@ -102,62 +100,54 @@ public class UsuariDTO {
         this.darreraEntitat = darreraEntitat;
     }
 
-    public void setNom(@NotEmpty @Size(max = 255)
-    String nom) {
+    public void setNom(@NotEmpty @Size(max = 255) String nom) {
         this.nom = nom;
     }
 
-    public void setLlinatge1(@NotEmpty @Size(max = 255)
-    String llinatge1) {
+    public void setLlinatge1(@NotEmpty @Size(max = 255) String llinatge1) {
         this.llinatge1 = llinatge1;
     }
 
-    public void setLlinatge2(@NotEmpty @Size(max = 255)
-    String llinatge2) {
+    public void setLlinatge2(@NotEmpty @Size(max = 255) String llinatge2) {
         this.llinatge2 = llinatge2;
     }
 
-    public void setEmail(@NotEmpty @Size(max = 255)
-    String email) {
+    public void setEmail(@NotEmpty @Size(max = 255) String email) {
         this.email = email;
     }
 
-    public void setNif(@NotEmpty @Size(max = 255)
-    String nif) {
+    public void setNif(@NotEmpty @Size(max = 255) String nif) {
         this.nif = nif;
     }
 
     public UsuariDTO() {
     }
-    
+
     public UsuariDTO(Long usuariId,
             String username,
-            String nom, 
+            String nom,
             String llinatge1,
             String llinatge2,
             String email,
-            String nif
-            ) {
-                super();
-                this.usuariId = usuariId;
-                this.username = username;
-                this.nom = nom;
-                this.llinatge1 = llinatge1;
-                this.llinatge2 = llinatge2;
-                this.email = email;
-                this.nif = nif;
+            String nif) {
+        super();
+        this.usuariId = usuariId;
+        this.username = username;
+        this.nom = nom;
+        this.llinatge1 = llinatge1;
+        this.llinatge2 = llinatge2;
+        this.email = email;
+        this.nif = nif;
     }
 
-    public UsuariDTO(@NotNull
-    Long usuariId, @NotEmpty @Size(max = 255)
-    String username,
-    Long darreraEntitat,
-    @NotEmpty @Size(max = 5) String idiomaId,
-    @NotEmpty @Size(max = 255) String nom,
-    @NotEmpty @Size(max = 255) String llinatge1,
-    String llinatge2,
-    @Size(max = 255) String email, 
-    @NotEmpty @Size(max = 255) String nif) {
+    public UsuariDTO(@NotNull Long usuariId, @NotEmpty @Size(max = 255) String username,
+            Long darreraEntitat,
+            @NotEmpty @Size(max = 5) String idiomaId,
+            @NotEmpty @Size(max = 255) String nom,
+            @NotEmpty @Size(max = 255) String llinatge1,
+            String llinatge2,
+            @Size(max = 255) String email,
+            @NotEmpty @Size(max = 255) String nif) {
         super();
         this.usuariId = usuariId;
         this.username = username;
@@ -169,7 +159,7 @@ public class UsuariDTO {
         this.email = email;
         this.nif = nif;
     }
-    
+
     public UsuariDTO(long usuariId,
             long darreraEntitat,
             String username,
@@ -178,14 +168,36 @@ public class UsuariDTO {
             String llinatge2,
             String email,
             String nif) {
-this.usuariId = usuariId;
-this.darreraEntitat = darreraEntitat;
-this.username = username;
-this.nom = nom;
-this.llinatge1 = llinatge1;
-this.llinatge2 = llinatge2;
-this.email = email;
-this.nif = nif;
-}
+        this.usuariId = usuariId;
+        this.darreraEntitat = darreraEntitat;
+        this.username = username;
+        this.nom = nom;
+        this.llinatge1 = llinatge1;
+        this.llinatge2 = llinatge2;
+        this.email = email;
+        this.nif = nif;
+    }
+
+    /**
+     * Constructor requerit per les consultes HQL amb projecció.
+     * Ordre dels paràmetres: usuariId, username, darreraEntitat, nom, llinatge1, llinatge2, email, nif
+     */
+    public UsuariDTO(Long usuariId,
+            String username,
+            Long darreraEntitat,
+            String nom,
+            String llinatge1,
+            String llinatge2,
+            String email,
+            String nif) {
+        this.usuariId = usuariId;
+        this.username = username;
+        this.darreraEntitat = darreraEntitat;
+        this.nom = nom;
+        this.llinatge1 = llinatge1;
+        this.llinatge2 = llinatge2;
+        this.email = email;
+        this.nif = nif;
+    }
 
 }

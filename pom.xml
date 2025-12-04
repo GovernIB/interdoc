@@ -71,11 +71,11 @@
                 <artifactId>interdoc-service</artifactId>
                 <version>1.0.1</version>
             </dependency>
-            <!--<dependency>
+            <dependency>
                 <groupId>es.caib.interdoc</groupId>
                 <artifactId>interdoc-persistence</artifactId>
                 <version>1.0.1</version>
-            </dependency>-->
+            </dependency>
             <dependency>
                 <groupId>es.caib.interdoc</groupId>
                 <artifactId>interdoc-ejb</artifactId>
