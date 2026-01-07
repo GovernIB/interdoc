@@ -17,7 +17,7 @@
             <p:outputLabel for="username" value="#{labels.usuari_username}"/>
         </ui:define>
         <ui:define name="input">
-            <p:inputText id="username" value="#{usuariModel.value.username}" readonly="true" disabled="true"/>
+            <p:inputText id="username" value="#{request.remoteUser}" readonly="true" disabled="true"/>
             <p:message for="username"/>
         </ui:define>
     </ui:decorate>

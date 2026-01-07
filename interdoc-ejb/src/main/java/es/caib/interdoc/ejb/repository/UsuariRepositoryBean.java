@@ -60,7 +60,7 @@ public class UsuariRepositoryBean extends AbstractCrudRepository<Usuari, Long> i
 		CriteriaQuery<UsuariDTO> criteriaQuery = builder.createQuery(UsuariDTO.class);
 		Root<Usuari> root = criteriaQuery.from(Usuari.class);
 
-		criteriaQuery.select(builder.construct(UsuariDTO.class, root.get(Usuari_.usuariId), root.get(Usuari_.darreraEntitat), root.get(Usuari_.username),
+		criteriaQuery.select(builder.construct(UsuariDTO.class, root.get(Usuari_.usuariId), root.get(Usuari_.username), root.get(Usuari_.darreraEntitat),
                 root.get(Usuari_.nom), root.get(Usuari_.llinatge1), root.get(Usuari_.llinatge2), root.get(Usuari_.email), root.get(Usuari_.nif)));
 
 		// TODO afegir la columna de ACTIU
