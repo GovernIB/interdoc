@@ -154,14 +154,21 @@
 	</security-constraint>
 
 	<security-constraint>
-		<display-name>Permetre accés a la pàgina de registre</display-name>
+		<display-name>Permetre accés a les pàgines d'error</display-name>
+		<web-resource-collection>
+			<web-resource-name>Pàgines d'error públiques</web-resource-name>
+			<url-pattern>/error/*</url-pattern>
+		</web-resource-collection>
+	</security-constraint>
+
+	<security-constraint>
+		<display-name>Permetre accés a la pàgina de registre només a administradors</display-name>
 		<web-resource-collection>
 			<web-resource-name>Registre usuari</web-resource-name>
 			<url-pattern>/registrarUsuari.xhtml</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>ITD_ADMIN</role-name>
-			<role-name>ITD_USER</role-name>
 		</auth-constraint>
 	</security-constraint>
 

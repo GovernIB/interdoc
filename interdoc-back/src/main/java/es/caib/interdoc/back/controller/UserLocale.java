@@ -98,8 +98,31 @@ public class UserLocale implements Serializable {
         
         // Obtenim les dades de l'usuari autenticat.
         UsuariDTO usuari = usuariService.findByUsername(username).orElse(null);
+        
+        // COMPROVACIÓ: Si l'usuari no existeix a la BBDD
         if (usuari == null) {
-            LOG.warn("No s'ha trobat UsuariDTO per username {}", username);
+            LOG.warn("L'usuari {} no existeix a la base de dades", username);
+            
+            // Comprovar si és administrador
+            if (security.isAdmin()) {
+                LOG.info("L'usuari {} és administrador (ITD_ADMIN). Redirigint a registrarUsuari", username);
+                try {
+                    context.getExternalContext().redirect(
+                        context.getExternalContext().getRequestContextPath() + "/registrarUsuari.xhtml"
+                    );
+                } catch (Exception e) {
+                    LOG.error("Error redirigint a registrarUsuari", e);
+                }
+            } else {
+                LOG.info("L'usuari {} no és administrador. Redirigint a error d'usuari no registrat", username);
+                try {
+                    context.getExternalContext().redirect(
+                        context.getExternalContext().getRequestContextPath() + "/error/usuariNoRegistrat.xhtml"
+                    );
+                } catch (Exception e) {
+                    LOG.error("Error redirigint a pàgina d'error", e);
+                }
+            }
             return;
         }
         
