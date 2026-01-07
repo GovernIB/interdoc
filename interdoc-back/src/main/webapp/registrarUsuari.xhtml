@@ -16,8 +16,10 @@ Pàgina per registre d'usuaris nous.
 
         <h:form id="form">
 
-            <ui:include src="/WEB-INF/includes/fieldsUsuariRegistre.xhtml">
+            <ui:include src="/WEB-INF/includes/fieldsUsuari.xhtml">
                 <ui:param name="edit" value="false" />
+                <ui:param name="usernameReadonly" value="true" />
+                <ui:param name="useRemoteUser" value="true" />
             </ui:include>
 
             <ui:decorate template="/WEB-INF/decorations/buttons.xhtml">

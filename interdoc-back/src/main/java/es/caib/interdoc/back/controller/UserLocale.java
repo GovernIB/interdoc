@@ -385,11 +385,68 @@ public class UserLocale implements Serializable {
     }
     
     public String getCurrentUserFullName() {
+        // Si el nom complet està buit però tenim username, recarreguem les dades
+        if ((currentUserFullName == null || currentUserFullName.trim().isEmpty() || currentUserFullName.equals(username)) 
+            && username != null && !username.trim().isEmpty()) {
+            LOG.info("Nom complet buit per l'usuari {}. Recarregant informació...", username);
+            reloadUserInfo();
+        }
         return currentUserFullName;
     }
     
     public void setCurrentUserFullName(String currentUserFullName) {
         this.currentUserFullName = currentUserFullName;
+    }
+    
+    /**
+     * Recarrega la informació de l'usuari des de la base de dades.
+     * S'utilitza quan el nom complet està buit però l'usuari ja està autenticat.
+     */
+    private void reloadUserInfo() {
+        if (username == null || username.trim().isEmpty()) {
+            LOG.warn("No es pot recarregar la informació: username és null o buit");
+            return;
+        }
+        
+        try {
+            UsuariDTO usuari = usuariService.findByUsername(username).orElse(null);
+            if (usuari != null) {
+                this.usuariId = usuari.getUsuariId();
+                this.nom = usuari.getNom();
+                this.llinatge1 = usuari.getLlinatge1();
+                this.llinatge2 = usuari.getLlinatge2();
+                this.entitatId = usuari.getDarreraEntitat();
+                
+                // Reconstruir nom complet
+                StringBuilder fullName = new StringBuilder();
+                if (this.nom != null && !this.nom.trim().isEmpty()) {
+                    fullName.append(this.nom.trim());
+                }
+                if (this.llinatge1 != null && !this.llinatge1.trim().isEmpty()) {
+                    if (fullName.length() > 0) fullName.append(" ");
+                    fullName.append(this.llinatge1.trim());
+                }
+                if (this.llinatge2 != null && !this.llinatge2.trim().isEmpty()) {
+                    if (fullName.length() > 0) fullName.append(" ");
+                    fullName.append(this.llinatge2.trim());
+                }
+                this.currentUserFullName = fullName.length() > 0 ? fullName.toString() : this.username;
+                
+                LOG.info("Informació de l'usuari {} recarregada correctament. Nom complet: {}", username, currentUserFullName);
+                
+                // Recarregar també informació de l'entitat si cal
+                if (this.entitatId != null) {
+                    EntitatDTO entitat = entitatService.findById(entitatId).orElse(null);
+                    if (entitat != null) {
+                        this.entitatNom = entitat.getNom();
+                    }
+                }
+            } else {
+                LOG.warn("No s'ha pogut trobar l'usuari {} per recarregar la informació", username);
+            }
+        } catch (Exception e) {
+            LOG.error("Error recarregant la informació de l'usuari {}", username, e);
+        }
     }
     
     /**

@@ -55,5 +55,4 @@ public class NewUsuari extends AbstractController implements Serializable{
         return "/listUsuari?faces-redirect=true";
     }
     
-    
 }

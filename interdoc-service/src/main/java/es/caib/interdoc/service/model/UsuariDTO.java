@@ -28,6 +28,9 @@ public class UsuariDTO {
     private String idiomaId;
 
     private Long darreraEntitat;
+    
+    @Size(max = 255)
+    private String darreraEntitatNom;
 
     @NotEmpty
     @Size(max = 255)
@@ -62,6 +65,10 @@ public class UsuariDTO {
 
     public Long getDarreraEntitat() {
         return darreraEntitat;
+    }
+    
+    public String getDarreraEntitatNom() {
+        return darreraEntitatNom;
     }
 
     public String getNom() {
@@ -98,6 +105,10 @@ public class UsuariDTO {
 
     public void setDarreraEntitat(Long darreraEntitat) {
         this.darreraEntitat = darreraEntitat;
+    }
+    
+    public void setDarreraEntitatNom(String darreraEntitatNom) {
+        this.darreraEntitatNom = darreraEntitatNom;
     }
 
     public void setNom(@NotEmpty @Size(max = 255) String nom) {

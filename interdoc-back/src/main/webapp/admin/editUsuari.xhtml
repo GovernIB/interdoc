@@ -33,6 +33,8 @@ Pàgina per edició d'unitats orgàniques.
 
             <ui:include src="/WEB-INF/includes/fieldsUsuari.xhtml">
                 <ui:param name="edit" value="true" />
+                <ui:param name="usernameReadonly" value="false" />
+                <ui:param name="useRemoteUser" value="false" />
             </ui:include>
 
             <ui:decorate template="/WEB-INF/decorations/buttons.xhtml">

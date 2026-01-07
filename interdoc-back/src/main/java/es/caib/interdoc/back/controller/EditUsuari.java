@@ -32,7 +32,7 @@ public class EditUsuari extends AbstractController implements Serializable {
 
     @EJB
     UsuariServiceFacade usuariService;
-
+    
     @Inject
     private UsuariModel usuari;
 

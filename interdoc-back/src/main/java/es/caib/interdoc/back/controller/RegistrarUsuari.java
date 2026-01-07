@@ -104,5 +104,4 @@ public class RegistrarUsuari extends AbstractController implements Serializable{
         return "/listReferencia?faces-redirect=true";
     }
     
-    
 }

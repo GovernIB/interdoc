@@ -51,7 +51,6 @@
     </sub-deployment>
     <sub-deployment name="interdoc-ejb.jar">
         <dependencies>
-            <module name="deployment.interdoc.ear" export="true"/>
             <module name="org.apache.commons.logging" export="true"/>
         </dependencies>
     </sub-deployment>

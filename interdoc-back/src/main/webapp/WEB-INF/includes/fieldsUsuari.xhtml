@@ -29,7 +29,10 @@
             <p:outputLabel for="username" value="#{labels.usuari_username}"/>
         </ui:define>
         <ui:define name="input">
-            <p:inputText id="username" value="#{usuariModel.value.username}"/>
+            <p:inputText id="username" 
+                         value="#{useRemoteUser == true ? request.remoteUser : usuariModel.value.username}" 
+                         readonly="#{usernameReadonly == true}"
+                         disabled="#{usernameReadonly == true}"/>
             <p:message for="username"/>
         </ui:define>
     </ui:decorate>
@@ -108,18 +111,20 @@
     </ui:decorate>
     
     
-    <!-- Darrera Entitat -->
-    <ui:decorate template="/WEB-INF/decorations/field.xhtml">
-    <ui:define name="label">
-        <p:outputLabel for="darreraEntitat" value="#{labels.usuari_darreraentitat}"/>
-    </ui:define>
-    <ui:define name="input">
-        <p:inputText id="darreraEntitat" 
-                     value="#{usuariModel.value.darreraEntitat}" 
-                     readonly="true"/>
-        <p:message for="darreraEntitat"/>
-    </ui:define>
-</ui:decorate>
+    <!-- Darrera Entitat - Només visible en mode edició -->
+    <ui:fragment rendered="#{edit == true}">
+        <ui:decorate template="/WEB-INF/decorations/field.xhtml">
+            <ui:define name="label">
+                <p:outputLabel for="darreraEntitat" value="#{labels.usuari_darreraentitat}"/>
+            </ui:define>
+            <ui:define name="input">
+                <p:inputText id="darreraEntitat" 
+                             value="#{usuariModel.value.darreraEntitatNom}" 
+                             readonly="true"/>
+                <p:message for="darreraEntitat"/>
+            </ui:define>
+        </ui:decorate>
+    </ui:fragment>
 
 </ui:composition>
 </html>
