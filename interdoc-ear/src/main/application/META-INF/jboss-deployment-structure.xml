@@ -52,6 +52,8 @@
     <sub-deployment name="interdoc-ejb.jar">
         <dependencies>
             <module name="org.apache.commons.logging" export="true"/>
+            <!-- Accés als JARs del directori lib de l'EAR -->
+            <module name="deployment.interdoc.ear" export="true"/>
         </dependencies>
     </sub-deployment>
 </jboss-deployment-structure>
