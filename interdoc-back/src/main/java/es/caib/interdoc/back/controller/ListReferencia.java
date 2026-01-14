@@ -88,17 +88,17 @@ public class ListReferencia extends AbstractController implements Serializable {
                 
                 // Comprovacio de que l'usuari té entitat assignada
                 Long entitatIdSessio = userLocale != null ? userLocale.getEntitatId() : null;
-                Map<ReferenciaAtribut, Object> filterAmbEntitat = new java.util.HashMap<>(filter);
                 
-                // Afegim el filtre per entitat
-                if (entitatIdSessio != null) {
-                    filterAmbEntitat.put(ReferenciaAtribut.entitatId, entitatIdSessio);
-                } else {
-                    // Si l'usuari no te entitat assignada, s'ha de gestionar.
-                    // Si es super-administrador, redirigir a la pagina d'inici.
-                    // Si es administrador de entitat mostrar pagina d'error.
-                    LOG.warn("L'usuari no té entitat. Consulti amb l'administrador perque l'hi assigni una entitat.");
+                // Si no hi ha entitat seleccionada, retornar llista buida
+                if (entitatIdSessio == null) {
+                    LOG.warn("L'usuari no té entitat assignada. No es mostraran referències.");
+                    setRowCount(0);
+                    return java.util.Collections.emptyList();
                 }
+                
+                // Afegim el filtre per entitat obligatori
+                Map<ReferenciaAtribut, Object> filterAmbEntitat = new java.util.HashMap<>(filter);
+                filterAmbEntitat.put(ReferenciaAtribut.entitatId, entitatIdSessio);
                 
                 List<Ordre<ReferenciaAtribut>> ordenacions = PFUtils.sortMetaToOrdre(ReferenciaAtribut.class, sortBy);
                 
