@@ -602,8 +602,7 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 				ReferenciaXMLDTO referenciaXMLDto = new ReferenciaXMLDTO();
 				referenciaXMLDto.setReferenciaId(referenciaDB);
 				referenciaXMLDto.setResultat(respostaXML);
-				referenciaXMLDto.setDataCreacio(LocalDateTime.now());
-				referenciaXMLDto.setId(null);
+				referenciaXMLDto.setDataCreacio(LocalDate.now());
 				referenciaXMLService.create(referenciaXMLDto);
 
 				if (Configuracio.isDesenvolupament()) {
@@ -613,15 +612,14 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 				}
 
 				return respostaXML;
-			}
 
-			throw new InterdocException("Error desconegut");
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new InterdocException(e);
 		}
-
+        return null;
 	}
 
 	/*

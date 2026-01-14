@@ -76,7 +76,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>${project.artifactId}</finalName>
+		<!-- <finalName>${project.artifactId}</finalName> -->
 		<resources>
 			<!-- Activam filtre per fer substitucions al fitxer persistence.xml -->
 			<resource>
