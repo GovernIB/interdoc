@@ -165,8 +165,9 @@ public class UserLocale implements Serializable {
                     return;
                 }else {
                     this.entitatNom = null;
-                    LOG.warn("L'usuari {} no té entitat assignada.", this.username);
-                    throw new IllegalStateException("L'usuari no té entitat assignada.");
+                    LOG.warn("L'usuari {} no té entitat assignada. Contacti amb l'administrador perque l'hi assigni una entitat.", this.username);
+                    // No llançar expeció, per evitar bucle de redireccions a JBoss.
+                    return;
                 }
             }
             return;

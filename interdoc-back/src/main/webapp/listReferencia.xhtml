@@ -18,6 +18,15 @@
 
 	<ui:define name="content">
 		
+		<!-- Missatge informatiu si l'usuari no té entitat assignada -->
+		<c:if test="#{userLocale.entitatId == null and not security.admin}">
+			<p:messages>
+				<p:message severity="warn" 
+					summary="#{labels.listReferencies_title}"
+					detail="No tens cap entitat assignada. Si us plau, contacta amb l'administrador per que t'assigni una entitat." />
+			</p:messages>
+		</c:if>
+		
 		<c:if test="#{security.admin}">
 			<p>
 				<p:button value="#{labels.newReferencia_link}" styleClass="float-right"
