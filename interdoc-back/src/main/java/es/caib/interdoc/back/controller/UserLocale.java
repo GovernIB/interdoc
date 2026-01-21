@@ -20,7 +20,13 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
+
+import es.caib.interdoc.service.model.Ordre;
+import es.caib.interdoc.service.model.Pagina;
+import es.caib.interdoc.service.model.UsuariEntitatAtribut;
 
 /**
  * Bean per mantenir el locale de l'usuari.
@@ -173,32 +179,76 @@ public class UserLocale implements Serializable {
             return;
             
         }else{
-            //Si l'usuari te darreraEntitat assignada, l'utilitzam.
-            EntitatDTO entitat = entitatService.findById(entitatId).orElse(null);
-           
-            if (entitat != null) {
-                
-                this.entitatNom = entitat.getNom();
-
+            //Si l'usuari te darreraEntitat assignada, verificam que realment està assignada a l'usuari.
+            
+            // Verificar si aquesta entitat està assignada a l'usuari
+            boolean entitatAssignada = verificarEntitatAssignada(usuariId, entitatId);
+            
+            if (entitatAssignada) {
+                // L'entitat està assignada, l'utilitzam
+                EntitatDTO entitat = entitatService.findById(entitatId).orElse(null);
+                if (entitat != null) {
+                    this.entitatNom = entitat.getNom();
+                    LOG.debug("Entitat assignada trobada: {} (ID: {})", this.entitatNom, this.entitatId);
+                } else {
+                    LOG.warn("No s'ha trobat l'entitat amb id {}", this.entitatId);
+                    this.entitatId = null;
+                    this.entitatNom = null;
+                }
             } else {
-
+                // L'entitat NO està assignada a l'usuari, la descartam
+                LOG.warn("La darreraEntitat (ID: {}) no està assignada a l'usuari {}. Descartant-la.", this.entitatId, this.username);
+                this.entitatId = null;
+                this.entitatNom = null;
+                
+                // Intentar assignar una entitat per defecte de les assignades
                 UsuariEntitatDTO usuariEntitat = usuariEntitatService.findByUsuariId(usuariId).orElse(null);
-                if(usuariEntitat!= null) {
+                if(usuariEntitat != null) {
                     EntitatDTO entitat2 = entitatService.findById(usuariEntitat.getEntitatId()).orElse(null);
                     if (entitat2 != null) {
                         this.entitatNom = entitat2.getNom();
                         this.entitatId = entitat2.getId();
-                        return;
+                        LOG.debug("Assignada entitat per defecte: {} (ID: {})", this.entitatNom, this.entitatId);
                     }
                 }
-                
-                LOG.warn("No s'ha trobat cap entitat amb id {}", this.entitatId);
-                this.entitatNom = null; // o un valor per defecte
             }
         }
         
         // Inicialitzar rol per defecte
         initializeDefaultRole();
+    }
+    
+    /**
+     * Verifica si una entitat està assignada a un usuari.
+     * 
+     * @param usuariId ID de l'usuari
+     * @param entitatId ID de l'entitat a verificar
+     * @return true si l'entitat està assignada, false en cas contrari
+     */
+    private boolean verificarEntitatAssignada(Long usuariId, Long entitatId) {
+        if (usuariId == null || entitatId == null) {
+            return false;
+        }
+        
+        try {
+            // Crear filtre per usuariId i entitatId
+            Map<UsuariEntitatAtribut, Object> filter = new HashMap<>();
+            filter.put(UsuariEntitatAtribut.usuariId, usuariId);
+            filter.put(UsuariEntitatAtribut.entitatId, entitatId);
+            
+            // Buscar si existeix aquesta relació
+            Pagina<UsuariEntitatDTO> pagina = usuariEntitatService.findFiltered(
+                0, 
+                1, 
+                filter, 
+                java.util.Collections.emptyList()
+            );
+            
+            return pagina.getTotal() > 0;
+        } catch (Exception e) {
+            LOG.error("Error verificant si l'entitat {} està assignada a l'usuari {}", entitatId, usuariId, e);
+            return false;
+        }
     }
 
     public void reload() {

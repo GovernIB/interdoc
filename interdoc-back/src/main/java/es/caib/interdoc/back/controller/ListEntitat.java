@@ -2,6 +2,7 @@ package es.caib.interdoc.back.controller;
 
 import es.caib.interdoc.back.utils.PFUtils;
 import es.caib.interdoc.service.facade.EntitatServiceFacade;
+import es.caib.interdoc.service.facade.UsuariEntitatServiceFacade;
 import es.caib.interdoc.service.model.*;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
@@ -12,11 +13,17 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 /**
  * Controlador pels llistats de aplicacions. El definim a l'scope de view perquè a nivell de request es
@@ -34,6 +41,12 @@ public class ListEntitat extends AbstractController implements Serializable {
 
     @EJB
     private EntitatServiceFacade entitatService;
+    
+    @EJB
+    private UsuariEntitatServiceFacade usuariEntitatService;
+    
+    @Inject
+    private UserLocale userLocale;
 
     /**
      * Model de dades emprat pel compoment dataTable de primefaces.
@@ -96,8 +109,44 @@ public class ListEntitat extends AbstractController implements Serializable {
 
     }
 
+    /**
+     * Obté totes les entitats assignades a l'usuari actual.
+     * Si l'usuari no té ID, retorna una llista buida.
+     * 
+     * @return Llista d'entitats assignades a l'usuari actual
+     */
     public List<EntitatDTO> getAllEntitats() {
-        // Si tienes un servicio ya inyectado, úsalo
-        return entitatService.getAll(); 
+        // Obtenir l'ID de l'usuari des del UserLocale
+        Long usuariId = userLocale != null ? userLocale.getUsuariId() : null;
+        
+        if (usuariId == null) {
+            LOG.warn("No hi ha usuari identificat. Retornant llista buida d'entitats.");
+            return Collections.emptyList();
+        }
+        
+        LOG.debug("Obtenint entitats per l'usuari amb ID: {}", usuariId);
+        
+        // Crear filtre per usuariId
+        Map<UsuariEntitatAtribut, Object> filter = new HashMap<>();
+        filter.put(UsuariEntitatAtribut.usuariId, usuariId);
+        
+        // Obtenir totes les relacions UsuariEntitat per aquest usuari
+        Pagina<UsuariEntitatDTO> paginaUsuariEntitat = usuariEntitatService.findFiltered(
+            0, 
+            Integer.MAX_VALUE, 
+            filter, 
+            Collections.emptyList()
+        );
+        
+        // Extreure els IDs d'entitats i obtenir les entitats completes
+        List<EntitatDTO> entitats = paginaUsuariEntitat.getItems().stream()
+            .map(ue -> entitatService.findById(ue.getEntitatId()))
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .collect(Collectors.toList());
+        
+        LOG.debug("Retornant {} entitats per l'usuari {}", entitats.size(), usuariId);
+        
+        return entitats;
     }
 }
