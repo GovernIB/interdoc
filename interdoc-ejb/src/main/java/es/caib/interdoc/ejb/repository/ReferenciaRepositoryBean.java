@@ -145,8 +145,9 @@ public class ReferenciaRepositoryBean extends AbstractCrudRepository<Referencia,
 
 		TypedQuery<Referencia> query = entityManager.createNamedQuery(Referencia.FILTER_BETWEEN_DATES,
 				Referencia.class);
-		query.setParameter("inici", inici);
-		query.setParameter("fi", fi);
+		// Convertir LocalDate a LocalDateTime per la consulta
+		query.setParameter("inici", inici.atStartOfDay());
+		query.setParameter("fi", fi.plusDays(1).atStartOfDay());
 
 		return query.getResultList();
 	}

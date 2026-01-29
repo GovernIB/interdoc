@@ -110,7 +110,7 @@ public class ReferenciaServiceFacadeBean implements ReferenciaServiceFacade {
 	@Override
 	@PermitAll
 	public Optional<List<ReferenciaDTO>> findBetweenDates(LocalDate inici, LocalDate fi) {
-		
+
 		List<Referencia> llistaReferencies = repository.findBetweenDates(inici, fi);
 		List<ReferenciaDTO> llista = null;
 		if (llistaReferencies.size() > 0) {
