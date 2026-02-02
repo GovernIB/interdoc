@@ -30,10 +30,14 @@ import es.caib.interdoc.service.facade.ReferenciaServiceFacade;
 import es.caib.interdoc.service.model.AccesDTO;
 import es.caib.interdoc.service.model.EntitatDTO;
 import es.caib.interdoc.service.model.ReferenciaDTO;
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
@@ -48,7 +52,23 @@ import io.swagger.v3.oas.annotations.media.Content;
  *
  */
 @Path("/public")
-@OpenAPIDefinition(tags = @Tag(name = "Dades", description = "Servei per reutilització de dades"))
+@OpenAPIDefinition(tags = @Tag(name = "Dades", description = "Servei per reutilització de dades"),
+    info = @Info(
+                    title = "API REST EXTERNA de Interdoc - Servei Públic",
+                    description = "Conjunt de Serveis REST de Interdoc per ser accedits públicament",
+                    version = "1.0-SNAPSHOT",
+                    license = @License(
+                            name = "European Union Public Licence (EUPL v1.2)",
+                            url = "https://joinup.ec.europa.eu/sites/default/files/custom-page/attachment/eupl_v1.2_es.pdf"),
+                    contact = @Contact(
+                            name = "Departament de Govern Digital a la Agència Balear de Digitalització, Ciberseguretat i Telecomunicacions",
+                            email = "otae@fundaciobit.org",
+                            url = "https://governdigital.fundaciobit.org")
+
+            ),
+            externalDocs = @ExternalDocumentation(
+                    description = "Java Client (GovernIB Github)",
+                    url = "https://github.com/GovernIB/interdoc/blob/interdoc-1.0/doc/(CAT)%20Manual%20d'Integraci%C3%B3%20de%20Serveis%20REST.odt"))
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @SecurityScheme(type = SecuritySchemeType.HTTP, name = "BasicAuth", scheme = "basic")

@@ -1,0 +1,1460 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.3.25
+-- Dumped by pg_dump version 9.3.1
+-- Started on 2026-01-27 08:27:15
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- TOC entry 204 (class 3079 OID 11750)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 2172 (class 0 OID 0)
+-- Dependencies: 204
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+--
+-- TOC entry 174 (class 1259 OID 99137)
+-- Name: itd_acces_seq; Type: SEQUENCE; Schema: public; Owner: interdoc
+--
+
+CREATE SEQUENCE itd_acces_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.itd_acces_seq OWNER TO interdoc;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 186 (class 1259 OID 99161)
+-- Name: itd_acces; Type: TABLE; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE TABLE itd_acces (
+    accesid bigint DEFAULT nextval('itd_acces_seq'::regclass) NOT NULL,
+    identificacio character varying(50),
+    tipusidentificacio character varying(50),
+    ip character varying(20),
+    datacreacio timestamp without time zone,
+    referenciaid bigint
+);
+
+
+ALTER TABLE public.itd_acces OWNER TO interdoc;
+
+--
+-- TOC entry 175 (class 1259 OID 99139)
+-- Name: itd_aplicacio_seq; Type: SEQUENCE; Schema: public; Owner: interdoc
+--
+
+CREATE SEQUENCE itd_aplicacio_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.itd_aplicacio_seq OWNER TO interdoc;
+
+--
+-- TOC entry 187 (class 1259 OID 99165)
+-- Name: itd_aplicacio; Type: TABLE; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE TABLE itd_aplicacio (
+    aplicacioid bigint DEFAULT nextval('itd_aplicacio_seq'::regclass) NOT NULL,
+    usuari character varying(50),
+    clau character varying(100),
+    nom character varying(255),
+    codidir3 character varying(50) NOT NULL,
+    datacreacio timestamp without time zone,
+    estat integer
+);
+
+
+ALTER TABLE public.itd_aplicacio OWNER TO interdoc;
+
+--
+-- TOC entry 176 (class 1259 OID 99141)
+-- Name: itd_entitat_seq; Type: SEQUENCE; Schema: public; Owner: interdoc
+--
+
+CREATE SEQUENCE itd_entitat_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.itd_entitat_seq OWNER TO interdoc;
+
+--
+-- TOC entry 188 (class 1259 OID 99169)
+-- Name: itd_entitat; Type: TABLE; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE TABLE itd_entitat (
+    entitatid bigint DEFAULT nextval('itd_entitat_seq'::regclass) NOT NULL,
+    nom character varying(255) NOT NULL,
+    codidir3 character varying(50),
+    datacreacio timestamp without time zone,
+    actiu integer DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE public.itd_entitat OWNER TO interdoc;
+
+--
+-- TOC entry 177 (class 1259 OID 99143)
+-- Name: itd_fitxer_seq; Type: SEQUENCE; Schema: public; Owner: interdoc
+--
+
+CREATE SEQUENCE itd_fitxer_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.itd_fitxer_seq OWNER TO interdoc;
+
+--
+-- TOC entry 189 (class 1259 OID 99174)
+-- Name: itd_fitxer; Type: TABLE; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE TABLE itd_fitxer (
+    fitxerid bigint DEFAULT nextval('itd_fitxer_seq'::regclass) NOT NULL,
+    nom character varying(255) NOT NULL,
+    descripcio character varying(1000),
+    mime character varying(255) NOT NULL,
+    tamany bigint NOT NULL,
+    datacreacio timestamp without time zone,
+    ruta character varying(255)
+);
+
+
+ALTER TABLE public.itd_fitxer OWNER TO interdoc;
+
+--
+-- TOC entry 203 (class 1259 OID 99404)
+-- Name: itd_idioma; Type: TABLE; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE TABLE itd_idioma (
+    idiomaid character varying(5) NOT NULL,
+    nom character varying(50) NOT NULL,
+    suportat boolean DEFAULT true NOT NULL,
+    ordre integer DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE public.itd_idioma OWNER TO interdoc;
+
+--
+-- TOC entry 190 (class 1259 OID 99181)
+-- Name: itd_infoarxiu; Type: TABLE; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE TABLE itd_infoarxiu (
+    infoarxiuid bigint NOT NULL,
+    originalfileurl character varying(255),
+    csv character varying(255),
+    csvgenerationdefinition character varying(255),
+    csvvalidationweb character varying(255),
+    arxiuexpedientid character varying(255),
+    arxiudocumentid character varying(255),
+    printableurl character varying(255),
+    enifileurl character varying(255),
+    validationfileurl character varying(255),
+    estatexpedient character varying(5),
+    reintents integer DEFAULT 0
+);
+
+
+ALTER TABLE public.itd_infoarxiu OWNER TO interdoc;
+
+--
+-- TOC entry 178 (class 1259 OID 99145)
+-- Name: itd_infoarxiu_seq; Type: SEQUENCE; Schema: public; Owner: interdoc
+--
+
+CREATE SEQUENCE itd_infoarxiu_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.itd_infoarxiu_seq OWNER TO interdoc;
+
+--
+-- TOC entry 191 (class 1259 OID 99188)
+-- Name: itd_infosignatura; Type: TABLE; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE TABLE itd_infosignatura (
+    infosignaturaid bigint NOT NULL,
+    signoperation integer NOT NULL,
+    signtype character varying(255) NOT NULL,
+    signalgorithm character varying(255),
+    signmode integer,
+    signaturestablelocation integer,
+    timestampincluded boolean,
+    policyincluded boolean,
+    enitipofirma character varying(255),
+    eniperfilfirma character varying(255),
+    enirolfirma character varying(255),
+    enisignername character varying(255),
+    enisigneradministrationid character varying(255),
+    enisignlevel character varying(255),
+    checkadministrationidofsigner boolean,
+    checkdocumentmodifications boolean,
+    checkvalidationsignature boolean,
+    signdate timestamp without time zone,
+    "signId" character varying(255),
+    filename character varying(255),
+    filemime character varying(255)
+);
+
+
+ALTER TABLE public.itd_infosignatura OWNER TO interdoc;
+
+--
+-- TOC entry 179 (class 1259 OID 99147)
+-- Name: itd_infosignatura_seq; Type: SEQUENCE; Schema: public; Owner: interdoc
+--
+
+CREATE SEQUENCE itd_infosignatura_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.itd_infosignatura_seq OWNER TO interdoc;
+
+--
+-- TOC entry 192 (class 1259 OID 99194)
+-- Name: itd_log; Type: TABLE; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE TABLE itd_log (
+    logid bigint NOT NULL,
+    descripcio text,
+    peticio character varying(255),
+    excepcio text,
+    datacreacio timestamp without time zone
+);
+
+
+ALTER TABLE public.itd_log OWNER TO interdoc;
+
+--
+-- TOC entry 193 (class 1259 OID 99200)
+-- Name: itd_metadada; Type: TABLE; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE TABLE itd_metadada (
+    metadadaid bigint NOT NULL,
+    nom character varying(255),
+    valor character varying(255),
+    datacreacio timestamp without time zone NOT NULL,
+    referenciaid bigint NOT NULL
+);
+
+
+ALTER TABLE public.itd_metadada OWNER TO interdoc;
+
+--
+-- TOC entry 180 (class 1259 OID 99149)
+-- Name: itd_metadada_seq; Type: SEQUENCE; Schema: public; Owner: interdoc
+--
+
+CREATE SEQUENCE itd_metadada_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.itd_metadada_seq OWNER TO interdoc;
+
+--
+-- TOC entry 194 (class 1259 OID 99206)
+-- Name: itd_peticioatercer; Type: TABLE; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE TABLE itd_peticioatercer (
+    peticioid bigint NOT NULL,
+    csvidentificador character varying(255),
+    eniidentificador character varying(255),
+    codidir3 character varying(20),
+    recuperaciooriginal boolean,
+    documenteni character varying(255),
+    nif character varying(50),
+    tipusidentificacio integer,
+    ip character varying(20),
+    datacreacio timestamp without time zone,
+    estat integer
+);
+
+
+ALTER TABLE public.itd_peticioatercer OWNER TO interdoc;
+
+--
+-- TOC entry 181 (class 1259 OID 99151)
+-- Name: itd_peticioatercer_seq; Type: SEQUENCE; Schema: public; Owner: interdoc
+--
+
+CREATE SEQUENCE itd_peticioatercer_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.itd_peticioatercer_seq OWNER TO interdoc;
+
+--
+-- TOC entry 182 (class 1259 OID 99153)
+-- Name: itd_plugin_seq; Type: SEQUENCE; Schema: public; Owner: interdoc
+--
+
+CREATE SEQUENCE itd_plugin_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.itd_plugin_seq OWNER TO interdoc;
+
+--
+-- TOC entry 195 (class 1259 OID 99212)
+-- Name: itd_plugin; Type: TABLE; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE TABLE itd_plugin (
+    pluginid bigint DEFAULT nextval('itd_plugin_seq'::regclass) NOT NULL,
+    nom character varying(100),
+    propietats text,
+    classe character varying(255),
+    datacreacio timestamp with time zone,
+    actiu integer,
+    tipus bigint,
+    entitatid bigint DEFAULT 1 NOT NULL
+);
+
+
+ALTER TABLE public.itd_plugin OWNER TO interdoc;
+
+--
+-- TOC entry 172 (class 1259 OID 99089)
+-- Name: itd_procediment; Type: TABLE; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE TABLE itd_procediment (
+    id bigint NOT NULL,
+    codisia character varying(8) NOT NULL,
+    nom character varying(50) NOT NULL,
+    unitatorganicaid bigint NOT NULL
+);
+
+
+ALTER TABLE public.itd_procediment OWNER TO interdoc;
+
+--
+-- TOC entry 170 (class 1259 OID 99085)
+-- Name: itd_procediment_seq; Type: SEQUENCE; Schema: public; Owner: interdoc
+--
+
+CREATE SEQUENCE itd_procediment_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.itd_procediment_seq OWNER TO interdoc;
+
+--
+-- TOC entry 196 (class 1259 OID 99219)
+-- Name: itd_referencia; Type: TABLE; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE TABLE itd_referencia (
+    referenciaid bigint NOT NULL,
+    csvidentificador character varying(255),
+    uuid character varying(255),
+    direccio character varying(255),
+    hash character varying(255),
+    emisor character varying(50) NOT NULL,
+    receptor character varying(50) NOT NULL,
+    urlvisible character varying(255),
+    datacreacio timestamp without time zone,
+    referencia character varying(255),
+    entitatid bigint,
+    infosignaturaid bigint,
+    infoarxiuid bigint,
+    formatfirma character varying(5),
+    fitxerid bigint,
+    numeroregistre character varying(255)
+);
+
+
+ALTER TABLE public.itd_referencia OWNER TO interdoc;
+
+--
+-- TOC entry 183 (class 1259 OID 99155)
+-- Name: itd_referencia_seq; Type: SEQUENCE; Schema: public; Owner: interdoc
+--
+
+CREATE SEQUENCE itd_referencia_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.itd_referencia_seq OWNER TO interdoc;
+
+--
+-- TOC entry 197 (class 1259 OID 99225)
+-- Name: itd_referenciaxml; Type: TABLE; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE TABLE itd_referenciaxml (
+    referenciaxmlid bigint NOT NULL,
+    resultat text,
+    datacreacio timestamp without time zone,
+    referenciaid bigint
+);
+
+
+ALTER TABLE public.itd_referenciaxml OWNER TO interdoc;
+
+--
+-- TOC entry 184 (class 1259 OID 99157)
+-- Name: itd_refxml_seq; Type: SEQUENCE; Schema: public; Owner: interdoc
+--
+
+CREATE SEQUENCE itd_refxml_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.itd_refxml_seq OWNER TO interdoc;
+
+--
+-- TOC entry 198 (class 1259 OID 99231)
+-- Name: itd_traza; Type: TABLE; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE TABLE itd_traza (
+    trazaid bigint NOT NULL,
+    nom character varying(255),
+    valor character varying(255),
+    datacreacio timestamp without time zone,
+    referenciaid bigint
+);
+
+
+ALTER TABLE public.itd_traza OWNER TO interdoc;
+
+--
+-- TOC entry 185 (class 1259 OID 99159)
+-- Name: itd_traza_seq; Type: SEQUENCE; Schema: public; Owner: interdoc
+--
+
+CREATE SEQUENCE itd_traza_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.itd_traza_seq OWNER TO interdoc;
+
+--
+-- TOC entry 173 (class 1259 OID 99094)
+-- Name: itd_unitatorganica; Type: TABLE; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE TABLE itd_unitatorganica (
+    id bigint NOT NULL,
+    codidir3 character varying(9) NOT NULL,
+    datacreacio date NOT NULL,
+    estat integer NOT NULL,
+    nom character varying(50) NOT NULL
+);
+
+
+ALTER TABLE public.itd_unitatorganica OWNER TO interdoc;
+
+--
+-- TOC entry 171 (class 1259 OID 99087)
+-- Name: itd_unitatorganica_seq; Type: SEQUENCE; Schema: public; Owner: interdoc
+--
+
+CREATE SEQUENCE itd_unitatorganica_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.itd_unitatorganica_seq OWNER TO interdoc;
+
+--
+-- TOC entry 201 (class 1259 OID 99347)
+-- Name: itd_usuari_seq; Type: SEQUENCE; Schema: public; Owner: interdoc
+--
+
+CREATE SEQUENCE itd_usuari_seq
+    START WITH 1000
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.itd_usuari_seq OWNER TO interdoc;
+
+--
+-- TOC entry 200 (class 1259 OID 99340)
+-- Name: itd_usuari; Type: TABLE; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE TABLE itd_usuari (
+    usuariid bigint DEFAULT nextval('itd_usuari_seq'::regclass) NOT NULL,
+    username character varying(255) NOT NULL,
+    idiomaid character varying(5) NOT NULL,
+    darreraentitat bigint,
+    nom character varying(255) NOT NULL,
+    llinatge1 character varying(255) NOT NULL,
+    llinatge2 character varying(255),
+    email character varying(255),
+    nif character varying(255)
+);
+
+
+ALTER TABLE public.itd_usuari OWNER TO interdoc;
+
+--
+-- TOC entry 199 (class 1259 OID 99338)
+-- Name: itd_usuarientitat_seq; Type: SEQUENCE; Schema: public; Owner: interdoc
+--
+
+CREATE SEQUENCE itd_usuarientitat_seq
+    START WITH 1000
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.itd_usuarientitat_seq OWNER TO interdoc;
+
+--
+-- TOC entry 202 (class 1259 OID 99383)
+-- Name: itd_usuarientitat; Type: TABLE; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE TABLE itd_usuarientitat (
+    usuarientitatid bigint DEFAULT nextval('itd_usuarientitat_seq'::regclass) NOT NULL,
+    usuariid bigint NOT NULL,
+    entitatid bigint NOT NULL,
+    actiu boolean NOT NULL
+);
+
+
+ALTER TABLE public.itd_usuarientitat OWNER TO interdoc;
+
+--
+-- TOC entry 2147 (class 0 OID 99161)
+-- Dependencies: 186
+-- Data for Name: itd_acces; Type: TABLE DATA; Schema: public; Owner: interdoc
+--
+
+COPY itd_acces (accesid, identificacio, tipusidentificacio, ip, datacreacio, referenciaid) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2173 (class 0 OID 0)
+-- Dependencies: 174
+-- Name: itd_acces_seq; Type: SEQUENCE SET; Schema: public; Owner: interdoc
+--
+
+SELECT pg_catalog.setval('itd_acces_seq', 1, false);
+
+
+--
+-- TOC entry 2148 (class 0 OID 99165)
+-- Dependencies: 187
+-- Data for Name: itd_aplicacio; Type: TABLE DATA; Schema: public; Owner: interdoc
+--
+
+COPY itd_aplicacio (aplicacioid, usuari, clau, nom, codidir3, datacreacio, estat) FROM stdin;
+1	caib	interdoc	Usuari Aplicació Caib	A04019899	2025-03-26 11:49:01.607	1
+2	fbit	interdoc	Usuari Aplicació Fundació Bit	A04019281	2025-03-26 11:49:01.607	1
+\.
+
+
+--
+-- TOC entry 2174 (class 0 OID 0)
+-- Dependencies: 175
+-- Name: itd_aplicacio_seq; Type: SEQUENCE SET; Schema: public; Owner: interdoc
+--
+
+SELECT pg_catalog.setval('itd_aplicacio_seq', 1, false);
+
+
+--
+-- TOC entry 2149 (class 0 OID 99169)
+-- Dependencies: 188
+-- Data for Name: itd_entitat; Type: TABLE DATA; Schema: public; Owner: interdoc
+--
+
+COPY itd_entitat (entitatid, nom, codidir3, datacreacio, actiu) FROM stdin;
+1	CAIB	A04003003	2025-03-26 00:00:00	1
+2	TEST	A99999999	2025-10-29 00:00:00	1
+\.
+
+
+--
+-- TOC entry 2175 (class 0 OID 0)
+-- Dependencies: 176
+-- Name: itd_entitat_seq; Type: SEQUENCE SET; Schema: public; Owner: interdoc
+--
+
+SELECT pg_catalog.setval('itd_entitat_seq', 2, true);
+
+
+--
+-- TOC entry 2150 (class 0 OID 99174)
+-- Dependencies: 189
+-- Data for Name: itd_fitxer; Type: TABLE DATA; Schema: public; Owner: interdoc
+--
+
+COPY itd_fitxer (fitxerid, nom, descripcio, mime, tamany, datacreacio, ruta) FROM stdin;
+1	Interdoc_Test_1.pdf	Interdoc_Test_1.pdf	application/pdf	185056	2025-05-28 00:00:00	D:\\Projectes\\interdoc-files\\20250528_130918644.pdf
+2	Interdoc_Test_1.pdf	Interdoc_Test_1.pdf	application/pdf	185056	2025-05-28 00:00:00	D:\\Projectes\\interdoc-files\\20250528_133944221.pdf
+3	Interdoc_Test_1.pdf	Interdoc_Test_1.pdf	application/pdf	185056	2025-05-28 00:00:00	D:\\Projectes\\interdoc-files\\20250528_142021720.pdf
+4	Interdoc_Test_1.pdf	Interdoc_Test_1.pdf	application/pdf	185056	2025-06-02 00:00:00	D:\\Projectes\\interdoc-files\\20250602_091051167.pdf
+5	Interdoc_Test_1.pdf	Interdoc_Test_1.pdf	application/pdf	185056	2025-06-03 00:00:00	D:\\Projectes\\interdoc-files\\20250603_091104106.pdf
+6	Interdoc_Test_1.pdf	Interdoc_Test_1.pdf	application/pdf	185056	2025-06-03 00:00:00	D:\\Projectes\\interdoc-files\\20250603_091428213.pdf
+7	Interdoc_Test_1.pdf	Interdoc_Test_1.pdf	application/pdf	185056	2025-06-03 00:00:00	D:\\Projectes\\interdoc-files\\20250603_092824213.pdf
+\.
+
+
+--
+-- TOC entry 2176 (class 0 OID 0)
+-- Dependencies: 177
+-- Name: itd_fitxer_seq; Type: SEQUENCE SET; Schema: public; Owner: interdoc
+--
+
+SELECT pg_catalog.setval('itd_fitxer_seq', 7, true);
+
+
+--
+-- TOC entry 2164 (class 0 OID 99404)
+-- Dependencies: 203
+-- Data for Name: itd_idioma; Type: TABLE DATA; Schema: public; Owner: interdoc
+--
+
+COPY itd_idioma (idiomaid, nom, suportat, ordre) FROM stdin;
+ca	Català	t	0
+es	Castellano	t	1
+en	English	f	2
+\.
+
+
+--
+-- TOC entry 2151 (class 0 OID 99181)
+-- Dependencies: 190
+-- Data for Name: itd_infoarxiu; Type: TABLE DATA; Schema: public; Owner: interdoc
+--
+
+COPY itd_infoarxiu (infoarxiuid, originalfileurl, csv, csvgenerationdefinition, csvvalidationweb, arxiuexpedientid, arxiudocumentid, printableurl, enifileurl, validationfileurl, estatexpedient, reintents) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2177 (class 0 OID 0)
+-- Dependencies: 178
+-- Name: itd_infoarxiu_seq; Type: SEQUENCE SET; Schema: public; Owner: interdoc
+--
+
+SELECT pg_catalog.setval('itd_infoarxiu_seq', 1, false);
+
+
+--
+-- TOC entry 2152 (class 0 OID 99188)
+-- Dependencies: 191
+-- Data for Name: itd_infosignatura; Type: TABLE DATA; Schema: public; Owner: interdoc
+--
+
+COPY itd_infosignatura (infosignaturaid, signoperation, signtype, signalgorithm, signmode, signaturestablelocation, timestampincluded, policyincluded, enitipofirma, eniperfilfirma, enirolfirma, enisignername, enisigneradministrationid, enisignlevel, checkadministrationidofsigner, checkdocumentmodifications, checkvalidationsignature, signdate, "signId", filename, filemime) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2178 (class 0 OID 0)
+-- Dependencies: 179
+-- Name: itd_infosignatura_seq; Type: SEQUENCE SET; Schema: public; Owner: interdoc
+--
+
+SELECT pg_catalog.setval('itd_infosignatura_seq', 1, false);
+
+
+--
+-- TOC entry 2153 (class 0 OID 99194)
+-- Dependencies: 192
+-- Data for Name: itd_log; Type: TABLE DATA; Schema: public; Owner: interdoc
+--
+
+COPY itd_log (logid, descripcio, peticio, excepcio, datacreacio) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2154 (class 0 OID 99200)
+-- Dependencies: 193
+-- Data for Name: itd_metadada; Type: TABLE DATA; Schema: public; Owner: interdoc
+--
+
+COPY itd_metadada (metadadaid, nom, valor, datacreacio, referenciaid) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2179 (class 0 OID 0)
+-- Dependencies: 180
+-- Name: itd_metadada_seq; Type: SEQUENCE SET; Schema: public; Owner: interdoc
+--
+
+SELECT pg_catalog.setval('itd_metadada_seq', 1, false);
+
+
+--
+-- TOC entry 2155 (class 0 OID 99206)
+-- Dependencies: 194
+-- Data for Name: itd_peticioatercer; Type: TABLE DATA; Schema: public; Owner: interdoc
+--
+
+COPY itd_peticioatercer (peticioid, csvidentificador, eniidentificador, codidir3, recuperaciooriginal, documenteni, nif, tipusidentificacio, ip, datacreacio, estat) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2180 (class 0 OID 0)
+-- Dependencies: 181
+-- Name: itd_peticioatercer_seq; Type: SEQUENCE SET; Schema: public; Owner: interdoc
+--
+
+SELECT pg_catalog.setval('itd_peticioatercer_seq', 1, false);
+
+
+--
+-- TOC entry 2156 (class 0 OID 99212)
+-- Dependencies: 195
+-- Data for Name: itd_plugin; Type: TABLE DATA; Schema: public; Owner: interdoc
+--
+
+COPY itd_plugin (pluginid, nom, propietats, classe, datacreacio, actiu, tipus, entitatid) FROM stdin;
+3	Tester1	property.test=test	class.test	2025-12-01 00:00:00+01	0	2	2
+1	Arxiu	es.caib.interdoc.pluginsib.arxiu.endpoint=https://esbse.caib.es:4430/esb\n# pluginsib.arxiu.caib.base.surl=https://esbpre.caib.es/esb\nes.caib.interdoc.pluginsib.arxiu.usuari=digitalib\nes.caib.interdoc.pluginsib.arxiu.contrasenya=wdOABf9kvNNo\n\n# es.caib.interdoc.pluginsib.arxiu.usuari=interdoc\n# es.caib.interdoc.pluginsib.arxiu.contrasenya=ZUgDwLpn1Oih	es.caib.interdoc.plugins.arxiu.ArxiuPluginImpl	2025-03-26 00:00:00+01	1	1	1
+2	Firma	## FIRMAENSERVIDOR START\n\n## GOVERNDIGITAL SERVIDOR\n# es.caib.interdoc.pluginsib.firma.endpoint=https://governdigital.fundaciobit.org/portafib/common/rest/apifirmaenservidorsimple/v1/\n# es.caib.interdoc.pluginsib.firma.usuari=interdoc\n# es.caib.interdoc.pluginsib.firma.password=interdoc\n\n## SERVIDOR SERVEIS ESTABLES\nes.caib.interdoc.pluginsib.firma.endpoint=https://se.caib.es/portafib/common/rest/apifirmaenservidorsimple/v1/\nes.caib.interdoc.pluginsib.firma.usuari=$interdoc_portafib_se\nes.caib.interdoc.pluginsib.firma.password=interdoc_portafib_se\n\nes.caib.interdoc.pluginsib.firma.locale=ca\nes.caib.interdoc.pluginsib.firma.path=/home/regweb3/interdoc-files/signed/\n\n## FIRMAENSERVIDOR END	es.caib.interdoc.plugins.apifirmasimple.FirmaPluginImpl	2025-03-26 00:00:00+01	1	2	1
+4	Tester2	property.test2	test.class2	2025-12-02 00:00:00+01	1	1	2
+\.
+
+
+--
+-- TOC entry 2181 (class 0 OID 0)
+-- Dependencies: 182
+-- Name: itd_plugin_seq; Type: SEQUENCE SET; Schema: public; Owner: interdoc
+--
+
+SELECT pg_catalog.setval('itd_plugin_seq', 4, true);
+
+
+--
+-- TOC entry 2133 (class 0 OID 99089)
+-- Dependencies: 172
+-- Data for Name: itd_procediment; Type: TABLE DATA; Schema: public; Owner: interdoc
+--
+
+COPY itd_procediment (id, codisia, nom, unitatorganicaid) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2182 (class 0 OID 0)
+-- Dependencies: 170
+-- Name: itd_procediment_seq; Type: SEQUENCE SET; Schema: public; Owner: interdoc
+--
+
+SELECT pg_catalog.setval('itd_procediment_seq', 1, false);
+
+
+--
+-- TOC entry 2157 (class 0 OID 99219)
+-- Dependencies: 196
+-- Data for Name: itd_referencia; Type: TABLE DATA; Schema: public; Owner: interdoc
+--
+
+COPY itd_referencia (referenciaid, csvidentificador, uuid, direccio, hash, emisor, receptor, urlvisible, datacreacio, referencia, entitatid, infosignaturaid, infoarxiuid, formatfirma, fitxerid, numeroregistre) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2183 (class 0 OID 0)
+-- Dependencies: 183
+-- Name: itd_referencia_seq; Type: SEQUENCE SET; Schema: public; Owner: interdoc
+--
+
+SELECT pg_catalog.setval('itd_referencia_seq', 1, false);
+
+
+--
+-- TOC entry 2158 (class 0 OID 99225)
+-- Dependencies: 197
+-- Data for Name: itd_referenciaxml; Type: TABLE DATA; Schema: public; Owner: interdoc
+--
+
+COPY itd_referenciaxml (referenciaxmlid, resultat, datacreacio, referenciaid) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2184 (class 0 OID 0)
+-- Dependencies: 184
+-- Name: itd_refxml_seq; Type: SEQUENCE SET; Schema: public; Owner: interdoc
+--
+
+SELECT pg_catalog.setval('itd_refxml_seq', 1, false);
+
+
+--
+-- TOC entry 2159 (class 0 OID 99231)
+-- Dependencies: 198
+-- Data for Name: itd_traza; Type: TABLE DATA; Schema: public; Owner: interdoc
+--
+
+COPY itd_traza (trazaid, nom, valor, datacreacio, referenciaid) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2185 (class 0 OID 0)
+-- Dependencies: 185
+-- Name: itd_traza_seq; Type: SEQUENCE SET; Schema: public; Owner: interdoc
+--
+
+SELECT pg_catalog.setval('itd_traza_seq', 1, false);
+
+
+--
+-- TOC entry 2134 (class 0 OID 99094)
+-- Dependencies: 173
+-- Data for Name: itd_unitatorganica; Type: TABLE DATA; Schema: public; Owner: interdoc
+--
+
+COPY itd_unitatorganica (id, codidir3, datacreacio, estat, nom) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2186 (class 0 OID 0)
+-- Dependencies: 171
+-- Name: itd_unitatorganica_seq; Type: SEQUENCE SET; Schema: public; Owner: interdoc
+--
+
+SELECT pg_catalog.setval('itd_unitatorganica_seq', 1, false);
+
+
+--
+-- TOC entry 2161 (class 0 OID 99340)
+-- Dependencies: 200
+-- Data for Name: itd_usuari; Type: TABLE DATA; Schema: public; Owner: interdoc
+--
+
+COPY itd_usuari (usuariid, username, idiomaid, darreraentitat, nom, llinatge1, llinatge2, email, nif) FROM stdin;
+1008	test1	ca	\N	Tester	Llinatge1	\N	test@fundaciobit.org	99999999Z
+1016	test12	ca	\N	Tester	Llinatge1	Llinatge2	fbosch@fundaciobit.org	99999999Y
+1018	fbosch	ca	1	Francesc Llàtzer	Bosch	Martorell	fbosch@fundaciobit.org	41541598X
+\.
+
+
+--
+-- TOC entry 2187 (class 0 OID 0)
+-- Dependencies: 201
+-- Name: itd_usuari_seq; Type: SEQUENCE SET; Schema: public; Owner: interdoc
+--
+
+SELECT pg_catalog.setval('itd_usuari_seq', 1018, true);
+
+
+--
+-- TOC entry 2163 (class 0 OID 99383)
+-- Dependencies: 202
+-- Data for Name: itd_usuarientitat; Type: TABLE DATA; Schema: public; Owner: interdoc
+--
+
+COPY itd_usuarientitat (usuarientitatid, usuariid, entitatid, actiu) FROM stdin;
+1003	1008	1	t
+1005	1018	1	t
+\.
+
+
+--
+-- TOC entry 2188 (class 0 OID 0)
+-- Dependencies: 199
+-- Name: itd_usuarientitat_seq; Type: SEQUENCE SET; Schema: public; Owner: interdoc
+--
+
+SELECT pg_catalog.setval('itd_usuarientitat_seq', 1005, true);
+
+
+--
+-- TOC entry 1979 (class 2606 OID 99249)
+-- Name: int_peticioatercer_pk; Type: CONSTRAINT; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+ALTER TABLE ONLY itd_peticioatercer
+    ADD CONSTRAINT int_peticioatercer_pk PRIMARY KEY (peticioid);
+
+
+--
+-- TOC entry 1984 (class 2606 OID 99251)
+-- Name: int_referencia_pk; Type: CONSTRAINT; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+ALTER TABLE ONLY itd_referencia
+    ADD CONSTRAINT int_referencia_pk PRIMARY KEY (referenciaid);
+
+
+--
+-- TOC entry 1987 (class 2606 OID 99253)
+-- Name: int_referenciaxml_pk; Type: CONSTRAINT; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+ALTER TABLE ONLY itd_referenciaxml
+    ADD CONSTRAINT int_referenciaxml_pk PRIMARY KEY (referenciaxmlid);
+
+
+--
+-- TOC entry 1992 (class 2606 OID 99255)
+-- Name: int_traza_pk; Type: CONSTRAINT; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+ALTER TABLE ONLY itd_traza
+    ADD CONSTRAINT int_traza_pk PRIMARY KEY (trazaid);
+
+
+--
+-- TOC entry 1960 (class 2606 OID 99257)
+-- Name: itd_acces_pk; Type: CONSTRAINT; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+ALTER TABLE ONLY itd_acces
+    ADD CONSTRAINT itd_acces_pk PRIMARY KEY (accesid);
+
+
+--
+-- TOC entry 1963 (class 2606 OID 99259)
+-- Name: itd_aplicacio_pk; Type: CONSTRAINT; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+ALTER TABLE ONLY itd_aplicacio
+    ADD CONSTRAINT itd_aplicacio_pk PRIMARY KEY (aplicacioid);
+
+
+--
+-- TOC entry 1965 (class 2606 OID 99261)
+-- Name: itd_entitat_pkey; Type: CONSTRAINT; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+ALTER TABLE ONLY itd_entitat
+    ADD CONSTRAINT itd_entitat_pkey PRIMARY KEY (entitatid);
+
+
+--
+-- TOC entry 1967 (class 2606 OID 99263)
+-- Name: itd_fitxer_pkey; Type: CONSTRAINT; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+ALTER TABLE ONLY itd_fitxer
+    ADD CONSTRAINT itd_fitxer_pkey PRIMARY KEY (fitxerid);
+
+
+--
+-- TOC entry 2012 (class 2606 OID 99410)
+-- Name: itd_idioma_pk; Type: CONSTRAINT; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+ALTER TABLE ONLY itd_idioma
+    ADD CONSTRAINT itd_idioma_pk PRIMARY KEY (idiomaid);
+
+
+--
+-- TOC entry 1969 (class 2606 OID 99265)
+-- Name: itd_infoarxiu_pkey; Type: CONSTRAINT; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+ALTER TABLE ONLY itd_infoarxiu
+    ADD CONSTRAINT itd_infoarxiu_pkey PRIMARY KEY (infoarxiuid);
+
+
+--
+-- TOC entry 1971 (class 2606 OID 99267)
+-- Name: itd_infosignatura_pkey; Type: CONSTRAINT; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+ALTER TABLE ONLY itd_infosignatura
+    ADD CONSTRAINT itd_infosignatura_pkey PRIMARY KEY (infosignaturaid);
+
+
+--
+-- TOC entry 1973 (class 2606 OID 99269)
+-- Name: itd_log_pkey; Type: CONSTRAINT; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+ALTER TABLE ONLY itd_log
+    ADD CONSTRAINT itd_log_pkey PRIMARY KEY (logid);
+
+
+--
+-- TOC entry 1977 (class 2606 OID 99271)
+-- Name: itd_metadada_pk; Type: CONSTRAINT; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+ALTER TABLE ONLY itd_metadada
+    ADD CONSTRAINT itd_metadada_pk PRIMARY KEY (metadadaid);
+
+
+--
+-- TOC entry 1982 (class 2606 OID 99273)
+-- Name: itd_plugin_pkey; Type: CONSTRAINT; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+ALTER TABLE ONLY itd_plugin
+    ADD CONSTRAINT itd_plugin_pkey PRIMARY KEY (pluginid);
+
+
+--
+-- TOC entry 1946 (class 2606 OID 99103)
+-- Name: itd_procediment_codisia_uk; Type: CONSTRAINT; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+ALTER TABLE ONLY itd_procediment
+    ADD CONSTRAINT itd_procediment_codisia_uk UNIQUE (codisia);
+
+
+--
+-- TOC entry 1949 (class 2606 OID 99093)
+-- Name: itd_procediment_pk; Type: CONSTRAINT; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+ALTER TABLE ONLY itd_procediment
+    ADD CONSTRAINT itd_procediment_pk PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1953 (class 2606 OID 99107)
+-- Name: itd_unitat_codidir3_uk; Type: CONSTRAINT; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+ALTER TABLE ONLY itd_unitatorganica
+    ADD CONSTRAINT itd_unitat_codidir3_uk UNIQUE (codidir3);
+
+
+--
+-- TOC entry 1956 (class 2606 OID 99098)
+-- Name: itd_unitat_pk; Type: CONSTRAINT; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+ALTER TABLE ONLY itd_unitatorganica
+    ADD CONSTRAINT itd_unitat_pk PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1999 (class 2606 OID 99360)
+-- Name: itd_usuari_nif_uk; Type: CONSTRAINT; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+ALTER TABLE ONLY itd_usuari
+    ADD CONSTRAINT itd_usuari_nif_uk UNIQUE (nif);
+
+
+--
+-- TOC entry 2001 (class 2606 OID 99344)
+-- Name: itd_usuari_pk; Type: CONSTRAINT; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+ALTER TABLE ONLY itd_usuari
+    ADD CONSTRAINT itd_usuari_pk PRIMARY KEY (usuariid);
+
+
+--
+-- TOC entry 2003 (class 2606 OID 99362)
+-- Name: itd_usuari_username_uk; Type: CONSTRAINT; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+ALTER TABLE ONLY itd_usuari
+    ADD CONSTRAINT itd_usuari_username_uk UNIQUE (username);
+
+
+--
+-- TOC entry 2005 (class 2606 OID 99388)
+-- Name: itd_usuarientitat_pk; Type: CONSTRAINT; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+ALTER TABLE ONLY itd_usuarientitat
+    ADD CONSTRAINT itd_usuarientitat_pk PRIMARY KEY (usuarientitatid);
+
+
+--
+-- TOC entry 2009 (class 2606 OID 99390)
+-- Name: itd_usuent_usu_ent_uk; Type: CONSTRAINT; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+ALTER TABLE ONLY itd_usuarientitat
+    ADD CONSTRAINT itd_usuent_usu_ent_uk UNIQUE (usuariid, entitatid);
+
+
+--
+-- TOC entry 1995 (class 1259 OID 99355)
+-- Name: fki_itd_usuari_entitat_fk; Type: INDEX; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE INDEX fki_itd_usuari_entitat_fk ON public.itd_usuari USING btree (darreraentitat);
+
+
+--
+-- TOC entry 1958 (class 1259 OID 99237)
+-- Name: int_acces_pk_i; Type: INDEX; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE INDEX int_acces_pk_i ON public.itd_acces USING btree (accesid);
+
+
+--
+-- TOC entry 1961 (class 1259 OID 99238)
+-- Name: int_aplicacio_pk_i; Type: INDEX; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE INDEX int_aplicacio_pk_i ON public.itd_aplicacio USING btree (aplicacioid);
+
+
+--
+-- TOC entry 1974 (class 1259 OID 99239)
+-- Name: int_metadada_metadadaid_fk_i; Type: INDEX; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE INDEX int_metadada_metadadaid_fk_i ON public.itd_metadada USING btree (metadadaid);
+
+
+--
+-- TOC entry 1975 (class 1259 OID 99240)
+-- Name: int_metadada_pk_i; Type: INDEX; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE INDEX int_metadada_pk_i ON public.itd_metadada USING btree (metadadaid);
+
+
+--
+-- TOC entry 1980 (class 1259 OID 99241)
+-- Name: int_peticioatercer_pk_i; Type: INDEX; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE INDEX int_peticioatercer_pk_i ON public.itd_peticioatercer USING btree (peticioid);
+
+
+--
+-- TOC entry 1985 (class 1259 OID 99242)
+-- Name: int_referencia_pk_i; Type: INDEX; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE INDEX int_referencia_pk_i ON public.itd_referencia USING btree (referenciaid);
+
+
+--
+-- TOC entry 1988 (class 1259 OID 99243)
+-- Name: int_referenciaxml_pk_i; Type: INDEX; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE INDEX int_referenciaxml_pk_i ON public.itd_referenciaxml USING btree (referenciaxmlid);
+
+
+--
+-- TOC entry 1989 (class 1259 OID 99244)
+-- Name: int_refxml_referenciaid_fk_i; Type: INDEX; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE INDEX int_refxml_referenciaid_fk_i ON public.itd_referenciaxml USING btree (referenciaid);
+
+
+--
+-- TOC entry 1990 (class 1259 OID 99245)
+-- Name: int_refxml_referenciaxmlid_fk_i; Type: INDEX; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE INDEX int_refxml_referenciaxmlid_fk_i ON public.itd_referenciaxml USING btree (referenciaxmlid);
+
+
+--
+-- TOC entry 1993 (class 1259 OID 99246)
+-- Name: int_traza_pk_i; Type: INDEX; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE INDEX int_traza_pk_i ON public.itd_traza USING btree (trazaid);
+
+
+--
+-- TOC entry 1994 (class 1259 OID 99247)
+-- Name: int_traza_trazaid_fk_i; Type: INDEX; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE INDEX int_traza_trazaid_fk_i ON public.itd_traza USING btree (trazaid);
+
+
+--
+-- TOC entry 2013 (class 1259 OID 99411)
+-- Name: itd_idioma_pk_i; Type: INDEX; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE INDEX itd_idioma_pk_i ON public.itd_idioma USING btree (idiomaid);
+
+
+--
+-- TOC entry 1947 (class 1259 OID 99100)
+-- Name: itd_procediment_codisia_uk_i; Type: INDEX; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE INDEX itd_procediment_codisia_uk_i ON public.itd_procediment USING btree (codisia);
+
+
+--
+-- TOC entry 1950 (class 1259 OID 99099)
+-- Name: itd_procediment_pk_i; Type: INDEX; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE INDEX itd_procediment_pk_i ON public.itd_procediment USING btree (id);
+
+
+--
+-- TOC entry 1951 (class 1259 OID 99101)
+-- Name: itd_procediment_unitat_fk_i; Type: INDEX; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE INDEX itd_procediment_unitat_fk_i ON public.itd_procediment USING btree (unitatorganicaid);
+
+
+--
+-- TOC entry 1954 (class 1259 OID 99105)
+-- Name: itd_unitat_codidir3_uk_i; Type: INDEX; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE INDEX itd_unitat_codidir3_uk_i ON public.itd_unitatorganica USING btree (codidir3);
+
+
+--
+-- TOC entry 1957 (class 1259 OID 99104)
+-- Name: itd_unitat_pk_i; Type: INDEX; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE INDEX itd_unitat_pk_i ON public.itd_unitatorganica USING btree (id);
+
+
+--
+-- TOC entry 1996 (class 1259 OID 99363)
+-- Name: itd_usuari_darreraentitat_fk_i; Type: INDEX; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE INDEX itd_usuari_darreraentitat_fk_i ON public.itd_usuari USING btree (darreraentitat);
+
+
+--
+-- TOC entry 1997 (class 1259 OID 99364)
+-- Name: itd_usuari_idiomaid_fk_i; Type: INDEX; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE INDEX itd_usuari_idiomaid_fk_i ON public.itd_usuari USING btree (idiomaid);
+
+
+--
+-- TOC entry 2006 (class 1259 OID 99401)
+-- Name: itd_usuarientitat_pk_i; Type: INDEX; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE INDEX itd_usuarientitat_pk_i ON public.itd_usuarientitat USING btree (usuarientitatid);
+
+
+--
+-- TOC entry 2007 (class 1259 OID 99402)
+-- Name: itd_usuent_entitatid_fk_i; Type: INDEX; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE INDEX itd_usuent_entitatid_fk_i ON public.itd_usuarientitat USING btree (entitatid);
+
+
+--
+-- TOC entry 2010 (class 1259 OID 99403)
+-- Name: itd_usuent_usuariid_fk_i; Type: INDEX; Schema: public; Owner: interdoc; Tablespace: 
+--
+
+CREATE INDEX itd_usuent_usuariid_fk_i ON public.itd_usuarientitat USING btree (usuariid);
+
+
+--
+-- TOC entry 2017 (class 2606 OID 107587)
+-- Name: fk_itd_plugin_entitat; Type: FK CONSTRAINT; Schema: public; Owner: interdoc
+--
+
+ALTER TABLE ONLY itd_plugin
+    ADD CONSTRAINT fk_itd_plugin_entitat FOREIGN KEY (entitatid) REFERENCES itd_entitat(entitatid);
+
+
+--
+-- TOC entry 2015 (class 2606 OID 99274)
+-- Name: int_acces_referencia_fk; Type: FK CONSTRAINT; Schema: public; Owner: interdoc
+--
+
+ALTER TABLE ONLY itd_acces
+    ADD CONSTRAINT int_acces_referencia_fk FOREIGN KEY (referenciaid) REFERENCES itd_referencia(referenciaid);
+
+
+--
+-- TOC entry 2018 (class 2606 OID 99279)
+-- Name: int_refxml_referencia_fk; Type: FK CONSTRAINT; Schema: public; Owner: interdoc
+--
+
+ALTER TABLE ONLY itd_referenciaxml
+    ADD CONSTRAINT int_refxml_referencia_fk FOREIGN KEY (referenciaid) REFERENCES itd_referencia(referenciaid);
+
+
+--
+-- TOC entry 2019 (class 2606 OID 99284)
+-- Name: int_traza_referencia_fk; Type: FK CONSTRAINT; Schema: public; Owner: interdoc
+--
+
+ALTER TABLE ONLY itd_traza
+    ADD CONSTRAINT int_traza_referencia_fk FOREIGN KEY (referenciaid) REFERENCES itd_referencia(referenciaid);
+
+
+--
+-- TOC entry 2016 (class 2606 OID 99289)
+-- Name: itd_metadada_referencia_fk; Type: FK CONSTRAINT; Schema: public; Owner: interdoc
+--
+
+ALTER TABLE ONLY itd_metadada
+    ADD CONSTRAINT itd_metadada_referencia_fk FOREIGN KEY (referenciaid) REFERENCES itd_referencia(referenciaid);
+
+
+--
+-- TOC entry 2014 (class 2606 OID 99108)
+-- Name: itd_procediment_unitat_fk; Type: FK CONSTRAINT; Schema: public; Owner: interdoc
+--
+
+ALTER TABLE ONLY itd_procediment
+    ADD CONSTRAINT itd_procediment_unitat_fk FOREIGN KEY (unitatorganicaid) REFERENCES itd_unitatorganica(id);
+
+
+--
+-- TOC entry 2020 (class 2606 OID 99350)
+-- Name: itd_usuari_entitat_fk; Type: FK CONSTRAINT; Schema: public; Owner: interdoc
+--
+
+ALTER TABLE ONLY itd_usuari
+    ADD CONSTRAINT itd_usuari_entitat_fk FOREIGN KEY (darreraentitat) REFERENCES itd_entitat(entitatid);
+
+
+--
+-- TOC entry 2021 (class 2606 OID 99412)
+-- Name: itd_usuari_idioma_idi_fk; Type: FK CONSTRAINT; Schema: public; Owner: interdoc
+--
+
+ALTER TABLE ONLY itd_usuari
+    ADD CONSTRAINT itd_usuari_idioma_idi_fk FOREIGN KEY (idiomaid) REFERENCES itd_idioma(idiomaid);
+
+
+--
+-- TOC entry 2022 (class 2606 OID 99391)
+-- Name: itd_usuent_entitat_fk; Type: FK CONSTRAINT; Schema: public; Owner: interdoc
+--
+
+ALTER TABLE ONLY itd_usuarientitat
+    ADD CONSTRAINT itd_usuent_entitat_fk FOREIGN KEY (entitatid) REFERENCES itd_entitat(entitatid);
+
+
+--
+-- TOC entry 2023 (class 2606 OID 99396)
+-- Name: itd_usuent_usuari_fk; Type: FK CONSTRAINT; Schema: public; Owner: interdoc
+--
+
+ALTER TABLE ONLY itd_usuarientitat
+    ADD CONSTRAINT itd_usuent_usuari_fk FOREIGN KEY (usuariid) REFERENCES itd_usuari(usuariid);
+
+
+--
+-- TOC entry 2171 (class 0 OID 0)
+-- Dependencies: 5
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+-- Completed on 2026-01-27 08:27:15
+
+--
+-- PostgreSQL database dump complete
+--
+
