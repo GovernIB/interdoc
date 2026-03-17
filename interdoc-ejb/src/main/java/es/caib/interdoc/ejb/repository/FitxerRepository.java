@@ -16,8 +16,8 @@ import java.util.Map;
 public interface FitxerRepository extends CrudRepository<Fitxer, Long> {
 
     List<FitxerDTO> findPagedByFilterAndOrder(int firstResult, int maxResult,
-                                                 Map<FitxerAtribut, Object> filter,
-                                                 List<Ordre<FitxerAtribut>> ordenacio);
+                                                Map<FitxerAtribut, Object> filter,
+                                                List<Ordre<FitxerAtribut>> ordenacio);
 
     List<Fitxer> getAll();
 

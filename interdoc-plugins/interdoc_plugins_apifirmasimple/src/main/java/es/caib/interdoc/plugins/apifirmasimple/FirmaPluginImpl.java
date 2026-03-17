@@ -382,7 +382,8 @@ public class FirmaPluginImpl extends AbstractPluginProperties implements Interdo
 
 	private ApiFirmaEnServidorSimple getApiFirmaEnServidorSimple() throws Exception {
 
-		final String endPoint = Configuracio.getProperty(INTERDOC_FIRMA_PLUGIN_PROPERTY + "endpoint");
+		final String endpointPropertyKey = propietats.getProperty(INTERDOC_FIRMA_PLUGIN_PROPERTY + "endpoint");
+		final String endPoint = Configuracio.getProperty(endpointPropertyKey);
 		final String username = Configuracio.getProperty(INTERDOC_FIRMA_PLUGIN_PROPERTY + "usuari");
 		final String password = Configuracio.getProperty(INTERDOC_FIRMA_PLUGIN_PROPERTY + "password");
 
