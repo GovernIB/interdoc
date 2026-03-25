@@ -30,7 +30,7 @@ public interface InterdocArxiuPlugin extends org.fundaciobit.pluginsib.core.v3.I
 	
 	public String crearDocument(DocumentInfo documentInfo, String expedientId) throws DocumentNotValidException, Exception;
 	
-	public Document getDocument(String identificador, String version, Boolean contenido, Boolean original);
+	public es.caib.pluginsib.arxiu.api.Document getDocument(String identificador, String version, Boolean contenido, Boolean original);
 	
 	public InfoArxiuDTO consultarDocument(String documentId, String expedientId) throws Exception;
 	

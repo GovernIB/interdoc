@@ -25,9 +25,15 @@ import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
 import java.io.Serializable;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -248,6 +254,7 @@ public class NewReferencia extends AbstractController implements Serializable {
         		LOG.info("ObtenerReferencia Client Base URL => " + obtenerReferenciaWsBaseUrl);
             	LOG.info("ObtenerReferencia Client URLhost => " + obtenerReferenciaUrl.getHost());
             	LOG.info("Request: " + infoRequest.toString());
+				logWsdlResponsePreview(obtenerReferenciaUrl);
         	}
         	
 			ObtenerReferenciaWsService servei = new ObtenerReferenciaWsService(obtenerReferenciaUrl);
@@ -283,4 +290,48 @@ public class NewReferencia extends AbstractController implements Serializable {
         return "/listReferencia?faces-redirect=true";
         // return referencia.getValue().toString();
     }
+
+	private void logWsdlResponsePreview(URL wsdlUrl) {
+		HttpURLConnection connection = null;
+		try {
+			URLConnection urlConnection = wsdlUrl.openConnection();
+			if (!(urlConnection instanceof HttpURLConnection)) {
+				LOG.warn("WSDL preview no disponible. La connexio no es HTTP. URL: {}", wsdlUrl);
+				return;
+			}
+
+			connection = (HttpURLConnection) urlConnection;
+			connection.setRequestMethod("GET");
+			connection.setConnectTimeout(10000);
+			connection.setReadTimeout(10000);
+
+			int statusCode = connection.getResponseCode();
+			String contentType = connection.getContentType();
+			LOG.info("WSDL HTTP status => {}", statusCode);
+			LOG.info("WSDL Content-Type => {}", contentType);
+
+			InputStream responseStream = (statusCode >= 400) ? connection.getErrorStream() : connection.getInputStream();
+			if (responseStream == null) {
+				LOG.warn("WSDL response stream buid. URL: {}", wsdlUrl);
+				return;
+			}
+
+			StringBuilder preview = new StringBuilder();
+			try (BufferedReader reader = new BufferedReader(new InputStreamReader(responseStream, StandardCharsets.UTF_8))) {
+				char[] buffer = new char[512];
+				int read = reader.read(buffer);
+				if (read > 0) {
+					preview.append(buffer, 0, read);
+				}
+			}
+
+			LOG.info("WSDL response preview => {}", preview.toString().replaceAll("\\s+", " "));
+		} catch (IOException e) {
+			LOG.error("Error llegint resposta WSDL de {}", wsdlUrl, e);
+		} finally {
+			if (connection != null) {
+				connection.disconnect();
+			}
+		}
+	}
 }

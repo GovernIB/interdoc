@@ -192,7 +192,6 @@ public class ObtenerReferenciaService {
 	private String generateXMLResponse(String csv, String uuid, String emisor, String receptor, String referencia,
 			String hash, List<Metadada> metadades) throws Exception {
 
-		 
 		
 		ReferenciaDocumentoBean referenciaDocumentoBean = new ReferenciaDocumentoBean();
 
