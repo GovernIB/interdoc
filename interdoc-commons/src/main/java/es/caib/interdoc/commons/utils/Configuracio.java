@@ -5,7 +5,10 @@ import es.caib.interdoc.commons.config.PropertyFileConfigSource;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.Properties;
+
+import javax.naming.InitialContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,15 +68,63 @@ public class Configuracio implements Constants {
     }
     
     public static String getObtenerReferenciaWsdl() {
-    	return getProperty(INTERDOC_PROPERTY_BASE + "obtenerreferencia.wsdl");
+    	return getProperty(INTERDOC_PROPERTY_BASE + "plugins.arxiu.endpoint");
     }
     
     public static String getObtenerReferenciaUsuari() {
-    	return getProperty(INTERDOC_PROPERTY_BASE + "obtenerreferencia.usuari");
+    	return getProperty(INTERDOC_PROPERTY_BASE + "plugins.arxiu.usuari");
     }
     
     public static String getObtenerReferenciaClau() {
-    	return getProperty(INTERDOC_PROPERTY_BASE + "obtenerreferencia.clau");
+    	return getProperty(INTERDOC_PROPERTY_BASE + "plugins.arxiu.clau");
+    }
+
+    /**
+     * Obté totes les propietats d'un plugin per entitat i tipus de plugin des de BBDD.
+     *
+     * @param entitatId id de l'entitat
+     * @param tipusPlugin tipus de plugin
+     * @return propietats del plugin, o buides si no existeixen / hi ha error
+     */
+    public static Properties getPluginProperties(Long entitatId, Long tipusPlugin) {
+        if (entitatId == null || tipusPlugin == null) {
+            log.warn("Paràmetres invàlids a getPluginProperties(entitatId={}, tipusPlugin={})",
+                    entitatId, tipusPlugin);
+            return new Properties();
+        }
+
+        try {
+            final String pluginServiceJndiName = "java:app/interdoc-ejb/PluginServiceFacadeBean!es.caib.interdoc.service.facade.PluginServiceFacade";
+            Object pluginService = (new InitialContext()).lookup(pluginServiceJndiName);
+
+            Method getPropertiesPluginMethod = pluginService.getClass()
+                    .getMethod("getPropertiesPlugin", Long.class, Long.class);
+
+            Properties pluginProperties = (Properties) getPropertiesPluginMethod.invoke(pluginService, entitatId, tipusPlugin);
+            return (pluginProperties != null) ? pluginProperties : new Properties();
+        } catch (Exception e) {
+            log.error("Error obtenint propietats del plugin per entitat {} i tipus {}",
+                    entitatId, tipusPlugin, e);
+            return new Properties();
+        }
+    }
+
+    /**
+     * Obté una propietat d'un plugin per entitat i tipus de plugin des de BBDD.
+     *
+     * @param entitatId id de l'entitat
+     * @param tipusPlugin tipus de plugin
+     * @param property nom de la propietat a recuperar
+     * @return valor de la propietat o null si no existeix / hi ha error
+     */
+    public static String getPluginProperty(Long entitatId, Long tipusPlugin, String property) {
+        if (entitatId == null || tipusPlugin == null || property == null || property.trim().isEmpty()) {
+            log.warn("Paràmetres invàlids a getPluginProperty(entitatId={}, tipusPlugin={}, property={})",
+                    entitatId, tipusPlugin, property);
+            return null;
+        }
+
+        return getPluginProperties(entitatId, tipusPlugin).getProperty(property);
     }
     
     public static Properties getSystemAndFileProperties() {

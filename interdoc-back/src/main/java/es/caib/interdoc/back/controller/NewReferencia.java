@@ -58,9 +58,12 @@ public class NewReferencia extends AbstractController implements Serializable {
 
     @Inject
     private ReferenciaModel referencia;
+
+	@Inject
+	private UserLocale userLocale;
     
     @EJB
-    private FitxerServiceFacade fitxerService; 
+    private FitxerServiceFacade fitxerService;
 
     // ACCIONS
 
@@ -70,6 +73,7 @@ public class NewReferencia extends AbstractController implements Serializable {
      *
      * @return navegació cap al llistat d'unitats orgàniques.
      */
+
     public String save() {
         LOG.debug("save");
         
@@ -245,12 +249,15 @@ public class NewReferencia extends AbstractController implements Serializable {
         
         String xmlResponse = "";
         try {
+
+            final String obtenerReferenciaWsEndpoint = getArxiuEndpointFromSelectedEntity();
         	
-        	final String obtenerReferenciaWsBaseUrl = Configuracio.getObtenerReferenciaWsdl()+"?wsdl";
+	        final String obtenerReferenciaWsBaseUrl = obtenerReferenciaWsEndpoint + "?wsdl";
         	final URL obtenerReferenciaUrl = new URL(obtenerReferenciaWsBaseUrl);
         	final QName service = new QName("http://impl.ws.interna.api.interdoc.caib.es/", "ObtenerReferenciaWsService");
         	
         	if (Configuracio.isDesenvolupament()) {
+	        	LOG.info("ObtenerReferencia endpoint (BBDD entitat seleccionada) => " + obtenerReferenciaWsEndpoint);
         		LOG.info("ObtenerReferencia Client Base URL => " + obtenerReferenciaWsBaseUrl);
             	LOG.info("ObtenerReferencia Client URLhost => " + obtenerReferenciaUrl.getHost());
             	LOG.info("Request: " + infoRequest.toString());
@@ -261,7 +268,7 @@ public class NewReferencia extends AbstractController implements Serializable {
 			ObtenerReferenciaWs api = servei.getObtenerReferenciaWs();
 			
 			Map<String, Object> reqContext = ((BindingProvider) api).getRequestContext();
-	        reqContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, Configuracio.getObtenerReferenciaWsdl());
+	        reqContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, obtenerReferenciaWsEndpoint);
 	        reqContext.put(BindingProvider.USERNAME_PROPERTY, Configuracio.getObtenerReferenciaUsuari());
 	        reqContext.put(BindingProvider.PASSWORD_PROPERTY, Configuracio.getObtenerReferenciaClau());
 
@@ -332,6 +339,32 @@ public class NewReferencia extends AbstractController implements Serializable {
 			if (connection != null) {
 				connection.disconnect();
 			}
+		}
+	}
+
+	private String getArxiuEndpointFromSelectedEntity() {
+		final Long entitatId = (userLocale != null) ? userLocale.getEntitatId() : null;
+		if (entitatId == null) {
+			LOG.warn("No hi ha entitat seleccionada a userLocale. S'usa endpoint de Configuracio");
+			return Configuracio.getObtenerReferenciaWsdl();
+		}
+
+		try {
+			String endpoint = Configuracio.getPluginProperty(
+					entitatId,
+					Constants.PLUGIN_ARXIU,
+					"es.caib.interdoc.plugins.arxiu.endpoint"
+			);
+
+			if (Utils.isNotEmpty(endpoint)) {
+				return endpoint;
+			}
+
+			LOG.warn("No s'ha trobat la propietat es.caib.interdoc.plugins.arxiu.endpoint per l'entitat {}. S'usa endpoint de Configuracio", entitatId);
+			return Configuracio.getObtenerReferenciaWsdl();
+		} catch (Exception e) {
+			LOG.error("Error llegint propietats de plugin Arxiu per l'entitat {}. S'usa endpoint de Configuracio", entitatId, e);
+			return Configuracio.getObtenerReferenciaWsdl();
 		}
 	}
 }
