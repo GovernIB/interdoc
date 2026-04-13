@@ -1,6 +1,7 @@
 package es.caib.interdoc.ejb.scheduler;
 
 import java.util.List;
+import java.util.Properties;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -14,12 +15,19 @@ import javax.ejb.TimerConfig;
 import javax.ejb.TimerService;
 
 import org.apache.log4j.Logger;
+import org.fundaciobit.pluginsib.core.v3.utils.AbstractPluginProperties;
 
 import es.caib.interdoc.service.facade.EntitatServiceFacade;
 import es.caib.interdoc.service.facade.InfoArxiuServiceFacade;
 import es.caib.interdoc.service.model.EntitatDTO;
+import es.caib.interdoc.service.model.PluginDTO;
+import es.caib.pluginsib.arxiu.api.IArxiuPlugin;
 import es.caib.interdoc.commons.utils.Configuracio;
+import es.caib.interdoc.commons.utils.Constants;
+import es.caib.interdoc.ejb.PluginArxiuLogicaEJB;
+import es.caib.interdoc.ejb.PluginArxiuLogicaService;
 import es.caib.interdoc.ejb.facade.PluginArxiuServiceFacade;
+import es.caib.interdoc.plugins.arxiu.ArxiuPluginImpl;
 import es.caib.interdoc.plugins.arxiu.InterdocArxiuPlugin;
 import es.caib.interdoc.commons.config.PropertyFileConfigSource;
 
@@ -45,8 +53,11 @@ public class SchedulerLogicaBean implements SchedulerLogicaService{
 	@EJB(mappedName = EntitatServiceFacade.JNDI_NAME)
 	protected EntitatServiceFacade entitatService;
 	
-	@EJB(mappedName = PluginArxiuServiceFacade.JNDI_NAME)
-	protected PluginArxiuServiceFacade pluginService;
+	//@EJB(mappedName = PluginArxiuServiceFacade.JNDI_NAME)
+	//protected PluginArxiuServiceFacade pluginService;
+
+    @EJB(mappedName = PluginArxiuLogicaService.JNDI_NAME)
+	protected PluginArxiuLogicaService pluginService;
 	
 	@Resource
 	public TimerService timerService;
@@ -63,7 +74,8 @@ public class SchedulerLogicaBean implements SchedulerLogicaService{
 	    int startTime=-1, endTime=-2, frequency=-3;
 	    
 	    log.info("**************** Scheduler INIT ********");	    
-	    PropertyFileConfigSource prop = new PropertyFileConfigSource();
+
+        PropertyFileConfigSource prop = new PropertyFileConfigSource();
 	    if(!prop.getValue(PROPERTY_START_TIME).isBlank() && !prop.getValue(PROPERTY_END_TIME).isBlank()) {
 	        startTime = Integer.parseInt(prop.getValue(PROPERTY_START_TIME));
 	        endTime = Integer.parseInt(prop.getValue(PROPERTY_END_TIME));
@@ -71,6 +83,8 @@ public class SchedulerLogicaBean implements SchedulerLogicaService{
 	    if(!prop.getValue(PROPERTY_START_TIME).isBlank()) {
 	        frequency = Integer.parseInt(prop.getValue(PROPERTY_FREQUENCY));
 	    }
+
+	    /*
 	    
 	    // Pre-inicialitzar tots els plugins d'arxiu actius per a cada entitat
 	    log.info("Pre-inicialitzant plugins d'arxiu per a totes les entitats...");
@@ -81,7 +95,7 @@ public class SchedulerLogicaBean implements SchedulerLogicaService{
 	        
 	        for (EntitatDTO entitat : entitats) {
 	            try {
-	                InterdocArxiuPlugin plugin = pluginService.getPlugin(entitat.getId());
+	                InterdocArxiuPlugin plugin = pluginService.getByTipus(.getId());
 	                if (plugin != null) {
 	                    log.info("Plugin d'arxiu inicialitzat per l'entitat: " + entitat.getNom() + " (ID: " + entitat.getId() + ")");
 	                    pluginsInicialitzats++;
@@ -100,7 +114,7 @@ public class SchedulerLogicaBean implements SchedulerLogicaService{
 	    } catch (Exception e) {
 	        log.error("Error durant la pre-inicialització dels plugins d'arxiu", e);
 	    }
-	    
+	    */
 		ScheduleExpression expression = new ScheduleExpression();
         expression.dayOfWeek("Sun,Mon,Tue,Wed,Thu,Fri,Sat");
         
@@ -153,21 +167,15 @@ public class SchedulerLogicaBean implements SchedulerLogicaService{
 			}
 			
 			// Obtenir el plugin d'arxiu ACTIU específic d'aquesta entitat
-			InterdocArxiuPlugin plugin = null;
+            ArxiuPluginImpl plugin;
 			try {
-				plugin = pluginService.getPlugin(entitat.getId());
-				
-				if (plugin == null) {
-					log.warn("L'entitat " + entitat.getNom() + " (ID: " + entitat.getId() + ") no té cap plugin d'Arxiu ACTIU configurat. Expedients pendents: " + expedients.size());
-					return;
-				}
-				
-				log.info("Plugin d'arxiu carregat correctament per l'entitat " + entitat.getNom() + ": " + plugin.getClass().getName());
-				
-			} catch (Exception e) {
-				log.error("ERROR: No s'ha pogut inicialitzar el Plugin d'Arxiu per l'entitat " + entitat.getNom() + " (ID: " + entitat.getId() + ")", e);
-				return;
-			}
+            plugin = pluginService.getInstanceOfPlugin(entitat.getId());
+            } catch (Exception e) {
+                log.error("Error obtenint el plugin d'arxiu per l'entitat " + entitat.getNom() + " (ID: " + entitat.getId() + ")", e);
+                return;
+            }
+			
+            
 			
 			// Processar cada expedient AMB EL PLUGIN DE LA SEVA ENTITAT
 			int expedientsTancats = 0;

@@ -87,6 +87,13 @@ public class PluginRepositoryBean extends AbstractCrudRepository<Plugin, Long>
     }
 
     @Override
+    public List<Plugin> getByTipus(Long tipus){
+    	TypedQuery<Plugin> query = entityManager.createNamedQuery(Plugin.GET_BY_ONLY_TIPUS, Plugin.class);
+    	query.setParameter("tipus", tipus);
+    	return query.getResultList();
+    }
+
+    @Override
     public long countByFilter(Map<PluginAtribut, Object> filter) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> criteriaQuery = builder.createQuery(Long.class);

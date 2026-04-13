@@ -12,12 +12,14 @@ import org.apache.commons.io.FilenameUtils;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
 import org.fundaciobit.pluginsib.validatesignature.api.ValidateSignatureConstants;
+import org.fundaciobit.pluginsib.core.v3.IPluginIB;
 import org.fundaciobit.pluginsib.core.v3.utils.AbstractPluginProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import es.caib.arxiudigital.apirest.facade.resultados.Resultado;
 import es.caib.interdoc.commons.utils.Configuracio;
+import es.caib.interdoc.commons.utils.Constants;
 import es.caib.interdoc.commons.utils.Utils;
 import es.caib.interdoc.service.model.InfoArxiuDTO;
 import es.caib.pluginsib.arxiu.api.ContingutArxiu;
@@ -46,59 +48,47 @@ import es.caib.pluginsib.arxiu.caib.ArxiuPluginCaib;
  * @author jagarcia
  *
  */
-public class ArxiuPluginImpl extends AbstractPluginProperties implements InterdocArxiuPlugin {
+public class ArxiuPluginImpl /*extends AbstractPluginProperties implements InterdocArxiuPlugin*/ {
 
 	protected static final Logger LOG = LoggerFactory.getLogger(ArxiuPluginImpl.class);
+    public static final String INTERDOC_ARXIU_PLUGIN_PROPERTY = Constants.INTERDOC_PROPERTY_BASE + IPluginIB.IPLUGINSIB_BASE_PROPERTIES + "arxiu.";
 
 	private static final String PROPERTY_SERIE_DOCUMENTAL = INTERDOC_ARXIU_PLUGIN_PROPERTY + "serieDocumental";
 	private static final String PROPERTY_CLASIFICACIO = INTERDOC_ARXIU_PLUGIN_PROPERTY + "classificacio";
-	private static final String PROPERTY_CODI_APLICACIO = INTERDOC_ARXIU_PLUGIN_PROPERTY + "aplicacio";
+	//private static final String PROPERTY_CODI_APLICACIO = INTERDOC_ARXIU_PLUGIN_PROPERTY + "aplicacio";
 	private static final String PROPERTY_TANCAR_EXPEDIENT = INTERDOC_ARXIU_PLUGIN_PROPERTY + "tancarExpedient";
-	private static final String PROPERTY_CSV_URL = INTERDOC_ARXIU_PLUGIN_PROPERTY + "csv.url";
+	/*private static final String PROPERTY_CSV_URL = INTERDOC_ARXIU_PLUGIN_PROPERTY + "csv.url";
 	private static final String PROPERTY_CSV_VALIDATION = INTERDOC_ARXIU_PLUGIN_PROPERTY + "csv.validation.url";
 	private static final String PROPERTY_SCHEDULER_EXPRESSION = INTERDOC_ARXIU_PLUGIN_PROPERTY + "scheduler";
 
 	private static final String PROPERTY_ENDPOINT = INTERDOC_ARXIU_PLUGIN_PROPERTY + "endpoint";
 	private static final String PROPERTY_USERNAME = INTERDOC_ARXIU_PLUGIN_PROPERTY + "usuari";
-	private static final String PROPERTY_PASS = INTERDOC_ARXIU_PLUGIN_PROPERTY + "contrasenya";
+	private static final String PROPERTY_PASS = INTERDOC_ARXIU_PLUGIN_PROPERTY + "contrasenya";*/
 
-	private Properties propietats;
+	private final Properties propietats;
 
-	@Inject
-	private es.caib.pluginsib.arxiu.api.IArxiuPlugin plugin;
+	
+	private final es.caib.pluginsib.arxiu.api.IArxiuPlugin plugin;
 
-	public Properties getPropietats() {
-		return propietats;
-	}
-
-	public void setPropietats(Properties propietats) {
-		this.propietats = propietats;
-	}
-
-	public IArxiuPlugin getPlugin() {
-		return plugin;
-	}
-
-	public void setPlugin(IArxiuPlugin plugin) {
-		this.plugin = plugin;
-	}
-
-	public ArxiuPluginImpl() {
+	
+	public ArxiuPluginImpl(IArxiuPlugin plugin, Properties props) {
 		super();
+		this.plugin = plugin;
+        this.propietats = props;
 	}
 
-	public ArxiuPluginImpl(String classe, Properties props) {
+	/*public ArxiuPluginImpl(String classe, Properties props) {
 		carregarProperties(props);
-	}
+	}*/
 
-	public String getSchedulerExpression() {
+	/*public String getSchedulerExpression() {
 		if (propietats != null && propietats.getProperty(PROPERTY_SCHEDULER_EXPRESSION) != null) {
 			return propietats.getProperty(PROPERTY_SCHEDULER_EXPRESSION);
 		}
 		return null;
-	}
+	}*/
 
-	@Override
+	/*@Override
 	public void carregarPropertiesFile() {
         LOG.info("**********-- CARREGANT PROPERTIES FILE --");
         LOG.warn("carregarPropertiesFile() està deprecat. Utilitzar carregarProperties(Properties) en el seu lloc.");
@@ -114,15 +104,15 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 			LOG.error("S'ha produit un error alhora de carregar les propietats. ");
 			e.printStackTrace();
 		}
-	}
+	}*/
 
-	@Override
+	/*@Override
 	public void carregarProperties(Properties props) {
         LOG.info("**********-- CARREGANT PROPERTIES PROPS --");
 		setPropietats(props);
-	}
+	}*/
 
-	@Override
+	//@Override
 	public String crearExpedient(DocumentInfo documentInfo) throws DocumentNotValidException {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -140,18 +130,15 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 			ExpedientMetadades metadades = new ExpedientMetadades();
 			metadades.setIdentificador(null);
 			metadades.setDataObertura(new Date());
-			metadades.setClassificacio(propietats.getProperty(PROPERTY_CLASIFICACIO));
+			metadades.setClassificacio(this.propietats.getProperty(PROPERTY_CLASIFICACIO));
 			metadades.setEstat(ExpedientEstat.OBERT);
 			if (documentInfo.getOrgans() != null && documentInfo.getOrgans().size() > 0)
 				metadades.setOrgans(documentInfo.getOrgans());
 			if (documentInfo.getInteressats() != null && documentInfo.getInteressats().size() > 0)
 				metadades.setInteressats(documentInfo.getInteressats());
-			metadades.setSerieDocumental(propietats.getProperty(PROPERTY_SERIE_DOCUMENTAL));
+			metadades.setSerieDocumental(this.propietats.getProperty(PROPERTY_SERIE_DOCUMENTAL));
 			expedient.setMetadades(metadades);
 
-			if (plugin == null) {
-				plugin = getArxiuPlugin();
-			}
 
 			ContingutArxiu expedientCreat = plugin.expedientCrear(expedient);
 
@@ -211,7 +198,6 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 		}
 	}
 
-	@Override
 	public String crearDocument(DocumentInfo documentInfo, String expedientId)
 			throws DocumentNotValidException, Exception {
 
@@ -561,10 +547,6 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 
 		}
 		*/
-		
-		if (plugin == null) {
-			plugin = getArxiuPlugin();
-		}
 
 		ContingutArxiu documentoCreado = plugin.documentCrear(document, expedientId);
 
@@ -852,7 +834,6 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 	 * }
 	 */
 
-	@Override
 	public InfoArxiuDTO consultarDocument(String documentId, String expedientId) throws Exception {
 
 		if (Configuracio.isDesenvolupament()) {
@@ -866,9 +847,7 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 
 		try {
 
-			if (plugin == null) {
-				plugin = getArxiuPlugin();
-			}
+			
 
 			Document detalls = this.plugin.documentDetalls(documentId, null, true);
 
@@ -1068,7 +1047,6 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 		return firma;
 	}
 
-	@Override
 	public Expedient getExpediente(String identificador, String version) {
 
 		LOG.info("getExpediente({},}{})", identificador, version);
@@ -1077,9 +1055,7 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 
 		try {
 
-			if (plugin == null) {
-				plugin = getArxiuPlugin();
-			}
+			
 
 			expediente = this.plugin.expedientDetalls(identificador, version);
 		} catch (Exception e) {
@@ -1090,7 +1066,6 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 		return expediente;
 	}
 
-	@Override
 	public Document getDocument(String identificador, String version, Boolean contenido, Boolean original) {
 
 		LOG.info("getDocument({},}{},{},{})", new Object[] { identificador, version, contenido, original });
@@ -1098,10 +1073,6 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 		Document documento = null;
 
 		try {
-
-			if (plugin == null) {
-				plugin = getArxiuPlugin();
-			}
 
 			if (!contenido.booleanValue())
 				return this.plugin.documentDetalls(identificador, version, false);
@@ -1117,7 +1088,6 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 		return documento;
 	}
 
-	@Override
 	public boolean tancarExpedient(String identificador) throws Exception {
 
 		int reintents = 10;
@@ -1166,14 +1136,11 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 	}
 
 
-	@Override
 	public boolean borrarExpedient(String identificador) {
 		LOG.info("borrarExpedient({})", identificador);
 		if (identificador != null) {
 
-			if (plugin == null) {
-				plugin = getArxiuPlugin();
-			}
+			
 
 			this.plugin.expedientEsborrar(identificador);
 
@@ -1182,33 +1149,24 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 		return false;
 	}
 
-	@Override
 	public String generarEniDoc(String identificador) {
 		LOG.info("generarEniDoc::" + identificador);
 		if (Utils.isNotEmpty(identificador)) {
 
-			if (this.plugin == null) {
-				this.plugin = getArxiuPlugin();
-			}
+			
 
 			return this.plugin.documentExportarEni(identificador);
 		}
 		return null;
 	}
 
-	@Override
 	public Document descarregarDocument(String identificador) {
 		LOG.info("descarregarDocument({})", identificador);
-
-		if (this.plugin == null) {
-			this.plugin = getArxiuPlugin();
-		}
 
 		Document document = this.plugin.documentDetalls(identificador, null, true);
 		return document;
 	}
 
-	@Override
 	public boolean tancarExpedientIfProperty(String identificador) {
 		LOG.info("tancarExpedientIfProperty::" + identificador);
 		if ("true".equals(propietats.getProperty(PROPERTY_TANCAR_EXPEDIENT))) {
@@ -1218,13 +1176,9 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 		return false;
 	}
 
-	@Override
 	public String tancarExpedientPerId(String identificador) {
 		LOG.info("tancarExpedient::" + identificador);
 		if (Utils.isNotEmpty(identificador)) {
-			if (plugin == null) {
-				plugin = getArxiuPlugin();
-			}
 			return this.plugin.expedientTancar(identificador);
 		}
 		return null;
@@ -1302,21 +1256,6 @@ public class ArxiuPluginImpl extends AbstractPluginProperties implements Interdo
 			return DocumentFormat.XML;
 		}
 		return null;
-	}
-
-	private IArxiuPlugin getArxiuPlugin() {
-		LOG.info("Instanciant plugin arxiu...");
-
-		Config config = ConfigProvider.getConfig();
-
-		// per instanciar el plugin necessitam adaptar les propietats
-		Properties properties = new Properties();
-		properties.setProperty("pluginsib.arxiu.caib.base.url", config.getValue(PROPERTY_ENDPOINT, String.class));
-		properties.setProperty("pluginsib.arxiu.caib.usuari", config.getValue(PROPERTY_USERNAME, String.class));
-		properties.setProperty("pluginsib.arxiu.caib.contrasenya", config.getValue(PROPERTY_PASS, String.class));
-		properties.setProperty("pluginsib.arxiu.caib.aplicacio.codi", propietats.getProperty(PROPERTY_CODI_APLICACIO));
-
-		return new ArxiuPluginCaib("", properties);
 	}
 
 }

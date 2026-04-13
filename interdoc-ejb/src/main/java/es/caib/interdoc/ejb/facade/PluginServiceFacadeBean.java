@@ -150,6 +150,18 @@ public class PluginServiceFacadeBean implements PluginServiceFacade {
     	}
     	return llistaPlugins;
     }
+
+    @Override
+    @PermitAll
+    public List<PluginDTO> getByTipus(Long tipus/*, Long entitatId*/){
+    	List<PluginDTO> llistaPlugins = new ArrayList<PluginDTO>();
+    	
+    	List<Plugin> plugins = repository.getByTipus(tipus);
+    	for(Plugin p : plugins) {
+    		llistaPlugins.add(converter.toDTO(p));
+    	}
+    	return llistaPlugins;
+    }
     
 
     @Override

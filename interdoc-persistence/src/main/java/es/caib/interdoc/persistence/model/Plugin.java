@@ -27,7 +27,8 @@ import java.util.Objects;
 )
 @NamedQueries({
         @NamedQuery(name = Plugin.GET_ALL, query = "select a from Plugin a"),
-        @NamedQuery(name = Plugin.GET_BY_TIPUS, query = "select a from Plugin a where a.tipus = :tipus and a.entitatId = :entitat")
+        @NamedQuery(name = Plugin.GET_BY_TIPUS, query = "select a from Plugin a where a.tipus = :tipus and a.entitatId = :entitat"),
+        @NamedQuery(name = Plugin.GET_BY_ONLY_TIPUS, query = "select a from Plugin a where a.tipus = :tipus")
 })
 public class Plugin extends BaseEntity {
 
@@ -35,6 +36,7 @@ public class Plugin extends BaseEntity {
 
     public static final String GET_ALL = "Plugin.GET_ALL";
     public static final String GET_BY_TIPUS = "Plugin.GET_BY_TIPUS";
+    public static final String GET_BY_ONLY_TIPUS = "Plugin.GET_BY_ONLY_TIPUS";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "plugin-sequence")

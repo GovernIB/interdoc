@@ -1,15 +1,15 @@
 package es.caib.interdoc.ejb.repository;
 
 
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
 import es.caib.interdoc.commons.i18n.I18NException;
 import es.caib.interdoc.persistence.model.Plugin;
 import es.caib.interdoc.service.model.Ordre;
 import es.caib.interdoc.service.model.PluginAtribut;
 import es.caib.interdoc.service.model.PluginDTO;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
 
 /**
  * Interfície de les operacions bàsiques sobre plugins.
@@ -26,6 +26,7 @@ public interface PluginRepository extends CrudRepository<Plugin, Long> {
     List<Plugin> getAll();
     
     List<Plugin> getByTipus(Long tipus, Long entitatId);
+    List<Plugin> getByTipus(Long tipus);
 
     long countByFilter(Map<PluginAtribut, Object> filter);
     

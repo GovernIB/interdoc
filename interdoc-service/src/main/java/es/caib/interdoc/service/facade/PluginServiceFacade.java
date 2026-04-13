@@ -64,6 +64,8 @@ public interface PluginServiceFacade {
   
     List<PluginDTO> getByTipus(Long tipusPlugin, Long entitatId);
 
+    List<PluginDTO> getByTipus(Long tipus);
+
     /**
      * Retorna una pàgina d'aplicacions que compleixen els filtres i les ordenacions indicades
      *
