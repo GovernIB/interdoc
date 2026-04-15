@@ -7,7 +7,6 @@ import es.caib.interdoc.service.model.Ordre;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * Interfície de les operacions bàsiques sobre aplicacions.

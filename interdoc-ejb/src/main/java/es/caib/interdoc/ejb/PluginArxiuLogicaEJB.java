@@ -1,52 +1,16 @@
 package es.caib.interdoc.ejb;
 
-import javax.annotation.security.PermitAll;
-import javax.ejb.EJB;
+import java.util.Properties;
+
 import javax.ejb.Stateless;
-import org.apache.log4j.Logger;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignedFileInfo;
+
 import org.fundaciobit.pluginsib.core.v3.utils.AbstractPluginProperties;
-import org.fundaciobit.pluginsib.core.v3.utils.Metadata;
-import org.fundaciobit.pluginsib.core.v3.utils.MetadataConstants;
 
 import es.caib.interdoc.commons.i18n.I18NException;
 import es.caib.interdoc.commons.utils.Constants;
 import es.caib.interdoc.plugins.arxiu.ArxiuPluginImpl;
 import es.caib.interdoc.service.model.PluginDTO;
-import es.caib.pluginsib.arxiu.api.ArxiuException;
-import es.caib.pluginsib.arxiu.api.ArxiuNotFoundException;
-import es.caib.pluginsib.arxiu.api.ConsultaFiltre;
-import es.caib.pluginsib.arxiu.api.ConsultaOperacio;
-import es.caib.pluginsib.arxiu.api.ConsultaResultat;
-import es.caib.pluginsib.arxiu.api.ContingutArxiu;
-import es.caib.pluginsib.arxiu.api.ContingutOrigen;
-import es.caib.pluginsib.arxiu.api.Document;
-import es.caib.pluginsib.arxiu.api.DocumentContingut;
-import es.caib.pluginsib.arxiu.api.DocumentEstat;
-import es.caib.pluginsib.arxiu.api.DocumentEstatElaboracio;
-import es.caib.pluginsib.arxiu.api.DocumentExtensio;
-import es.caib.pluginsib.arxiu.api.DocumentFormat;
-import es.caib.pluginsib.arxiu.api.DocumentMetadades;
-import es.caib.pluginsib.arxiu.api.DocumentRepositori;
-import es.caib.pluginsib.arxiu.api.DocumentTipus;
-import es.caib.pluginsib.arxiu.api.Expedient;
-import es.caib.pluginsib.arxiu.api.ExpedientEstat;
-import es.caib.pluginsib.arxiu.api.ExpedientMetadades;
-import es.caib.pluginsib.arxiu.api.Firma;
-import es.caib.pluginsib.arxiu.api.FirmaPerfil;
-import es.caib.pluginsib.arxiu.api.FirmaTipus;
 import es.caib.pluginsib.arxiu.api.IArxiuPlugin;
-
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Properties;
 
 /**
  * 

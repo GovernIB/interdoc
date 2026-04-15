@@ -6,18 +6,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
-import javax.inject.Inject;
 
 import org.apache.commons.io.FilenameUtils;
-import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.ConfigProvider;
 import org.fundaciobit.pluginsib.validatesignature.api.ValidateSignatureConstants;
 import org.fundaciobit.pluginsib.core.v3.IPluginIB;
-import org.fundaciobit.pluginsib.core.v3.utils.AbstractPluginProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import es.caib.arxiudigital.apirest.facade.resultados.Resultado;
 import es.caib.interdoc.commons.utils.Configuracio;
 import es.caib.interdoc.commons.utils.Constants;
 import es.caib.interdoc.commons.utils.Utils;
@@ -40,7 +35,6 @@ import es.caib.pluginsib.arxiu.api.Firma;
 import es.caib.pluginsib.arxiu.api.FirmaPerfil;
 import es.caib.pluginsib.arxiu.api.FirmaTipus;
 import es.caib.pluginsib.arxiu.api.IArxiuPlugin;
-import es.caib.pluginsib.arxiu.caib.ArxiuPluginCaib;
 
 /**
  * Implementació del plugin d'arxiu

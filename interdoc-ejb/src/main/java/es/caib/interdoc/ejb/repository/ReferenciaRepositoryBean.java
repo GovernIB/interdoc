@@ -1,10 +1,8 @@
 package es.caib.interdoc.ejb.repository;
 
-import es.caib.interdoc.persistence.model.Referencia;
-import es.caib.interdoc.persistence.model.Referencia_;
-import es.caib.interdoc.service.model.ReferenciaAtribut;
-import es.caib.interdoc.service.model.ReferenciaDTO;
-import es.caib.interdoc.service.model.Ordre;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
@@ -16,13 +14,11 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import es.caib.interdoc.persistence.model.Referencia;
+import es.caib.interdoc.persistence.model.Referencia_;
+import es.caib.interdoc.service.model.Ordre;
+import es.caib.interdoc.service.model.ReferenciaAtribut;
+import es.caib.interdoc.service.model.ReferenciaDTO;
 
 /**
  * Implementació del repositori d'Unitats Orgàniques.

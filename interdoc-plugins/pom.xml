@@ -13,6 +13,7 @@
     <description>Mòdul pare de Plugins de Interdoc</description>
     <modules>
         <module>interdoc_plugins_arxiu</module>
-        <module>interdoc_plugins_apifirmasimple</module>
+        <module>interdoc_plugins_firma_api</module>
+		<module>interdoc_plugins_firma_apifirmasimple</module>
     </modules>
 </project>

@@ -1,7 +1,6 @@
 package es.caib.interdoc.ejb.scheduler;
 
 import java.util.List;
-import java.util.Properties;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -15,21 +14,14 @@ import javax.ejb.TimerConfig;
 import javax.ejb.TimerService;
 
 import org.apache.log4j.Logger;
-import org.fundaciobit.pluginsib.core.v3.utils.AbstractPluginProperties;
 
+import es.caib.interdoc.commons.config.PropertyFileConfigSource;
+import es.caib.interdoc.commons.utils.Configuracio;
+import es.caib.interdoc.ejb.PluginArxiuLogicaService;
+import es.caib.interdoc.plugins.arxiu.ArxiuPluginImpl;
 import es.caib.interdoc.service.facade.EntitatServiceFacade;
 import es.caib.interdoc.service.facade.InfoArxiuServiceFacade;
 import es.caib.interdoc.service.model.EntitatDTO;
-import es.caib.interdoc.service.model.PluginDTO;
-import es.caib.pluginsib.arxiu.api.IArxiuPlugin;
-import es.caib.interdoc.commons.utils.Configuracio;
-import es.caib.interdoc.commons.utils.Constants;
-import es.caib.interdoc.ejb.PluginArxiuLogicaEJB;
-import es.caib.interdoc.ejb.PluginArxiuLogicaService;
-import es.caib.interdoc.ejb.facade.PluginArxiuServiceFacade;
-import es.caib.interdoc.plugins.arxiu.ArxiuPluginImpl;
-import es.caib.interdoc.plugins.arxiu.InterdocArxiuPlugin;
-import es.caib.interdoc.commons.config.PropertyFileConfigSource;
 
 
 
@@ -83,38 +75,8 @@ public class SchedulerLogicaBean implements SchedulerLogicaService{
 	    if(!prop.getValue(PROPERTY_START_TIME).isBlank()) {
 	        frequency = Integer.parseInt(prop.getValue(PROPERTY_FREQUENCY));
 	    }
-
-	    /*
+        
 	    
-	    // Pre-inicialitzar tots els plugins d'arxiu actius per a cada entitat
-	    log.info("Pre-inicialitzant plugins d'arxiu per a totes les entitats...");
-	    try {
-	        List<EntitatDTO> entitats = entitatService.getAll();
-	        int pluginsInicialitzats = 0;
-	        int pluginsNoDisponibles = 0;
-	        
-	        for (EntitatDTO entitat : entitats) {
-	            try {
-	                InterdocArxiuPlugin plugin = pluginService.getByTipus(.getId());
-	                if (plugin != null) {
-	                    log.info("Plugin d'arxiu inicialitzat per l'entitat: " + entitat.getNom() + " (ID: " + entitat.getId() + ")");
-	                    pluginsInicialitzats++;
-	                } else {
-	                    log.warn("No s'ha trobat plugin d'arxiu ACTIU per l'entitat: " + entitat.getNom() + " (ID: " + entitat.getId() + ")");
-	                    pluginsNoDisponibles++;
-	                }
-	            } catch (Exception e) {
-	                log.error("Error inicialitzant plugin d'arxiu per l'entitat: " + entitat.getNom() + " (ID: " + entitat.getId() + ")", e);
-	                pluginsNoDisponibles++;
-	            }
-	        }
-	        
-	        log.info("Resum inicialització plugins: " + pluginsInicialitzats + " inicialitzats correctament, " + 
-	                 pluginsNoDisponibles + " no disponibles o amb errors.");
-	    } catch (Exception e) {
-	        log.error("Error durant la pre-inicialització dels plugins d'arxiu", e);
-	    }
-	    */
 		ScheduleExpression expression = new ScheduleExpression();
         expression.dayOfWeek("Sun,Mon,Tue,Wed,Thu,Fri,Sat");
         
@@ -167,9 +129,9 @@ public class SchedulerLogicaBean implements SchedulerLogicaService{
 			}
 			
 			// Obtenir el plugin d'arxiu ACTIU específic d'aquesta entitat
-            ArxiuPluginImpl plugin;
+            ArxiuPluginImpl arxiuPlugin;
 			try {
-            plugin = pluginService.getInstanceOfPlugin(entitat.getId());
+            arxiuPlugin = pluginService.getInstanceOfPlugin(entitat.getId());
             } catch (Exception e) {
                 log.error("Error obtenint el plugin d'arxiu per l'entitat " + entitat.getNom() + " (ID: " + entitat.getId() + ")", e);
                 return;
@@ -185,7 +147,7 @@ public class SchedulerLogicaBean implements SchedulerLogicaService{
 				try {
 					log.info("Processant expedient: " + expedientId + " de l'entitat: " + entitat.getNom() + " (ID: " + entitat.getId() + ")");
 					
-					boolean closed = plugin.tancarExpedient(expedientId);
+					boolean closed = arxiuPlugin.tancarExpedient(expedientId);
 					
 					if (closed) {
 						log.info("✓ Expedient tancat correctament: " + expedientId + " (Entitat: " + entitat.getNom() + ") - actualitzant BD");

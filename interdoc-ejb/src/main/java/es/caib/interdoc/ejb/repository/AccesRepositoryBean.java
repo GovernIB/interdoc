@@ -16,7 +16,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * Implementació del repositori d'Unitats Orgàniques.

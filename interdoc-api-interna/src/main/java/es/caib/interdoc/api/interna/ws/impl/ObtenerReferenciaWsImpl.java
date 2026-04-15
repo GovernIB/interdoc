@@ -1,51 +1,5 @@
 package es.caib.interdoc.api.interna.ws.impl;
 
-import es.caib.interdoc.commons.utils.Configuracio;
-import es.caib.interdoc.commons.utils.Constants;
-import es.caib.interdoc.commons.utils.MarshallUtil;
-import es.caib.interdoc.commons.utils.Utils;
-import es.caib.interdoc.commons.utils.Version;
-import es.caib.interdoc.ejb.facade.PluginArxiuServiceFacade;
-import es.caib.interdoc.ejb.facade.PluginFirmaServiceFacade;
-import es.caib.interdoc.plugins.apifirmasimple.FirmaSimpleController;
-import es.caib.interdoc.plugins.apifirmasimple.InterdocFirmaPlugin;
-import es.caib.interdoc.plugins.arxiu.ArxiuController;
-import es.caib.interdoc.plugins.arxiu.DocumentInfo;
-import es.caib.interdoc.plugins.arxiu.Extensio;
-import es.caib.interdoc.plugins.arxiu.SignaturaArxiu;
-import es.caib.interdoc.service.facade.EntitatServiceFacade;
-import es.caib.interdoc.service.facade.FitxerServiceFacade;
-import es.caib.interdoc.service.facade.InfoArxiuServiceFacade;
-import es.caib.interdoc.service.facade.InfoSignaturaServiceFacade;
-import es.caib.interdoc.service.facade.ReferenciaServiceFacade;
-import es.caib.interdoc.service.facade.ReferenciaXMLServiceFacade;
-import es.caib.interdoc.service.model.EntitatDTO;
-import es.caib.interdoc.service.model.FitxerDTO;
-import es.caib.interdoc.service.model.InfoArxiuDTO;
-import es.caib.interdoc.service.model.InfoSignaturaDTO;
-import es.caib.interdoc.service.model.ReferenciaDTO;
-import es.caib.interdoc.service.model.ReferenciaXMLDTO;
-import es.caib.interdoc.plugins.arxiu.Fitxer;
-import es.caib.interdoc.plugins.arxiu.InterdocArxiuPlugin;
-import es.caib.interdoc.api.interna.ws.exception.InterdocException;
-import es.caib.interdoc.api.interna.ws.model.ObtenerReferenciaRequestInfo;
-import es.caib.interdoc.api.interna.ws.resposta.EmisorBean;
-import es.caib.interdoc.api.interna.ws.resposta.ErrorResponse;
-import es.caib.interdoc.api.interna.ws.resposta.IdentificadorBean;
-import es.caib.interdoc.api.interna.ws.resposta.MetadatosBean;
-import es.caib.interdoc.api.interna.ws.resposta.PermisoBean;
-import es.caib.interdoc.api.interna.ws.resposta.ReceptorBean;
-import es.caib.interdoc.api.interna.ws.resposta.MetadatoBean;
-import es.caib.interdoc.api.interna.ws.resposta.ReferenciaDocumentoBean;
-import es.caib.interdoc.api.interna.ws.utilitats.HashCreator;
-import es.caib.interdoc.api.interna.ws.utils.Metadada;
-
-import org.apache.commons.io.FilenameUtils;
-import org.jboss.ws.api.annotation.TransportGuarantee;
-import org.jboss.ws.api.annotation.WebContext;
-import org.apache.log4j.Logger;  
-
-
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -70,6 +24,48 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.bind.JAXBException;
+
+import org.apache.commons.io.FilenameUtils;
+import org.apache.log4j.Logger;
+import org.jboss.ws.api.annotation.TransportGuarantee;
+import org.jboss.ws.api.annotation.WebContext;
+
+import es.caib.interdoc.api.interna.ws.exception.InterdocException;
+import es.caib.interdoc.api.interna.ws.model.ObtenerReferenciaRequestInfo;
+import es.caib.interdoc.api.interna.ws.resposta.EmisorBean;
+import es.caib.interdoc.api.interna.ws.resposta.ErrorResponse;
+import es.caib.interdoc.api.interna.ws.resposta.IdentificadorBean;
+import es.caib.interdoc.api.interna.ws.resposta.MetadatoBean;
+import es.caib.interdoc.api.interna.ws.resposta.MetadatosBean;
+import es.caib.interdoc.api.interna.ws.resposta.PermisoBean;
+import es.caib.interdoc.api.interna.ws.resposta.ReceptorBean;
+import es.caib.interdoc.api.interna.ws.resposta.ReferenciaDocumentoBean;
+import es.caib.interdoc.api.interna.ws.utilitats.HashCreator;
+import es.caib.interdoc.api.interna.ws.utils.Metadada;
+import es.caib.interdoc.commons.utils.Configuracio;
+import es.caib.interdoc.commons.utils.Constants;
+import es.caib.interdoc.commons.utils.MarshallUtil;
+import es.caib.interdoc.commons.utils.Utils;
+import es.caib.interdoc.commons.utils.Version;
+import es.caib.interdoc.ejb.PluginArxiuLogicaService;
+import es.caib.interdoc.ejb.PluginFirmaLogicaService;
+import es.caib.interdoc.plugins.arxiu.ArxiuPluginImpl;
+import es.caib.interdoc.plugins.arxiu.DocumentInfo;
+import es.caib.interdoc.plugins.arxiu.Extensio;
+import es.caib.interdoc.plugins.arxiu.Fitxer;
+import es.caib.interdoc.plugins.arxiu.SignaturaArxiu;
+import es.caib.interdoc.service.facade.EntitatServiceFacade;
+import es.caib.interdoc.service.facade.FitxerServiceFacade;
+import es.caib.interdoc.service.facade.InfoArxiuServiceFacade;
+import es.caib.interdoc.service.facade.InfoSignaturaServiceFacade;
+import es.caib.interdoc.service.facade.ReferenciaServiceFacade;
+import es.caib.interdoc.service.facade.ReferenciaXMLServiceFacade;
+import es.caib.interdoc.service.model.EntitatDTO;
+import es.caib.interdoc.service.model.FitxerDTO;
+import es.caib.interdoc.service.model.InfoArxiuDTO;
+import es.caib.interdoc.service.model.InfoSignaturaDTO;
+import es.caib.interdoc.service.model.ReferenciaDTO;
+import es.caib.interdoc.service.model.ReferenciaXMLDTO;
 
 /**
  * author: jagarcia
@@ -114,11 +110,11 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 	@EJB(mappedName = EntitatServiceFacade.JNDI_NAME)
 	protected EntitatServiceFacade entitatService;
 	
-	@EJB(mappedName = PluginArxiuServiceFacade.JNDI_NAME)
-    private PluginArxiuServiceFacade pluginArxiuService;
+	@EJB(mappedName = PluginArxiuLogicaService.JNDI_NAME)
+    private PluginArxiuLogicaService pluginArxiuService;
 	
-	@EJB(mappedName = PluginFirmaServiceFacade.JNDI_NAME)
-    private PluginFirmaServiceFacade pluginFirmaService;
+	@EJB(mappedName = PluginFirmaLogicaService.JNDI_NAME)
+    private PluginFirmaLogicaService pluginFirmaService;
 
 	@Inject
 	protected Version version;
@@ -347,10 +343,11 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 
 						//FirmaSimpleController firmaPlugin = new FirmaSimpleController(entitatId);
 						
-					    InterdocFirmaPlugin firmaPlugin = pluginFirmaService.getPlugin(entitatId);
-						if (firmaPlugin != null) {
-
-							infoSignatura = firmaPlugin.firmarDocument(fitxerDto);
+					    //InterdocFirmaPlugin firmaPlugin = pluginFirmaService.getPlugin(entitatId);
+//						if (firmaPlugin != null) 
+					    {
+					        String languageUI = "es";
+							infoSignatura = pluginFirmaService.firmarDocument(entitatId, fitxerDto, languageUI);
 							if (infoSignatura != null) {
 								infoSignaturaId = infoSignaturaService.create(infoSignatura);
 								infoSignatura.setId(infoSignaturaId);
@@ -481,7 +478,7 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 
 					try {
 						//arxiu = new ArxiuController(entitatId);
-						InterdocArxiuPlugin plugin = pluginArxiuService.getPlugin(entitatId);
+						ArxiuPluginImpl plugin = pluginArxiuService.getInstanceOfPlugin(entitatId);
 
 						if (plugin != null) {
 							

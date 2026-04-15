@@ -9,7 +9,7 @@
 		<version>1.0.1</version>
 	</parent>
 
-	<artifactId>interdoc-plugins-apifirmasimple</artifactId>
+	<artifactId>interdoc-plugins-firma-apifirmasimple</artifactId>
 	<packaging>jar</packaging>
 	<name>Interdoc - Plugin - API Firma Simple</name>
 	<description>Integració amb API Firma simple en Servidor</description>
@@ -38,11 +38,17 @@
 			<groupId>es.caib.interdoc</groupId>
 			<artifactId>interdoc-commons</artifactId>
 		</dependency>
-
+		
 		<dependency>
+            <groupId>es.caib.interdoc</groupId>
+            <artifactId>interdoc-plugins-firma-api</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+		<!--<dependency>
 			<groupId>es.caib.interdoc</groupId>
 			<artifactId>interdoc-service</artifactId>
-		</dependency>
+		</dependency>-->
 
 		<dependency>
 			<artifactId>apifirmasimple-api</artifactId>
