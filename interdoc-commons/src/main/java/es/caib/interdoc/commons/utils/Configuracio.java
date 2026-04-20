@@ -68,15 +68,15 @@ public class Configuracio implements Constants {
     }
     
     public static String getObtenerReferenciaWsdl() {
-    	return getProperty(INTERDOC_PROPERTY_BASE + "plugins.arxiu.endpoint");
+    	return getProperty(INTERDOC_PROPERTY_BASE + "obtenerreferencia.wsdl");
     }
     
     public static String getObtenerReferenciaUsuari() {
-    	return getProperty(INTERDOC_PROPERTY_BASE + "plugins.arxiu.usuari");
+    	return getProperty(INTERDOC_PROPERTY_BASE + "obtenerreferencia.usuari");
     }
     
     public static String getObtenerReferenciaClau() {
-    	return getProperty(INTERDOC_PROPERTY_BASE + "plugins.arxiu.clau");
+    	return getProperty(INTERDOC_PROPERTY_BASE + "obtenerreferencia.clau");
     }
 
     /**

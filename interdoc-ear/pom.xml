@@ -77,11 +77,12 @@
 			<version>1.0.1</version>
 			<type>war</type>
 		</dependency>
-		<!--<dependency>
+
+        <dependency>
 			<groupId>es.caib.interdoc</groupId>
 			<artifactId>interdoc-plugins-arxiu</artifactId>
-			<version>1.0.0</version>
-			<exclusions>
+			<version>1.0.1</version>
+			<!--<exclusions>
 				<exclusion>
 					<groupId>com.sun.jersey</groupId>
 					<artifactId>jersey-core</artifactId>
@@ -94,14 +95,14 @@
 					<groupId>log4j</groupId>
 					<artifactId>log4j</artifactId>
 				</exclusion>
-			</exclusions>
+			</exclusions>-->
 		</dependency>
 
-		<dependency>
+        <dependency>
 			<groupId>es.caib.interdoc</groupId>
-			<artifactId>interdoc-plugins-apifirmasimple</artifactId>
-			<version>1.0.0</version>
-			<exclusions>
+			<artifactId>interdoc-plugins-firma-api</artifactId>
+			<version>1.0.1</version>
+			<!--<exclusions>
 				<exclusion>
 					<groupId>com.sun.jersey</groupId>
 					<artifactId>jersey-core</artifactId>
@@ -110,8 +111,25 @@
 					<groupId>log4j</groupId>
 					<artifactId>log4j</artifactId>
 				</exclusion>
-			</exclusions>
+			</exclusions>-->
 		</dependency>
+
+		<dependency>
+			<groupId>es.caib.interdoc</groupId>
+			<artifactId>interdoc-plugins-firma-apifirmasimple</artifactId>
+			<version>1.0.1</version>
+			<!--<exclusions>
+				<exclusion>
+					<groupId>com.sun.jersey</groupId>
+					<artifactId>jersey-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>log4j</groupId>
+					<artifactId>log4j</artifactId>
+				</exclusion>
+			</exclusions>-->
+		</dependency>
+		<!--
 		
 		<dependency>
 			<groupId>org.fundaciobit.pluginsib.core.v3</groupId>

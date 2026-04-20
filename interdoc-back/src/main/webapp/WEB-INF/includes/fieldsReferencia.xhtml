@@ -68,12 +68,15 @@
 	</ui:decorate>
 
     <!-- fitxerId -->
-	<ui:decorate template="/WEB-INF/decorations/field.xhtml">
-		<ui:define name="label"></ui:define>
+	<!--<ui:decorate template="/WEB-INF/decorations/field.xhtml">
+		<ui:define name="label">
+			<p:outputLabel for="fitxerId" value="#{labels.referencia_fitxerId}" />
+		</ui:define>
 		<ui:define name="input">
 			<p:inputText id="fitxerId" value="#{referenciaModel.value.fitxerId}" />
+			<p:message for="fitxerId" />
 		</ui:define>
-	</ui:decorate>
+	</ui:decorate>-->
 	
 	<!--  numeroRegistre -->
 	<ui:decorate template="/WEB-INF/decorations/field.xhtml">

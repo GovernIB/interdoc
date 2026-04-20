@@ -1,10 +1,12 @@
 package es.caib.interdoc.ejb;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 
 
 import es.caib.interdoc.commons.i18n.I18NException;
 import es.caib.interdoc.commons.utils.Constants;
+import es.caib.interdoc.plugins.apifirmasimple.FirmaPluginImpl;
 import es.caib.interdoc.plugins.apifirmasimple.InterdocFirmaPlugin;
 import es.caib.interdoc.service.model.FitxerDTO;
 import es.caib.interdoc.service.model.InfoSignaturaDTO;
@@ -15,19 +17,21 @@ public class PluginFirmaLogicaEJB extends AbstractPluginLogicaEJB<InterdocFirmaP
 
 
     @Override
+    @RolesAllowed({Constants.ITD_USER, Constants.ITD_ADMIN, Constants.ITD_WS})
     public Long getType() {
         return Constants.PLUGIN_FIRMA;
     }
 
     @Override
+    @RolesAllowed({Constants.ITD_USER, Constants.ITD_ADMIN, Constants.ITD_WS})
     protected String getName() {
         return "Firma";
     }
 
     @Override
+    @RolesAllowed({Constants.ITD_USER, Constants.ITD_ADMIN, Constants.ITD_WS})
     public InterdocFirmaPlugin getInstanceOfPlugin(Long entitatId) throws I18NException{
         try {
-
                 PluginDTO pluginDTO = null;
                 InterdocFirmaPlugin interdocFirmaPlugin = null;
 				pluginDTO = this.getPluginByEntity(entitatId);
@@ -49,6 +53,7 @@ public class PluginFirmaLogicaEJB extends AbstractPluginLogicaEJB<InterdocFirmaP
     }
 
     @Override
+    @RolesAllowed({Constants.ITD_USER, Constants.ITD_ADMIN, Constants.ITD_WS})
     public InfoSignaturaDTO firmarDocument(Long entitatId, FitxerDTO fitxer, String languageUI) throws Exception{
 
         InterdocFirmaPlugin plugin = this.getInstanceOfPlugin(entitatId);

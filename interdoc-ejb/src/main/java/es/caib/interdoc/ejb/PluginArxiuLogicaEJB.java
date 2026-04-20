@@ -2,6 +2,7 @@ package es.caib.interdoc.ejb;
 
 import java.util.Properties;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 
 import org.fundaciobit.pluginsib.core.v3.utils.AbstractPluginProperties;
@@ -21,15 +22,19 @@ import es.caib.pluginsib.arxiu.api.IArxiuPlugin;
 public class PluginArxiuLogicaEJB extends AbstractPluginLogicaEJB<IArxiuPlugin> implements PluginArxiuLogicaService {
 
     @Override
+    @RolesAllowed({Constants.ITD_USER, Constants.ITD_ADMIN, Constants.ITD_WS})
     public Long getType() {
         return Constants.PLUGIN_ARXIU;
     }
 
     @Override
+    @RolesAllowed({Constants.ITD_USER, Constants.ITD_ADMIN, Constants.ITD_WS})
     protected String getName() {
         return "Arxiu";
     }
 
+    @Override
+    @RolesAllowed({Constants.ITD_USER, Constants.ITD_ADMIN, Constants.ITD_WS})
     public ArxiuPluginImpl getInstanceOfPlugin(Long entitatId) throws I18NException{
         try {
                 ArxiuPluginImpl plugin = null;

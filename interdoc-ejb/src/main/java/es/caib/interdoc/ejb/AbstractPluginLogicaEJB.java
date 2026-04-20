@@ -15,6 +15,8 @@ import es.caib.interdoc.commons.i18n.I18NException;
 import es.caib.interdoc.commons.utils.Configuracio;
 import es.caib.interdoc.commons.utils.Constants;
 import es.caib.interdoc.ejb.facade.PluginServiceFacadeBean;
+import es.caib.interdoc.persistence.model.Log;
+import es.caib.interdoc.service.model.Estat;
 import es.caib.interdoc.service.model.PluginDTO;
 
 import org.fundaciobit.pluginsib.core.v3.IPluginIB;
@@ -34,11 +36,10 @@ public abstract class AbstractPluginLogicaEJB<I extends IPluginIB> extends Plugi
 
     @Override
     public List<PluginDTO> getAllPlugins() throws I18NException {
-
         List<PluginDTO> allPlugins = this.getByTipus(getType());
         List<PluginDTO> activePlugins = new ArrayList<PluginDTO>();
         for(PluginDTO p : allPlugins) {
-            if(p.getActiu().equals(1)){
+            if(p.getActiu().equals(Estat.ACTIU)) {
            	  activePlugins.add(p);
             }
         }
@@ -47,8 +48,17 @@ public abstract class AbstractPluginLogicaEJB<I extends IPluginIB> extends Plugi
 
     @Override
     public PluginDTO getPluginByEntity(Long entityId) throws I18NException {
-
+        log.info("- getPluginByEntity(): EntityId = " + entityId);
         List<PluginDTO> allPlugins = getAllPlugins();
+        if(allPlugins.isEmpty()) {
+            log.info("- No plugins found for type " + getType());
+            return null;
+        }else{
+            log.info("- Plugins found for type " + getType() + ":");
+            for(PluginDTO p : allPlugins) {
+                log.info("  - Plugin ID: " + p.getId() + ", Name: " + p.getNom() + ", Entity ID: " + p.getEntitatId());
+            }
+        }
         for(PluginDTO p : allPlugins) {
             if(p.getEntitatId() != null && p.getEntitatId().equals(entityId)){
            	  return p;
