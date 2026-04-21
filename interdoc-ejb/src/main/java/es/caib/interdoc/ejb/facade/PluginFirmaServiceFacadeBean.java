@@ -2,8 +2,7 @@ package es.caib.interdoc.ejb.facade;
 
 import javax.ejb.Stateless;
 import es.caib.interdoc.commons.utils.Constants;
-import es.caib.interdoc.plugins.apifirmasimple.InterdocFirmaPlugin;
-
+import es.caib.interdoc.plugins.firma.api.InterdocFirmaPlugin;
 
 
 //@Logged

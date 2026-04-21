@@ -3,7 +3,7 @@ package es.caib.interdoc.ejb;
 import javax.ejb.Local;
 
 import es.caib.interdoc.commons.i18n.I18NException;
-import es.caib.interdoc.plugins.apifirmasimple.InterdocFirmaPlugin;
+import es.caib.interdoc.plugins.firma.api.InterdocFirmaPlugin;
 import es.caib.interdoc.service.model.FitxerDTO;
 import es.caib.interdoc.service.model.InfoSignaturaDTO;
 
