@@ -19,7 +19,7 @@ public interface PluginArxiuLogicaService extends AbstractPluginLogicaService<IA
         
     public static final String JNDI_NAME = "java:app/interdoc-ejb/PluginArxiuLogicaEJB!es.caib.interdoc.ejb.PluginArxiuLogicaService";
 
-
+    
     public ArxiuPluginImpl getInstanceOfPlugin(Long entitatId) throws I18NException;
 
     /**

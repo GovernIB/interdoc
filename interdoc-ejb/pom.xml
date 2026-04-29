@@ -94,11 +94,6 @@
             <artifactId>interdoc-plugins-firma-api</artifactId>
             <version>1.0.1</version>
         </dependency>
-        <dependency>
-            <groupId>es.caib.interdoc</groupId>
-            <artifactId>interdoc-plugins-firma-apifirmasimple</artifactId>
-            <version>1.0.1</version>
-        </dependency>
     </dependencies>
 
     <build>

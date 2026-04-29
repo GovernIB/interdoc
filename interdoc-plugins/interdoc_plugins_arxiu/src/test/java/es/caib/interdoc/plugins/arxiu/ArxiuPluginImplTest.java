@@ -13,7 +13,15 @@ import org.junit.rules.ExpectedException;
 import es.caib.pluginsib.arxiu.api.ContingutArxiu;
 import es.caib.pluginsib.arxiu.api.IArxiuPlugin;
 
+
 public class ArxiuPluginImplTest {
+
+
+
+
+
+
+    
 /* 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();

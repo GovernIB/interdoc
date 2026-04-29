@@ -2,7 +2,7 @@
 
 type help.txt
 
-cmd /C mvn -U -DskipTests %* clean install 
+cmd /C mvn -DskipTests %* clean install 
 
 if %errorlevel% EQU 0 (
 

@@ -107,7 +107,9 @@ public abstract class AbstractPluginLogicaEJB<I extends IPluginIB> extends Plugi
                 
             }
         }
-
+        
+        log.info("\n - Instantiating plugin with class name: ]" + plugin.getClasse()+"[ \n");
+        
         pluginInstance = (IPluginIB) PluginsManager.instancePluginByClassName(plugin.getClasse(),
                 Constants.INTERDOC_PROPERTY_BASE, prop);
 

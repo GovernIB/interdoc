@@ -2,6 +2,9 @@ package es.caib.interdoc.plugins.arxiu;
 
 import java.util.Arrays;
 
+import es.caib.pluginsib.arxiu.api.DocumentExtensio;
+import es.caib.pluginsib.arxiu.api.DocumentFormat;
+
 public class Fitxer {
 
 	private byte[] contingut;
@@ -60,7 +63,7 @@ public class Fitxer {
 	}
 	
 	public Fitxer(byte[] contingut, long tamany, String tipusMime, String arxiuNom, Format format,
-			Extensio extensio) {
+	        Extensio extensio) {
 		super();
 		this.contingut = contingut;
 		this.tamany = tamany;

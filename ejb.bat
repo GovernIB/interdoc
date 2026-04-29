@@ -1,0 +1,1 @@
+compile.bat -pl interdoc-ejb

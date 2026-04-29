@@ -2,6 +2,7 @@ package es.caib.interdoc.ejb;
 
 import java.util.Properties;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 
@@ -34,7 +35,8 @@ public class PluginArxiuLogicaEJB extends AbstractPluginLogicaEJB<IArxiuPlugin> 
     }
 
     @Override
-    @RolesAllowed({Constants.ITD_USER, Constants.ITD_ADMIN, Constants.ITD_WS})
+    //@RolesAllowed({Constants.ITD_USER, Constants.ITD_ADMIN, Constants.ITD_WS})
+    @PermitAll
     public ArxiuPluginImpl getInstanceOfPlugin(Long entitatId) throws I18NException{
         try {
                 ArxiuPluginImpl plugin = null;

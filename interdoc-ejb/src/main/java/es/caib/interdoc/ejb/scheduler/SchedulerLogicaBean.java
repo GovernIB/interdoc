@@ -147,17 +147,24 @@ public class SchedulerLogicaBean implements SchedulerLogicaService{
 				try {
 					log.info("Processant expedient: " + expedientId + " de l'entitat: " + entitat.getNom() + " (ID: " + entitat.getId() + ")");
 					
-					boolean closed = arxiuPlugin.tancarExpedient(expedientId);
 					
-					if (closed) {
-						log.info("✓ Expedient tancat correctament: " + expedientId + " (Entitat: " + entitat.getNom() + ") - actualitzant BD");
-						infoArxiuService.tancarExpedient(expedientId, entitat.getId());
-						expedientsTancats++;
-					} else {
-						log.warn("✗ No s'ha pogut tancar l'expedient: " + expedientId + " (Entitat: " + entitat.getNom() + ") - augmentant reintents");
-						infoArxiuService.aumentarReintents(expedientId, entitat.getId(), 10L);
-						expedientsError++;
+					if(Configuracio.isDesenvolupament()) {
+					    log.info("** Funcionalitat de tancar expedients per scheduler desactivada a entorn de desenvolupament");
+					}else {
+					    boolean closed = arxiuPlugin.tancarExpedient(expedientId);
+					    if (closed) {
+	                        log.info("Expedient tancat correctament: " + expedientId + " (Entitat: " + entitat.getNom() + ") - actualitzant BD");
+	                        infoArxiuService.tancarExpedient(expedientId, entitat.getId());
+	                        expedientsTancats++;
+	                    } else {
+	                        log.warn("No s'ha pogut tancar l'expedient: " + expedientId + " (Entitat: " + entitat.getNom() + ") - augmentant reintents");
+	                        log.warn("** Funcionalitat de tancar expedients per scheduler temporalment desactiva: " + expedientId + " (Entitat: " + entitat.getNom() + ") - augmentant reintents");
+	                        infoArxiuService.aumentarReintents(expedientId, entitat.getId(), 10L);
+	                        expedientsError++;
+	                    }
 					}
+					
+					
 					
 				} catch (Exception e) {
 					log.error("✗ Error processant expedient: " + expedientId + " (Entitat: " + entitat.getNom() + ")", e);

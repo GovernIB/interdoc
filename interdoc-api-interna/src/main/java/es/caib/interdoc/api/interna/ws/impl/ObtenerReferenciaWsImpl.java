@@ -67,6 +67,7 @@ import es.caib.interdoc.service.model.InfoSignaturaDTO;
 import es.caib.interdoc.service.model.ReferenciaDTO;
 import es.caib.interdoc.service.model.ReferenciaXMLDTO;
 
+
 /**
  * author: jagarcia
  */
@@ -237,7 +238,7 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 						? String.valueOf(obtenerReferenciaRequestInfo.getEntitatId())
 						: 0));
 
-				log.info("----------------------------------");
+				log.info("----------------------------------");				
 
 				log.info("isEnidoc:" + ((isEnidoc) ? "true" : "false"));
 
@@ -278,10 +279,12 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 				/* INICI GUARDAR TEMPORAL A FILESYSTEM */
 
 				FitxerDTO fitxerDto = null;
+				
+				log.info("NO ES ENIDOC");
 
 				if (obtenerReferenciaRequestInfo.getDocument() != null
 						&& obtenerReferenciaRequestInfo.getDocument().getData().length > 0) {
-
+				    log.info("DOCUMENT NOT NULL");
 					// String filePath = Configuracio.getFileTempPath();
 					final String extension = FilenameUtils
 							.getExtension(((obtenerReferenciaRequestInfo.getDocument().getNom() != null)
@@ -336,6 +339,8 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 				isSigned = (obtenerReferenciaRequestInfo.getFirma() != null
 						&& obtenerReferenciaRequestInfo.getFirma().getFormat() != null
 						&& obtenerReferenciaRequestInfo.getFirma().getFormat().length() > 0) ? true : false;
+				
+				log.info("-- isSigned => " + isSigned);
 
 				if (!isSigned && fitxerDto != null) {
 
@@ -386,7 +391,7 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 				/* INICI PUJADA ARXIU */
 
 				if (isSigned) {
-
+				    log.info("-- ENTRA A IS SIGNED TRUE --");
 					if (Configuracio.isDesenvolupament())
 						log.info("Inici pujada arxiu");
 
@@ -402,7 +407,7 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 							}
 						}
 					}
-
+					
 					// Fitxer
 					Fitxer fitxerInfo = new Fitxer();
 					fitxerInfo.setArxiuNom(fitxerDto.getNom());
@@ -418,8 +423,8 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 					if (obtenerReferenciaRequestInfo.getFirma() != null
 							&& obtenerReferenciaRequestInfo.getFirma().getFormat() != null
 							&& obtenerReferenciaRequestInfo.getFirma().getFormat().length() > 0) {
-
-						log.info("Document firmat previament");
+					    
+						log.info("-- Document firmat previament");
 
 						infoFirma = new SignaturaArxiu();
 						infoFirma.setFormatFirma(obtenerReferenciaRequestInfo.getFirma().getFormat());
@@ -461,11 +466,15 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 
 					if (obtenerReferenciaRequestInfo.getEstatElaboracio() != null)
 						documentInfo.setEstatElaboracio(obtenerReferenciaRequestInfo.getEstatElaboracio());
-
+					
 					documentInfo.setFitxer(fitxerInfo);
 					documentInfo.setSignatura(infoSignatura);
 					documentInfo.setFirma(infoFirma);
 					
+					//Prints per tots els camps de documentInfo
+					
+					
+
 					String numeroExpedient = null;
 					if (obtenerReferenciaRequestInfo.getNumeroRegistre() != null) {
 						numeroExpedient = referenciaService.findExpedientByNumeroRegistre(obtenerReferenciaRequestInfo.getNumeroRegistre(), entitatId);
@@ -484,6 +493,19 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 							
 							identificadorExpedient = (Utils.isEmpty(numeroExpedient)) ? plugin.crearExpedient(documentInfo) : numeroExpedient;
 							log.info("Identificador expedient => " + identificadorExpedient);
+							
+							log.info("DocumentInfo nom => " + documentInfo.getNom());
+		                    log.info("DocumentInfo organs => " + documentInfo.getOrgans());
+		                    log.info("DocumentInfo interessats => " + documentInfo.getInteressats());
+		                    log.info("DocumentInfo metadades => " + documentInfo.getMetadades());
+		                    log.info("DocumentInfo origen => " + documentInfo.getOrigen());
+		                    log.info("DocumentInfo estatElaboracio => " + documentInfo.getEstatElaboracio());
+		                    log.info("DocumentInfo tipusDocumental => " + documentInfo.getTipusDocumental());
+		                    log.info("DocumentInfo fitxer => " + documentInfo.getFitxer());
+		                    log.info("DocumentInfo signatura => " + documentInfo.getSignatura());
+		                    log.info("DocumentInfo firma => " + documentInfo.getFirma());
+		                    log.info("DocumentInfo numeroRegistre => " + documentInfo.getNumeroRegistre());
+		                    log.info("Identificador expedient => " + identificadorExpedient);
 							
 							identificadorDocument = plugin.crearDocument(documentInfo, identificadorExpedient);
 
@@ -514,7 +536,7 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 						} 
 
 					} catch (Exception e) {
-						e.printStackTrace();
+						log.error("Error pujada arxiu", e);
 						throw new InterdocException("Error pujada arxiu", e);
 					}
 
@@ -613,8 +635,8 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw new InterdocException(e);
+		    log.error("Error creant la referencia", e);
+		    throw new InterdocException(e);
 		}
         return null;
 	}
