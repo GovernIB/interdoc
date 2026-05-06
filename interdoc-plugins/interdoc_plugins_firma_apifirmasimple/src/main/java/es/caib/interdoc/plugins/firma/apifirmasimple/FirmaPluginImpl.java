@@ -32,18 +32,25 @@ public class FirmaPluginImpl extends AbstractPluginProperties implements Interdo
     protected static final String APIFIRMASIMPLE_FIRMA_PLUGIN_PROPERTY = BASE_FIRMA_PLUGIN_PROPERTY+"apifirmasimple.";
 
 	protected final Logger LOG = LoggerFactory.getLogger(FirmaPluginImpl.class);
-
-	//private static final String PROPERTY_PROFILE_CADES = INTERDOC_FIRMA_PLUGIN_PROPERTY + "profilecades";
+	
+	private static final String PROPERTY_ENDPOINT = APIFIRMASIMPLE_FIRMA_PLUGIN_PROPERTY + "endpoint";
+	private static final String PROPERTY_USERNAME = APIFIRMASIMPLE_FIRMA_PLUGIN_PROPERTY + "usuari";
+    private static final String PROPERTY_PASSWORD = APIFIRMASIMPLE_FIRMA_PLUGIN_PROPERTY + "password";
+	
 	private static final String PROPERTY_PROFILE_PADES = APIFIRMASIMPLE_FIRMA_PLUGIN_PROPERTY + "profilepades";
 	private static final String PROPERTY_PROFILE_XADES = APIFIRMASIMPLE_FIRMA_PLUGIN_PROPERTY + "profilexades";
-	//private static final String PROPERTY_USERNAME = INTERDOC_FIRMA_PLUGIN_PROPERTY + "nombre";
-	//private static final String PROPERTY_ADMINISTRATIONID = INTERDOC_FIRMA_PLUGIN_PROPERTY + "administracionId";
-	//private static final String PROPERTY_EMAIL = INTERDOC_FIRMA_PLUGIN_PROPERTY + "email";
+	
 	private static final String PROPERTY_IDIOMASIGNATURA = APIFIRMASIMPLE_FIRMA_PLUGIN_PROPERTY + "languageSign";
 	private static final String PROPERTY_LOCALITZACIO = APIFIRMASIMPLE_FIRMA_PLUGIN_PROPERTY + "localizacion";
 	private static final String PROPERTY_MOTIU = APIFIRMASIMPLE_FIRMA_PLUGIN_PROPERTY + "motivo";
 	private static final String PROPERTY_TIPUSDOCUMENTALID = APIFIRMASIMPLE_FIRMA_PLUGIN_PROPERTY + "tipodocumentalid";
 	private static final String PROPERTY_ALIAS = APIFIRMASIMPLE_FIRMA_PLUGIN_PROPERTY + "alias";
+	
+	
+    //private static final String PROPERTY_PROFILE_CADES = INTERDOC_FIRMA_PLUGIN_PROPERTY + "profilecades";
+	//private static final String PROPERTY_USERNAME = INTERDOC_FIRMA_PLUGIN_PROPERTY + "nombre";
+    //private static final String PROPERTY_ADMINISTRATIONID = INTERDOC_FIRMA_PLUGIN_PROPERTY + "administracionId";
+    //private static final String PROPERTY_EMAIL = INTERDOC_FIRMA_PLUGIN_PROPERTY + "email";
 	//private static final String PROPERTY_PERFIL = INTERDOC_FIRMA_PLUGIN_PROPERTY + "perfil";
 	/*private static final String PROPERTY_SIGNEDPATH = INTERDOC_FIRMA_PLUGIN_PROPERTY + "path";
 	private static final String PROPERTY_SIGNID = INTERDOC_FIRMA_PLUGIN_PROPERTY + "signId";
@@ -63,92 +70,7 @@ public class FirmaPluginImpl extends AbstractPluginProperties implements Interdo
       super(propertyKeyBase, properties);
    }
 
-	/*
-	 * private void carregarPropertiesFile() {
-	 * 
-	 * Config config = ConfigProvider.getConfig();
-	 * 
-	 * propietats.put(PROPERTY_PROFILE_CADES,
-	 * config.getValue(PROPERTY_PROFILE_CADES, String.class));
-	 * propietats.put(PROPERTY_PROFILE_PADES,
-	 * config.getValue(PROPERTY_PROFILE_PADES, String.class));
-	 * propietats.put(PROPERTY_PROFILE_XADES,
-	 * config.getValue(PROPERTY_PROFILE_XADES, String.class));
-	 * 
-	 * propietats.put(PROPERTY_USERNAME, config.getValue(PROPERTY_USERNAME,
-	 * String.class)); propietats.put(PROPERTY_ADMINISTRATIONID,
-	 * config.getValue(PROPERTY_ADMINISTRATIONID, String.class));
-	 * propietats.put(PROPERTY_EMAIL, config.getValue(PROPERTY_EMAIL,
-	 * String.class)); propietats.put(PROPERTY_IDIOMA,
-	 * config.getValue(PROPERTY_IDIOMA, String.class));
-	 * propietats.put(PROPERTY_IDIOMASIGNATURA,
-	 * config.getValue(PROPERTY_IDIOMASIGNATURA, String.class));
-	 * propietats.put(PROPERTY_LOCALITZACIO, config.getValue(PROPERTY_LOCALITZACIO,
-	 * String.class)); propietats.put(PROPERTY_MOTIU,
-	 * config.getValue(PROPERTY_MOTIU, String.class));
-	 * propietats.put(PROPERTY_TIPUSDOCUMENTALID,
-	 * config.getValue(PROPERTY_TIPUSDOCUMENTALID, String.class));
-	 * propietats.put(PROPERTY_ALIAS, config.getValue(PROPERTY_ALIAS,
-	 * String.class)); propietats.put(PROPERTY_SIGNID,
-	 * config.getValue(PROPERTY_SIGNID, String.class));
-	 * propietats.put(PROPERTY_PROFILE, config.getValue(PROPERTY_PROFILE,
-	 * String.class));
-	 * 
-	 * try {
-	 * 
-	 * if (Utils.isEmpty(propietats.getProperty(PROPERTY_PERFIL))) {
-	 * logErrorPerfilBuit("PROFILE_PADES"); propietats.put(PROPERTY_PERFIL,
-	 * propietats.getProperty(PROPERTY_PROFILE_PADES)); }
-	 * 
-	 * if (Utils.isEmpty(propietats.getProperty(PROPERTY_SIGNEDPATH))) {
-	 * propietats.put(PROPERTY_SIGNEDPATH, config.getValue(PROPERTY_SIGNEDPATH,
-	 * String.class)); }
-	 * 
-	 * setPropietats(propietats);
-	 * 
-	 * if (Configuracio.isDesenvolupament()) {
-	 * LOG.info("------------ PROPIEDADES FIRMA FILE -------------------");
-	 * propietats.stringPropertyNames().forEach(x -> LOG.info(x + " => " +
-	 * propietats.getProperty(x)));
-	 * LOG.info("---------------------------------------------------"); }
-	 * 
-	 * } catch (Exception e) {
-	 * LOG.error("S'ha produit un error alhora de carregar les propietats. ");
-	 * e.printStackTrace(); } }
-	 */
-
-	/*public void carregarProperties(Properties props) {
-		setPropietats(props);
-
-		if (Utils.isEmpty(this.propietats.getProperty(PROPERTY_PERFIL))) {
-			logErrorPerfilBuit("PROFILE_PADES");
-			this.propietats.put(PROPERTY_PERFIL, this.propietats.getProperty(PROPERTY_PROFILE_PADES));
-			LOG.info("Set perfil => " + this.propietats.getProperty(PROPERTY_PROFILE_PADES));
-		}
-	}*/
-
-	/*public void getAvailableProfiles() throws Exception {
-
-		final String languagesUI[] = new String[] { "ca", "es" };
-
-		for (String languageUI : languagesUI) {
-			LOG.info(" ==== LanguageUI : " + languageUI + " ===========");
-
-			List<FirmaSimpleAvailableProfile> listProfiles = plugin.getAvailableProfiles(languageUI);
-			if (listProfiles.size() == 0) {
-				LOG.info("NO HI HA PERFILS PER AQUEST USUARI APLICACIÓ");
-			} else {
-				for (FirmaSimpleAvailableProfile ap : listProfiles) {
-					LOG.info("  + " + ap.getName() + ":");
-					LOG.info("      * Codi: " + ap.getCode());
-					LOG.info("      * Desc: " + ap.getDescription());
-				}
-			}
-
-		}
-
-	}*/
-
+	
 
     @Override
 	public InfoSignaturaDTO firmarDocument(FitxerDTO fitxer, String languageUI) throws Exception {
@@ -158,17 +80,13 @@ public class FirmaPluginImpl extends AbstractPluginProperties implements Interdo
 		fileToSign.setMime(fitxer.getMime());
 		fileToSign.setData(fitxer.getData());
 
-		if (Configuracio.isDesenvolupament()) {
-			LOG.info("fileToSign.nom => " + fileToSign.getNom());
-			LOG.info("fileToSign.mime => " + fileToSign.getMime());
-			LOG.info("fileToSign.data.length => " + fileToSign.getData().length);
-		}
-
 		FirmaSimpleSignatureResult resultFirma = null;
 		try {
 			resultFirma = internalSignDocument(fileToSign, languageUI);
 		} catch (Exception e) {
-			LOG.error("firmarDocumentError => " + e.getMessage());
+		    String msg = e.getMessage();
+			LOG.error("S'ha produit un error durant el proces de firma: "+msg, e);
+            throw new Exception(e);
 		}
 
 		if (resultFirma != null) {
@@ -230,7 +148,7 @@ public class FirmaPluginImpl extends AbstractPluginProperties implements Interdo
 
 		String signID = String.valueOf(System.currentTimeMillis());
 		String name = fileToSign.getNom();
-		String reason = this.getProperty(PROPERTY_MOTIU);
+		String reason = this.getPropertyRequired(PROPERTY_MOTIU);
 		String location = this.getProperty(PROPERTY_LOCALITZACIO);
 
 		int signNumber = 1;
@@ -274,8 +192,16 @@ public class FirmaPluginImpl extends AbstractPluginProperties implements Interdo
 
         
 		FirmaSimpleSignDocumentRequest signature = new FirmaSimpleSignDocumentRequest(commonInfo, fileInfoSignature);
+		
+		ApiFirmaEnServidorSimple apiFirmaEnServidorSimple = getApiFirmaEnServidorSimple();
 
-		FirmaSimpleSignatureResult fullResults = getApiFirmaEnServidorSimple().signDocument(signature);
+		if(apiFirmaEnServidorSimple == null) {
+		    String msg = "No s'ha pogut inicialitzar el client de firma en servidor simple. Revisa la configuració del plugin.";
+            LOG.error(msg);
+            throw new Exception();
+        }
+		
+		FirmaSimpleSignatureResult fullResults = apiFirmaEnServidorSimple.signDocument(signature);
 
 		FirmaSimpleStatus transactionStatus = fullResults.getStatus();
 		int status = transactionStatus.getStatus();
@@ -309,10 +235,9 @@ public class FirmaPluginImpl extends AbstractPluginProperties implements Interdo
 
 		case FirmaSimpleStatus.STATUS_FINAL_OK: // = 2;
 		{
-			LOG.info(" ===== RESULTAT OK =========");
+			
 			{
-				LOG.info(" ---- Signature [ " + fullResults.getSignID() + " ]");
-
+			    				
 				FirmaSimpleFile fsf = fullResults.getSignedFile();
 
 				FileOutputStream fos = new FileOutputStream(fsf.getNom());
@@ -321,18 +246,19 @@ public class FirmaPluginImpl extends AbstractPluginProperties implements Interdo
 				fos.close();
 
 				if (Configuracio.isDesenvolupament()) {
+
 					LOG.info("  RESULT: Fitxer signat guardat en '" + new File(".").getAbsolutePath() + fsf.getNom()
 							+ "'");
 					printSignatureInfo(fullResults);
 
-					if (Configuracio.isDesenvolupament()) {
+					
 						// Guardam copia a la ruta de files signed
 						String filePath = Configuracio.getFileTempPath() + fullResults.getSignID() + "_" + fsf.getNom();
 						FileOutputStream fos2 = new FileOutputStream(filePath);
 						fos2.write(fsf.getData());
 						fos2.close();
 						LOG.info("Save file Signed: " + filePath);
-					}
+					
 				}
 
 				return fullResults;
@@ -352,11 +278,14 @@ public class FirmaPluginImpl extends AbstractPluginProperties implements Interdo
 	
 	private ApiFirmaEnServidorSimple getApiFirmaEnServidorSimple() throws Exception {
 
-        final String endpointPropertyKey = this.getPropertyRequired(APIFIRMASIMPLE_FIRMA_PLUGIN_PROPERTY + "endpoint");
+        /*final String endpointPropertyKey = this.getPropertyRequired(PROPERTY_ENDPOINT);
+        final String usernamePropertyKey = this.getPropertyRequired(PROPERTY_USERNAME);
+        final String passwordPropertyKey = this.getPropertyRequired(PROPERTY_PASSWORD);*/
         //TODO: Afegir cadenes de substitucio. Agafar noms de la propietat de Plugin que conte el usuari, password i endpoint.
-		final String endPoint = Configuracio.getProperty(endpointPropertyKey);
-		final String username = Configuracio.getProperty(APIFIRMASIMPLE_FIRMA_PLUGIN_PROPERTY + "usuari");
-		final String password = Configuracio.getProperty(APIFIRMASIMPLE_FIRMA_PLUGIN_PROPERTY + "password");
+        
+		final String endPoint = getProperty(PROPERTY_ENDPOINT);
+		final String username = getProperty(PROPERTY_USERNAME);
+		final String password = getProperty(PROPERTY_PASSWORD);
 
 
 

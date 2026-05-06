@@ -51,13 +51,13 @@ public class TestObtenerReferencia {
             
             String numeroRegistroFormateado = prop.getProperty("numeroRegistroFormateado");
             
-            /*String response = guardarDocumentoInterdoc(referenciaWs, documentoInteresado,
-                    receptor, numeroRegistroFormateado, fechaRegistro, tipoRegistro, modoFirmaAnexo,
-                    fitxerAnexo);*/
-            
             String response = guardarDocumentoInterdoc(referenciaWs, documentoInteresado,
-                    receptor, numeroRegistroFormateado, fechaRegistro, tipoRegistro, modoFirmaAnexo,
-                    fitxerAnexoSigned);
+                    receptor, numeroRegistroFormateado, fechaRegistro, tipoRegistro, MODO_FIRMA_ANEXO_SINFIRMA,
+                    fitxerAnexo);
+            
+            /*String response = guardarDocumentoInterdoc(referenciaWs, documentoInteresado,
+                    receptor, numeroRegistroFormateado, fechaRegistro, tipoRegistro, MODO_FIRMA_ANEXO_ATTACHED,
+                    fitxerAnexoSigned);*/
             
             System.out.println("Referencia obtenida: " + response);
             
