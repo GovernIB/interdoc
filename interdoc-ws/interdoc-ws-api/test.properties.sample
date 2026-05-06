@@ -1,0 +1,13 @@
+url=http://localhost:8080/interdocapi/interna/protected/ObtenerReferenciaWs
+username=username
+password=password
+
+
+modoFirmaAnexo=1
+fitxerAnexo=TestReferenciaInterdoc.pdf
+fitxerAnexoSigned=TestReferenciaInterdoc_signed.pdf
+
+documentoInteresado=12345678Z
+receptor=12345678Z
+
+numeroRegistroFormateado=2026/00001

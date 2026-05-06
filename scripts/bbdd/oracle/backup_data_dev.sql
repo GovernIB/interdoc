@@ -80,7 +80,7 @@ es.caib.interdoc.plugins.firma.alias=preprod-dgmad
 # preprod-dgmad afirmades-firma
 es.caib.interdoc.plugins.firma.applicationId=CAIBDEV2.REGWEB
 es.caib.interdoc.plugins.firma.debug=true;
-es.caib.interdoc.plugins.firma.profile=PROFILE_PADES'),'es.caib.interdoc.plugins.apifirmasimple.FirmaPluginImpl',TIMESTAMP'2023-11-07 12:14:48.444537 Europe/Paris',1,1,2);
+es.caib.interdoc.plugins.firma.profile=PROFILE_PADES'),'es.caib.interdoc.plugins.firma.apifirmasimple.FirmaPluginImpl',TIMESTAMP'2023-11-07 12:14:48.444537 Europe/Paris',1,1,2);
 INSERT INTO INTERDOC.ITD_REFERENCIA (REFERENCIAID,CSVIDENTIFICADOR,UUID,DIRECCIO,HASH,EMISOR,RECEPTOR,URLVISIBLE,DATACREACIO,REFERENCIA,ENTITATID,INFOSIGNATURAID,INFOARXIUID,FORMATFIRMA,FITXERID,NUMEROREGISTRE) VALUES
 	 (61,'b5ebc4b20afd677efb1c9eff8249d10d',NULL,'http://localhost:8280//interdocapi/interna/protected/CSVQueryDocumentWs?wsdl','a1ddeba635eb8e26cff0ff29d6428c533bbfe57e13be18b04f892e8177c15418','emisor','receptor','http://localhost:8280//interdocapi/interna/protected/CSVQueryDocumentWs',TIMESTAMP'2024-01-18 00:00:00','b5ebc4b20afd677efb1c9eff8249d10d',1,1080,1060,'TF06',1221,NULL),
 	 (21,'csv01101321321za',NULL,'http://localhost:8280//interdocapi/interna/protected/CSVQueryDocumentWsService/CSVQueryDocumentWs?wsdl','01e5a46e553015cb3daeadff5a49129c73ee4b60abf9b349bc85b08138942b8c','emisor','receptor','http://localhost:8280//interdocapi/interna/protected/CSVQueryDocumentWsService/CSVQueryDocumentWs',TIMESTAMP'2023-12-12 00:00:00','97b01d809105f6a4f934b3bbf6c51d97',1,1040,1020,'TF06',1160,NULL),
