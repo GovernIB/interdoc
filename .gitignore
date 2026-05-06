@@ -55,3 +55,6 @@ QuadernDeCarrega/
 back.bat
 pemfiles/
 interdoc-ws/interdoc-ws-api/test.properties
+interdoc-ws/interdoc-ws-api/TestReferenciaInterdoc_signed.pdf
+log.txt
+.vscode/launch.json
