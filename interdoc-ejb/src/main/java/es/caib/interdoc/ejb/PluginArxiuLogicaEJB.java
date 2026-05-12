@@ -40,11 +40,14 @@ public class PluginArxiuLogicaEJB extends AbstractPluginLogicaEJB<IArxiuPlugin> 
     public ArxiuPluginImpl getInstanceOfPlugin(Long entitatId) throws I18NException{
         try {
                 ArxiuPluginImpl plugin = null;
-
                 PluginDTO pluginDTO = null;
                 IArxiuPlugin pluginIArxiu = null;
+
                 Properties props = new Properties();
 				pluginDTO = this.getPluginByEntity(entitatId);
+				
+				
+				
 				
 				if (pluginDTO == null) {
 					throw new I18NException("No s'ha trobat cap plugin d'arxiu actiu per l'entitat amb ID " + entitatId);
@@ -56,8 +59,7 @@ public class PluginArxiuLogicaEJB extends AbstractPluginLogicaEJB<IArxiuPlugin> 
                     props = pluginProp.getPluginProperties();
                 }
                 plugin = new ArxiuPluginImpl(pluginIArxiu, props);
-				//log.info("Plugin d'arxiu carregat correctament per l'entitat " + entitat.getNom() + ": " + plugin.getClass().getName());
-				
+
                 return plugin;
             }catch (I18NException e) {
                 throw e;

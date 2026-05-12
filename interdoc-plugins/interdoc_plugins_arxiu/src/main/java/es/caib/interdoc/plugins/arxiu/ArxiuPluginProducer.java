@@ -15,6 +15,8 @@ import java.util.Properties;
 public class ArxiuPluginProducer {
 
     private static final Logger LOG = LoggerFactory.getLogger(ArxiuPluginProducer.class);
+    
+    private static final String PLUGIN_CLASS_NAME = "es.caib.pluginsib.arxiu.caib.ArxiuPluginCaib";
 
     /**
      * Instancia el plugin d'arxiu. El marcam com a @ApplicationScoped per garantir que només s'en
@@ -26,6 +28,10 @@ public class ArxiuPluginProducer {
         LOG.info("Instanciant plugin arxiu...");
         
         Config config = ConfigProvider.getConfig();
+        
+        
+        
+        
         
         // per instanciar el plugin necessitam adaptar les propietats
         Properties properties = new Properties();
@@ -39,7 +45,7 @@ public class ArxiuPluginProducer {
         LOG.info("CODI " + properties.getProperty("plugin.arxiu.caib.aplicacio.codi"));
         LOG.info("USUARI " + properties.getProperty("plugin.arxiu.caib.usuari"));
         LOG.info("---------  FI PROPERTIES ARXIU ------------------");
-
+        
         IArxiuPlugin plugin = new ArxiuPluginCaib("", properties);
         LOG.info("Plugin instanciat");
         return plugin;

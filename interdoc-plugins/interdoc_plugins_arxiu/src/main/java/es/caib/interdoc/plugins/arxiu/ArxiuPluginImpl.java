@@ -47,7 +47,6 @@ public class ArxiuPluginImpl /*extends AbstractPluginProperties implements Inter
     public static final String INTERDOC_ARXIU_PLUGIN_PROPERTY = Constants.INTERDOC_PROPERTY_BASE + "entitat.";
 
     private static final String PROPERTY_SERIE_DOCUMENTAL = INTERDOC_ARXIU_PLUGIN_PROPERTY + "serieDocumental";
-    //private static final String PROPERTY_CODI_APLICACIO = INTERDOC_ARXIU_PLUGIN_PROPERTY + "aplicacio";
     private static final String PROPERTY_TANCAR_EXPEDIENT = INTERDOC_ARXIU_PLUGIN_PROPERTY + "tancarExpedient";
 
     private static final String PROPERTY_NOM_PROCEDIMENT = INTERDOC_ARXIU_PLUGIN_PROPERTY + "nomProcediment";
@@ -1083,7 +1082,6 @@ public class ArxiuPluginImpl /*extends AbstractPluginProperties implements Inter
     public String generarEniDoc(String identificador) {
         LOG.info("generarEniDoc::" + identificador);
         if (Utils.isNotEmpty(identificador)) {
-
             return this.plugin.documentExportarEni(identificador);
         }
         return null;

@@ -13,6 +13,7 @@
     <name>Interdoc - EJB</name>
     <description>Mòdul EJB de Interdoc</description>
 
+    
     <dependencies>
         <!-- Especificacions i llibreries proporcionades per JBoss -->
         <dependency>
@@ -46,7 +47,12 @@
             <artifactId>pluginsib-core</artifactId>
             <scope>provided</scope>
         </dependency>
-        
+        <dependency>
+            <groupId>org.fundaciobit.pluginsib.utils</groupId>
+            <artifactId>pluginsib-utils-templateengine</artifactId>
+            <version>${pluginsib.utils.version}</version>
+        </dependency>
+
         
         <!-- Altres llibreries necessàries per aquest mòdul -->
         <!-- Només necessària per la generació de codi -->

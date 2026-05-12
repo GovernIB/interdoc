@@ -223,7 +223,6 @@ public class FirmaPluginImpl extends AbstractPluginProperties implements Interdo
 			if (desc != null) {
 				LOG.error(desc);
 			}
-
 			return null;
 		}
 
@@ -250,7 +249,6 @@ public class FirmaPluginImpl extends AbstractPluginProperties implements Interdo
 					LOG.info("  RESULT: Fitxer signat guardat en '" + new File(".").getAbsolutePath() + fsf.getNom()
 							+ "'");
 					printSignatureInfo(fullResults);
-
 					
 						// Guardam copia a la ruta de files signed
 						String filePath = Configuracio.getFileTempPath() + fullResults.getSignID() + "_" + fsf.getNom();
@@ -277,13 +275,8 @@ public class FirmaPluginImpl extends AbstractPluginProperties implements Interdo
 
 	
 	private ApiFirmaEnServidorSimple getApiFirmaEnServidorSimple() throws Exception {
-
-        /*final String endpointPropertyKey = this.getPropertyRequired(PROPERTY_ENDPOINT);
-        final String usernamePropertyKey = this.getPropertyRequired(PROPERTY_USERNAME);
-        final String passwordPropertyKey = this.getPropertyRequired(PROPERTY_PASSWORD);*/
-        //TODO: Afegir cadenes de substitucio. Agafar noms de la propietat de Plugin que conte el usuari, password i endpoint.
-        
-		final String endPoint = getProperty(PROPERTY_ENDPOINT);
+	    
+        final String endPoint = getProperty(PROPERTY_ENDPOINT);
 		final String username = getProperty(PROPERTY_USERNAME);
 		final String password = getProperty(PROPERTY_PASSWORD);
 

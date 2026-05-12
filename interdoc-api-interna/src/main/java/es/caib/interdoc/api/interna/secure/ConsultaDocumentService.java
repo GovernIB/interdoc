@@ -127,10 +127,10 @@ public class ConsultaDocumentService {
                     enidocXml = plugin.generarEniDoc(uuid);
                     if (enidocXml == null) {
                         log.error("Error: No s'ha pogut trobat l'ENIDOC XML. Intentant generar-lo a partir del document:");*/
-                        generarEnidoc(plugin, uuid);
+                        //generarEnidoc(plugin, uuid);
                     /*}
                 }*/
-                    enidocXml = generarEnidoc(plugin, uuid);
+                 enidocXml = generarEnidoc(plugin, uuid);
                 
                     
 
@@ -188,7 +188,7 @@ public class ConsultaDocumentService {
         //ReferenciaDTO referencia = referenciaService.findByUUID(uuid).get();
         
 
-        es.caib.pluginsib.arxiu.api.Document doc = plugin.getDocument(uuid, "", true, false);
+        es.caib.pluginsib.arxiu.api.Document doc = plugin.descarregarDocument(uuid);
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         org.w3c.dom.Document xmlDoc = builder.newDocument();

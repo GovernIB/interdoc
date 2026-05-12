@@ -1,15 +1,20 @@
 package es.caib.interdoc.ejb;
 
+import java.io.ByteArrayInputStream;
 import java.io.StringReader;
+import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 
 
 import org.fundaciobit.pluginsib.core.v3.utils.PluginsManager;
+import org.fundaciobit.pluginsib.utils.templateengine.TemplateEngine;
 
 import es.caib.interdoc.commons.i18n.I18NException;
 import es.caib.interdoc.commons.utils.Configuracio;
@@ -85,19 +90,40 @@ public abstract class AbstractPluginLogicaEJB<I extends IPluginIB> extends Plugi
         Properties prop = new Properties();
         if (plugin.getPropietats() != null && plugin.getPropietats().trim().length() != 0) {
             try {
-
+                
+                
+               /* StringWriter writer = new StringWriter();
+                prop.store(writer, "");
+  
+                String propietats = writer.getBuffer().toString().replace("[\\=", "[=");
+                Properties propietatsProp = Configuracio.getSystemAndFileProperties();
+  
+  
+                Map<String, Object> parameters = new HashMap<String, Object>();
+                parameters.put("SP", propietatsProp);
+                
+                String t = TemplateEngine.processExpressionLanguageSquareBrackets(propietats, parameters);
+                
+                prop.load(new ByteArrayInputStream(t.getBytes(StandardCharsets.UTF_8)));*/
+                
+                
+                
                 // Exemple:
                 // [=SP["es.caib.digitalib.plugins.signatureserver.afirmaserver.authorization.password"]]
+                // ${SP.get("es.caib.digitalib.plugins.signatureserver.afirmaserver.authorization.password")]
 
                 Map<String, Object> map = new HashMap<String, Object>();
                 map.put("SP", Configuracio.getSystemAndFileProperties());
-
+                
+                
                 String plantilla = plugin.getPropietats();
-                /*String generat = TemplateEngine.processExpressionLanguageSquareBrackets(plantilla, map,
-                        new Locale("ca"));*/
+                String generat = TemplateEngine.processExpressionLanguageSquareBrackets(plantilla, map,
+                        new Locale("ca"));
+                
+                
 
-                final String generat = plantilla;
-                // log.error("PROPIETATS DESPRES DE generat:\n" + generat + "\n");
+                //final String generat = plantilla;
+                 log.error("PROPIETATS DESPRES DE generat:\n" + generat + "\n");
 
                 prop.load(new StringReader(generat));
                 
