@@ -7,9 +7,11 @@ import java.io.StringWriter;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
+import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
+import java.util.TimeZone;
 
 import javax.activation.DataHandler;
 import javax.annotation.security.PermitAll;
@@ -101,9 +103,6 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
     @EJB(mappedName = AccesServiceFacade.JNDI_NAME)
     protected AccesServiceFacade accesService;
 
-    //@EJB(mappedName = PluginArxiuServiceFacade.JNDI_NAME)
-    //protected PluginArxiuServiceFacade pluginService;
-
     @EJB(mappedName = PluginArxiuLogicaService.JNDI_NAME)
     private PluginArxiuLogicaService pluginArxiuService;
 
@@ -183,19 +182,17 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
 
                 entitatId = ref.getEntitatId();
 
-                //ArxiuController pluginArxiu = new ArxiuController(entitatId);
-
+                
                 ArxiuPluginImpl plugin = pluginArxiuService.getInstanceOfPlugin(entitatId);
 
-                // Generam el ENIDOC
-                resultatArxiu = generarEnidoc(plugin, idEni);
-
+                //String eniDocArxiu = plugin.generarEniDoc(idEni);
+                
+                // Generacio de EniDoc
+                resultatArxiu = generarEniDoc(plugin, idEni);
                 
                 // Si document_eni => RETORNAM EL PDF TODO
                 if (isDescarregaPDF) {
                     LOG.info("isDescarregaPDF => true");
-                    //byte[] filePDF = downloadUrl(new URL(infoArxiu.getOriginalFileUrl()));
-                    //LOG.info("byteArray length => " + filePDF.length);
                 }
 
             } else if (Utils.isNotEmpty(csvId)) {
@@ -244,14 +241,11 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
 
                         ArxiuPluginImpl plugin = pluginArxiuService.getInstanceOfPlugin(entitatId);
 
+                        //TODO: Revisar si es pot ficar una comprovacio per extreure el EniDoc de Arxiu o si l'hem de generar aqui.
                         // Generam el ENIDOC
-                        resultatArxiu = generarEnidoc(plugin, infoArxiu.getArxiuDocumentId());
+                        resultatArxiu = generarEniDoc(plugin, infoArxiu.getArxiuDocumentId());
 
-                        /*
-                        if (Configuracio.isDesenvolupament())
-                        	LOG.info(resultatArxiu);
-                        */
-
+                        
                         // Si document_eni => RETORNAM EL PDF
                         if (isDescarregaPDF && infoArxiu.getOriginalFileUrl() != null) {
                             LOG.info("isDescarregaPDF => true");
@@ -496,35 +490,23 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
 
     }
     
-    private String generarEnidoc(ArxiuPluginImpl plugin, String uuid) throws Exception {
+    //Genera el EniDoc a partir de la informació obtinguda de la funcio descarregarDocument del plugin d'arxiu.
+    private String generarEniDoc(ArxiuPluginImpl plugin, String uuid) throws Exception {
         
         
         //Recuperacio de la referencia corresponent, 
         // en cas que fos necessaria informacio adicional    
         //ReferenciaDTO referencia = referenciaService.findByUUID(uuid).get();
         
-
         es.caib.pluginsib.arxiu.api.Document doc = plugin.descarregarDocument(uuid);
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         org.w3c.dom.Document xmlDoc = builder.newDocument();
 
-        /*org.w3c.dom.Element root = xmlDoc.createElement("document");
-        xmlDoc.appendChild(root);
-
-        org.w3c.dom.Element id = xmlDoc.createElement("id");
-        id.setTextContent("CONTENT_ID_1");
-        root.appendChild(id);
-
-        org.w3c.dom.Element metadata = xmlDoc.createElement("metadades");
-        metadata.setTextContent(String.valueOf(doc.getMetadades()));
-        root.appendChild(metadata);*/
-
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
         StringWriter writer = new StringWriter();
-        transformer.transform(new DOMSource(xmlDoc), new StreamResult(writer));
-        String xmlString = writer.toString();
+        String xmlString = null;
 
         // Arrel del document ENIDOC XML
         org.w3c.dom.Element rootEnidoc = xmlDoc.createElementNS(
@@ -555,14 +537,12 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
         nombreFormato.setTextContent(doc.getMetadades().getFormat().toString());
         contenido.appendChild(nombreFormato);
 
-        
-
         // Metadatos
         
         org.w3c.dom.Element metadatos = xmlDoc.createElement("enidocmeta:metadatos");
         metadatos.setAttribute("Id", "METADATA_1");
+        rootEnidoc.appendChild(metadatos);
         
-
         org.w3c.dom.Element versionNTI = xmlDoc.createElementNS(
         "http://administracionelectronica.gob.es/ENI/XSD/v1.0/documento-e/metadatos",
         "enidocmeta:VersionNTI");
@@ -579,7 +559,7 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
         metadatos.appendChild(organo);
 
         org.w3c.dom.Element fechaCaptura = xmlDoc.createElement("enidocmeta:FechaCaptura");
-        fechaCaptura.setTextContent(doc.getMetadades().getDataCaptura().toString());
+        fechaCaptura.setTextContent(formatXmlDateTime(doc.getMetadades().getDataCaptura()));
         metadatos.appendChild(fechaCaptura);
 
         org.w3c.dom.Element origenCiudadanoAdministracion = xmlDoc
@@ -598,6 +578,7 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
         tipoDocumental.setTextContent(doc.getMetadades().getTipusDocumental().toString());
         metadatos.appendChild(tipoDocumental);
 
+
         // Firma
         org.w3c.dom.Element firmas = xmlDoc
                 .createElementNS("http://administracionelectronica.gob.es/ENI/XSD/v1.0/firma", "enids:firmas");
@@ -607,10 +588,17 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
         firma.setAttribute("Id", "SIGNATURE_ID_1");
         firmas.appendChild(firma);
 
-        org.w3c.dom.Element tipoFirma = xmlDoc.createElement("enids:TipoFirma");
-        tipoFirma.setTextContent(doc.getMetadades().getMetadadesAddicionals().get("TipoFirma").toString());
-        firma.appendChild(tipoFirma);
-
+        
+        if(doc.getMetadades().getMetadadesAddicionals() == null) {
+            LOG.info("Metadades Addicionals is null");
+        }
+        
+        if(doc.getMetadades().getMetadadesAddicionals().size() > 0 && doc.getMetadades().getMetadadesAddicionals().get("eni:tipoFirma") != null) {
+            org.w3c.dom.Element tipoFirma = xmlDoc.createElement("enids:TipoFirma");
+            tipoFirma.setTextContent(doc.getMetadades().getMetadadesAddicionals().get("eni:tipoFirma").toString());
+            firma.appendChild(tipoFirma);
+        }
+        
         org.w3c.dom.Element contenidoFirma = xmlDoc.createElement("enids:ContenidoFirma");
         firma.appendChild(contenidoFirma);
 
@@ -623,8 +611,17 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
 
         transformer.transform(new DOMSource(xmlDoc), new StreamResult(writer));
         xmlString = writer.toString();
-        return "return";
+        return xmlString;
     }
 
+    private String formatXmlDateTime(java.util.Date date) {
+        if (date == null) {
+            return "";
+        }
+        TimeZone tz = TimeZone.getTimeZone("UTC");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        sdf.setTimeZone(tz);
+        return sdf.format(date);
+    }
 
 }

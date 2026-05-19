@@ -26,7 +26,9 @@ import org.slf4j.LoggerFactory;
 
 import es.caib.interdoc.commons.utils.Configuracio;
 import es.caib.interdoc.commons.utils.Utils;
+import es.caib.interdoc.ejb.PluginArxiuLogicaService;
 import es.caib.interdoc.ejb.facade.PluginArxiuServiceFacade;
+import es.caib.interdoc.plugins.arxiu.ArxiuPluginImpl;
 import es.caib.interdoc.plugins.arxiu.DocumentInfo;
 import es.caib.interdoc.plugins.arxiu.InterdocArxiuPlugin;
 import es.caib.interdoc.service.facade.ReferenciaServiceFacade;
@@ -74,8 +76,8 @@ public class ConsultaDocumentService {
 
     protected static Logger log = LoggerFactory.getLogger(ConsultaDocumentService.class);
 
-    @EJB(mappedName = PluginArxiuServiceFacade.JNDI_NAME)
-    private PluginArxiuServiceFacade pluginService;
+    @EJB(mappedName = PluginArxiuLogicaService.JNDI_NAME)
+    private PluginArxiuLogicaService pluginArxiuService;
 
     @EJB(mappedName = ReferenciaServiceFacade.JNDI_NAME)
     private ReferenciaServiceFacade referenciaService;
@@ -115,7 +117,7 @@ public class ConsultaDocumentService {
 
             // ArxiuController pluginArxiu = new ArxiuController(Long.parseLong(entitatId));
 
-            InterdocArxiuPlugin plugin = pluginService.getPlugin(Long.parseLong(entitatId));
+            ArxiuPluginImpl plugin = pluginArxiuService.getInstanceOfPlugin(Long.parseLong(entitatId));
 
             if ("true".equalsIgnoreCase(enidoc)) {
 
@@ -180,9 +182,9 @@ public class ConsultaDocumentService {
         return Response.status(Response.Status.BAD_REQUEST).entity("{ \"error\" : " + "\"" + msg + "\" }").build();
     }
 
-        private String generarEnidoc(InterdocArxiuPlugin plugin, String uuid) throws Exception {
+private String generarEnidoc(ArxiuPluginImpl plugin, String uuid) throws Exception {
         
-            
+        
         //Recuperacio de la referencia corresponent, 
         // en cas que fos necessaria informacio adicional    
         //ReferenciaDTO referencia = referenciaService.findByUUID(uuid).get();
@@ -229,6 +231,7 @@ public class ConsultaDocumentService {
         rootEnidoc.appendChild(contenido);
 
         org.w3c.dom.Element valorBinario = xmlDoc.createElement("enifile:ValorBinario");
+        
         byte[] contingut = (doc.getContingut() != null) ? doc.getContingut().getContingut() : null;
         String contingutBase64 = (contingut != null) ? Base64.getEncoder().encodeToString(contingut) : "";
         valorBinario.setTextContent(contingutBase64);
@@ -290,10 +293,13 @@ public class ConsultaDocumentService {
         firma.setAttribute("Id", "SIGNATURE_ID_1");
         firmas.appendChild(firma);
 
-        org.w3c.dom.Element tipoFirma = xmlDoc.createElement("enids:TipoFirma");
-        tipoFirma.setTextContent(doc.getMetadades().getMetadadesAddicionals().get("TipoFirma").toString());
-        firma.appendChild(tipoFirma);
-
+        
+        if(doc.getMetadades() != null) {
+            org.w3c.dom.Element tipoFirma = xmlDoc.createElement("enids:TipoFirma");
+            tipoFirma.setTextContent(doc.getMetadades().getMetadadesAddicionals().get("TipoFirma").toString());
+            firma.appendChild(tipoFirma);
+        }
+        
         org.w3c.dom.Element contenidoFirma = xmlDoc.createElement("enids:ContenidoFirma");
         firma.appendChild(contenidoFirma);
 
@@ -306,7 +312,7 @@ public class ConsultaDocumentService {
 
         transformer.transform(new DOMSource(xmlDoc), new StreamResult(writer));
         xmlString = writer.toString();
-        return "return";
+        return xmlString;
     }
 
 }
