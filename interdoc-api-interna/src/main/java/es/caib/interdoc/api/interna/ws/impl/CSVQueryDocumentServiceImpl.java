@@ -179,16 +179,29 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
                     return generateCSVQueryDocumentSecurityMtomErrorResponse("200",
                             "No existeix cap referencia amb el UUID indicat");
                 }
-
                 entitatId = ref.getEntitatId();
-
+                
                 
                 ArxiuPluginImpl plugin = pluginArxiuService.getInstanceOfPlugin(entitatId);
-
-                //String eniDocArxiu = plugin.generarEniDoc(idEni);
                 
-                // Generacio de EniDoc
-                resultatArxiu = generarEniDoc(plugin, idEni);
+
+                
+                
+                    try {
+                        resultatArxiu = plugin.generarEniDoc(idEni);
+                    } catch (Exception e) {
+                        LOG.error("Error generació EniDoc. Generant EniDoc internament.");
+                        // Generacio de EniDoc
+                        try {
+                            resultatArxiu = generarEniDoc(plugin, idEni);
+                        } catch (Exception ex) {
+                            String msg = "Error generació EniDoc internament => " + ex.getMessage();
+                            throw new Exception(msg, ex);
+                        }
+                    }
+                
+                
+                
                 
                 // Si document_eni => RETORNAM EL PDF TODO
                 if (isDescarregaPDF) {
@@ -235,9 +248,6 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
                             LOG.info("infoArxiu.getEniFileUrl => " + infoArxiu.getEniFileUrl());
                             LOG.info("infoArxiu.getOriginalFileUrl => " + infoArxiu.getOriginalFileUrl());
                         }
-
-                        //ArxiuController pluginArxiu = new ArxiuController(entitatId);
-                        //InterdocArxiuPlugin plugin = pluginService.getPlugin(entitatId);
 
                         ArxiuPluginImpl plugin = pluginArxiuService.getInstanceOfPlugin(entitatId);
 
