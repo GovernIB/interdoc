@@ -183,22 +183,20 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
                 
                 
                 ArxiuPluginImpl plugin = pluginArxiuService.getInstanceOfPlugin(entitatId);
+                                
                 
-
-                
-                
+                try {
+                    resultatArxiu = plugin.generarEniDoc(idEni);
+                } catch (Exception e) {
+                    LOG.error("Error generació EniDoc. Generant EniDoc internament.");
+                    // Generacio de EniDoc
                     try {
-                        resultatArxiu = plugin.generarEniDoc(idEni);
-                    } catch (Exception e) {
-                        LOG.error("Error generació EniDoc. Generant EniDoc internament.");
-                        // Generacio de EniDoc
-                        try {
-                            resultatArxiu = generarEniDoc(plugin, idEni);
-                        } catch (Exception ex) {
-                            String msg = "Error generació EniDoc internament => " + ex.getMessage();
-                            throw new Exception(msg, ex);
-                        }
+                        resultatArxiu = generarEniDoc(plugin, idEni);
+                    } catch (Exception ex) {
+                        String msg = "Error generació EniDoc internament => " + ex.getMessage();
+                        throw new Exception(msg, ex);
                     }
+                }
                 
                 
                 
