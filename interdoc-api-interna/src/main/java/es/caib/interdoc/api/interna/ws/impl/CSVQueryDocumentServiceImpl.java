@@ -15,7 +15,6 @@ import java.util.TimeZone;
 
 import javax.activation.DataHandler;
 import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.jws.WebMethod;
@@ -33,20 +32,15 @@ import javax.xml.transform.stream.StreamResult;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.PhaseInterceptorChain;
 import org.apache.cxf.security.SecurityContext;
-import org.apache.wss4j.common.principal.WSUsernameTokenPrincipalImpl;
 import org.jboss.ws.api.annotation.TransportGuarantee;
 import org.jboss.ws.api.annotation.WebContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import es.caib.interdoc.commons.utils.Configuracio;
-import es.caib.interdoc.commons.utils.Constants;
 import es.caib.interdoc.commons.utils.Utils;
 import es.caib.interdoc.ejb.PluginArxiuLogicaService;
-import es.caib.interdoc.ejb.facade.PluginArxiuServiceFacade;
-import es.caib.interdoc.plugins.arxiu.ArxiuController;
 import es.caib.interdoc.plugins.arxiu.ArxiuPluginImpl;
-import es.caib.interdoc.plugins.arxiu.InterdocArxiuPlugin;
 import es.caib.interdoc.service.facade.AccesServiceFacade;
 import es.caib.interdoc.service.facade.InfoArxiuServiceFacade;
 import es.caib.interdoc.service.facade.ReferenciaServiceFacade;
@@ -198,9 +192,6 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
                     }
                 }
                 
-                
-                
-                
                 // Si document_eni => RETORNAM EL PDF TODO
                 if (isDescarregaPDF) {
                     LOG.info("isDescarregaPDF => true");
@@ -317,23 +308,7 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
                     for (String key : message.getContextualPropertyKeys()) {
                         LOG.info("key => " + key);
                     }
-
-                    /*
-                    try {
-                    	AccesDTO acces = new AccesDTO();
-                    	if (referenciaDto.isPresent()) {
-                    		ReferenciaDTO ref = referenciaDto.get();
-                    		acces.setReferenciaId(ref.getId());
-                    	}
-                    	accesService.create(acces);
-                    	
-                    } catch(Exception e ) {
-                    	LOG.error("Error enregistrament acces => " + e.getMessage());
-                    	e.printStackTrace();
-                    }
-                    */
                 }
-
             }
 
             // Montam la resposta
