@@ -30,7 +30,7 @@ public class TestObtenerReferencia {
             String username = prop.getProperty("username");
             String password = prop.getProperty("password");
             
-                       
+            System.out.println("Creando servicio ObtenerReferenciaWs con URL: " + url);           
             ObtenerReferenciaWs referenciaWs = getObtenerReferenciaService(url, username, password);
                         
             String modoFirmaAnexoStr = prop.getProperty("modoFirmaAnexo");

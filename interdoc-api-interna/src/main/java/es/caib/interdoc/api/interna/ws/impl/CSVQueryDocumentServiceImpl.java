@@ -8,6 +8,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
@@ -174,8 +175,7 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
                             "No existeix cap referencia amb el UUID indicat");
                 }
                 entitatId = ref.getEntitatId();
-                
-                
+                                
                 ArxiuPluginImpl plugin = pluginArxiuService.getInstanceOfPlugin(entitatId);
                                 
                 
@@ -285,9 +285,13 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
 
                     if (ueriRequest.getIp() != null)
                         acces.setIp(ueriRequest.getIp());
+                    else
+                        acces.setIp("0.0.0.0");
 
                     if (ueriRequest.getTipoIdentificacion() != null)
                         acces.setTipusIdentificacio(ueriRequest.getTipoIdentificacion().value());
+
+                    acces.setDataCreacio(LocalDate.now());
 
                     accesService.create(acces);
 

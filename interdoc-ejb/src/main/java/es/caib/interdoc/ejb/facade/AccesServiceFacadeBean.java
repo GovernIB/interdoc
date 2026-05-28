@@ -46,7 +46,7 @@ public class AccesServiceFacadeBean implements AccesServiceFacade {
     private AccesConverter converter;
 
     @Override
-    @RolesAllowed(Constants.ITD_ADMIN)
+    @RolesAllowed({Constants.ITD_ADMIN, Constants.ITD_WS})
     public Long create(AccesDTO dto) {
         Acces acces = converter.toEntity(dto);
         repository.create(acces);
