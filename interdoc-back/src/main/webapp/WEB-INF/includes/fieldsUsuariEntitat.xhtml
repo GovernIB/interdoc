@@ -21,11 +21,14 @@
     <!-- entitatId -->
     <ui:decorate template="/WEB-INF/decorations/field.xhtml">
         <ui:define name="label">
-            <p:outputLabel for="entitatNom" value="#{labels.usuariEntitat_entitatNom}" />
+            <p:outputLabel for="entitatId" value="#{labels.usuariEntitat_entitatNom}" />
         </ui:define>
         <ui:define name="input">
-            <p:inputText id="entitatNom" value="#{usuariEntitatModel.entitatNom}" />
-            <p:message for="entitatNom" />
+            <p:selectOneMenu id="entitatId" value="#{usuariEntitatModel.entitatId}">
+                <f:selectItem itemLabel="#{labels.desplegable}" itemValue="#{null}" noSelectionOption="true"/>
+                <f:selectItems value="#{usuariEntitatModel.entitatList}" var="entitat" itemLabel="#{entitat.nom}" itemValue="#{entitat.id}" />
+            </p:selectOneMenu>
+            <p:message for="entitatId" />
         </ui:define>
     </ui:decorate>
 

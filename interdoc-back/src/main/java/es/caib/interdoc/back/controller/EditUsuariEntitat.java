@@ -57,26 +57,20 @@ public class EditUsuariEntitat extends AbstractController implements Serializabl
     public String update() {
         LOG.debug("update");
 
-        UsuariDTO usuariDTO = usuariService.findByUsername(usuariEntitat.getUsername()).orElseThrow();
-        EntitatDTO entitatDTO = entitatService.findByNom(usuariEntitat.getEntitatNom()).orElseThrow();
+        UsuariEntitatDTO dto = new UsuariEntitatDTO();
+        dto.setUsuariEntitatId(usuariEntitat.getUsuariEntitatId());
+        dto.setActiu(usuariEntitat.isActiu());
+        dto.setUsuariId(usuariEntitat.getUsuariId());
+        dto.setEntitatId(usuariEntitat.getEntitatId());
         
-        if(usuariDTO != null && entitatDTO != null) {
-            UsuariEntitatDTO dto = new UsuariEntitatDTO();
-            dto.setUsuariEntitatId(usuariEntitat.getUsuariEntitatId());
-            dto.setActiu(usuariEntitat.isActiu());
-            dto.setUsuariId(usuariEntitat.getUsuariId());
-            dto.setEntitatId(usuariEntitat.getEntitatId());
-            
-            usuariEntitatService.update(dto);
-            
-            ResourceBundle labelsBundle = getBundle("labels");
-            addGlobalMessage(labelsBundle.getString("msg.actualitzaciocorrecta"));
+        usuariEntitatService.update(dto);
+        
+        ResourceBundle labelsBundle = getBundle("labels");
+        addGlobalMessage(labelsBundle.getString("msg.actualitzaciocorrecta"));
 
-            // Els missatges no aguanten una redirecció ja que no es la mateixa petició
-            // Així asseguram que es guardin fins la visualització
-            keepMessages();
-        }
-        
+        // Els missatges no aguanten una redirecció ja que no es la mateixa petició
+        // Així asseguram que es guardin fins la visualització
+        keepMessages();
 
         // Redireccionam cap al llistat d'aplicacions'
         return "/listUsuariEntitat?faces-redirect=true";

@@ -37,7 +37,7 @@ Pàgina per creació de noves unitats orgàniques.
                 <ui:define name="buttons">
                     <p:commandButton id="saveButton" action="#{newUsuariEntitat.save}"
                                      value="#{labels.button_guardar}"
-                                     process="@form" update="@form"/>
+                                     process="@form" update="@form :messages"/>
                     <p:button value="#{labels.button_tornar}" outcome="/listUsuariEntitat"
                               styleClass="float-right"/>
                 </ui:define>

@@ -1,10 +1,12 @@
 package es.caib.interdoc.back.controller;
 
 import java.io.Serializable;
+import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -49,17 +51,27 @@ public class NewUsuariEntitat extends AbstractController implements Serializable
      */
     
     
- // Converteix el model a DTO
+    // Converteix el model a DTO
     public UsuariEntitatDTO modelToDTO(UsuariEntitatModel model) {
         UsuariEntitatDTO dto = new UsuariEntitatDTO();
 
         dto.setActiu(model.isActiu());
         String username = model.getUsername();
 
-        UsuariDTO usuariDTO = usuariService.findByUsername(username).orElseThrow();
-        dto.setUsuariId(usuariDTO.getUsuariId());
+        
 
-        dto.setEntitatId(entitatService.findByNom(model.getEntitatNom()).get().getId());
+        try {
+            UsuariDTO usuariDTO = usuariService.findByUsername(username).orElseThrow();
+            dto.setUsuariId(usuariDTO.getUsuariId());
+        } catch (NoSuchElementException ex) {
+            getContext().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning", "L'usuari amb username '" + username + "' no existeix."));
+            return null;
+        }
+
+        // El entitatId ya está directamente en el modelo (viene del selectOneMenu)
+        dto.setEntitatId(model.getEntitatId());
+
         return dto;
     }
     
@@ -81,6 +93,14 @@ public class NewUsuariEntitat extends AbstractController implements Serializable
     public String save() {
         
         UsuariEntitatDTO usuariEntitatDTO =modelToDTO(usuariEntitat);
+        if (usuariEntitatDTO == null) {
+            return null;
+        }
+        if (usuariEntitatDTO.getUsuariId() == null || usuariEntitatDTO.getEntitatId() == null) {
+            getContext().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning", "Cal seleccionar un usuari i una entitat vàlids."));
+            return null;
+        }
         
         // Feim una creació a BBDD
         usuariEntitatService.create(usuariEntitatDTO);

@@ -12,10 +12,12 @@ import es.caib.interdoc.back.controller.NewUsuariEntitat;
 import es.caib.interdoc.service.facade.EntitatServiceFacade;
 import es.caib.interdoc.service.facade.UsuariEntitatServiceFacade;
 import es.caib.interdoc.service.facade.UsuariServiceFacade;
+import es.caib.interdoc.service.model.EntitatDTO;
 import es.caib.interdoc.service.model.UsuariDTO;
 import es.caib.interdoc.service.model.UsuariEntitatDTO;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Named
 @ViewScoped
@@ -37,6 +39,8 @@ public class UsuariEntitatModel implements Serializable {
     private String entitatNom;
     
     private boolean actiu;
+    
+    private List<EntitatDTO> entitatList;
     
 
     @EJB
@@ -119,9 +123,24 @@ public class UsuariEntitatModel implements Serializable {
         
     }
     
+    public List<EntitatDTO> getEntitatList() {
+        if (entitatList == null) {
+            entitatList = entitatService.getAll();
+        }
+        return entitatList;
+    }
+    
+    public void setEntitatList(List<EntitatDTO> entitatList) {
+        this.entitatList = entitatList;
+    }
+    
     @PostConstruct
     public void postConstruct() {
         this.setActiu(true);
+        // Inicializar lista de entidades
+        if (this.entitatList == null) {
+            this.entitatList = entitatService.getAll();
+        }
     }
 
     
