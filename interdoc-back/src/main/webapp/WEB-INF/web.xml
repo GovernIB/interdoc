@@ -30,6 +30,15 @@
 		<url-pattern>/public/versio</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>Download Fitxer Controller</servlet-name>
+		<servlet-class>es.caib.interdoc.back.controller.DownloadFitxerController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Download Fitxer Controller</servlet-name>
+		<url-pattern>/download/fitxer</url-pattern>
+	</servlet-mapping>
+
 	<filter>
 		<filter-name>PrimeFaces FileUpload Filter</filter-name>
 		<filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>

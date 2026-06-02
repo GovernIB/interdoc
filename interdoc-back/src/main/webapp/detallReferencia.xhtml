@@ -78,7 +78,7 @@
 			
 		</p:panelGrid>
 
-		<c:if test="#{detallReferenciaModel.fitxer != null}">
+        <c:if test="#{detallReferenciaModel.fitxer.id != null and not empty detallReferenciaModel.infoArxiu.arxiuDocumentId}">
 		<p:panelGrid columns="2" style="width: 100%" columnClasses="thirty-percent top-alignment, seventy-percent top-alignment">
             <f:facet name="header">#{labels.listFitxer_link}</f:facet>
             
@@ -109,6 +109,16 @@
             <!-- dataCreacio -->
             <h:outputText value="#{labels.referencia_dataCreacio}:" />
             <h:outputText value="#{detallReferenciaModel.fitxer.dataCreacio}" />
+
+            <!-- descarregar -->
+            <h:outputText value="#{labels.fitxer_descarregar}:" />
+            <h:outputLink
+                value="#{facesContext.externalContext.requestContextPath}/download/fitxer?referenciaId=#{detallReferenciaModel.referencia.id}"
+                styleClass="btn btn-outline-primary btn-sm"
+                target="_blank">
+                <span class="oi oi-data-transfer-download" aria-hidden="true"></span>
+                <h:outputText value=" #{labels.fitxer_descarregar}" />
+            </h:outputLink>
             
         </p:panelGrid>
 		</c:if>
