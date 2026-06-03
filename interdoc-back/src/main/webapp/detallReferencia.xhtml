@@ -119,6 +119,18 @@
                 <span class="oi oi-data-transfer-download" aria-hidden="true"></span>
                 <h:outputText value=" #{labels.fitxer_descarregar}" />
             </h:outputLink>
+
+            <!-- descarregar ENI Document -->
+            <h:outputText value="Descargar ENI Document:" />
+            <h:outputLink
+                value="#{facesContext.externalContext.requestContextPath}/download/eni?referenciaId=#{detallReferenciaModel.referencia.id}"
+                styleClass="btn btn-outline-primary btn-sm"
+                target="_blank">
+                <span class="oi oi-data-transfer-download" aria-hidden="true"></span>
+                <h:outputText value=" Descargar ENI Document" />
+            </h:outputLink>
+
+            
             
         </p:panelGrid>
 		</c:if>

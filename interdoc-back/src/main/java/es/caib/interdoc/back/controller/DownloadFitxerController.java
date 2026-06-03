@@ -1,6 +1,7 @@
 package es.caib.interdoc.back.controller;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,6 +35,7 @@ import es.caib.pluginsib.arxiu.api.Document;
 public class DownloadFitxerController extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
+    private static final String DOWNLOAD_ENI_PATH = "/download/eni";
 
     private static final Logger LOG = LoggerFactory.getLogger(DownloadFitxerController.class);
 
@@ -107,6 +109,27 @@ public class DownloadFitxerController extends HttpServlet {
                 return;
             }
 
+            if (isEniDownloadRequest(request)) {
+                String eniDoc = plugin.generarEniDoc(infoArxiu.getArxiuDocumentId());
+                if (Utils.isEmpty(eniDoc)) {
+                    response.sendError(HttpServletResponse.SC_NOT_FOUND, "No s'ha pogut generar l'ENI Document");
+                    return;
+                }
+
+                byte[] eniBytes = eniDoc.getBytes(StandardCharsets.UTF_8);
+                String eniFileName = "enidoc_" + referenciaId + ".xml";
+
+                response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+                response.setContentType("application/xml;charset=UTF-8");
+                response.setHeader("X-Content-Type-Options", "nosniff");
+                response.setHeader("Content-Disposition",
+                        "attachment; filename=\"" + sanitizeFilename(eniFileName) + "\"");
+                response.setContentLengthLong(eniBytes.length);
+                response.getOutputStream().write(eniBytes);
+                response.getOutputStream().flush();
+                return;
+            }
+
             Document document = plugin.descarregarDocument(infoArxiu.getArxiuDocumentId());
             if (document == null || document.getContingut() == null || document.getContingut().getContingut() == null) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "No s'ha recuperat cap contingut del document");
@@ -169,6 +192,11 @@ public class DownloadFitxerController extends HttpServlet {
 
         Pagina<UsuariEntitatDTO> pagina = usuariEntitatService.findFiltered(0, 1, filter, Collections.emptyList());
         return pagina != null && pagina.getTotal() > 0;
+    }
+
+    private boolean isEniDownloadRequest(HttpServletRequest request) {
+        String requestUri = request.getRequestURI();
+        return requestUri != null && requestUri.endsWith(DOWNLOAD_ENI_PATH);
     }
 
     private String sanitizeFilename(String fileName) {

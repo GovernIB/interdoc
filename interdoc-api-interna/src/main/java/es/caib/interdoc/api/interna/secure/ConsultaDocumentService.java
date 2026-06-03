@@ -27,12 +27,8 @@ import org.slf4j.LoggerFactory;
 import es.caib.interdoc.commons.utils.Configuracio;
 import es.caib.interdoc.commons.utils.Utils;
 import es.caib.interdoc.ejb.PluginArxiuLogicaService;
-import es.caib.interdoc.ejb.facade.PluginArxiuServiceFacade;
 import es.caib.interdoc.plugins.arxiu.ArxiuPluginImpl;
-import es.caib.interdoc.plugins.arxiu.DocumentInfo;
-import es.caib.interdoc.plugins.arxiu.InterdocArxiuPlugin;
 import es.caib.interdoc.service.facade.ReferenciaServiceFacade;
-import es.caib.interdoc.service.model.ReferenciaDTO;
 import es.caib.pluginsib.arxiu.api.Document;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -93,11 +89,8 @@ public class ConsultaDocumentService {
             // content = @Content(mediaType = MediaType.APPLICATION_JSON)),
             @ApiResponse(responseCode = "200", description = "Document UUID", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = String.class))) })
     public Response consultaDocument(
-
             @Parameter(description = "UUID del document", required = true, schema = @Schema(implementation = String.class)) @QueryParam("uuid") String uuid,
-
             @Parameter(description = "codi de l'entitat", required = true, schema = @Schema(implementation = String.class)) @QueryParam("entitatId") String entitatId,
-
             @Parameter(description = "Enidoc", required = false, schema = @Schema(implementation = String.class)) @QueryParam("enidoc") String enidoc) {
 
         try {
@@ -115,26 +108,23 @@ public class ConsultaDocumentService {
                 return generateErrorResponse(
                         "Error: no ens arriba cap UUID ni fitxer. Al manco, ens ha d'arribar un d'ells.");
 
-            // ArxiuController pluginArxiu = new ArxiuController(Long.parseLong(entitatId));
-
             ArxiuPluginImpl plugin = pluginArxiuService.getInstanceOfPlugin(Long.parseLong(entitatId));
 
             if ("true".equalsIgnoreCase(enidoc)) {
 
-                String enidocXml = "";
-                
+                String enidocXml = null;
+
                 // XYZ ZZZ - Llevar comentaris quan s'hagui acabat de testejar la funcionalitat
                 // de generar l'ENIDOC XML a partir del document.
-                /*if (plugin != null){
+                if (plugin != null) {
                     enidocXml = plugin.generarEniDoc(uuid);
-                    if (enidocXml == null) {
-                        log.error("Error: No s'ha pogut trobat l'ENIDOC XML. Intentant generar-lo a partir del document:");*/
-                        //generarEnidoc(plugin, uuid);
-                    /*}
-                }*/
-                 enidocXml = generarEnidoc(plugin, uuid);
-                
-                    
+
+                }
+
+                if (enidocXml == null || enidocXml.isEmpty()) {
+                    log.error("Error: No s'ha pogut trobat l'ENIDOC XML. Intentant generar-lo a partir del document:");
+                    enidocXml = generarEnidoc(plugin, uuid);
+                }
 
                 if (enidocXml != null) {
 
@@ -182,29 +172,29 @@ public class ConsultaDocumentService {
         return Response.status(Response.Status.BAD_REQUEST).entity("{ \"error\" : " + "\"" + msg + "\" }").build();
     }
 
-private String generarEnidoc(ArxiuPluginImpl plugin, String uuid) throws Exception {
-        
-        
-        //Recuperacio de la referencia corresponent, 
-        // en cas que fos necessaria informacio adicional    
-        //ReferenciaDTO referencia = referenciaService.findByUUID(uuid).get();
-        
+    private String generarEnidoc(ArxiuPluginImpl plugin, String uuid) throws Exception {
+
+        // Recuperacio de la referencia corresponent,
+        // en cas que fos necessaria informacio adicional
+        // ReferenciaDTO referencia = referenciaService.findByUUID(uuid).get();
 
         es.caib.pluginsib.arxiu.api.Document doc = plugin.descarregarDocument(uuid);
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         org.w3c.dom.Document xmlDoc = builder.newDocument();
 
-        /*org.w3c.dom.Element root = xmlDoc.createElement("document");
-        xmlDoc.appendChild(root);
-
-        org.w3c.dom.Element id = xmlDoc.createElement("id");
-        id.setTextContent("CONTENT_ID_1");
-        root.appendChild(id);
-
-        org.w3c.dom.Element metadata = xmlDoc.createElement("metadades");
-        metadata.setTextContent(String.valueOf(doc.getMetadades()));
-        root.appendChild(metadata);*/
+        /*
+         * org.w3c.dom.Element root = xmlDoc.createElement("document");
+         * xmlDoc.appendChild(root);
+         * 
+         * org.w3c.dom.Element id = xmlDoc.createElement("id");
+         * id.setTextContent("CONTENT_ID_1");
+         * root.appendChild(id);
+         * 
+         * org.w3c.dom.Element metadata = xmlDoc.createElement("metadades");
+         * metadata.setTextContent(String.valueOf(doc.getMetadades()));
+         * root.appendChild(metadata);
+         */
 
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
@@ -231,7 +221,7 @@ private String generarEnidoc(ArxiuPluginImpl plugin, String uuid) throws Excepti
         rootEnidoc.appendChild(contenido);
 
         org.w3c.dom.Element valorBinario = xmlDoc.createElement("enifile:ValorBinario");
-        
+
         byte[] contingut = (doc.getContingut() != null) ? doc.getContingut().getContingut() : null;
         String contingutBase64 = (contingut != null) ? Base64.getEncoder().encodeToString(contingut) : "";
         valorBinario.setTextContent(contingutBase64);
@@ -241,17 +231,14 @@ private String generarEnidoc(ArxiuPluginImpl plugin, String uuid) throws Excepti
         nombreFormato.setTextContent(doc.getMetadades().getFormat().toString());
         contenido.appendChild(nombreFormato);
 
-        
-
         // Metadatos
-        
+
         org.w3c.dom.Element metadatos = xmlDoc.createElement("enidocmeta:metadatos");
         metadatos.setAttribute("Id", "METADATA_1");
-        
 
         org.w3c.dom.Element versionNTI = xmlDoc.createElementNS(
-        "http://administracionelectronica.gob.es/ENI/XSD/v1.0/documento-e/metadatos",
-        "enidocmeta:VersionNTI");
+                "http://administracionelectronica.gob.es/ENI/XSD/v1.0/documento-e/metadatos",
+                "enidocmeta:VersionNTI");
         versionNTI.setTextContent("http://administracionelectronica.gob.es/ENI/XSD/v1.0/documento-e");
         metadatos.appendChild(versionNTI);
 
@@ -293,13 +280,12 @@ private String generarEnidoc(ArxiuPluginImpl plugin, String uuid) throws Excepti
         firma.setAttribute("Id", "SIGNATURE_ID_1");
         firmas.appendChild(firma);
 
-        
-        if(doc.getMetadades() != null) {
+        if (doc.getMetadades() != null) {
             org.w3c.dom.Element tipoFirma = xmlDoc.createElement("enids:TipoFirma");
             tipoFirma.setTextContent(doc.getMetadades().getMetadadesAddicionals().get("TipoFirma").toString());
             firma.appendChild(tipoFirma);
         }
-        
+
         org.w3c.dom.Element contenidoFirma = xmlDoc.createElement("enids:ContenidoFirma");
         firma.appendChild(contenidoFirma);
 
