@@ -42,6 +42,10 @@
 		<servlet-name>Download Fitxer Controller</servlet-name>
 		<url-pattern>/download/eni</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Download Fitxer Controller</servlet-name>
+		<url-pattern>/download/generarEniDocument</url-pattern>
+	</servlet-mapping>
 
 	<filter>
 		<filter-name>PrimeFaces FileUpload Filter</filter-name>
