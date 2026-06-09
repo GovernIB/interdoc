@@ -1,6 +1,7 @@
 package es.caib.interdoc.back.controller;
 
 import es.caib.interdoc.back.utils.PFUtils;
+import es.caib.interdoc.service.exception.ServiceException;
 import es.caib.interdoc.service.facade.UsuariServiceFacade;
 import es.caib.interdoc.service.model.Ordre;
 import es.caib.interdoc.service.model.Pagina;
@@ -15,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.PostConstruct;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -96,8 +98,14 @@ public class ListUsuari extends AbstractController implements Serializable {
         // Obtenir el resource bundle d'etiquetes definit a faces-config.xml
         ResourceBundle labelsBundle = getBundle("labels");
 
-        usuariService.delete(id);
-        addGlobalMessage(labelsBundle.getString("msg.eliminaciocorrecta"));
+        try {
+            usuariService.delete(id);
+            addGlobalMessage(labelsBundle.getString("msg.eliminaciocorrecta"));
+        } catch (ServiceException e) {
+            LOG.warn("No es pot eliminar l'usuari {} perquè té una entitat assignada.", id, e);
+            getContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "No es pot eliminar un usuari amb una entitat assignada", null));
+        }
 
     }
 }
