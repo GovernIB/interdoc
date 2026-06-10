@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -36,6 +37,8 @@ import java.util.stream.Collectors;
 public class ListEntitat extends AbstractController implements Serializable {
 
     private static final long serialVersionUID = -6015369276336087696L;
+    private static final String FK_USUARI_ENTITAT = "itd_usuari_entitat_fk";
+    private static final String TABLE_USUARI = "itd_usuari";
 
     private static final Logger LOG = LoggerFactory.getLogger(ListEntitat.class);
 
@@ -104,9 +107,36 @@ public class ListEntitat extends AbstractController implements Serializable {
         // Obtenir el resource bundle d'etiquetes definit a faces-config.xml
         ResourceBundle labelsBundle = getBundle("labels");
 
-        entitatService.delete(id);
-        addGlobalMessage(labelsBundle.getString("msg.eliminaciocorrecta"));
+        try {
+            entitatService.delete(id);
+            addGlobalMessage(labelsBundle.getString("msg.eliminaciocorrecta"));
+        } catch (Exception e) {
+            LOG.error("Error eliminant l'entitat amb id {}", id, e);
 
+            String errorMessage = isUsuariEntitatConstraintViolation(e)
+                    ? labelsBundle.getString("msg.entitat_no_eliminable_te_usuaris")
+                    : labelsBundle.getString("error.exception.title");
+
+            getContext().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, errorMessage, null));
+        }
+
+    }
+
+    private boolean isUsuariEntitatConstraintViolation(Throwable throwable) {
+        Throwable current = throwable;
+        while (current != null) {
+            String message = current.getMessage();
+            if (message != null) {
+                String normalized = message.toLowerCase();
+                if (normalized.contains(FK_USUARI_ENTITAT)
+                        || (normalized.contains("itd_entitat") && normalized.contains(TABLE_USUARI))) {
+                    return true;
+                }
+            }
+            current = current.getCause();
+        }
+        return false;
     }
 
     /**
