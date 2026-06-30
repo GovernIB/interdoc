@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>es.caib.interdoc</groupId>
 		<artifactId>interdoc</artifactId>
-		<version>1.0.1</version>
+		<version>1.0.2</version>
 	</parent>
 
 	<artifactId>interdoc-back</artifactId>
@@ -46,13 +46,13 @@
 		<dependency>
 			<groupId>es.caib.interdoc</groupId>
 			<artifactId>interdoc-ejb</artifactId>
-			<version>1.0.1</version>
+			<version>1.0.2</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 		    <groupId>es.caib.interdoc</groupId>
 		    <artifactId>interdoc-ws-api</artifactId>
-		    <version>1.0.1</version>
+		    <version>1.0.2</version>
 		    <exclusions>
 		      <exclusion>
 		          <artifactId>commons-io</artifactId>

@@ -5,7 +5,7 @@
     <parent>
         <groupId>es.caib.interdoc</groupId>
         <artifactId>interdoc</artifactId>
-        <version>1.0.1</version>
+        <version>1.0.2</version>
     </parent>
     <artifactId>interdoc-plugins</artifactId>
     <packaging>pom</packaging>

@@ -5,7 +5,7 @@
     <parent>
         <groupId>es.caib.interdoc</groupId>
         <artifactId>interdoc</artifactId>
-        <version>1.0.1</version>
+        <version>1.0.2</version>
     </parent>
 
     <artifactId>interdoc-ejb</artifactId>
@@ -92,13 +92,13 @@
         <dependency>
         	<groupId>es.caib.interdoc</groupId>
         	<artifactId>interdoc-plugins-arxiu</artifactId>
-        	<version>1.0.1</version>
+        	<version>1.0.2</version>
         </dependency>
 
         <dependency>
             <groupId>es.caib.interdoc</groupId>
             <artifactId>interdoc-plugins-firma-api</artifactId>
-            <version>1.0.1</version>
+            <version>1.0.2</version>
         </dependency>
     </dependencies>
 

@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>es.caib.interdoc</groupId>
 		<artifactId>interdoc</artifactId>
-		<version>1.0.1</version>
+		<version>1.0.2</version>
 	</parent>
 
 	<artifactId>interdoc-ear</artifactId>
@@ -68,20 +68,20 @@
 		<dependency>
 			<groupId>es.caib.interdoc</groupId>
 			<artifactId>interdoc-api-interna</artifactId>
-			<version>1.0.1</version>
+			<version>1.0.2</version>
 			<type>war</type>
 		</dependency>
 		<dependency> 
 			<groupId>es.caib.interdoc</groupId>
 			<artifactId>interdoc-api-externa</artifactId> 
-			<version>1.0.1</version>
+			<version>1.0.2</version>
 			<type>war</type>
 		</dependency>
 
         <dependency>
 			<groupId>es.caib.interdoc</groupId>
 			<artifactId>interdoc-plugins-arxiu</artifactId>
-			<version>1.0.1</version>
+			<version>1.0.2</version>
 			<!--<exclusions>
 				<exclusion>
 					<groupId>com.sun.jersey</groupId>
@@ -101,7 +101,7 @@
         <dependency>
 			<groupId>es.caib.interdoc</groupId>
 			<artifactId>interdoc-plugins-firma-api</artifactId>
-			<version>1.0.1</version>
+			<version>1.0.2</version>
 			<!--<exclusions>
 				<exclusion>
 					<groupId>com.sun.jersey</groupId>
@@ -117,7 +117,7 @@
 		<dependency>
 			<groupId>es.caib.interdoc</groupId>
 			<artifactId>interdoc-plugins-firma-apifirmasimple</artifactId>
-			<version>1.0.1</version>
+			<version>1.0.2</version>
 			<!--<exclusions>
 				<exclusion>
 					<groupId>com.sun.jersey</groupId>
