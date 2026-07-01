@@ -394,6 +394,18 @@ public class UserLocale implements Serializable {
     public boolean isAdminEntitat() {
         return "ADMIN_ENTITAT".equals(getSelectedRole());
     }
+
+    public boolean canAccessEntitat(Long entitatId) {
+        if (entitatId == null) {
+            return false;
+        }
+
+        if (security.isAdmin()) {
+            return true;
+        }
+
+        return verificarEntitatAssignada(usuariId, entitatId);
+    }
     
     /**
      * Verifica si l'usuari pot veure l'opció de Super Admin al menú.
@@ -518,6 +530,39 @@ public class UserLocale implements Serializable {
                 } catch (Exception e) {
                     LOG.error("Error redirigint després de denegar accés", e);
                 }
+            }
+        }
+    }
+
+    public void requireEntitatAccess() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        Long entitatIdParam = null;
+
+        if (context != null) {
+            String entitatIdRaw = context.getExternalContext().getRequestParameterMap().get("entitatId");
+            if (entitatIdRaw != null && !entitatIdRaw.isEmpty()) {
+                try {
+                    entitatIdParam = Long.valueOf(entitatIdRaw);
+                } catch (NumberFormatException e) {
+                    LOG.warn("Paràmetre entitatId invàlid: {}", entitatIdRaw);
+                }
+            }
+        }
+
+        if (canAccessEntitat(entitatIdParam)) {
+            return;
+        }
+
+        LOG.warn("Intent d'accés no autoritzat al detall d'entitat {} per l'usuari: {}", entitatIdParam, this.username);
+
+        if (context != null) {
+            ExternalContext externalContext = context.getExternalContext();
+
+            try {
+                externalContext.redirect(externalContext.getRequestContextPath() + "/listReferencia.xhtml");
+                context.responseComplete();
+            } catch (Exception e) {
+                LOG.error("Error redirigint després de denegar accés al detall d'entitat", e);
             }
         }
     }

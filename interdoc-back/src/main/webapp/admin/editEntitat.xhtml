@@ -11,10 +11,9 @@ Pàgina per edició d'unitats orgàniques.
     <ui:define name="metadata">
         <f:metadata>
             <f:viewParam id="entitatId" name="entitatId" value="#{entitatModel.value.id}" />
+            <f:viewAction action="#{userLocale.requireEntitatAccess()}" />
             <f:viewAction action="#{entitatModel.load}" />
             <f:importConstants type="es.caib.interdoc.service.model.Estat" var="estats"/>
-            <!-- Guard per verificar accés a pàgina restringida -->
-            <f:event type="preRenderView" listener="#{userLocale.requireSuperAdmin()}" />
         </f:metadata>
     </ui:define>
 

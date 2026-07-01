@@ -190,6 +190,18 @@
 	</security-constraint>
 
 	<security-constraint>
+		<display-name>Accés a edició d'entitat per usuaris i administradors</display-name>
+		<web-resource-collection>
+			<web-resource-name>Editar entitat</web-resource-name>
+			<url-pattern>/admin/editEntitat.xhtml</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>ITD_ADMIN</role-name>
+			<role-name>ITD_USER</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<security-constraint>
 		<display-name>Accés restringit a administradors</display-name>
 		<web-resource-collection>
 			<web-resource-name>tot</web-resource-name>

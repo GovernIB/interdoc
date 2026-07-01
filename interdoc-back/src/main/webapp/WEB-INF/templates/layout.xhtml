@@ -150,6 +150,14 @@ Plantilla.
                                         <span class="mb-0 botoCurt">#{labels.listEntitat_link}</span>
                                     </p:link>
 
+                                    <!--  Entitat seleccionada  -->
+                                    <p:link styleClass="dropdown-item mobil" outcome="/admin/editEntitat"
+                                        title="#{labels.editEntitat_link}"
+                                        rendered="#{userLocale.isAdminEntitat() and userLocale.entitatId != null}">
+                                        <f:param name="entitatId" value="#{userLocale.entitatId}" />
+                                        <span class="mb-0 botoCurt">#{labels.entitat_label}</span>
+                                    </p:link>
+
                                     <!--  Usuarios aplicación -->
                                     <p:link styleClass="dropdown-item mobil" outcome="/listAplicacio"
                                         title="#{labels.aplicacio_menu_link}">
