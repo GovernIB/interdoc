@@ -18,6 +18,7 @@ import es.caib.interdoc.service.facade.FitxerServiceFacade;
 import es.caib.interdoc.service.model.FitxerDTO;
 
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -76,6 +77,8 @@ public class NewReferencia extends AbstractController implements Serializable {
 
     public String save() {
         LOG.debug("save");
+
+		ResourceBundle labelsBundle = getBundle("labels");
         
         if (Configuracio.isDesenvolupament()) {
 	        LOG.info("SAVE");
@@ -97,15 +100,35 @@ public class NewReferencia extends AbstractController implements Serializable {
 	        LOG.info("metadades9 => " + referencia.getM9_clau() + " => " + referencia.getM9_valor());
 	        LOG.info("metadades10 => " + referencia.getM10_clau() + " => " + referencia.getM10_valor());
         }
+
+        final boolean hasAttachedFile = referencia.getValue().getFitxerId() != null
+				&& referencia.getValue().getFitxerId() > 0;
+        final boolean hasUuid = Utils.isNotEmpty(referencia.getValue().getUuId());
+
+        // Comprovacio: Si te ficher adjunt, ignoram UUID.
+        if (!hasAttachedFile && !hasUuid) {
+			getContext().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							labelsBundle.getString("novaReferencia_validation_uuid_or_file_required"), null));
+			keepMessages();
+			return null;
+        }
         
         ObtenerReferenciaRequestInfo infoRequest = new ObtenerReferenciaRequestInfo();
         infoRequest.setAplicacioId(String.valueOf(Constants.INTERDOC_APP_ID));
         
         if (Utils.isNotEmpty(referencia.getValue().getCsvId()))
         	infoRequest.setCsv(referencia.getValue().getCsvId());  
-        
-        if (Utils.isNotEmpty(referencia.getValue().getUuId()))
+
+        if (hasUuid && !hasAttachedFile)
         	infoRequest.setUuid(referencia.getValue().getUuId());
+
+        if (hasUuid && hasAttachedFile) {
+			LOG.warn("S'ha adjuntat fitxer i s'ha informat UUID. Es prioritzarà el flux amb fitxer i no s'enviarà UUID al WS.");
+			getContext().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN,
+							labelsBundle.getString("novaReferencia_validation_uuid_ignored_if_file"), null));
+        }
         
         infoRequest.setEmisor(referencia.getValue().getEmisor());
         infoRequest.setReceptor(referencia.getValue().getReceptor());
@@ -136,7 +159,7 @@ public class NewReferencia extends AbstractController implements Serializable {
         	
         	// Recuperam el document i ho annexam a la petició
         	Optional<FitxerDTO> fitxerTemp = fitxerService.findById(fitxerId);
-        	if (fitxerTemp.isPresent()) {
+	        	if (fitxerTemp.isPresent()) {
        
         		FitxerDTO fitxerDto = fitxerTemp.get();
        
@@ -153,10 +176,22 @@ public class NewReferencia extends AbstractController implements Serializable {
         					LOG.info("Path: " + p.toString());
         					tempFile = Files.readAllBytes(p);
         				}catch(IOException e) {
-        					LOG.info("Error llegint fitxer");
-        					e.printStackTrace();
+	        					LOG.error("Error llegint fitxer des de ruta temporal", e);
         				}
         			}
+
+	        			if ((tempFile == null || tempFile.length == 0) && fitxerDto.getData() != null
+	        					&& fitxerDto.getData().length > 0) {
+	        				tempFile = fitxerDto.getData();
+	        			}
+
+	        			if (tempFile == null || tempFile.length == 0) {
+	        				getContext().addMessage(null,
+	        						new FacesMessage(FacesMessage.SEVERITY_ERROR,
+	        								labelsBundle.getString("novaReferencia_validation_file_empty"), null));
+	        				keepMessages();
+	        				return null;
+	        			}
         			
         			Fitxer f = new Fitxer();
         			f.setNom(fitxerDto.getNom());
@@ -165,7 +200,13 @@ public class NewReferencia extends AbstractController implements Serializable {
         			f.setData(tempFile);
         			f.setTamany(fitxerDto.getTamany());
         			infoRequest.setDocument(f);
-        		}	
+	        		}
+	        	} else {
+	        		getContext().addMessage(null,
+	        				new FacesMessage(FacesMessage.SEVERITY_ERROR,
+	        						labelsBundle.getString("novaReferencia_validation_file_not_found"), null));
+	        		keepMessages();
+	        		return null;
         	}
         }
         
@@ -252,7 +293,7 @@ public class NewReferencia extends AbstractController implements Serializable {
 
             final String obtenerReferenciaWsEndpoint = getArxiuEndpointFromSelectedEntity();
         	
-	        final String obtenerReferenciaWsBaseUrl = obtenerReferenciaWsEndpoint + "?wsdl";
+            final String obtenerReferenciaWsBaseUrl = obtenerReferenciaWsEndpoint + "?wsdl";
         	final URL obtenerReferenciaUrl = new URL(obtenerReferenciaWsBaseUrl);
         	final QName service = new QName("http://impl.ws.interna.api.interdoc.caib.es/", "ObtenerReferenciaWsService");
         	
@@ -261,7 +302,7 @@ public class NewReferencia extends AbstractController implements Serializable {
         		LOG.info("ObtenerReferencia Client Base URL => " + obtenerReferenciaWsBaseUrl);
             	LOG.info("ObtenerReferencia Client URLhost => " + obtenerReferenciaUrl.getHost());
             	LOG.info("Request: " + infoRequest.toString());
-				logWsdlResponsePreview(obtenerReferenciaUrl);
+				//logWsdlResponsePreview(obtenerReferenciaUrl);
         	}
         	
 			ObtenerReferenciaWsService servei = new ObtenerReferenciaWsService(obtenerReferenciaUrl);
@@ -285,7 +326,6 @@ public class NewReferencia extends AbstractController implements Serializable {
 		}
 
 		// Cridam al servei web 
-        ResourceBundle labelsBundle = getBundle("labels");
         addGlobalMessage(labelsBundle.getString("msg.creaciocorrecta"));
         addGlobalMessage(xmlResponse);
         
@@ -343,28 +383,12 @@ public class NewReferencia extends AbstractController implements Serializable {
 	}
 
 	private String getArxiuEndpointFromSelectedEntity() {
-		final Long entitatId = (userLocale != null) ? userLocale.getEntitatId() : null;
-		if (entitatId == null) {
+		//final Long entitatId = (userLocale != null) ? userLocale.getEntitatId() : null;
+		//if (entitatId == null) {
 			LOG.warn("No hi ha entitat seleccionada a userLocale. S'usa endpoint de Configuracio");
 			return Configuracio.getObtenerReferenciaWsdl();
-		}
+		//}
 
-		try {
-			String endpoint = Configuracio.getPluginProperty(
-					entitatId,
-					Constants.PLUGIN_ARXIU,
-					"es.caib.interdoc.plugins.arxiu.endpoint"
-			);
 
-			if (Utils.isNotEmpty(endpoint)) {
-				return endpoint;
-			}
-
-			LOG.warn("No s'ha trobat la propietat es.caib.interdoc.plugins.arxiu.endpoint per l'entitat {}. S'usa endpoint de Configuracio", entitatId);
-			return Configuracio.getObtenerReferenciaWsdl();
-		} catch (Exception e) {
-			LOG.error("Error llegint propietats de plugin Arxiu per l'entitat {}. S'usa endpoint de Configuracio", entitatId, e);
-			return Configuracio.getObtenerReferenciaWsdl();
-		}
 	}
 }

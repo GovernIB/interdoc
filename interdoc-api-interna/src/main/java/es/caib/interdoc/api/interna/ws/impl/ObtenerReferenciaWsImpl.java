@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -248,11 +249,7 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 			if (Utils.isEmpty(obtenerReferenciaRequestInfo.getUuid())
 					&& (obtenerReferenciaRequestInfo.getDocument() == null
 							|| obtenerReferenciaRequestInfo.getDocument().getData().length < 1)) {
-				/*
-				 * return generateXMLErrorResponse("400",
-				 * "Error: no ens arriba cap UUID ni fitxer. Al manco, ens ha d'arribar un d'ells."
-				 * );
-				 */
+				
 				throw new InterdocException(
 						"Error: no ens arriba cap UUID ni fitxer. Al manco, ens ha d'arribar un d'ells.");
 			}
@@ -279,6 +276,7 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 				/* INICI GUARDAR TEMPORAL A FILESYSTEM */
 
 				FitxerDTO fitxerDto = null;
+				File file = null;
 				
 				log.info("NO ES ENIDOC");
 
@@ -292,12 +290,15 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 									: ""));
 					final String fileName = String.valueOf(System.currentTimeMillis()) + "." + extension;
 
-					File file = File.createTempFile(fileName, null);
+					file = File.createTempFile(fileName, null);
 					OutputStream out = new FileOutputStream(file);
 					out.write(obtenerReferenciaRequestInfo.getDocument().getData());
 					out.flush();
 					out.close();
 					
+                    
+
+
 					// Guardam copia a la ruta de files
 					String filePath = Configuracio.getFileTempPath();
 					File file2 = new File(filePath + fileName);
@@ -413,7 +414,11 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 					fitxerInfo.setArxiuNom(fitxerDto.getNom());
 					fitxerInfo.setContingut(fitxerDto.getData());
 					fitxerInfo.setTamany(fitxerDto.getTamany());
-					fitxerInfo.setTipusMime(fitxerDto.getMime());
+                    log.info("----Probing content type = " + obtenerReferenciaRequestInfo.getDocument().getMime());
+                    fitxerInfo.setTipusMime(obtenerReferenciaRequestInfo.getDocument().getMime());
+					
+                    
+
 
 					String extensionFichero = "." + FilenameUtils.getExtension(fitxerDto.getNom()).toLowerCase();
 					final Extensio extensio = Extensio.toEnum(extensionFichero);
@@ -443,7 +448,7 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 							fitxerFirma.setArxiuNom(temp.getNom());
 							fitxerFirma.setContingut(temp.getData());
 							fitxerFirma.setTamany(temp.getTamany());
-							fitxerFirma.setTipusMime(temp.getMime());
+							fitxerFirma.setTipusMime(obtenerReferenciaRequestInfo.getDocument().getMime());
 
 							log.info("infoFirma.setFirma: " + fitxerFirma.toString());
 							infoFirma.setFirma(fitxerFirma);
@@ -508,6 +513,8 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 		                    log.info("Identificador expedient => " + identificadorExpedient);
 							
 							identificadorDocument = plugin.crearDocument(documentInfo, identificadorExpedient);
+							String eniDoc = plugin.generarEniDoc(identificadorDocument);
+							log.info("ENI DOC generat => " + eniDoc);
 
 							if (Configuracio.isDesenvolupament())
 								log.info("numeroExpedient == null ??? " + ((numeroExpedient == null) ? "true" : "false") );
@@ -555,7 +562,7 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 				// Generate Referencia
 				String referencia = (!isEnidoc) ? createReferencia() : obtenerReferenciaRequestInfo.getUuid();
 				// log.info("Referencia generada: " + referencia);
-
+                
 				// Generate Hash
 				String hash = "";
 				if (obtenerReferenciaRequestInfo.getDocument() != null) {
