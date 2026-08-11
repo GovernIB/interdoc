@@ -514,7 +514,7 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 							
 							identificadorDocument = plugin.crearDocument(documentInfo, identificadorExpedient);
 							String eniDoc = plugin.generarEniDoc(identificadorDocument);
-							log.info("ENI DOC generat => " + eniDoc);
+							log.info("ENI DOC obtingut de Arxiu. => " + eniDoc);
 
 							if (Configuracio.isDesenvolupament())
 								log.info("numeroExpedient == null ??? " + ((numeroExpedient == null) ? "true" : "false") );

@@ -184,12 +184,6 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
                 } catch (Exception e) {
                     LOG.error("Error generació EniDoc. Generant EniDoc internament.");
                     // Generacio de EniDoc
-                    try {
-                        resultatArxiu = generarEniDoc(plugin, idEni);
-                    } catch (Exception ex) {
-                        String msg = "Error generació EniDoc internament => " + ex.getMessage();
-                        throw new Exception(msg, ex);
-                    }
                 }
                 
                 // Si document_eni => RETORNAM EL PDF TODO
@@ -240,9 +234,8 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
 
                         ArxiuPluginImpl plugin = pluginArxiuService.getInstanceOfPlugin(entitatId);
 
-                        //TODO: Revisar si es pot ficar una comprovacio per extreure el EniDoc de Arxiu o si l'hem de generar aqui.
                         // Generam el ENIDOC
-                        resultatArxiu = generarEniDoc(plugin, infoArxiu.getArxiuDocumentId());
+                        resultatArxiu = plugin.generarEniDoc(infoArxiu.getArxiuDocumentId());
 
                         
                         // Si document_eni => RETORNAM EL PDF
@@ -477,138 +470,4 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
 
     }
     
-    //Genera el EniDoc a partir de la informació obtinguda de la funcio descarregarDocument del plugin d'arxiu.
-    private String generarEniDoc(ArxiuPluginImpl plugin, String uuid) throws Exception {
-        
-        
-        //Recuperacio de la referencia corresponent, 
-        // en cas que fos necessaria informacio adicional    
-        //ReferenciaDTO referencia = referenciaService.findByUUID(uuid).get();
-        
-        es.caib.pluginsib.arxiu.api.Document doc = plugin.descarregarDocument(uuid);
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        org.w3c.dom.Document xmlDoc = builder.newDocument();
-
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        Transformer transformer = transformerFactory.newTransformer();
-        StringWriter writer = new StringWriter();
-        String xmlString = null;
-
-        // Arrel del document ENIDOC XML
-        org.w3c.dom.Element rootEnidoc = xmlDoc.createElementNS(
-                "http://administracionelectronica.gob.es/ENI/XSD/v1.0/documento-e", "enidoc:documento");
-        rootEnidoc.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:enidoc",
-                "http://administracionelectronica.gob.es/ENI/XSD/v1.0/documento-e");
-        rootEnidoc.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:enids",
-                "http://administracionelectronica.gob.es/ENI/XSD/v1.0/firma");
-        rootEnidoc.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:enidocmeta",
-                "http://administracionelectronica.gob.es/ENI/XSD/v1.0/documento-e/metadatos");
-        rootEnidoc.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:enifile",
-                "http://administracionelectronica.gob.es/ENI/XSD/v1.0/documento-e/contenido");
-        xmlDoc.appendChild(rootEnidoc);
-
-        org.w3c.dom.Element contenido = xmlDoc.createElementNS(
-                "http://administracionelectronica.gob.es/ENI/XSD/v1.0/documento-e/contenido", "enifile:contenido");
-        contenido.setAttribute("Id", "CONTENT_ID_1");
-        rootEnidoc.appendChild(contenido);
-
-        org.w3c.dom.Element valorBinario = xmlDoc.createElement("enifile:ValorBinario");
-        
-        byte[] contingut = (doc.getContingut() != null) ? doc.getContingut().getContingut() : null;
-        String contingutBase64 = (contingut != null) ? Base64.getEncoder().encodeToString(contingut) : "";
-        valorBinario.setTextContent(contingutBase64);
-        contenido.appendChild(valorBinario);
-
-        org.w3c.dom.Element nombreFormato = xmlDoc.createElement("enifile:NombreFormato");
-        nombreFormato.setTextContent(doc.getMetadades().getFormat().toString());
-        contenido.appendChild(nombreFormato);
-
-        // Metadatos
-        
-        org.w3c.dom.Element metadatos = xmlDoc.createElement("enidocmeta:metadatos");
-        metadatos.setAttribute("Id", "METADATA_1");
-        rootEnidoc.appendChild(metadatos);
-        
-        org.w3c.dom.Element versionNTI = xmlDoc.createElementNS(
-        "http://administracionelectronica.gob.es/ENI/XSD/v1.0/documento-e/metadatos",
-        "enidocmeta:VersionNTI");
-        versionNTI.setTextContent("http://administracionelectronica.gob.es/ENI/XSD/v1.0/documento-e");
-        metadatos.appendChild(versionNTI);
-
-        org.w3c.dom.Element identificador = xmlDoc.createElement("enidocmeta:Identificador");
-        identificador.setTextContent(doc.getMetadades().getIdentificador());
-        metadatos.appendChild(identificador);
-
-        org.w3c.dom.Element organo = xmlDoc.createElement("enidocmeta:Organo");
-        List<String> organs = doc.getMetadades().getOrgans();
-        organo.setTextContent(!organs.isEmpty() ? organs.get(0) : "");
-        metadatos.appendChild(organo);
-
-        org.w3c.dom.Element fechaCaptura = xmlDoc.createElement("enidocmeta:FechaCaptura");
-        fechaCaptura.setTextContent(formatXmlDateTime(doc.getMetadades().getDataCaptura()));
-        metadatos.appendChild(fechaCaptura);
-
-        org.w3c.dom.Element origenCiudadanoAdministracion = xmlDoc
-                .createElement("enidocmeta:OrigenCiudadanoAdministracion");
-        origenCiudadanoAdministracion.setTextContent(doc.getMetadades().getOrigen().toString());
-        metadatos.appendChild(origenCiudadanoAdministracion);
-
-        org.w3c.dom.Element estadoElaboracion = xmlDoc.createElement("enidocmeta:EstadoElaboracion");
-        metadatos.appendChild(estadoElaboracion);
-
-        org.w3c.dom.Element valorEstadoElaboracion = xmlDoc.createElement("enidocmeta:ValorEstadoElaboracion");
-        valorEstadoElaboracion.setTextContent(doc.getMetadades().getEstatElaboracio().toString());
-        estadoElaboracion.appendChild(valorEstadoElaboracion);
-
-        org.w3c.dom.Element tipoDocumental = xmlDoc.createElement("enidocmeta:TipoDocumental");
-        tipoDocumental.setTextContent(doc.getMetadades().getTipusDocumental().toString());
-        metadatos.appendChild(tipoDocumental);
-
-
-        // Firma
-        org.w3c.dom.Element firmas = xmlDoc
-                .createElementNS("http://administracionelectronica.gob.es/ENI/XSD/v1.0/firma", "enids:firmas");
-        rootEnidoc.appendChild(firmas);
-
-        org.w3c.dom.Element firma = xmlDoc.createElement("enids:firma");
-        firma.setAttribute("Id", "SIGNATURE_ID_1");
-        firmas.appendChild(firma);
-
-        
-        if(doc.getMetadades().getMetadadesAddicionals() == null) {
-            LOG.info("Metadades Addicionals is null");
-        }
-        
-        if(doc.getMetadades().getMetadadesAddicionals().size() > 0 && doc.getMetadades().getMetadadesAddicionals().get("eni:tipoFirma") != null) {
-            org.w3c.dom.Element tipoFirma = xmlDoc.createElement("enids:TipoFirma");
-            tipoFirma.setTextContent(doc.getMetadades().getMetadadesAddicionals().get("eni:tipoFirma").toString());
-            firma.appendChild(tipoFirma);
-        }
-        
-        org.w3c.dom.Element contenidoFirma = xmlDoc.createElement("enids:ContenidoFirma");
-        firma.appendChild(contenidoFirma);
-
-        org.w3c.dom.Element firmaConCertificado = xmlDoc.createElement("enids:FirmaConCertificado");
-        contenidoFirma.appendChild(firmaConCertificado);
-
-        org.w3c.dom.Element referenciaFirma = xmlDoc.createElement("enids:ReferenciaFirma");
-        referenciaFirma.setTextContent("#CONTENT_ID_1");
-        firmaConCertificado.appendChild(referenciaFirma);
-
-        transformer.transform(new DOMSource(xmlDoc), new StreamResult(writer));
-        xmlString = writer.toString();
-        return xmlString;
-    }
-
-    private String formatXmlDateTime(java.util.Date date) {
-        if (date == null) {
-            return "";
-        }
-        TimeZone tz = TimeZone.getTimeZone("UTC");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        sdf.setTimeZone(tz);
-        return sdf.format(date);
-    }
-
 }

@@ -132,7 +132,7 @@ public class DownloadFitxerController extends HttpServlet {
             ArxiuPluginImpl plugin = pluginArxiuService.getInstanceOfPlugin(referencia.getEntitatId());
 
             if (isGenerarEniDocumentRequest(request)) {
-                String eniDoc = generarEniDocCsvQueryDocumentService(referenciaId, infoArxiu, plugin,
+                String eniDoc = generarReferenciaQueryDocumentService(referenciaId, infoArxiu, plugin,
                     infoArxiu.getArxiuDocumentId(), false);
                 if (Utils.isEmpty(eniDoc)) {
                     writePlainErrorResponse(response, HttpServletResponse.SC_BAD_GATEWAY,
@@ -145,7 +145,7 @@ public class DownloadFitxerController extends HttpServlet {
             }
 
             if (isEniDownloadRequest(request)) {
-                String eniDoc = generarEniDocCsvQueryDocumentService(referenciaId, infoArxiu, plugin,
+                String eniDoc = generarReferenciaQueryDocumentService(referenciaId, infoArxiu, plugin,
                         infoArxiu.getArxiuDocumentId(), true);
                 if (Utils.isEmpty(eniDoc)) {
                     writePlainErrorResponse(response, HttpServletResponse.SC_BAD_GATEWAY,
@@ -400,7 +400,7 @@ public class DownloadFitxerController extends HttpServlet {
         }
     }
 
-    private String generarEniDocCsvQueryDocumentService(Long referenciaId, InfoArxiuDTO infoArxiu,
+    private String generarReferenciaQueryDocumentService(Long referenciaId, InfoArxiuDTO infoArxiu,
             ArxiuPluginImpl plugin, String uuid, boolean preferRemotePlugin) throws Exception {
         List<String> errors = new ArrayList<>();
 
@@ -454,7 +454,7 @@ public class DownloadFitxerController extends HttpServlet {
 
         // Fallback equivalent a CSVQueryDocumentServiceImpl#generarEniDoc
         try {
-            return generarEniDoc(plugin, uuid);
+            return generarReferencia(plugin, uuid);
         } catch (Exception e) {
             errors.add("generarEniDoc intern: " + buildErrorDetail(e));
             String msg = "No s'ha pogut generar l'ENI Document per referenciaId=" + referenciaId
@@ -531,7 +531,7 @@ public class DownloadFitxerController extends HttpServlet {
     }
 
     // Replica la lògica de CSVQueryDocumentServiceImpl.generarEniDoc per forçar la generació local del XML.
-    private String generarEniDoc(ArxiuPluginImpl plugin, String uuid) throws Exception {
+    private String generarReferencia(ArxiuPluginImpl plugin, String uuid) throws Exception {
         es.caib.pluginsib.arxiu.api.Document doc = plugin.descarregarDocument(uuid);
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
