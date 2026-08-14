@@ -106,7 +106,6 @@ public class ConsultaDocumentService {
 
                 if (plugin != null) {
                     enidocXml = plugin.generarEniDoc(uuid);
-
                 }
                 //Codi per generar EniDoc internament quan s'hagui implementat
                 /*if (enidocXml == null || enidocXml.isEmpty()) {

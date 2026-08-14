@@ -41,6 +41,7 @@ import org.slf4j.LoggerFactory;
 import es.caib.interdoc.commons.utils.Configuracio;
 import es.caib.interdoc.commons.utils.Utils;
 import es.caib.interdoc.ejb.PluginArxiuLogicaService;
+import es.caib.interdoc.ejb.utils.XmlGenerator;
 import es.caib.interdoc.plugins.arxiu.ArxiuPluginImpl;
 import es.caib.interdoc.service.facade.AccesServiceFacade;
 import es.caib.interdoc.service.facade.InfoArxiuServiceFacade;
@@ -141,10 +142,6 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
             final Boolean isDescarregaPDF = (ueriRequest.getDocumentoEni() != null
                     && "S".equals(ueriRequest.getDocumentoEni().value())) ? true : false;
 
-            if (Configuracio.isCsvQueryDocumentServiceTest()) {
-                return respostaEnidocMadrid();
-            }
-
             Optional<ReferenciaDTO> referenciaDto = null;
             String resultatArxiu = null;
 
@@ -180,10 +177,19 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
                                 
                 
                 try {
-                    resultatArxiu = plugin.generarEniDoc(idEni);
+                    if("TF02".equals(ref.getFormatFirma())) {
+                        LOG.info("Generació EniDoc a partir del ID: " + idEni);
+                        LOG.info("-- idEni: " + idEni);
+                        LOG.info("-- FormatFirma: "+ref.getFormatFirma());
+                        resultatArxiu = XmlGenerator.generarEniDocXades(plugin, ref.getUuId());
+                    }else{
+                        resultatArxiu = plugin.generarEniDoc(idEni);
+
+                    }
                 } catch (Exception e) {
                     LOG.error("Error generació EniDoc. Generant EniDoc internament.");
                     // Generacio de EniDoc
+                    resultatArxiu = XmlGenerator.generarEniDocXades(plugin, idEni);
                 }
                 
                 // Si document_eni => RETORNAM EL PDF TODO
@@ -235,7 +241,21 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
                         ArxiuPluginImpl plugin = pluginArxiuService.getInstanceOfPlugin(entitatId);
 
                         // Generam el ENIDOC
+                        try {
+                    if("TF02".equals(ref.getFormatFirma())) {
+                        LOG.info("Generació EniDoc a partir del ID: " + infoArxiu.getArxiuDocumentId());
+                        LOG.info("-- idEni: NULL");
+                        LOG.info("-- FormatFirma: "+ref.getFormatFirma());
+                        resultatArxiu = XmlGenerator.generarEniDocXades(plugin, infoArxiu.getArxiuDocumentId());
+                    }else{
                         resultatArxiu = plugin.generarEniDoc(infoArxiu.getArxiuDocumentId());
+
+                    }
+                } catch (Exception e) {
+                    LOG.error("Error generació EniDoc. Generant EniDoc internament.");
+                    // Generacio de EniDoc
+                    resultatArxiu = XmlGenerator.generarEniDocXades(plugin, ref.getUuId());
+                }
 
                         
                         // Si document_eni => RETORNAM EL PDF
@@ -352,17 +372,6 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
 
     }
 
-    private CSVQueryDocumentSecurityResponse generateCSVQueryDocumentSecurityErrorResponse(String codigo,
-            String descripcion) throws Exception {
-
-        CSVQueryDocumentSecurityResponse response = new CSVQueryDocumentSecurityResponse();
-        response.setCode(codigo);
-        response.setDescription(descripcion);
-        response.setDocumentUrlResponse(null);
-        return response;
-
-    }
-
     private CSVQueryDocumentMtomSecurityResponse generateCSVQueryDocumentSecurityMtomErrorResponse(String codigo,
             String descripcion) throws Exception {
 
@@ -392,82 +401,6 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
         }
 
         return outputStream.toByteArray();
-    }
-
-    private CSVQueryDocumentMtomSecurityResponse respostaTest() {
-        // Retornam un fitxer de test des d'arxiu
-        Long entitatId = 1L;
-        String resultatArxiu = null;
-
-        try {
-            String expedienteId = "092e59a9-063f-45bf-bb27-d21abc37cb63";
-            String documentoId = "9ae1da2c-64e5-4a26-910f-cd514b1fd3c4";
-
-            //ArxiuController arxiu = new ArxiuController(entitatId);
-            //InterdocArxiuPlugin plugin = pluginService.getPlugin(entitatId);
-
-            ArxiuPluginImpl plugin = pluginArxiuService.getInstanceOfPlugin(entitatId);
-
-            resultatArxiu = plugin.generarEniDoc(documentoId);
-            LOG.info("Resultat arxiu => " + resultatArxiu);
-        } catch (Exception e) {
-            LOG.error("Error inicialització arxiu => " + e.getMessage());
-            e.printStackTrace();
-        }
-
-        // MONTAM LA RESPOSTA
-        CSVQueryDocumentMtomSecurityResponse response = new CSVQueryDocumentMtomSecurityResponse();
-
-        response.setCode("0");
-        response.setDescription("Operación con éxito");
-
-        DocumentoMtomResponse documentoMtomResponse = new DocumentoMtomResponse();
-
-        ContenidoMtomInfo contenido = new ContenidoMtomInfo();
-
-        DataHandler result = null;
-        if (resultatArxiu != null) {
-            ByteArrayDataSource barrds = new ByteArrayDataSource(resultatArxiu.getBytes(StandardCharsets.UTF_8),
-                    "application/octet-stream");
-            result = new DataHandler(barrds);
-            LOG.info("Datahandler inicializado");
-        }
-        contenido.setContenido(result);
-        contenido.setTipoMIME("text/xml");
-
-        documentoMtomResponse.setContenido(contenido);
-
-        response.setDocumentoMtomResponse(documentoMtomResponse);
-
-        return response;
-    }
-
-    private CSVQueryDocumentMtomSecurityResponse respostaEnidocMadrid() {
-
-        InputStream in = this.getClass().getClassLoader().getResourceAsStream("/test_enidoc_madrid.xml");
-        InputStreamDataSource isds = new InputStreamDataSource(in);
-
-        // MONTAM LA RESPOSTA
-        CSVQueryDocumentMtomSecurityResponse response = new CSVQueryDocumentMtomSecurityResponse();
-
-        response.setCode("0");
-        response.setDescription("Operación con éxito");
-
-        DocumentoMtomResponse documentoMtomResponse = new DocumentoMtomResponse();
-        ContenidoMtomInfo contenido = new ContenidoMtomInfo();
-
-        DataHandler result = new DataHandler(isds);
-        LOG.info("Datahandler test_enidoc_madrid inicializado");
-
-        contenido.setContenido(result);
-        contenido.setTipoMIME("text/xml");
-
-        documentoMtomResponse.setContenido(contenido);
-
-        response.setDocumentoMtomResponse(documentoMtomResponse);
-
-        return response;
-
     }
     
 }

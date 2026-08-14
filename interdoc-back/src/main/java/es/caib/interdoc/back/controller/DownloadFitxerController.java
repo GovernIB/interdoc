@@ -3,34 +3,24 @@ package es.caib.interdoc.back.controller;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.StringWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.TimeZone;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +28,7 @@ import org.slf4j.LoggerFactory;
 import es.caib.interdoc.commons.utils.Constants;
 import es.caib.interdoc.commons.utils.Utils;
 import es.caib.interdoc.ejb.PluginArxiuLogicaService;
+import es.caib.interdoc.ejb.utils.XmlGenerator;
 import es.caib.interdoc.plugins.arxiu.ArxiuPluginImpl;
 import es.caib.interdoc.service.facade.FitxerServiceFacade;
 import es.caib.interdoc.service.facade.InfoArxiuServiceFacade;
@@ -59,7 +50,9 @@ public class DownloadFitxerController extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
     private static final String DOWNLOAD_ENI_PATH = "/download/eni";
+    private static final String DOWNLOAD_REFERENCIA_PATH = "/download/generarReferencia";
     private static final String GENERAR_ENI_DOCUMENT_PATH = "/download/generarEniDocument";
+    private static final String GENERAR_ENI_DOCUMENT_XADES_PATH = "/download/generarEniDocumentXades";
 
     private static final Logger LOG = LoggerFactory.getLogger(DownloadFitxerController.class);
 
@@ -144,16 +137,40 @@ public class DownloadFitxerController extends HttpServlet {
                 return;
             }
 
-            if (isEniDownloadRequest(request)) {
-                String eniDoc = generarReferenciaQueryDocumentService(referenciaId, infoArxiu, plugin,
-                        infoArxiu.getArxiuDocumentId(), true);
+            if (isGenerarEniDocumentXadesRequest(request)) {
+                String eniDoc = generarEniDocXades(referenciaId, referencia, infoArxiu, plugin);
                 if (Utils.isEmpty(eniDoc)) {
                     writePlainErrorResponse(response, HttpServletResponse.SC_BAD_GATEWAY,
-                            "No s'ha pogut descarregar l'ENI Document: no hi ha dades locals i Arxiu extern no és accessible.");
+                            "No s'ha pogut generar l'ENI Document XAdES: no hi ha dades locals i Arxiu extern no és accessible.");
                     return;
                 }
 
                 writeEniDocumentResponse(response, referenciaId, eniDoc);
+                return;
+            }
+
+            if (isEniDownloadRequest(request)) {
+                String eniDoc = descarregarEniDocumentPlugin(referenciaId, referencia, infoArxiu, plugin);
+                if (Utils.isEmpty(eniDoc)) {
+                    writePlainErrorResponse(response, HttpServletResponse.SC_BAD_GATEWAY,
+                            "No s'ha pogut descarregar l'ENI Document des d'Arxiu.");
+                    return;
+                }
+
+                writeEniDocumentResponse(response, referenciaId, eniDoc);
+                return;
+            }
+
+            if (isReferenciaDownloadRequest(request)) {
+                String eniDoc = generarReferenciaQueryDocumentService(referenciaId, infoArxiu, plugin,
+                        infoArxiu.getArxiuDocumentId(), false);
+                if (Utils.isEmpty(eniDoc)) {
+                    writePlainErrorResponse(response, HttpServletResponse.SC_BAD_GATEWAY,
+                            "No s'ha pogut descarregar la Referència: no hi ha dades locals i Arxiu extern no és accessible.");
+                    return;
+                }
+
+                writeReferenciaDocumentResponse(response, referenciaId, eniDoc);
                 return;
             }
 
@@ -230,15 +247,58 @@ public class DownloadFitxerController extends HttpServlet {
         return requestUri != null && requestUri.endsWith(DOWNLOAD_ENI_PATH);
     }
 
+    private boolean isReferenciaDownloadRequest(HttpServletRequest request) {
+        String requestUri = request.getRequestURI();
+        return requestUri != null && requestUri.endsWith(DOWNLOAD_REFERENCIA_PATH);
+    }
+
     private boolean isGenerarEniDocumentRequest(HttpServletRequest request) {
         String requestUri = request.getRequestURI();
         return requestUri != null && requestUri.endsWith(GENERAR_ENI_DOCUMENT_PATH);
+    }
+
+    private boolean isGenerarEniDocumentXadesRequest(HttpServletRequest request) {
+        String requestUri = request.getRequestURI();
+        return requestUri != null && requestUri.endsWith(GENERAR_ENI_DOCUMENT_XADES_PATH);
+    }
+
+    
+
+    private void writeReferenciaDocumentResponse(HttpServletResponse response, Long referenciaId, String eniDoc)
+            throws IOException {
+        byte[] eniBytes = eniDoc.getBytes(StandardCharsets.UTF_8);
+        String eniFileName = "referencia_" + referenciaId + ".xml";
+
+        writeBodyDocumentResponse(response, eniBytes, eniFileName);
+
+
+        /*response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+        response.setContentType("application/xml;charset=UTF-8");
+        response.setHeader("X-Content-Type-Options", "nosniff");
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + sanitizeFilename(eniFileName) + "\"");
+        response.setContentLengthLong(eniBytes.length);
+        response.getOutputStream().write(eniBytes);
+        response.getOutputStream().flush();*/
     }
 
     private void writeEniDocumentResponse(HttpServletResponse response, Long referenciaId, String eniDoc)
             throws IOException {
         byte[] eniBytes = eniDoc.getBytes(StandardCharsets.UTF_8);
         String eniFileName = "enidoc_" + referenciaId + ".xml";
+        
+        writeBodyDocumentResponse(response, eniBytes, eniFileName);
+
+        /*response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+        response.setContentType("application/xml;charset=UTF-8");
+        response.setHeader("X-Content-Type-Options", "nosniff");
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + sanitizeFilename(eniFileName) + "\"");
+        response.setContentLengthLong(eniBytes.length);
+        response.getOutputStream().write(eniBytes);
+        response.getOutputStream().flush();*/
+    }
+
+    private void writeBodyDocumentResponse(HttpServletResponse response, byte[] eniBytes, String eniFileName)
+            throws IOException {
 
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());
         response.setContentType("application/xml;charset=UTF-8");
@@ -454,12 +514,78 @@ public class DownloadFitxerController extends HttpServlet {
 
         // Fallback equivalent a CSVQueryDocumentServiceImpl#generarEniDoc
         try {
-            return generarReferencia(plugin, uuid);
+            return XmlGenerator.generarReferencia(plugin, uuid);
         } catch (Exception e) {
             errors.add("generarEniDoc intern: " + buildErrorDetail(e));
             String msg = "No s'ha pogut generar l'ENI Document per referenciaId=" + referenciaId
                     + ". Causes: " + String.join(" | ", errors);
             throw new Exception(msg, e);
+        }
+    }
+
+    private String generarEniDocXades(Long referenciaId, ReferenciaDTO referencia, InfoArxiuDTO infoArxiu,
+            ArxiuPluginImpl plugin) throws Exception {
+        List<String> errors = new ArrayList<>();
+
+        if (plugin == null) {
+            errors.add("plugin no disponible");
+            throw new Exception("No s'ha pogut generar l'ENI Document XAdES per referenciaId=" + referenciaId
+                    + ". Causes: " + String.join(" | ", errors));
+        }
+
+        String uuid = (infoArxiu != null) ? infoArxiu.getArxiuDocumentId() : null;
+        if (Utils.isEmpty(uuid) && referencia != null) {
+            uuid = referencia.getUuId();
+        }
+
+        if (Utils.isEmpty(uuid)) {
+            errors.add("uuid/arxiuDocumentId buit");
+            throw new Exception("No s'ha pogut generar l'ENI Document XAdES per referenciaId=" + referenciaId
+                    + ". Causes: " + String.join(" | ", errors));
+        }
+
+        try {
+            return XmlGenerator.generarEniDocXades(plugin, uuid);
+        } catch (Exception e) {
+            errors.add("generarEniDocXades intern: " + buildErrorDetail(e));
+            throw new Exception("No s'ha pogut generar l'ENI Document XAdES per referenciaId=" + referenciaId
+                    + ". Causes: " + String.join(" | ", errors), e);
+        }
+    }
+
+    private String descarregarEniDocumentPlugin(Long referenciaId, ReferenciaDTO referencia, InfoArxiuDTO infoArxiu,
+            ArxiuPluginImpl plugin) throws Exception {
+        List<String> errors = new ArrayList<>();
+
+        if (plugin == null) {
+            errors.add("plugin no disponible");
+            throw new Exception("No s'ha pogut descarregar l'ENI Document per referenciaId=" + referenciaId
+                    + ". Causes: " + String.join(" | ", errors));
+        }
+
+        String uuid = (infoArxiu != null) ? infoArxiu.getArxiuDocumentId() : null;
+        if (Utils.isEmpty(uuid) && referencia != null) {
+            uuid = referencia.getUuId();
+        }
+
+        if (Utils.isEmpty(uuid)) {
+            errors.add("uuid/arxiuDocumentId buit");
+            throw new Exception("No s'ha pogut descarregar l'ENI Document per referenciaId=" + referenciaId
+                    + ". Causes: " + String.join(" | ", errors));
+        }
+
+        try {
+            String eniDoc = plugin.generarEniDoc(uuid);
+            if (Utils.isEmpty(eniDoc)) {
+                errors.add("plugin.generarEniDoc buit");
+                throw new Exception("No s'ha pogut descarregar l'ENI Document per referenciaId=" + referenciaId
+                        + ". Causes: " + String.join(" | ", errors));
+            }
+            return eniDoc;
+        } catch (Exception e) {
+            errors.add("plugin.generarEniDoc: " + buildErrorDetail(e));
+            throw new Exception("No s'ha pogut descarregar l'ENI Document per referenciaId=" + referenciaId
+                    + ". Causes: " + String.join(" | ", errors), e);
         }
     }
 
@@ -528,127 +654,6 @@ public class DownloadFitxerController extends HttpServlet {
         }
         String message = (root.getMessage() != null) ? root.getMessage() : root.getClass().getSimpleName();
         return root.getClass().getSimpleName() + ": " + message;
-    }
-
-    // Replica la lògica de CSVQueryDocumentServiceImpl.generarEniDoc per forçar la generació local del XML.
-    private String generarReferencia(ArxiuPluginImpl plugin, String uuid) throws Exception {
-        es.caib.pluginsib.arxiu.api.Document doc = plugin.descarregarDocument(uuid);
-
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        org.w3c.dom.Document xmlDoc = builder.newDocument();
-
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        Transformer transformer = transformerFactory.newTransformer();
-        StringWriter writer = new StringWriter();
-
-        // Arrel del document ENIDOC XML
-        org.w3c.dom.Element rootEnidoc = xmlDoc.createElementNS(
-                "http://administracionelectronica.gob.es/ENI/XSD/v1.0/documento-e", "enidoc:documento");
-        rootEnidoc.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:enidoc",
-                "http://administracionelectronica.gob.es/ENI/XSD/v1.0/documento-e");
-        rootEnidoc.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:enids",
-                "http://administracionelectronica.gob.es/ENI/XSD/v1.0/firma");
-        rootEnidoc.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:enidocmeta",
-                "http://administracionelectronica.gob.es/ENI/XSD/v1.0/documento-e/metadatos");
-        rootEnidoc.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:enifile",
-                "http://administracionelectronica.gob.es/ENI/XSD/v1.0/documento-e/contenido");
-        xmlDoc.appendChild(rootEnidoc);
-
-        org.w3c.dom.Element contenido = xmlDoc.createElementNS(
-                "http://administracionelectronica.gob.es/ENI/XSD/v1.0/documento-e/contenido", "enifile:contenido");
-        contenido.setAttribute("Id", "CONTENT_ID_1");
-        rootEnidoc.appendChild(contenido);
-
-        org.w3c.dom.Element valorBinario = xmlDoc.createElement("enifile:ValorBinario");
-        byte[] contingut = (doc.getContingut() != null) ? doc.getContingut().getContingut() : null;
-        String contingutBase64 = (contingut != null) ? Base64.getEncoder().encodeToString(contingut) : "";
-        valorBinario.setTextContent(contingutBase64);
-        contenido.appendChild(valorBinario);
-
-        org.w3c.dom.Element nombreFormato = xmlDoc.createElement("enifile:NombreFormato");
-        nombreFormato.setTextContent(doc.getMetadades().getFormat().toString());
-        contenido.appendChild(nombreFormato);
-
-        // Metadatos
-        org.w3c.dom.Element metadatos = xmlDoc.createElement("enidocmeta:metadatos");
-        metadatos.setAttribute("Id", "METADATA_1");
-        rootEnidoc.appendChild(metadatos);
-
-        org.w3c.dom.Element versionNTI = xmlDoc.createElementNS(
-                "http://administracionelectronica.gob.es/ENI/XSD/v1.0/documento-e/metadatos",
-                "enidocmeta:VersionNTI");
-        versionNTI.setTextContent("http://administracionelectronica.gob.es/ENI/XSD/v1.0/documento-e");
-        metadatos.appendChild(versionNTI);
-
-        org.w3c.dom.Element identificador = xmlDoc.createElement("enidocmeta:Identificador");
-        identificador.setTextContent(doc.getMetadades().getIdentificador());
-        metadatos.appendChild(identificador);
-
-        org.w3c.dom.Element organo = xmlDoc.createElement("enidocmeta:Organo");
-        List<String> organs = doc.getMetadades().getOrgans();
-        organo.setTextContent(!organs.isEmpty() ? organs.get(0) : "");
-        metadatos.appendChild(organo);
-
-        org.w3c.dom.Element fechaCaptura = xmlDoc.createElement("enidocmeta:FechaCaptura");
-        fechaCaptura.setTextContent(formatXmlDateTime(doc.getMetadades().getDataCaptura()));
-        metadatos.appendChild(fechaCaptura);
-
-        org.w3c.dom.Element origenCiudadanoAdministracion = xmlDoc
-                .createElement("enidocmeta:OrigenCiudadanoAdministracion");
-        origenCiudadanoAdministracion.setTextContent(doc.getMetadades().getOrigen().toString());
-        metadatos.appendChild(origenCiudadanoAdministracion);
-
-        org.w3c.dom.Element estadoElaboracion = xmlDoc.createElement("enidocmeta:EstadoElaboracion");
-        metadatos.appendChild(estadoElaboracion);
-
-        org.w3c.dom.Element valorEstadoElaboracion = xmlDoc.createElement("enidocmeta:ValorEstadoElaboracion");
-        valorEstadoElaboracion.setTextContent(doc.getMetadades().getEstatElaboracio().toString());
-        estadoElaboracion.appendChild(valorEstadoElaboracion);
-
-        org.w3c.dom.Element tipoDocumental = xmlDoc.createElement("enidocmeta:TipoDocumental");
-        tipoDocumental.setTextContent(doc.getMetadades().getTipusDocumental().toString());
-        metadatos.appendChild(tipoDocumental);
-
-        // Firma
-        org.w3c.dom.Element firmas = xmlDoc
-                .createElementNS("http://administracionelectronica.gob.es/ENI/XSD/v1.0/firma", "enids:firmas");
-        rootEnidoc.appendChild(firmas);
-
-        org.w3c.dom.Element firma = xmlDoc.createElement("enids:firma");
-        firma.setAttribute("Id", "SIGNATURE_ID_1");
-        firmas.appendChild(firma);
-
-        if (doc.getMetadades() != null && doc.getMetadades().getMetadadesAddicionals() != null
-                && !doc.getMetadades().getMetadadesAddicionals().isEmpty()
-                && doc.getMetadades().getMetadadesAddicionals().get("eni:tipoFirma") != null) {
-            org.w3c.dom.Element tipoFirma = xmlDoc.createElement("enids:TipoFirma");
-            tipoFirma.setTextContent(doc.getMetadades().getMetadadesAddicionals().get("eni:tipoFirma").toString());
-            firma.appendChild(tipoFirma);
-        }
-
-        org.w3c.dom.Element contenidoFirma = xmlDoc.createElement("enids:ContenidoFirma");
-        firma.appendChild(contenidoFirma);
-
-        org.w3c.dom.Element firmaConCertificado = xmlDoc.createElement("enids:FirmaConCertificado");
-        contenidoFirma.appendChild(firmaConCertificado);
-
-        org.w3c.dom.Element referenciaFirma = xmlDoc.createElement("enids:ReferenciaFirma");
-        referenciaFirma.setTextContent("#CONTENT_ID_1");
-        firmaConCertificado.appendChild(referenciaFirma);
-
-        transformer.transform(new DOMSource(xmlDoc), new StreamResult(writer));
-        return writer.toString();
-    }
-
-    private String formatXmlDateTime(java.util.Date date) {
-        if (date == null) {
-            return "";
-        }
-        TimeZone tz = TimeZone.getTimeZone("UTC");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        sdf.setTimeZone(tz);
-        return sdf.format(date);
     }
 
     private String sanitizeFilename(String fileName) {
