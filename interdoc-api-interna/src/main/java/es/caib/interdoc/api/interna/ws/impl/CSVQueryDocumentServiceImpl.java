@@ -3,17 +3,11 @@ package es.caib.interdoc.api.interna.ws.impl;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringWriter;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Base64;
-import java.util.List;
 import java.util.Optional;
-import java.util.TimeZone;
-
 import javax.activation.DataHandler;
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
@@ -23,13 +17,6 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.mail.util.ByteArrayDataSource;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.PhaseInterceptorChain;
 import org.apache.cxf.security.SecurityContext;
@@ -50,13 +37,11 @@ import es.caib.interdoc.service.model.AccesDTO;
 import es.caib.interdoc.service.model.InfoArxiuDTO;
 import es.caib.interdoc.service.model.ReferenciaDTO;
 import es.caib.interdoc.api.interna.ws.model.CSVQueryDocumentResponse;
-import es.caib.interdoc.api.interna.ws.model.CSVQueryDocumentSecurityResponse;
 import es.caib.interdoc.api.interna.ws.model.CSVQueryDocumentSecurityWSS;
 import es.caib.interdoc.api.interna.ws.model.UeryDocumentSecurityRequest;
 import es.caib.interdoc.api.interna.ws.resposta.mtom.CSVQueryDocumentMtomSecurityResponse;
 import es.caib.interdoc.api.interna.ws.resposta.mtom.ContenidoMtomInfo;
 import es.caib.interdoc.api.interna.ws.resposta.mtom.DocumentoMtomResponse;
-import es.caib.interdoc.api.interna.ws.utils.InputStreamDataSource;
 
 /**
  * 
@@ -182,6 +167,9 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
                         LOG.info("-- idEni: " + idEni);
                         LOG.info("-- FormatFirma: "+ref.getFormatFirma());
                         resultatArxiu = XmlGenerator.generarEniDocXades(plugin, ref.getUuId());
+                        LOG.info("===== ENIDOC GENERAT ===== ");
+                        LOG.info(resultatArxiu);
+                        LOG.info("===== FINAL ENIDOC GENERAT ===== ");
                     }else{
                         resultatArxiu = plugin.generarEniDoc(idEni);
 
@@ -189,7 +177,11 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
                 } catch (Exception e) {
                     LOG.error("Error generació EniDoc. Generant EniDoc internament.");
                     // Generacio de EniDoc
-                    resultatArxiu = XmlGenerator.generarEniDocXades(plugin, idEni);
+                    if ("TF02".equals(ref.getFormatFirma())) {
+                        resultatArxiu = XmlGenerator.generarEniDocXades(plugin, idEni);
+                    } else {
+                        resultatArxiu = XmlGenerator.generarEniDocXades(plugin, idEni);
+                    }
                 }
                 
                 // Si document_eni => RETORNAM EL PDF TODO
@@ -247,6 +239,9 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
                         LOG.info("-- idEni: NULL");
                         LOG.info("-- FormatFirma: "+ref.getFormatFirma());
                         resultatArxiu = XmlGenerator.generarEniDocXades(plugin, infoArxiu.getArxiuDocumentId());
+                        LOG.info("===== ENIDOC GENERAT ===== ");
+                        LOG.info(resultatArxiu);
+                        LOG.info("===== FINAL ENIDOC GENERAT ===== ");
                     }else{
                         resultatArxiu = plugin.generarEniDoc(infoArxiu.getArxiuDocumentId());
 
@@ -254,7 +249,11 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
                 } catch (Exception e) {
                     LOG.error("Error generació EniDoc. Generant EniDoc internament.");
                     // Generacio de EniDoc
-                    resultatArxiu = XmlGenerator.generarEniDocXades(plugin, ref.getUuId());
+                    if ("TF02".equals(ref.getFormatFirma())) {
+                        resultatArxiu = XmlGenerator.generarEniDocXades(plugin, ref.getUuId());
+                    } else {
+                        resultatArxiu = XmlGenerator.generarEniDocXades(plugin, ref.getUuId());
+                    }
                 }
 
                         
@@ -352,6 +351,8 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
 
             response.setDocumentoMtomResponse(documentoMtomResponse);
 
+            LOG.info("CSV QUERY DOCUMENT SERVICE: Retorna resultat: ");
+            LOG.info(response.toString());
             return response;
         } catch (Exception e) {
             final String csv = csvQueryDocumentSecurityWSS.getQueryDocumentSecurityRequest().getCsv();

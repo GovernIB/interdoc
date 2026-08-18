@@ -198,7 +198,7 @@ public class XmlGenerator {
 	org.w3c.dom.Element datosXml = xmlDoc.createElement("enifile:DatosXML");
 	byte[] contingut = (doc.getContingut() != null) ? doc.getContingut().getContingut() : null;
 	String contingutXml = (contingut != null) ? new String(contingut, StandardCharsets.UTF_8) : "";
-	datosXml.setTextContent(contingutXml);
+	datosXml.setTextContent(wrapInCData(contingutXml));
 	contenido.appendChild(datosXml);
 
 	org.w3c.dom.Element nombreFormato = xmlDoc.createElement("enifile:NombreFormato");
@@ -297,6 +297,16 @@ public class XmlGenerator {
 
 	transformer.transform(new DOMSource(xmlDoc), new StreamResult(writer));
 	return writer.toString();
+    }
+
+    private static String wrapInCData(String xmlContent) {
+        if (xmlContent == null) {
+            return null;
+        }
+        if (xmlContent.startsWith("<![CDATA[") && xmlContent.endsWith("]]>") ) {
+            return xmlContent;
+        }
+        return "<![CDATA[" + xmlContent + "]]>";
     }
 
 }
