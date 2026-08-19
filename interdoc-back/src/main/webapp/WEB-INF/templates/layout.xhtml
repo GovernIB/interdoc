@@ -107,6 +107,12 @@ Plantilla.
                                             value="ADMIN_ENTITAT" />
                                         <span class="mb-0 botoCurt">#{labels.usuari_administrador_entitat}</span>
                                     </p:commandLink>
+
+                                    <p:commandLink styleClass="dropdown-item mobil"
+                                        action="#{userLocale.reloadApplicationProperties()}" process="@this" update="@none"
+                                        rendered="#{userLocale.canSelectSuperAdmin()}">
+                                        <span class="mb-0 botoCurt">#{labels.recarregar_propietats_link}</span>
+                                    </p:commandLink>
                                 </div></li>
 
 

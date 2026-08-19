@@ -23,6 +23,7 @@ public class Configuracio implements Constants {
 
     private static PropertyFileConfigSource propietats = null;
     
+    //Cache de propietats
     private static final Properties fileProperties = new Properties();
 
     public Configuracio() {
@@ -148,6 +149,11 @@ public class Configuracio implements Constants {
         }
 
         return fileProperties;
+    }
+
+    public static void reloadProperties() {
+        fileProperties.clear();
+        getSystemAndFileProperties();
     }
 
 }

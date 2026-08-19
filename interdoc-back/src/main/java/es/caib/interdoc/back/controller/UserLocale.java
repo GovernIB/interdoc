@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import es.caib.interdoc.back.security.Security;
+import es.caib.interdoc.commons.utils.Configuracio;
 import es.caib.interdoc.service.facade.EntitatServiceFacade;
 import es.caib.interdoc.service.facade.UsuariEntitatServiceFacade;
 import es.caib.interdoc.service.facade.UsuariServiceFacade;
@@ -255,6 +256,19 @@ public class UserLocale implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         context.getPartialViewContext().getEvalScripts()
                 .add("location.replace(location)");
+    }
+
+    /**
+     * Recarrega les propietats de configuració i refresca la vista actual.
+     */
+    public void reloadApplicationProperties() {
+        try {
+            Configuracio.reloadProperties();
+            LOG.info("Propietats de configuració recarregades per l'usuari {}", username);
+        } catch (Exception e) {
+            LOG.error("Error recarregant les propietats de configuració", e);
+        }
+        reload();
     }
     
     public void clear() {
