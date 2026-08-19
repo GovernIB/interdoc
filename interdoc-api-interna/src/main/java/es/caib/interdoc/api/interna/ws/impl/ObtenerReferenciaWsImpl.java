@@ -50,6 +50,7 @@ import es.caib.interdoc.commons.utils.Utils;
 import es.caib.interdoc.commons.utils.Version;
 import es.caib.interdoc.ejb.PluginArxiuLogicaService;
 import es.caib.interdoc.ejb.PluginFirmaLogicaService;
+import es.caib.interdoc.ejb.utils.XmlGenerator;
 import es.caib.interdoc.plugins.arxiu.ArxiuPluginImpl;
 import es.caib.interdoc.plugins.arxiu.DocumentInfo;
 import es.caib.interdoc.plugins.arxiu.Extensio;
@@ -513,8 +514,16 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 		                    log.info("Identificador expedient => " + identificadorExpedient);
 							
 							identificadorDocument = plugin.crearDocument(documentInfo, identificadorExpedient);
-							String eniDoc = plugin.generarEniDoc(identificadorDocument);
-							log.info("ENI DOC obtingut de Arxiu. => " + eniDoc);
+
+                            String eniDoc;
+							if (documentInfo.getFirma() != null
+									&& Utils.isXadesFormat(documentInfo.getFirma().getFormatFirma())) {
+                                eniDoc = XmlGenerator.generarEniDocXades(plugin, identificadorDocument);
+							} else {
+                                eniDoc = plugin.generarEniDoc(identificadorDocument);
+							    log.info("ENI DOC obtingut de Arxiu. => " + eniDoc);
+                            }
+							
 
 							if (Configuracio.isDesenvolupament())
 								log.info("numeroExpedient == null ??? " + ((numeroExpedient == null) ? "true" : "false") );

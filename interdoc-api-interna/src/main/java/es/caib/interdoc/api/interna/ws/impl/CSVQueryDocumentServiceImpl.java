@@ -162,7 +162,7 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
                                 
                 
                 try {
-                    if("TF02".equals(ref.getFormatFirma())) {
+                    if(Utils.isXadesFormat(ref.getFormatFirma())) {
                         LOG.info("Generació EniDoc a partir del ID: " + idEni);
                         LOG.info("-- idEni: " + idEni);
                         LOG.info("-- FormatFirma: "+ref.getFormatFirma());
@@ -177,7 +177,7 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
                 } catch (Exception e) {
                     LOG.error("Error generació EniDoc. Generant EniDoc internament.");
                     // Generacio de EniDoc
-                    if ("TF02".equals(ref.getFormatFirma())) {
+                    if (Utils.isXadesFormat(ref.getFormatFirma())) {
                         resultatArxiu = XmlGenerator.generarEniDocXades(plugin, idEni);
                     } else {
                         resultatArxiu = XmlGenerator.generarEniDocXades(plugin, idEni);
@@ -234,7 +234,7 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
 
                         // Generam el ENIDOC
                         try {
-                    if("TF02".equals(ref.getFormatFirma())) {
+                    if(Utils.isXadesFormat(ref.getFormatFirma())) {
                         LOG.info("Generació EniDoc a partir del ID: " + infoArxiu.getArxiuDocumentId());
                         LOG.info("-- idEni: NULL");
                         LOG.info("-- FormatFirma: "+ref.getFormatFirma());
@@ -249,7 +249,7 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
                 } catch (Exception e) {
                     LOG.error("Error generació EniDoc. Generant EniDoc internament.");
                     // Generacio de EniDoc
-                    if ("TF02".equals(ref.getFormatFirma())) {
+                    if (Utils.isXadesFormat(ref.getFormatFirma())) {
                         resultatArxiu = XmlGenerator.generarEniDocXades(plugin, ref.getUuId());
                     } else {
                         resultatArxiu = XmlGenerator.generarEniDocXades(plugin, ref.getUuId());

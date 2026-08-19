@@ -27,6 +27,10 @@ public class Utils {
         return !isEmpty(cadena);
     }
 
+    public static boolean isXadesFormat(String format) {
+        return "TF02".equals(format) || "TF03".equals(format);
+    }
+
 
     protected String fullDateToDate(String fullDate) {
 

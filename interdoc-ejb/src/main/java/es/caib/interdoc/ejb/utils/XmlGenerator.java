@@ -196,10 +196,15 @@ public class XmlGenerator {
 	rootEnidoc.appendChild(contenido);
 
 	org.w3c.dom.Element datosXml = xmlDoc.createElement("enifile:DatosXML");
+	datosXml.setAttributeNS("http://www.w3.org/2001/XMLSchema-instance", "xsi:type", "xs:string");
+	datosXml.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:xs", "http://www.w3.org/2001/XMLSchema");
+	datosXml.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:xsi",
+		"http://www.w3.org/2001/XMLSchema-instance");
 	byte[] contingut = (doc.getContingut() != null) ? doc.getContingut().getContingut() : null;
 	String contingutXml = (contingut != null) ? new String(contingut, StandardCharsets.UTF_8) : "";
-	datosXml.setTextContent(wrapInCData(contingutXml));
+	datosXml.appendChild(xmlDoc.createCDATASection(contingutXml));
 	contenido.appendChild(datosXml);
+    
 
 	org.w3c.dom.Element nombreFormato = xmlDoc.createElement("enifile:NombreFormato");
 	nombreFormato.setTextContent(doc.getMetadades().getFormat().toString());
@@ -292,21 +297,16 @@ public class XmlGenerator {
 
     //TODO:Es sempre CONTENT_ID_1 per Interdoc?
 	org.w3c.dom.Element referenciaFirma = xmlDoc.createElement("enids:ReferenciaFirma");
+	referenciaFirma.setAttributeNS("http://www.w3.org/2001/XMLSchema-instance", "xsi:type", "xs:string");
+	referenciaFirma.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:xs",
+		"http://www.w3.org/2001/XMLSchema");
+	referenciaFirma.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:xsi",
+		"http://www.w3.org/2001/XMLSchema-instance");
 	referenciaFirma.setTextContent("#CONTENT_ID_1");
 	firmaConCertificado.appendChild(referenciaFirma);
 
 	transformer.transform(new DOMSource(xmlDoc), new StreamResult(writer));
 	return writer.toString();
-    }
-
-    private static String wrapInCData(String xmlContent) {
-        if (xmlContent == null) {
-            return null;
-        }
-        if (xmlContent.startsWith("<![CDATA[") && xmlContent.endsWith("]]>") ) {
-            return xmlContent;
-        }
-        return "<![CDATA[" + xmlContent + "]]>";
-    }
+	}
 
 }

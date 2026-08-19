@@ -10,13 +10,13 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import es.caib.interdoc.commons.utils.Configuracio;
 import es.caib.interdoc.commons.utils.Utils;
 import es.caib.interdoc.ejb.PluginArxiuLogicaService;
+import es.caib.interdoc.ejb.utils.XmlGenerator;
 import es.caib.interdoc.plugins.arxiu.ArxiuPluginImpl;
 import es.caib.interdoc.service.facade.ReferenciaServiceFacade;
 import es.caib.pluginsib.arxiu.api.Document;
@@ -105,14 +105,22 @@ public class ConsultaDocumentService {
                 String enidocXml = null;
 
                 if (plugin != null) {
-                    enidocXml = plugin.generarEniDoc(uuid);
-                }
-                //Codi per generar EniDoc internament quan s'hagui implementat
-                /*if (enidocXml == null || enidocXml.isEmpty()) {
-                    log.error("Error: No s'ha pogut trobat l'ENIDOC XML. Intentant generar-lo a partir del document:");
-                    enidocXml = generarEnidoc(plugin, uuid);
-                }*/
+                    try {
+                        enidocXml = plugin.generarEniDoc(uuid);
 
+                        // Codi per generar EniDoc internament quan s'hagui implementat
+                        if (enidocXml == null || enidocXml.isEmpty()) {
+                            log.error(
+                                    "Error: No s'ha pogut trobat l'ENIDOC XML. Intentant generar-lo a partir del document:");
+                            enidocXml = XmlGenerator.generarEniDocXades(plugin, uuid);
+                        }
+
+                    } catch (Exception e) {
+                        log.error("Error generant l'ENIDOC XML a ConsultaDocumentService: " + e.getMessage());
+                        log.info("Generant ENIDOC XML a partir del document amb XmlGenerator.generarEniDocXades");
+                        enidocXml = XmlGenerator.generarEniDocXades(plugin, uuid);
+                    }
+                }
                 if (enidocXml != null) {
 
                     log.info("--------- RECUPERAR ENIDOC AMB UUID " + uuid + " -----------");
