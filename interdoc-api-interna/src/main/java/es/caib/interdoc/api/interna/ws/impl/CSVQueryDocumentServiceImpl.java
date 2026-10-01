@@ -67,6 +67,7 @@ import es.caib.interdoc.api.interna.ws.resposta.mtom.DocumentoMtomResponse;
         urlPattern = "/protected/" + CSVQueryDocumentServiceImpl.NAME_WS,
         transportGuarantee = TransportGuarantee.NONE,
         secureWSDLAccess = false)
+        
 public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
 
     private static final Logger LOG = LoggerFactory.getLogger(CSVQueryDocumentServiceImpl.class);
@@ -162,14 +163,24 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
                                 
                 
                 try {
-                    if(Utils.isXadesFormat(ref.getFormatFirma())) {
+                    if(Utils.isXadesInternallyDetached(ref.getFormatFirma())) {
                         LOG.info("Generació EniDoc a partir del ID: " + idEni);
                         LOG.info("-- idEni: " + idEni);
                         LOG.info("-- FormatFirma: "+ref.getFormatFirma());
-                        resultatArxiu = XmlGenerator.generarEniDocXades(plugin, ref.getUuId());
+                        resultatArxiu = XmlGenerator.generarEniDocXadesInternallyDetached(plugin, ref.getUuId());
                         LOG.info("===== ENIDOC GENERAT ===== ");
                         LOG.info(resultatArxiu);
                         LOG.info("===== FINAL ENIDOC GENERAT ===== ");
+
+                    }else if(Utils.isXadesEnveloped(ref.getFormatFirma())){
+                        LOG.info("Generació EniDoc a partir del ID: " + idEni);
+                        LOG.info("-- idEni: " + idEni);
+                        LOG.info("-- FormatFirma: "+ref.getFormatFirma());
+                        resultatArxiu = XmlGenerator.generarEniDocXadesEnveloped(plugin, ref.getUuId());
+                        LOG.info("===== ENIDOC GENERAT ===== ");
+                        LOG.info(resultatArxiu);
+                        LOG.info("===== FINAL ENIDOC GENERAT ===== ");
+
                     }else{
                         resultatArxiu = plugin.generarEniDoc(idEni);
 
@@ -177,10 +188,13 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
                 } catch (Exception e) {
                     LOG.error("Error generació EniDoc. Generant EniDoc internament.");
                     // Generacio de EniDoc
-                    if (Utils.isXadesFormat(ref.getFormatFirma())) {
-                        resultatArxiu = XmlGenerator.generarEniDocXades(plugin, idEni);
+                    if (Utils.isXadesInternallyDetached(ref.getFormatFirma())) {
+                        resultatArxiu = XmlGenerator.generarEniDocXadesInternallyDetached(plugin, idEni);
+
+                    } else if(Utils.isXadesEnveloped(ref.getFormatFirma())){
+                        resultatArxiu = XmlGenerator.generarEniDocXadesEnveloped(plugin, idEni);
                     } else {
-                        resultatArxiu = XmlGenerator.generarEniDocXades(plugin, idEni);
+                        resultatArxiu = XmlGenerator.generarEniDocXadesInternallyDetached(plugin, idEni);
                     }
                 }
                 
@@ -234,25 +248,35 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
 
                         // Generam el ENIDOC
                         try {
-                    if(Utils.isXadesFormat(ref.getFormatFirma())) {
+                    if(Utils.isXadesInternallyDetached(ref.getFormatFirma())) {
                         LOG.info("Generació EniDoc a partir del ID: " + infoArxiu.getArxiuDocumentId());
                         LOG.info("-- idEni: NULL");
                         LOG.info("-- FormatFirma: "+ref.getFormatFirma());
-                        resultatArxiu = XmlGenerator.generarEniDocXades(plugin, infoArxiu.getArxiuDocumentId());
+                        resultatArxiu = XmlGenerator.generarEniDocXadesInternallyDetached(plugin, infoArxiu.getArxiuDocumentId());
+                        LOG.info("===== ENIDOC GENERAT ===== ");
+                        LOG.info(resultatArxiu);
+                        LOG.info("===== FINAL ENIDOC GENERAT ===== ");
+                    }else if(Utils.isXadesEnveloped(ref.getFormatFirma())){
+                        LOG.info("Generació EniDoc a partir del ID: " + infoArxiu.getArxiuDocumentId());
+                        LOG.info("-- idEni: NULL");
+                        LOG.info("-- FormatFirma: "+ref.getFormatFirma());
+                        resultatArxiu = XmlGenerator.generarEniDocXadesEnveloped(plugin, infoArxiu.getArxiuDocumentId());
                         LOG.info("===== ENIDOC GENERAT ===== ");
                         LOG.info(resultatArxiu);
                         LOG.info("===== FINAL ENIDOC GENERAT ===== ");
                     }else{
                         resultatArxiu = plugin.generarEniDoc(infoArxiu.getArxiuDocumentId());
-
                     }
+                    
                 } catch (Exception e) {
                     LOG.error("Error generació EniDoc. Generant EniDoc internament.");
                     // Generacio de EniDoc
-                    if (Utils.isXadesFormat(ref.getFormatFirma())) {
-                        resultatArxiu = XmlGenerator.generarEniDocXades(plugin, ref.getUuId());
+                    if (Utils.isXadesInternallyDetached(ref.getFormatFirma())) {
+                        resultatArxiu = XmlGenerator.generarEniDocXadesInternallyDetached(plugin, ref.getUuId());
+                    } else if (Utils.isXadesEnveloped(ref.getFormatFirma())) {
+                        resultatArxiu = XmlGenerator.generarEniDocXadesEnveloped(plugin, ref.getUuId());
                     } else {
-                        resultatArxiu = XmlGenerator.generarEniDocXades(plugin, ref.getUuId());
+                        resultatArxiu = XmlGenerator.generarEniDocXadesInternallyDetached(plugin, ref.getUuId());
                     }
                 }
 

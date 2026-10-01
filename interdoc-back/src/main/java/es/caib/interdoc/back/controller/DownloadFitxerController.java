@@ -545,7 +545,7 @@ public class DownloadFitxerController extends HttpServlet {
         }
 
         try {
-            return XmlGenerator.generarEniDocXades(plugin, uuid);
+            return XmlGenerator.generarEniDocXadesInternallyDetached(plugin, uuid);
         } catch (Exception e) {
             errors.add("generarEniDocXades intern: " + buildErrorDetail(e));
             throw new Exception("No s'ha pogut generar l'ENI Document XAdES per referenciaId=" + referenciaId

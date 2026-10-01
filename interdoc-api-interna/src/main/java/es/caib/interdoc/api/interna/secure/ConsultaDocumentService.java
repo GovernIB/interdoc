@@ -112,13 +112,13 @@ public class ConsultaDocumentService {
                         if (enidocXml == null || enidocXml.isEmpty()) {
                             log.error(
                                     "Error: No s'ha pogut trobat l'ENIDOC XML. Intentant generar-lo a partir del document:");
-                            enidocXml = XmlGenerator.generarEniDocXades(plugin, uuid);
+                            enidocXml = XmlGenerator.generarEniDocXadesInternallyDetached(plugin, uuid);
                         }
 
                     } catch (Exception e) {
                         log.error("Error generant l'ENIDOC XML a ConsultaDocumentService: " + e.getMessage());
                         log.info("Generant ENIDOC XML a partir del document amb XmlGenerator.generarEniDocXades");
-                        enidocXml = XmlGenerator.generarEniDocXades(plugin, uuid);
+                        enidocXml = XmlGenerator.generarEniDocXadesInternallyDetached(plugin, uuid);
                     }
                 }
                 if (enidocXml != null) {

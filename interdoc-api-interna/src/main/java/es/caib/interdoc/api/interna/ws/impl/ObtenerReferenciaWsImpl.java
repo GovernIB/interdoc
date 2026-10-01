@@ -517,8 +517,8 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 
                             String eniDoc;
 							if (documentInfo.getFirma() != null
-									&& Utils.isXadesFormat(documentInfo.getFirma().getFormatFirma())) {
-                                eniDoc = XmlGenerator.generarEniDocXades(plugin, identificadorDocument);
+									&& Utils.isXadesInternallyDetached(documentInfo.getFirma().getFormatFirma())) {
+                                eniDoc = XmlGenerator.generarEniDoc(documentInfo.getFirma().getFormatFirma(), plugin, identificadorDocument);
 							} else {
                                 eniDoc = plugin.generarEniDoc(identificadorDocument);
 							    log.info("ENI DOC obtingut de Arxiu. => " + eniDoc);

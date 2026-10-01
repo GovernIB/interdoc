@@ -301,6 +301,8 @@ public class NewReferencia extends AbstractController implements Serializable {
 	        	LOG.info("ObtenerReferencia endpoint (BBDD entitat seleccionada) => " + obtenerReferenciaWsEndpoint);
         		LOG.info("ObtenerReferencia Client Base URL => " + obtenerReferenciaWsBaseUrl);
             	LOG.info("ObtenerReferencia Client URLhost => " + obtenerReferenciaUrl.getHost());
+                LOG.info("ObtenerReferencia Usuari => " + Configuracio.getObtenerReferenciaUsuari());
+                LOG.info("ObtenerReferencia Clau => " + Configuracio.getObtenerReferenciaClau());
             	LOG.info("Request: " + infoRequest.toString());
 				//logWsdlResponsePreview(obtenerReferenciaUrl);
         	}
@@ -313,6 +315,7 @@ public class NewReferencia extends AbstractController implements Serializable {
 	        reqContext.put(BindingProvider.USERNAME_PROPERTY, Configuracio.getObtenerReferenciaUsuari());
 	        reqContext.put(BindingProvider.PASSWORD_PROPERTY, Configuracio.getObtenerReferenciaClau());
 
+            
 	        reqContext.put("javax.xml.ws.client.connectionTimeout", 500000L);
 	        reqContext.put("javax.xml.ws.client.receiveTimeout", 500000L);
 			

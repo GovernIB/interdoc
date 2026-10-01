@@ -9,6 +9,7 @@ import java.util.TimeZone;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -25,6 +26,10 @@ public class XmlGenerator {
     // Replica la lògica de CSVQueryDocumentServiceImpl.generarEniDoc per forçar la generació local del XML.
     public static String generarReferencia(ArxiuPluginImpl plugin, String uuid) throws Exception {
 	Document doc = plugin.descarregarDocument(uuid);
+
+    final String SIGNATURE_ID = "ID-TF-1";
+    final String SIGNATURE_REF = "ID-TC-1";
+    final String CONTENT_ID = "CONTENT_ID_1";
 
 	DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 	DocumentBuilder builder = factory.newDocumentBuilder();
@@ -166,7 +171,25 @@ public class XmlGenerator {
 	return "false";
     }
 
-    public static String generarEniDocXades(ArxiuPluginImpl plugin, String uuid) throws Exception {
+
+
+    public static String generarEniDoc(String formatFirma, ArxiuPluginImpl plugin, String uuid) throws Exception {
+
+        switch (formatFirma) {
+            case "TF02":
+                return generarEniDocXadesInternallyDetached(plugin, uuid);
+            case "TF03":
+                return generarEniDocXadesEnveloped(plugin, uuid);
+            case "TF06":
+                return generarReferencia(plugin, uuid);
+            default:
+                throw new IllegalArgumentException("Formato de firma no soportado: " + formatFirma);
+        }
+    }
+
+
+
+    public static String generarEniDocXadesInternallyDetached(ArxiuPluginImpl plugin, String uuid) throws Exception {
 	Document doc = plugin.descarregarDocument(uuid);
 
 	DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -175,6 +198,186 @@ public class XmlGenerator {
 
 	TransformerFactory transformerFactory = TransformerFactory.newInstance();
 	Transformer transformer = transformerFactory.newTransformer();
+	transformer.setOutputProperty(OutputKeys.STANDALONE, "yes");
+	xmlDoc.setXmlStandalone(true);
+	StringWriter writer = new StringWriter();
+	String namespaceContenido = "http://administracionelectronica.gob.es/ENI/XSD/v1.0/documento-e/contenido";
+	String namespaceFirmaDigital = "http://www.w3.org/2000/09/xmldsig#";
+
+	// Arrel del document ENIDOC XML
+	org.w3c.dom.Element rootEnidoc = xmlDoc.createElementNS(
+		"http://administracionelectronica.gob.es/ENI/XSD/v1.0/documento-e", "ns5:documento");
+	rootEnidoc.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:ns2",
+		"http://administracionelectronica.gob.es/ENI/XSD/v1.0/documento-e/metadatos");
+	rootEnidoc.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns",
+		namespaceContenido);
+	rootEnidoc.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:ns4", namespaceFirmaDigital);
+	rootEnidoc.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:ns3",
+		"http://administracionelectronica.gob.es/ENI/XSD/v1.0/firma");
+	rootEnidoc.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:ns5",
+		"http://administracionelectronica.gob.es/ENI/XSD/v1.0/documento-e");
+	xmlDoc.appendChild(rootEnidoc);
+
+	org.w3c.dom.Element contenido = xmlDoc.createElementNS(
+		namespaceContenido, "contenido");
+	contenido.setAttribute("Id", "ID-TC-1");
+	rootEnidoc.appendChild(contenido);
+
+	org.w3c.dom.Element datosXml = xmlDoc.createElementNS(namespaceContenido, "DatosXML");
+	datosXml.setAttributeNS("http://www.w3.org/2001/XMLSchema-instance", "xsi:type", "xs:string");
+	datosXml.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:xs", "http://www.w3.org/2001/XMLSchema");
+	datosXml.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:xsi",
+		"http://www.w3.org/2001/XMLSchema-instance");
+	byte[] contingut = (doc.getContingut() != null) ? doc.getContingut().getContingut() : null;
+	String contingutXml = (contingut != null) ? new String(contingut, StandardCharsets.UTF_8) : "";
+	datosXml.appendChild(xmlDoc.createCDATASection(contingutXml));
+	contenido.appendChild(datosXml);
+    
+
+	org.w3c.dom.Element nombreFormato = xmlDoc.createElementNS(namespaceContenido, "NombreFormato");
+	nombreFormato.setTextContent(doc.getMetadades().getFormat().toString());
+	contenido.appendChild(nombreFormato);
+
+	org.w3c.dom.Element metadatos = xmlDoc.createElementNS(
+		"http://administracionelectronica.gob.es/ENI/XSD/v1.0/documento-e/metadatos", "ns2:metadatos");
+	metadatos.setAttribute("Id", "ID-TM-1");
+	rootEnidoc.appendChild(metadatos);
+
+	org.w3c.dom.Element versionNTI = xmlDoc.createElementNS(
+		"http://administracionelectronica.gob.es/ENI/XSD/v1.0/documento-e/metadatos",
+		"ns2:VersionNTI");
+	versionNTI.setTextContent("http://administracionelectronica.gob.es/ENI/XSD/v1.0/documento-e");
+	metadatos.appendChild(versionNTI);
+
+	org.w3c.dom.Element identificador = xmlDoc.createElementNS(
+		"http://administracionelectronica.gob.es/ENI/XSD/v1.0/documento-e/metadatos",
+		"ns2:Identificador");
+	String identificadorValue = (doc.getMetadades() != null && doc.getMetadades().getIdentificador() != null)
+		? doc.getMetadades().getIdentificador()
+		: safeText(uuid);
+	identificador.setTextContent(identificadorValue);
+	metadatos.appendChild(identificador);
+
+	org.w3c.dom.Element organo = xmlDoc.createElementNS(
+		"http://administracionelectronica.gob.es/ENI/XSD/v1.0/documento-e/metadatos", "ns2:Organo");
+	String organoValue = "";
+	if (doc.getMetadades() != null) {
+	    List<String> organs = doc.getMetadades().getOrgans();
+	    if (organs != null && !organs.isEmpty()) {
+		organoValue = safeText(organs.get(0));
+	    }
+	}
+	organo.setTextContent(organoValue);
+	metadatos.appendChild(organo);
+
+	org.w3c.dom.Element fechaCaptura = xmlDoc.createElementNS(
+		"http://administracionelectronica.gob.es/ENI/XSD/v1.0/documento-e/metadatos", "ns2:FechaCaptura");
+	String fechaCapturaValue = (doc.getMetadades() != null)
+		? formatXmlDateTimeWithOffset(doc.getMetadades().getDataCaptura())
+		: "";
+	fechaCaptura.setTextContent(fechaCapturaValue);
+	metadatos.appendChild(fechaCaptura);
+
+	org.w3c.dom.Element origenCiudadanoAdministracion = xmlDoc
+		.createElementNS("http://administracionelectronica.gob.es/ENI/XSD/v1.0/documento-e/metadatos",
+			"ns2:OrigenCiudadanoAdministracion");
+	String origenValue = (doc.getMetadades() != null) ? toBooleanText(doc.getMetadades().getOrigen()) : "false";
+	origenCiudadanoAdministracion.setTextContent(origenValue);
+	metadatos.appendChild(origenCiudadanoAdministracion);
+
+	org.w3c.dom.Element estadoElaboracion = xmlDoc.createElementNS(
+		"http://administracionelectronica.gob.es/ENI/XSD/v1.0/documento-e/metadatos",
+		"ns2:EstadoElaboracion");
+	metadatos.appendChild(estadoElaboracion);
+
+    //TODO: Sempre estat EE99 per Interdoc?
+	org.w3c.dom.Element valorEstadoElaboracion = xmlDoc.createElementNS(
+		"http://administracionelectronica.gob.es/ENI/XSD/v1.0/documento-e/metadatos",
+		"ns2:ValorEstadoElaboracion");
+	String estadoElaboracionValue = (doc.getMetadades() != null
+		&& doc.getMetadades().getEstatElaboracio() != null)
+			? doc.getMetadades().getEstatElaboracio().toString()
+			: "EE99";
+	valorEstadoElaboracion.setTextContent(estadoElaboracionValue);
+	estadoElaboracion.appendChild(valorEstadoElaboracion);
+	org.w3c.dom.Element identificadorDocumentoOrigen = xmlDoc.createElementNS(
+		"http://administracionelectronica.gob.es/ENI/XSD/v1.0/documento-e/metadatos",
+		"ns2:IdentificadorDocumentoOrigen");
+	identificadorDocumentoOrigen.setTextContent(identificadorValue);
+	estadoElaboracion.appendChild(identificadorDocumentoOrigen);
+
+    //TODO: Sempre TD99 per Interdoc?
+	org.w3c.dom.Element tipoDocumental = xmlDoc.createElementNS(
+		"http://administracionelectronica.gob.es/ENI/XSD/v1.0/documento-e/metadatos", "ns2:TipoDocumental");
+	String tipoDocumentalValue = (doc.getMetadades() != null && doc.getMetadades().getTipusDocumental() != null)
+		? doc.getMetadades().getTipusDocumental().toString()
+		: "TD99";
+	tipoDocumental.setTextContent(tipoDocumentalValue);
+	metadatos.appendChild(tipoDocumental);
+
+	org.w3c.dom.Element firmas = xmlDoc
+		.createElementNS("http://administracionelectronica.gob.es/ENI/XSD/v1.0/firma", "ns3:firmas");
+	rootEnidoc.appendChild(firmas);
+
+	org.w3c.dom.Element firma = xmlDoc.createElementNS(
+		"http://administracionelectronica.gob.es/ENI/XSD/v1.0/firma", "ns3:firma");
+	firma.setAttribute("Id", "ID-TF-1");
+    firma.setAttribute("ref", "ID-TC-1");
+	firmas.appendChild(firma);
+
+	String tipoFirmaValue = "TF02";
+	if (doc.getMetadades() != null && doc.getMetadades().getMetadadesAddicionals() != null
+		&& !doc.getMetadades().getMetadadesAddicionals().isEmpty()
+		&& doc.getMetadades().getMetadadesAddicionals().get("eni:tipoFirma") != null) {
+	    tipoFirmaValue = doc.getMetadades().getMetadadesAddicionals().get("eni:tipoFirma").toString();
+	}
+	org.w3c.dom.Element tipoFirma = xmlDoc.createElementNS(
+		"http://administracionelectronica.gob.es/ENI/XSD/v1.0/firma", "ns3:TipoFirma");
+	tipoFirma.setTextContent(tipoFirmaValue);
+	firma.appendChild(tipoFirma);
+
+	org.w3c.dom.Element contenidoFirma = xmlDoc.createElementNS(
+		"http://administracionelectronica.gob.es/ENI/XSD/v1.0/firma", "ns3:ContenidoFirma");
+	firma.appendChild(contenidoFirma);
+
+	org.w3c.dom.Element firmaConCertificado = xmlDoc.createElementNS(
+		"http://administracionelectronica.gob.es/ENI/XSD/v1.0/firma", "ns3:FirmaConCertificado");
+	contenidoFirma.appendChild(firmaConCertificado);
+
+    //TODO:Es sempre CONTENT_ID_1 per Interdoc?
+	org.w3c.dom.Element referenciaFirma = xmlDoc.createElementNS(
+		"http://administracionelectronica.gob.es/ENI/XSD/v1.0/firma", "ns3:ReferenciaFirma");
+	referenciaFirma.setAttributeNS("http://www.w3.org/2001/XMLSchema-instance", "xsi:type", "xs:string");
+	referenciaFirma.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:xs",
+		"http://www.w3.org/2001/XMLSchema");
+	referenciaFirma.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:xsi",
+		"http://www.w3.org/2001/XMLSchema-instance");
+	referenciaFirma.setTextContent("#ID-TC-1");
+	firmaConCertificado.appendChild(referenciaFirma);
+
+	transformer.transform(new DOMSource(xmlDoc), new StreamResult(writer));
+	return writer.toString();
+	}
+
+
+    public static String generarEniDocXadesEnveloped(ArxiuPluginImpl plugin, String uuid) throws Exception {
+	Document doc = plugin.descarregarDocument(uuid);
+
+	DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+	DocumentBuilder builder = factory.newDocumentBuilder();
+	org.w3c.dom.Document xmlDoc = builder.newDocument();
+
+	TransformerFactory transformerFactory = TransformerFactory.newInstance();
+	Transformer transformer = transformerFactory.newTransformer();
+    transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+    transformer.setOutputProperty(OutputKeys.STANDALONE, "yes");
+    xmlDoc.setXmlStandalone(true);
+    transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+    transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+
+
+
+
 	StringWriter writer = new StringWriter();
 
 	// Arrel del document ENIDOC XML
@@ -276,7 +479,7 @@ public class XmlGenerator {
 	rootEnidoc.appendChild(firmas);
 
 	org.w3c.dom.Element firma = xmlDoc.createElement("enids:firma");
-	firma.setAttribute("Id", "SIGNATURE_ID_1");
+	firma.setAttribute("Id", "ID-TF-1");
 	firmas.appendChild(firma);
 
 	String tipoFirmaValue = "TF02";
