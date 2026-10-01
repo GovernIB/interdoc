@@ -526,9 +526,9 @@
 									<outputFile>${project.basedir}/src/main/resources/wsdl/CSVQueryDocumentWs.wsdl</outputFile>
 									<sourceDirectory>${basedir}/code</sourceDirectory>
 									<portname>CSVQueryDocumentWs</portname>
-									<address>
-										https://localhost:8280/interdocapi/interna/protected/CSVQueryDocumentWsService/CSVQueryDocumentWs
-									</address>
+										<address>
+											https://localhost:8280/interdocapi/interna/protected/CSVQueryDocumentWs
+										</address>
 								</configuration>
 								<goals>
 									<goal>java2ws</goal>
