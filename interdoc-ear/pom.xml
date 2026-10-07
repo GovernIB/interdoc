@@ -187,12 +187,12 @@
 						<!-- BACK END -->
 
 						<!-- WS START -->
-						<!-- webModule>
+						<webModule>
 							<groupId>es.caib.interdoc</groupId>
-							<artifactId>interdoc-ws-server</artifactId>
-							<contextRoot>/interdocapi/ws</contextRoot>
-							<bundleFileName>interdoc-ws-server.war</bundleFileName>
-						</webModule -->
+							<artifactId>interdoc-api-interna</artifactId>
+							<contextRoot>/interdoc-ws-server</contextRoot>
+							<bundleFileName>interdoc-api-interna-ws.war</bundleFileName>
+						</webModule>
 						<!-- WS END -->
 
 						<!-- API INTERNA START -->

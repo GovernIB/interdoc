@@ -27,8 +27,12 @@ public class Utils {
         return !isEmpty(cadena);
     }
 
-    public static boolean isXadesFormat(String format) {
-        return "TF02".equals(format) || "TF03".equals(format);
+    public static boolean isXadesInternallyDetached(String format) {
+        return "TF02".equals(format);
+    }
+
+    public static boolean isXadesEnveloped(String format) {
+        return "TF03".equals(format);
     }
 
 

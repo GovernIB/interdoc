@@ -322,7 +322,7 @@ public class ArxiuPluginImpl /*extends AbstractPluginProperties implements Inter
                     case "TF03":
                         firmaTipus = FirmaTipus.XADES_ENV;
 
-                        LOG.info("TF02 => XADES ENVELOPED");
+                        LOG.info("TF03 => XADES ENVELOPED");
 
                         firma.setFitxerNom(documentInfo.getSignatura().getFileName());
                         firma.setContingut(documentInfo.getSignatura().getFileData());
