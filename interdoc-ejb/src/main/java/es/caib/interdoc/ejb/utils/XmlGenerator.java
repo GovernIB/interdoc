@@ -1,5 +1,6 @@
 package es.caib.interdoc.ejb.utils;
 
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
@@ -7,6 +8,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.TimeZone;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -14,6 +16,7 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import org.xml.sax.InputSource;
 
 import es.caib.interdoc.plugins.arxiu.ArxiuPluginImpl;
 import es.caib.pluginsib.arxiu.api.Document;
@@ -190,6 +193,11 @@ public class XmlGenerator {
 
 
     public static String generarEniDocXadesInternallyDetached(ArxiuPluginImpl plugin, String uuid) throws Exception {
+	return generarEniDocXadesInternallyDetached(plugin, uuid, null);
+    }
+
+    public static String generarEniDocXadesInternallyDetached(ArxiuPluginImpl plugin, String uuid, String mimeType)
+	    throws Exception {
 	Document doc = plugin.descarregarDocument(uuid);
 
 	DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -230,7 +238,48 @@ public class XmlGenerator {
 		"http://www.w3.org/2001/XMLSchema-instance");
 	byte[] contingut = (doc.getContingut() != null) ? doc.getContingut().getContingut() : null;
 	String contingutXml = (contingut != null) ? new String(contingut, StandardCharsets.UTF_8) : "";
-	datosXml.appendChild(xmlDoc.createCDATASection(contingutXml));
+	DocumentBuilderFactory contingutFactory = DocumentBuilderFactory.newInstance();
+	contingutFactory.setNamespaceAware(true);
+	contingutFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+	contingutFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+	DocumentBuilder contingutBuilder = contingutFactory.newDocumentBuilder();
+	org.w3c.dom.Document documentContingut = contingutBuilder.parse(
+		new InputSource(new StringReader(contingutXml)));
+	org.w3c.dom.Element afirma = documentContingut.getDocumentElement();
+	String nombreElementoRaiz = (afirma.getLocalName() != null) ? afirma.getLocalName() : afirma.getNodeName();
+	if (!"AFIRMA".equals(nombreElementoRaiz)) {
+	    throw new IllegalArgumentException("El XML de contenido no tiene AFIRMA como elemento raíz");
+	}
+	org.w3c.dom.Element content = null;
+	for (org.w3c.dom.Node nodo = afirma.getFirstChild(); nodo != null; nodo = nodo.getNextSibling()) {
+	    if (nodo.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
+		org.w3c.dom.Element elemento = (org.w3c.dom.Element) nodo;
+		String nombreElemento = (elemento.getLocalName() != null)
+			? elemento.getLocalName()
+			: elemento.getNodeName();
+		if ("CONTENT".equals(nombreElemento)) {
+		    if (content != null) {
+			throw new IllegalArgumentException("El nodo AFIRMA contiene más de un nodo CONTENT");
+		    }
+		    content = elemento;
+		}
+	    }
+	}
+	if (content == null) {
+	    throw new IllegalArgumentException("El XML no contiene un nodo CONTENT dentro de AFIRMA");
+	}
+	content.removeAttribute("encoding");
+	content.setAttribute("Encoding", "http://www.w3.org/2000/09/xmldsig#base64");
+	String mimeTypeContenido = (mimeType != null) ? mimeType
+		: (doc.getContingut() != null && doc.getContingut().getTipusMime() != null)
+			? doc.getContingut().getTipusMime()
+			: "";
+	content.setAttribute("MimeType", mimeTypeContenido);
+	Transformer transformerContingut = TransformerFactory.newInstance().newTransformer();
+	transformerContingut.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+	StringWriter contingutXmlModificat = new StringWriter();
+	transformerContingut.transform(new DOMSource(documentContingut), new StreamResult(contingutXmlModificat));
+	datosXml.appendChild(xmlDoc.createCDATASection(contingutXmlModificat.toString()));
 	contenido.appendChild(datosXml);
     
 

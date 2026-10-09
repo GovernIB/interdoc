@@ -545,7 +545,12 @@ public class DownloadFitxerController extends HttpServlet {
         }
 
         try {
-            return XmlGenerator.generarEniDocXadesInternallyDetached(plugin, uuid);
+            String mimeType = (referencia.getFitxerId() != null)
+                    ? fitxerService.findById(referencia.getFitxerId())
+                            .map(FitxerDTO::getMime)
+                            .orElse(null)
+                    : null;
+            return XmlGenerator.generarEniDocXadesInternallyDetached(plugin, uuid, mimeType);
         } catch (Exception e) {
             errors.add("generarEniDocXades intern: " + buildErrorDetail(e));
             throw new Exception("No s'ha pogut generar l'ENI Document XAdES per referenciaId=" + referenciaId
