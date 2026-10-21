@@ -78,7 +78,8 @@ public class DownloadFitxerController extends HttpServlet {
     private FitxerServiceFacade fitxerService;
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         if (request.getUserPrincipal() == null) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Usuari no autenticat");
             return;
@@ -126,7 +127,7 @@ public class DownloadFitxerController extends HttpServlet {
 
             if (isGenerarEniDocumentRequest(request)) {
                 String eniDoc = generarReferenciaQueryDocumentService(referenciaId, infoArxiu, plugin,
-                    infoArxiu.getArxiuDocumentId(), false);
+                        infoArxiu.getArxiuDocumentId(), false);
                 if (Utils.isEmpty(eniDoc)) {
                     writePlainErrorResponse(response, HttpServletResponse.SC_BAD_GATEWAY,
                             "No s'ha pogut generar l'ENI Document: no hi ha dades locals i Arxiu extern no és accessible.");
@@ -203,7 +204,8 @@ public class DownloadFitxerController extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         doGet(request, response);
     }
 
@@ -262,8 +264,6 @@ public class DownloadFitxerController extends HttpServlet {
         return requestUri != null && requestUri.endsWith(GENERAR_ENI_DOCUMENT_XADES_PATH);
     }
 
-    
-
     private void writeReferenciaDocumentResponse(HttpServletResponse response, Long referenciaId, String eniDoc)
             throws IOException {
         byte[] eniBytes = eniDoc.getBytes(StandardCharsets.UTF_8);
@@ -271,30 +271,35 @@ public class DownloadFitxerController extends HttpServlet {
 
         writeBodyDocumentResponse(response, eniBytes, eniFileName);
 
-
-        /*response.setCharacterEncoding(StandardCharsets.UTF_8.name());
-        response.setContentType("application/xml;charset=UTF-8");
-        response.setHeader("X-Content-Type-Options", "nosniff");
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + sanitizeFilename(eniFileName) + "\"");
-        response.setContentLengthLong(eniBytes.length);
-        response.getOutputStream().write(eniBytes);
-        response.getOutputStream().flush();*/
+        /*
+         * response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+         * response.setContentType("application/xml;charset=UTF-8");
+         * response.setHeader("X-Content-Type-Options", "nosniff");
+         * response.setHeader("Content-Disposition", "attachment; filename=\"" +
+         * sanitizeFilename(eniFileName) + "\"");
+         * response.setContentLengthLong(eniBytes.length);
+         * response.getOutputStream().write(eniBytes);
+         * response.getOutputStream().flush();
+         */
     }
 
     private void writeEniDocumentResponse(HttpServletResponse response, Long referenciaId, String eniDoc)
             throws IOException {
         byte[] eniBytes = eniDoc.getBytes(StandardCharsets.UTF_8);
         String eniFileName = "enidoc_" + referenciaId + ".xml";
-        
+
         writeBodyDocumentResponse(response, eniBytes, eniFileName);
 
-        /*response.setCharacterEncoding(StandardCharsets.UTF_8.name());
-        response.setContentType("application/xml;charset=UTF-8");
-        response.setHeader("X-Content-Type-Options", "nosniff");
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + sanitizeFilename(eniFileName) + "\"");
-        response.setContentLengthLong(eniBytes.length);
-        response.getOutputStream().write(eniBytes);
-        response.getOutputStream().flush();*/
+        /*
+         * response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+         * response.setContentType("application/xml;charset=UTF-8");
+         * response.setHeader("X-Content-Type-Options", "nosniff");
+         * response.setHeader("Content-Disposition", "attachment; filename=\"" +
+         * sanitizeFilename(eniFileName) + "\"");
+         * response.setContentLengthLong(eniBytes.length);
+         * response.getOutputStream().write(eniBytes);
+         * response.getOutputStream().flush();
+         */
     }
 
     private void writeBodyDocumentResponse(HttpServletResponse response, byte[] eniBytes, String eniFileName)
@@ -545,12 +550,7 @@ public class DownloadFitxerController extends HttpServlet {
         }
 
         try {
-            String mimeType = (referencia.getFitxerId() != null)
-                    ? fitxerService.findById(referencia.getFitxerId())
-                            .map(FitxerDTO::getMime)
-                            .orElse(null)
-                    : null;
-            return XmlGenerator.generarEniDocXadesInternallyDetached(plugin, uuid, mimeType);
+            return XmlGenerator.generarEniDoc(referencia.getFormatFirma(), plugin, uuid);
         } catch (Exception e) {
             errors.add("generarEniDocXades intern: " + buildErrorDetail(e));
             throw new Exception("No s'ha pogut generar l'ENI Document XAdES per referenciaId=" + referenciaId
@@ -626,7 +626,8 @@ public class DownloadFitxerController extends HttpServlet {
         connection.setConnectTimeout(3000);
         connection.setReadTimeout(8000);
 
-        try (InputStream stream = connection.getInputStream(); ByteArrayOutputStream output = new ByteArrayOutputStream()) {
+        try (InputStream stream = connection.getInputStream();
+                ByteArrayOutputStream output = new ByteArrayOutputStream()) {
             byte[] buffer = new byte[4096];
             int read;
             while ((read = stream.read(buffer)) != -1) {

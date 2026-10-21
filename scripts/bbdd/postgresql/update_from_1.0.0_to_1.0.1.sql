@@ -46,6 +46,7 @@ CREATE INDEX itd_idioma_pk_i
 
 
 
+
 -- Taula de Usuaris -- 
 
 CREATE TABLE itd_usuari
@@ -169,20 +170,6 @@ CREATE SEQUENCE itd_pluginentitat_seq
 ALTER TABLE itd_pluginentitat_seq
   OWNER TO interdoc;
 
-
--- Afegir Foregin Key als Plugins cap a Entitat
-DO $$
-BEGIN
-    IF NOT EXISTS (
-        SELECT 1 
-        FROM information_schema.columns 
-        WHERE table_name = 'itd_plugin' 
-        AND column_name = 'entitatid'
-    ) THEN
-        ALTER TABLE itd_plugin
-          ADD COLUMN entitatid bigint NOT NULL DEFAULT 1,
-          ADD CONSTRAINT fk_itd_plugin_entitat
-            FOREIGN KEY (entitatid)
-            REFERENCES itd_entitat(entitatid);
-    END IF;
-END $$;
+ADD CONSTRAINT fk_itd_plugin_entitat
+    FOREIGN KEY (entitatid)
+    REFERENCES itd_entitat(entitatid);

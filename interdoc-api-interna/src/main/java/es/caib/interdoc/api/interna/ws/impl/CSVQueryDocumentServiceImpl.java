@@ -48,28 +48,22 @@ import es.caib.interdoc.api.interna.ws.resposta.mtom.DocumentoMtomResponse;
 /**
  * 
  * Servei web per descarregar documents
+ * 
  * @author jagarcia
  */
 
 @Stateless(name = CSVQueryDocumentServiceImpl.NAME + "Ejb")
 @PermitAll
-@SOAPBinding(
-        style = SOAPBinding.Style.DOCUMENT,
-        parameterStyle = SOAPBinding.ParameterStyle.BARE,
-        use = SOAPBinding.Use.LITERAL)
-@org.apache.cxf.interceptor.InInterceptors(
-        interceptors = { "es.caib.interdoc.api.interna.ws.utilitats.WSSecurityInterceptor" })
-@org.apache.cxf.interceptor.InFaultInterceptors(
-        interceptors = { "es.caib.interdoc.api.interna.ws.utilitats.WsOutInterceptor" })
-@WebService(
-        name = CSVQueryDocumentServiceImpl.NAME_WS,
-        portName = CSVQueryDocumentServiceImpl.NAME_WS,
-        serviceName = CSVQueryDocumentServiceImpl.NAME_WS + "Service")
-@WebContext(
-        urlPattern = "/protected/" + CSVQueryDocumentServiceImpl.NAME_WS,
-        transportGuarantee = TransportGuarantee.NONE,
-        secureWSDLAccess = false)
-        
+@SOAPBinding(style = SOAPBinding.Style.DOCUMENT, parameterStyle = SOAPBinding.ParameterStyle.BARE, use = SOAPBinding.Use.LITERAL)
+@org.apache.cxf.interceptor.InInterceptors(interceptors = {
+        "es.caib.interdoc.api.interna.ws.utilitats.WSSecurityInterceptor" })
+@org.apache.cxf.interceptor.InFaultInterceptors(interceptors = {
+        "es.caib.interdoc.api.interna.ws.utilitats.WsOutInterceptor" })
+@WebService(name = CSVQueryDocumentServiceImpl.NAME_WS, portName = CSVQueryDocumentServiceImpl.NAME_WS, serviceName = CSVQueryDocumentServiceImpl.NAME_WS
+        + "Service")
+@WebContext(urlPattern = "/protected/"
+        + CSVQueryDocumentServiceImpl.NAME_WS, transportGuarantee = TransportGuarantee.NONE, secureWSDLAccess = false)
+
 public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
 
     private static final Logger LOG = LoggerFactory.getLogger(CSVQueryDocumentServiceImpl.class);
@@ -96,8 +90,9 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
     @WebMethod
     @PermitAll
     @Override
-    public CSVQueryDocumentResponse csvQueryDocument(@WebParam(name = "csvQueryDocumentSecurityWSS")
-    CSVQueryDocumentSecurityWSS csvQueryDocumentSecurityWSS) throws Exception {
+    public CSVQueryDocumentResponse csvQueryDocument(
+            @WebParam(name = "csvQueryDocumentSecurityWSS") CSVQueryDocumentSecurityWSS csvQueryDocumentSecurityWSS)
+            throws Exception {
 
         return generateCSVQueryDocumentErrorResponse("200", "Utilitzau el servei securitzat csvQueryDocumentSecurity.");
     }
@@ -105,8 +100,9 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
     @WebMethod
     @PermitAll
     @Override
-    public CSVQueryDocumentMtomSecurityResponse csvQueryDocumentSecurity(@WebParam(name = "csvQueryDocumentSecurityWSS")
-    CSVQueryDocumentSecurityWSS csvQueryDocumentSecurityWSS) throws Exception {
+    public CSVQueryDocumentMtomSecurityResponse csvQueryDocumentSecurity(
+            @WebParam(name = "csvQueryDocumentSecurityWSS") CSVQueryDocumentSecurityWSS csvQueryDocumentSecurityWSS)
+            throws Exception {
 
         try {
 
@@ -163,13 +159,11 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
                             "No existeix cap referencia amb el UUID indicat");
                 }
                 entitatId = ref.getEntitatId();
-                                
+
                 ArxiuPluginImpl plugin = pluginArxiuService.getInstanceOfPlugin(entitatId);
 
                 String enidocArxiu = plugin.generarEniDoc(idEni);
-                LOG.info("ENIDOC ARXIU==");
-                LOG.info(enidocArxiu);
-                
+
                 String mimeType = ref.getFitxerId() == null ? null
                         : fitxerService.findById(ref.getFitxerId()).map(FitxerDTO::getMime).orElse(null);
 
@@ -179,20 +173,20 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
                         LOG.info("-- idEni: " + idEni);
                         LOG.info("-- FormatFirma: " + ref.getFormatFirma());
                         LOG.info("-- MimeType: " + mimeType);
-                        resultatArxiu = XmlGenerator.generarEniDoc(ref.getFormatFirma(), plugin, ref.getUuId(),
-                                mimeType);
+                        resultatArxiu = XmlGenerator.generarEniDoc(ref.getFormatFirma(), plugin, ref.getUuId());
                         LOG.info("===== ENIDOC GENERAT ===== ");
                         LOG.info(resultatArxiu);
                         LOG.info("===== FINAL ENIDOC GENERAT ===== ");
                     } else {
-                        LOG.info("No hi ha informació suficient per generar ENI Document. Recuperant ENI Doc del plugin d'Arxiu.");
+                        LOG.info(
+                                "No hi ha informació suficient per generar ENI Document. Recuperant ENI Doc del plugin d'Arxiu.");
                         resultatArxiu = plugin.generarEniDoc(idEni);
                     }
                 } catch (Exception e) {
                     LOG.error("Error generació EniDoc. Obtinguent ENI Doc del plugin d'Arxiu.");
                     // Generacio de EniDoc
                     plugin.generarEniDoc(idEni);
-                }                
+                }
                 // Si document_eni => RETORNAM EL PDF TODO
                 if (isDescarregaPDF) {
                     LOG.info("isDescarregaPDF => true");
@@ -243,39 +237,30 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
 
                         // Generam el ENIDOC
                         try {
-                    if(Utils.isXadesInternallyDetached(ref.getFormatFirma())) {
-                        LOG.info("Generació EniDoc a partir del ID: " + infoArxiu.getArxiuDocumentId());
-                        LOG.info("-- idEni: NULL");
-                        LOG.info("-- FormatFirma: "+ref.getFormatFirma());
-                        resultatArxiu = XmlGenerator.generarEniDocXadesInternallyDetached(plugin, infoArxiu.getArxiuDocumentId());
-                        LOG.info("===== ENIDOC GENERAT ===== ");
-                        LOG.info(resultatArxiu);
-                        LOG.info("===== FINAL ENIDOC GENERAT ===== ");
-                    }else if(Utils.isXadesEnveloped(ref.getFormatFirma())){
-                        LOG.info("Generació EniDoc a partir del ID: " + infoArxiu.getArxiuDocumentId());
-                        LOG.info("-- idEni: NULL");
-                        LOG.info("-- FormatFirma: "+ref.getFormatFirma());
-                        resultatArxiu = XmlGenerator.generarEniDocXadesEnveloped(plugin, infoArxiu.getArxiuDocumentId());
-                        LOG.info("===== ENIDOC GENERAT ===== ");
-                        LOG.info(resultatArxiu);
-                        LOG.info("===== FINAL ENIDOC GENERAT ===== ");
-                    }else{
-                        resultatArxiu = plugin.generarEniDoc(infoArxiu.getArxiuDocumentId());
-                    }
-                    
-                } catch (Exception e) {
-                    LOG.error("Error generació EniDoc. Generant EniDoc internament.");
-                    // Generacio de EniDoc
-                    if (Utils.isXadesInternallyDetached(ref.getFormatFirma())) {
-                        resultatArxiu = XmlGenerator.generarEniDocXadesInternallyDetached(plugin, ref.getUuId());
-                    } else if (Utils.isXadesEnveloped(ref.getFormatFirma())) {
-                        resultatArxiu = XmlGenerator.generarEniDocXadesEnveloped(plugin, ref.getUuId());
-                    } else {
-                        resultatArxiu = XmlGenerator.generarEniDocXadesInternallyDetached(plugin, ref.getUuId());
-                    }
-                }
 
-                        
+                            LOG.info("Generació EniDoc a partir del ID: " + infoArxiu.getArxiuDocumentId());
+                            LOG.info("-- idEni: NULL");
+                            LOG.info("-- FormatFirma: " + ref.getFormatFirma());
+                            resultatArxiu = XmlGenerator.generarEniDoc(ref.getFormatFirma(), plugin,
+                                    infoArxiu.getArxiuDocumentId());
+                            LOG.info("===== ENIDOC GENERAT ===== ");
+                            LOG.info(resultatArxiu);
+                            LOG.info("===== FINAL ENIDOC GENERAT ===== ");
+
+                        } catch (Exception e) {
+                            LOG.error("Error generació EniDoc. Generant EniDoc internament.");
+                            // Generacio de EniDoc
+                            if (Utils.isXadesInternallyDetached(ref.getFormatFirma())) {
+                                resultatArxiu = XmlGenerator.generarEniDocXadesInternallyDetached(plugin,
+                                        ref.getUuId());
+                            } else if (Utils.isXadesEnveloped(ref.getFormatFirma())) {
+                                resultatArxiu = XmlGenerator.generarEniDocXadesEnveloped(plugin, ref.getUuId());
+                            } else {
+                                resultatArxiu = XmlGenerator.generarEniDocXadesInternallyDetached(plugin,
+                                        ref.getUuId());
+                            }
+                        }
+
                         // Si document_eni => RETORNAM EL PDF
                         if (isDescarregaPDF && infoArxiu.getOriginalFileUrl() != null) {
                             LOG.info("isDescarregaPDF => true");
@@ -422,5 +407,5 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
 
         return outputStream.toByteArray();
     }
-    
+
 }

@@ -35,6 +35,25 @@ public class XmlGenerator {
     private XmlGenerator() {
     }
 
+
+
+
+    public static String generarEniDoc(String formatFirma, ArxiuPluginImpl plugin, String uuid) throws Exception {
+
+        switch (formatFirma) {
+            case "TF02":
+                return generarEniDocXadesInternallyDetached(plugin, uuid);
+            case "TF03":
+                return generarEniDocXadesEnveloped(plugin, uuid);
+            case "TF06":
+                return generarReferencia(plugin, uuid);
+            default:
+                return plugin.generarEniDoc(uuid);
+        }
+    }
+
+
+
     // Replica la lògica de CSVQueryDocumentServiceImpl.generarEniDoc per forçar la generació local del XML.
     public static String generarReferencia(ArxiuPluginImpl plugin, String uuid) throws Exception {
 	Document doc = plugin.descarregarDocument(uuid);
@@ -183,42 +202,11 @@ public class XmlGenerator {
 	return "false";
     }
 
-
-
-    public static String generarEniDoc(String formatFirma, ArxiuPluginImpl plugin, String uuid, String mimeType) throws Exception {
-
-        switch (formatFirma) {
-            case "TF02":
-                return generarEniDocXadesInternallyDetached(plugin, uuid, mimeType);
-            case "TF03":
-                return generarEniDocXadesEnveloped(plugin, uuid);
-            case "TF06":
-                return generarReferencia(plugin, uuid);
-            default:
-                return plugin.generarEniDoc(uuid);
-        }
-    }
-
-
-    public static String generarEniDoc(ArxiuPluginImpl plugin, String uuid) throws Exception {
-            return plugin.generarEniDoc(uuid);
-        }
     
-
-
-    public static String generarEniDocXadesInternallyDetached(ArxiuPluginImpl plugin, String uuid) throws Exception {
-	return generarEniDocXadesInternallyDetached(plugin, uuid, null);
-    }
-
-    public static String generarEniDocXadesInternallyDetached(ArxiuPluginImpl plugin, String uuid, String mimeType)
+    public static String generarEniDocXadesInternallyDetached(ArxiuPluginImpl plugin, String uuid)
 	    throws Exception {    
 
     LOG.info("Generant ENIDOC Xades Internally Detached.");
-    if(mimeType != null){
-        LOG.info("    - Document MIME: "+mimeType);
-    }else{
-        LOG.info("    - Document MIME: NULL");
-    }
     
 	Document doc = plugin.descarregarDocument(uuid);
 
