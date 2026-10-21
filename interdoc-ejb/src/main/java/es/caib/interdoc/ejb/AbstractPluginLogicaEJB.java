@@ -123,7 +123,7 @@ public abstract class AbstractPluginLogicaEJB<I extends IPluginIB> extends Plugi
                 
 
                 //final String generat = plantilla;
-                 log.error("PROPIETATS DESPRES DE generat:\n" + generat + "\n");
+                 log.info("PROPIETATS DESPRES DE generat:\n" + generat + "\n");
 
                 prop.load(new StringReader(generat));
                 

@@ -31,9 +31,11 @@ import es.caib.interdoc.ejb.PluginArxiuLogicaService;
 import es.caib.interdoc.ejb.utils.XmlGenerator;
 import es.caib.interdoc.plugins.arxiu.ArxiuPluginImpl;
 import es.caib.interdoc.service.facade.AccesServiceFacade;
+import es.caib.interdoc.service.facade.FitxerServiceFacade;
 import es.caib.interdoc.service.facade.InfoArxiuServiceFacade;
 import es.caib.interdoc.service.facade.ReferenciaServiceFacade;
 import es.caib.interdoc.service.model.AccesDTO;
+import es.caib.interdoc.service.model.FitxerDTO;
 import es.caib.interdoc.service.model.InfoArxiuDTO;
 import es.caib.interdoc.service.model.ReferenciaDTO;
 import es.caib.interdoc.api.interna.ws.model.CSVQueryDocumentResponse;
@@ -84,6 +86,9 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
 
     @EJB(mappedName = AccesServiceFacade.JNDI_NAME)
     protected AccesServiceFacade accesService;
+
+    @EJB(mappedName = FitxerServiceFacade.JNDI_NAME)
+    protected FitxerServiceFacade fitxerService;
 
     @EJB(mappedName = PluginArxiuLogicaService.JNDI_NAME)
     private PluginArxiuLogicaService pluginArxiuService;
@@ -160,44 +165,34 @@ public class CSVQueryDocumentServiceImpl implements CSVQueryDocumentService {
                 entitatId = ref.getEntitatId();
                                 
                 ArxiuPluginImpl plugin = pluginArxiuService.getInstanceOfPlugin(entitatId);
-                                
+
+                String enidocArxiu = plugin.generarEniDoc(idEni);
+                LOG.info("ENIDOC ARXIU==");
+                LOG.info(enidocArxiu);
                 
+                String mimeType = ref.getFitxerId() == null ? null
+                        : fitxerService.findById(ref.getFitxerId()).map(FitxerDTO::getMime).orElse(null);
+
                 try {
-                    if(Utils.isXadesInternallyDetached(ref.getFormatFirma())) {
+                    if (ref != null && ref.getFormatFirma() != null) {
                         LOG.info("Generació EniDoc a partir del ID: " + idEni);
                         LOG.info("-- idEni: " + idEni);
-                        LOG.info("-- FormatFirma: "+ref.getFormatFirma());
-                        resultatArxiu = XmlGenerator.generarEniDocXadesInternallyDetached(plugin, ref.getUuId());
+                        LOG.info("-- FormatFirma: " + ref.getFormatFirma());
+                        LOG.info("-- MimeType: " + mimeType);
+                        resultatArxiu = XmlGenerator.generarEniDoc(ref.getFormatFirma(), plugin, ref.getUuId(),
+                                mimeType);
                         LOG.info("===== ENIDOC GENERAT ===== ");
                         LOG.info(resultatArxiu);
                         LOG.info("===== FINAL ENIDOC GENERAT ===== ");
-
-                    }else if(Utils.isXadesEnveloped(ref.getFormatFirma())){
-                        LOG.info("Generació EniDoc a partir del ID: " + idEni);
-                        LOG.info("-- idEni: " + idEni);
-                        LOG.info("-- FormatFirma: "+ref.getFormatFirma());
-                        resultatArxiu = XmlGenerator.generarEniDocXadesEnveloped(plugin, ref.getUuId());
-                        LOG.info("===== ENIDOC GENERAT ===== ");
-                        LOG.info(resultatArxiu);
-                        LOG.info("===== FINAL ENIDOC GENERAT ===== ");
-
-                    }else{
+                    } else {
+                        LOG.info("No hi ha informació suficient per generar ENI Document. Recuperant ENI Doc del plugin d'Arxiu.");
                         resultatArxiu = plugin.generarEniDoc(idEni);
-
                     }
                 } catch (Exception e) {
-                    LOG.error("Error generació EniDoc. Generant EniDoc internament.");
+                    LOG.error("Error generació EniDoc. Obtinguent ENI Doc del plugin d'Arxiu.");
                     // Generacio de EniDoc
-                    if (Utils.isXadesInternallyDetached(ref.getFormatFirma())) {
-                        resultatArxiu = XmlGenerator.generarEniDocXadesInternallyDetached(plugin, idEni);
-
-                    } else if(Utils.isXadesEnveloped(ref.getFormatFirma())){
-                        resultatArxiu = XmlGenerator.generarEniDocXadesEnveloped(plugin, idEni);
-                    } else {
-                        resultatArxiu = XmlGenerator.generarEniDocXadesInternallyDetached(plugin, idEni);
-                    }
-                }
-                
+                    plugin.generarEniDoc(idEni);
+                }                
                 // Si document_eni => RETORNAM EL PDF TODO
                 if (isDescarregaPDF) {
                     LOG.info("isDescarregaPDF => true");

@@ -122,12 +122,6 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 	@Inject
 	protected Version version;
 
-	// @Inject
-	// protected FirmaSimpleController firma;
-
-	//@Inject
-	//protected ArxiuController arxiu;
-
 	public void setBaseWsUrl(String url) {
 		this.baseWsUrl = url;
 	}
@@ -348,10 +342,7 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 
 					try {
 
-						//FirmaSimpleController firmaPlugin = new FirmaSimpleController(entitatId);
 						
-					    //InterdocFirmaPlugin firmaPlugin = pluginFirmaService.getPlugin(entitatId);
-//						if (firmaPlugin != null) 
 					    {
 					        String languageUI = "es";
 							infoSignatura = pluginFirmaService.firmarDocument(entitatId, fitxerDto, languageUI);
@@ -516,12 +507,13 @@ public class ObtenerReferenciaWsImpl implements ObtenerReferenciaWs {
 							identificadorDocument = plugin.crearDocument(documentInfo, identificadorExpedient);
 
                             String eniDoc;
-							if (documentInfo.getFirma() != null
-									&& Utils.isXadesInternallyDetached(documentInfo.getFirma().getFormatFirma())) {
-                                eniDoc = XmlGenerator.generarEniDoc(documentInfo.getFirma().getFormatFirma(), plugin, identificadorDocument);
+							if (documentInfo.getFirma() != null) {
+                                eniDoc = XmlGenerator.generarEniDoc(documentInfo.getFirma().getFormatFirma(), plugin,
+                                        identificadorDocument, documentInfo.getFitxer().getTipusMime());
+                                log.info(eniDoc);
 							} else {
                                 eniDoc = plugin.generarEniDoc(identificadorDocument);
-							    log.info("ENI DOC obtingut de Arxiu. => " + eniDoc);
+                                log.info(eniDoc);
                             }
 							
 

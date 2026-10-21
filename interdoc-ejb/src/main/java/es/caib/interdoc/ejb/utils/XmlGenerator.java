@@ -1,5 +1,9 @@
 package es.caib.interdoc.ejb.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
@@ -18,10 +22,15 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.xml.sax.InputSource;
 
+import es.caib.interdoc.commons.utils.DocumentExtensio;
+import es.caib.interdoc.commons.utils.DocumentFormat;
 import es.caib.interdoc.plugins.arxiu.ArxiuPluginImpl;
+import es.caib.interdoc.service.model.FitxerDTO;
 import es.caib.pluginsib.arxiu.api.Document;
 
 public class XmlGenerator {
+
+    private static final Logger LOG = LoggerFactory.getLogger(XmlGenerator.class);
 
     private XmlGenerator() {
     }
@@ -176,20 +185,25 @@ public class XmlGenerator {
 
 
 
-    public static String generarEniDoc(String formatFirma, ArxiuPluginImpl plugin, String uuid) throws Exception {
+    public static String generarEniDoc(String formatFirma, ArxiuPluginImpl plugin, String uuid, String mimeType) throws Exception {
 
         switch (formatFirma) {
             case "TF02":
-                return generarEniDocXadesInternallyDetached(plugin, uuid);
+                return generarEniDocXadesInternallyDetached(plugin, uuid, mimeType);
             case "TF03":
                 return generarEniDocXadesEnveloped(plugin, uuid);
             case "TF06":
                 return generarReferencia(plugin, uuid);
             default:
-                throw new IllegalArgumentException("Formato de firma no soportado: " + formatFirma);
+                return plugin.generarEniDoc(uuid);
         }
     }
 
+
+    public static String generarEniDoc(ArxiuPluginImpl plugin, String uuid) throws Exception {
+            return plugin.generarEniDoc(uuid);
+        }
+    
 
 
     public static String generarEniDocXadesInternallyDetached(ArxiuPluginImpl plugin, String uuid) throws Exception {
@@ -197,7 +211,15 @@ public class XmlGenerator {
     }
 
     public static String generarEniDocXadesInternallyDetached(ArxiuPluginImpl plugin, String uuid, String mimeType)
-	    throws Exception {
+	    throws Exception {    
+
+    LOG.info("Generant ENIDOC Xades Internally Detached.");
+    if(mimeType != null){
+        LOG.info("    - Document MIME: "+mimeType);
+    }else{
+        LOG.info("    - Document MIME: NULL");
+    }
+    
 	Document doc = plugin.descarregarDocument(uuid);
 
 	DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -268,13 +290,26 @@ public class XmlGenerator {
 	if (content == null) {
 	    throw new IllegalArgumentException("El XML no contiene un nodo CONTENT dentro de AFIRMA");
 	}
+
+
+    String extensio = doc.getMetadades().getExtensio().toString();
+
+    //Eliminar encoding que ve per defecte dins el "content", ja que es incorrecte.
 	content.removeAttribute("encoding");
-	content.setAttribute("Encoding", "http://www.w3.org/2000/09/xmldsig#base64");
-	String mimeTypeContenido = (mimeType != null) ? mimeType
-		: (doc.getContingut() != null && doc.getContingut().getTipusMime() != null)
-			? doc.getContingut().getTipusMime()
-			: "";
-	content.setAttribute("MimeType", mimeTypeContenido);
+
+    //Afegir encoding correcte solicitat per SIR.
+    content.setAttribute("Encoding", "http://www.w3.org/2000/09/xmldsig#base64");
+    
+    //Afegir mimeType correcte.
+    String mimeTypeContenido = DocumentFormat.getDocumentFormat(DocumentExtensio.getExtensioArxiu(extensio)).toString();
+    content.setAttribute("MimeType", mimeTypeContenido);
+/* 
+// Codi per decodificar contingut en Base64
+    if (necessitaDecodificar(extensio)) {
+	    byte[] contenidoDecodificado = Base64.getMimeDecoder().decode(content.getTextContent());
+	    content.setTextContent(new String(contenidoDecodificado, StandardCharsets.UTF_8));
+    }
+        */
 	Transformer transformerContingut = TransformerFactory.newInstance().newTransformer();
 	transformerContingut.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
 	StringWriter contingutXmlModificat = new StringWriter();
@@ -406,6 +441,7 @@ public class XmlGenerator {
 
 	transformer.transform(new DOMSource(xmlDoc), new StreamResult(writer));
 	return writer.toString();
+
 	}
 
 
@@ -560,5 +596,28 @@ public class XmlGenerator {
 	transformer.transform(new DOMSource(xmlDoc), new StreamResult(writer));
 	return writer.toString();
 	}
+
+
+    private static boolean necessitaDecodificar (String extensio){
+
+        return ".jpg".equalsIgnoreCase(extensio)
+        || ".jpeg".equalsIgnoreCase(extensio)
+        || ".odt".equalsIgnoreCase(extensio)
+        || ".odp".equalsIgnoreCase(extensio)
+        || ".ods".equalsIgnoreCase(extensio)
+        || ".odg".equalsIgnoreCase(extensio)
+        || ".docx".equalsIgnoreCase(extensio)
+        || ".xlsx".equalsIgnoreCase(extensio)
+        || ".pptx".equalsIgnoreCase(extensio)
+        || ".pdf".equalsIgnoreCase(extensio)
+        || ".png".equalsIgnoreCase(extensio)
+        || ".rtf".equalsIgnoreCase(extensio)
+        || ".svg".equalsIgnoreCase(extensio)
+        || ".tiff".equalsIgnoreCase(extensio)
+        || ".txt".equalsIgnoreCase(extensio)
+        || ".xsig".equalsIgnoreCase(extensio)
+        || ".xml".equalsIgnoreCase(extensio)
+        || ".csv".equalsIgnoreCase(extensio);
+    }
 
 }
