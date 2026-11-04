@@ -40,13 +40,6 @@ CREATE INDEX itd_idioma_pk_i
   USING btree
   (idiomaid COLLATE pg_catalog."default");
 
-
-
-
-
-
-
-
 -- Taula de Usuaris -- 
 
 CREATE TABLE itd_usuari
@@ -173,3 +166,121 @@ ALTER TABLE itd_pluginentitat_seq
 ADD CONSTRAINT fk_itd_plugin_entitat
     FOREIGN KEY (entitatid)
     REFERENCES itd_entitat(entitatid);
+
+
+
+-- ============================================================
+-- ORACLE DATABASE 18c
+-- CREACION DE ITD_UNITATORGANICA E ITD_PROCEDIMENT
+-- ============================================================
+
+
+-- ============================================================
+-- 1. TABLA ITD_UNITATORGANICA
+-- ============================================================
+
+CREATE TABLE itd_unitatorganica (
+    id NUMBER(19) NOT NULL,
+    codidir3 VARCHAR2(9 CHAR) NOT NULL,
+    datacreacio DATE NOT NULL,
+    estat NUMBER(10) NOT NULL,
+    nom VARCHAR2(50 CHAR) NOT NULL,
+
+    CONSTRAINT itd_unitat_pk
+        PRIMARY KEY (id),
+
+    CONSTRAINT itd_unitat_codidir3_uk
+        UNIQUE (codidir3)
+);
+
+
+-- ============================================================
+-- 2. TABLA ITD_PROCEDIMENT
+-- ============================================================
+
+CREATE TABLE itd_procediment (
+    id NUMBER(19) NOT NULL,
+    codisia VARCHAR2(8 CHAR) NOT NULL,
+    nom VARCHAR2(50 CHAR) NOT NULL,
+    unitatorganicaid NUMBER(19) NOT NULL,
+
+    CONSTRAINT itd_procediment_pk
+        PRIMARY KEY (id),
+
+    CONSTRAINT itd_procediment_codisia_uk
+        UNIQUE (codisia),
+
+    CONSTRAINT itd_procediment_unitat_fk
+        FOREIGN KEY (unitatorganicaid)
+        REFERENCES itd_unitatorganica(id)
+);
+
+
+-- ============================================================
+-- 3. INDICES ADICIONALES
+-- ============================================================
+
+-- Oracle ya crea los indices correspondientes a:
+-- ITD_UNITAT_PK
+-- ITD_UNITAT_CODIDIR3_UK
+-- ITD_PROCEDIMENT_PK
+-- ITD_PROCEDIMENT_CODISIA_UK
+
+-- Indice para optimizar la foreign key
+
+CREATE INDEX itd_procediment_unitat_fk_i
+    ON itd_procediment (unitatorganicaid);
+
+
+-- ============================================================
+-- 4. COMPROBACION DE TABLAS
+-- ============================================================
+
+SELECT table_name
+FROM user_tables
+WHERE table_name IN (
+    'ITD_UNITATORGANICA',
+    'ITD_PROCEDIMENT'
+)
+ORDER BY table_name;
+
+
+-- ============================================================
+-- 5. COMPROBACION DE RESTRICCIONES
+-- ============================================================
+
+SELECT
+    table_name,
+    constraint_name,
+    constraint_type,
+    status
+FROM user_constraints
+WHERE table_name IN (
+    'ITD_UNITATORGANICA',
+    'ITD_PROCEDIMENT'
+)
+ORDER BY table_name, constraint_type;
+
+
+-- ============================================================
+-- 6. COMPROBACION DE INDICES
+-- ============================================================
+
+SELECT
+    table_name,
+    index_name,
+    uniqueness
+FROM user_indexes
+WHERE table_name IN (
+    'ITD_UNITATORGANICA',
+    'ITD_PROCEDIMENT'
+)
+ORDER BY table_name, index_name;
+
+
+-- ============================================================
+-- FIN DEL SCRIPT
+-- ============================================================
+
+
+
