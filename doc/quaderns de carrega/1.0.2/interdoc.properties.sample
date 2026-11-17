@@ -1,0 +1,52 @@
+# Propietats de configuració de interdoc.
+# La ubicació d'aquest fitxer s'ha de registrar mitjançant la propietat de sistema
+# es.caib.interdoc.properties (veure apartat 3.5.2 dels estàndards)
+# (el fitxer empra la codificació UTF-8)
+
+# Paràmetres de configuració de l'aplicació
+es.caib.interdoc.development=true
+es.caib.interdoc.defaultlanguage=ca
+es.caib.interdoc.iscaib=true
+
+# Dialecte de Hibernate
+#es.caib.interdoc.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+# es.caib.interdoc.hibernate.dialect=org.hibernate.dialect.MySQLDialect      
+# es.caib.interdoc.hibernate.dialect=org.hibernate.dialect.DB2Dialect
+# es.caib.interdoc.hibernate.dialect=org.hibernate.dialect.SQLServerDialect
+#es.caib.interdoc.hibernate.dialect=net.sf.hibernate.dialect.Oracle9Dialect
+
+es.caib.interdoc.hibernate.dialect=org.hibernate.dialect.Oracle12cDialect
+es.caib.interdoc.hibernate.query.substitutions=true 1, false 0
+es.caib.interdoc.hibernate.show_sql=false
+es.caib.interdoc.hibernate.format_sql=true
+
+## WS CSVQUERYDOCUMENTSERVICE START
+## Esta funcionalidad sirve para devolver un fichero por defecto cuando se llama al webservice CsvQueryDocumentService
+## Se activa si la siguiente propiedad es true y el servicio devuelve el fichero PDF alojado en la ruta indicada
+es.caib.interdoc.csvQueryDocumentTest=false
+es.caib.interdoc.csvQueryDocumentTestFile=RUTA A DIRECTORI DE FITXERS DE TEST PER CSVQueryDocumentService
+## WS CSVQUERYDOCUMENTSERVICE END
+
+## WS OBTENERREFERENCIASERVICE START
+## Parámetros que indican en que host y contexto se encuentra el servicio de Descarga de documentos (CsvQueryDocumentService)
+es.caib.interdoc.basewsurl=URL_HOST
+es.caib.interdoc.csvquerydocumentws=/interdocapi/interna/protected/CSVQueryDocumentWs
+
+# Directorio donde se guardan todos los ficheros que se suben mediante el asistente del backend
+es.caib.interdoc.filesdirectory=RUTA A DIRECTORI DE FITXERS
+## WS OBTENERREFERENCIASERVICE END
+
+## Scheduler
+## Configuracions per l'horari del scheduler
+
+#Hora de inici del scheduler per tancar expedients
+es.caib.interdoc.scheduler.starttime=22
+
+#Hora de finalitzacio per al scheduler per tancar expedient
+es.caib.interdoc.scheduler.endtime=23
+
+#Frequencia en minuts de cada quan s'executa la tasca d'arxivat quan el scheduler es troba en el seu horari actiu
+#El valor minim esta limitat a 3 minuts per evitar colisions en el proces d'arxivat.
+es.caib.interdoc.scheduler.frequency=3
+
+

@@ -1,0 +1,25 @@
+# Propietats de configuració de SISTEMES de interdoc.
+# La ubicació d'aquest fitxer s'ha de registrar mitjançant la propietat de sistema
+# es.caib.interdoc.system.properties (veure apartat 3.5.2 dels estàndards)
+# (el fitxer empra la codificació UTF-8)
+
+es.caib.interdoc.obtenerreferencia.wsdl= DOMINI DE L'APLICACIO  /interdocapi/interna/protected/ObtenerReferenciaWs
+es.caib.interdoc.obtenerreferencia.usuari=usuari ws
+es.caib.interdoc.obtenerreferencia.clau=password ws
+
+## ARXIU START
+
+es.caib.interdoc.pluginsib.arxiu.caib.base.url=URL ARXIU
+es.caib.interdoc.pluginsib.arxiu.caib.aplicacio.codi=ITD
+es.caib.interdoc.pluginsib.arxiu.caib.usuari=USUARI ARXIU
+es.caib.interdoc.pluginsib.arxiu.caib.contrasenya=PASSWORD USUARI ARXIU
+
+## ARXIU END
+
+## FIRMAENSERVIDOR START
+
+es.caib.interdoc.pluginsib.firma.apifirmasimple.endpoint=URL FIRMA EN SERVIDOR
+es.caib.interdoc.pluginsib.firma.apifirmasimple.usuari=USUARI FIRMA
+es.caib.interdoc.pluginsib.firma.apifirmasimple.password=PASSWORD FIRMA
+
+## WS END
